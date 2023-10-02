@@ -10,6 +10,9 @@ metaRange is a collection of functions that allow you to build an process based 
 _____________________________________________
 
 ## For users:
+Documentation:
+[metaRange.github.io/metaRange/](https://metarange.github.io/metaRange/)
+
 Install with:
 ```
 # CRAN / stable version
