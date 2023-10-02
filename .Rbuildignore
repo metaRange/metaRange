@@ -1,0 +1,13 @@
+^metaRange\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^\.github$
+^\.vscode$
+^docs$
+^doc$
+^cran-comments\.md$
+.lintr
+# local testing
+^.local$
+^_pkgdown\.yml$
+^pkgdown$

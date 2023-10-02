@@ -1,0 +1,60 @@
+Package: metaRange
+Title: Mechanistic and Metabolic Constrained Species Distribution Model
+Version: 0.0.0.9000
+Authors@R:
+    c(person(given = "Stefan",
+             family = "Fallert",
+             role = c("aut", "cre"),
+             email = "stefan.fallert@stud-mail.uni-wuerzburg.de",
+             comment = c(ORCID = "0000-0002-9939-4219")),
+      person(given = "Lea",
+             family = "Li",
+             role = "aut",
+             email = "lea.li@stud-mail.uni-wuerzburg.de"),
+      person(given = "Juliano",
+             family = "S. Cabral",
+             role = "aut",
+             email = "j.sarmentocabral@bham.ac.uk",
+             comment = c(ORCID = "0000-0002-0116-220X")),
+      person(given = "Bavarian Ministry of Science and Arts (bayklif)",
+             role = c("fnd")),
+      person(given = "Deutsche Bundesstiftung Umwelt (DBU)",
+             role = c("fnd")))
+Description: A platform to build spatially and temporally explicit
+    process-based species distribution models, that can include an arbitrary
+    number of environmental factors, species and processes including metabolic
+    constraints and species interactions. Its focus is simulating populations
+    of one or multiple species in a grid based landscape and studying the
+    meta-population dynamics and emergent patterns that arise from the
+    interaction of species under complex environmental conditions. 'metaRange'
+    provides functions for common ecological processes such as
+    negative exponential, kernel-based dispersal (see
+    Nathan et al. (2012) <doi:10.1093/acprof:oso/9780199608898.003.0015>),
+    calculation of the envionmental suitability based on cardinal values (
+    Yan & Hunt (1999) <doi:10.1006/anbo.1999.0955>), reproduction in form of an
+    Ricker model (see Ricker (1954) <doi:10.1139/f54-039> and
+    Cabral & Schurr (2010) <doi:10.1111/j.1466-8238.2009.00492.x>),
+    as well as metabolic scaling based on the metabolic theory of ecology
+    (see Brown et al. (2004) <doi:10.1890/03-9000> and Brown & Sibly (2012)
+    <doi:10.1002/9781119968535.ch2>).
+License: GPL-3
+Copyright: see inst/COPYRIGHTS
+URL: https://github.com/srfall/metaRange
+BugReports: https://github.com/srfall/metaRange/issues
+Depends: R (>= 3.5.0)
+Imports:
+    Rcpp (>= 1.0.10),
+    terra,
+    R6,
+    checkmate
+Suggests:
+    knitr,
+    rmarkdown,
+    tinytest
+VignetteBuilder:
+    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+LinkingTo:
+    Rcpp, RcppArmadillo
