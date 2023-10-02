@@ -1,5 +1,6 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R-CMD-check](https://github.com/srfall/metaRange/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/srfall/metaRange/actions)
+[![R-CMD-check](https://github.com/metaRange/metaRange/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/metaRange/metaRange/actions)
+
 
 # metaRange
 ![](man/figures/logo.png)
