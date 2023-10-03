@@ -33,6 +33,15 @@ The calculated normalization constant.
 Calculates the normalization constant for the metabolic scaling
 based on a parameter value under the optimal thermal conditions.
 }
+\examples{
+calculate_normalization_constant(
+     parameter_value = 1,
+     scaling_exponent = -1 / 4,
+     mass = 1,
+     reference_temperature = 273.15,
+     E = -0.65
+)
+}
 \references{
 Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).
 Toward a Metabolic Theory of Ecology. Ecology, 85, 1771–1789.

@@ -20,6 +20,14 @@
 #' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
 #' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
 #' <doi:10.1002/9781119968535.ch2>
+#' @examples
+#' calculate_normalization_constant(
+#'      parameter_value = 1,
+#'      scaling_exponent = -1 / 4,
+#'      mass = 1,
+#'      reference_temperature = 273.15,
+#'      E = -0.65
+#' )
 #' @return The calculated normalization constant.
 #' @export
 calculate_normalization_constant <- function(
