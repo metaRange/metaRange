@@ -23,7 +23,7 @@ using namespace Rcpp;
 //' Ricker reproduction model
 //'
 //' An implementation of the "classic" Ricker reproduction model in the form of:
-//' \deqn{abundance_{(t+1)} = abundance_t \cdot e^{reproduction_rate \cdot (1 - \frac{abundance_t}{carrying_capacity})}}
+//' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}
 //'
 //' @param abundance `<numeric>` vector (or matrix) of abundances.
 //' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
@@ -38,9 +38,9 @@ using namespace Rcpp;
 //'   carrying_capacity = 100
 //' )
 //' ricker_reproduction_model(
-//'   abundance = matrix(10, 10, 10),
-//'   reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 100), 10, 10),
-//'   carrying_capacity =  matrix(100, 10, 10)
+//'   abundance = matrix(10, 10, 5),
+//'   reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
+//'   carrying_capacity =  matrix(100, 10, 5)
 //' )
 //' @references Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic
 //' models for the range dynamics of plant species.
