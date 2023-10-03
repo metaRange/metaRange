@@ -10,7 +10,7 @@ set_verbosity(verbose)
 \item{verbose}{\verb{<integer>} message verbosity (see description).}
 }
 \value{
-invisible a list with the previous verboisty setting.
+\verb{<invisible list>} a list with the previous verboisty setting.
 }
 \description{
 Just a wrapper for \verb{options(metaRange.verbose = [0 | 1 | 2])} but documented.

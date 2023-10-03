@@ -35,6 +35,14 @@ environmental values than temperature might not be valid. However, the assumptio
 environmental suitability for one niche dimension is highest at one optimal value and
 decreases towards the tolerable minumum and maximum values seems reasonable.
 }
+\examples{
+calculate_suitability(
+  vmax = 30,
+  vopt = 25,
+  vmin = 10,
+  venv = 0:40
+)
+}
 \references{
 Weikai Yan, L.A. Hunt, (1999)
 An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures,

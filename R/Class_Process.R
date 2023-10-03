@@ -8,14 +8,14 @@
 #' [R6][R6::R6Class] class that stores and handles all the individual parts
 #' that define a species.
 #'
-#' @return A `<metaRangeProcess>` object.
+#' @return A `<[metaRangeProcess]>` object.
 #' @export
 metaRangeProcess <- R6::R6Class("metaRangeProcess",
     cloneable = FALSE,
     lock_objects = FALSE,
     public = list(
         # ---------- public fields -------------
-        #' @field fun The processes function.
+        #' @field fun `<function>` The processes function.
         fun = NULL,
         # ---------- initialization -----------
 
@@ -27,13 +27,13 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' in the specified environment (see arg: env) and has acces to all the
         #' variables in that environment. This function may not have any arguments,
         #' i.e. `is.null(formals(process_fun))` must be `TRUE`.
-        #' @param execution_priority `<integer>` The priority of the process.
+        #' @param execution_priority `<integer>` the priority of the process.
         #' The lower the number the earlier the process is executed.
         #' Note that the priority is only used to sort the processes
         #' in the priority queue. The actual execution order is determined
         #' by the order of the processes in the queue.
-        #' @param env `<environment>` The environment where the process should be executed.
-        #' @param env_label `<string>` Optional name of the execution environment.
+        #' @param env `<environment>` the environment where the process should be executed.
+        #' @param env_label `<string>` optional name of the execution environment.
         #' Just used as a human readeble label for debug purposes.
         #' @examples
         #' # Note: Only for illustration purposes. Use the add_process method of the
@@ -48,7 +48,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #'    env_label = "my_environment"
         #' )
         #' pr
-        #' @return A `<metaRangeProcess>` object.
+        #' @return A `<[metaRangeProcess]>` object.
         # TODO: @param onError `<function>` The function to be called if the process fails.?
         initialize = function(process_name, id = "", process_fun, execution_priority, env, env_label = NULL) {
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
@@ -118,7 +118,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' @examples
         #' pr <- metaRangeProcess$new("A", "1", \() {}, 1, new.env())
         #' pr$print()
-        #' @return invisible self
+        #' @return `<invisible self>`
         print = function() {
             cat("Process name: ", private$name, "\n")
             cat("PID: ", private$PID, "\n")

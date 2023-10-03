@@ -21,7 +21,7 @@ If NULL, all traits are saved.}
 \item{...}{additional arguments passed to \link[terra:writeRaster]{terra::writeRaster}.}
 }
 \value{
-invisible the paths to the saved files.
+\verb{<invisible character>} the paths to the saved files.
 }
 \description{
 Saves the specified traits of a \link{metaRangeSpecies} object.
@@ -41,8 +41,8 @@ res_path <- save_species(
 # the following should be TRUE
 # but might fail due to floating point errors (that's why we round the values)
 identical(
-     round(terra::as.matrix(terra::rast(res_path), wide = TRUE)),
-     round(test_sim$species_01$traits[["trait_01"]])
+    round(terra::as.matrix(terra::rast(res_path), wide = TRUE)),
+    round(test_sim$species_01$traits[["trait_01"]])
 )
 
 # cleanup

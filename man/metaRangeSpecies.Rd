@@ -28,14 +28,15 @@ sp
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{name}}{name or ID of the species.}
+\item{\code{name}}{\verb{<string>} name or ID of the species.}
 
-\item{\code{processes}}{The processes that describe how the species interacts
+\item{\code{processes}}{\verb{<list>} of \verb{<[metaRangeProcess]es>}.
+The processes that describe how the species interacts
 with the environment, itself and other species.}
 
-\item{\code{traits}}{The traits of the species.}
+\item{\code{traits}}{\verb{<list>} the traits of the species.}
 
-\item{\code{sim}}{A reference to the \link{metaRangeSimulation} object that the species is part of.
+\item{\code{sim}}{\verb{<[metaRangeSimulation]>} a reference to the simulation object that the species is part of.
 Usefull to acces evironmental data or data of other species.}
 }
 \if{html}{\out{</div>}}
@@ -61,7 +62,7 @@ Creates a new \link{metaRangeSpecies} object
 \describe{
 \item{\code{name}}{\verb{<string>} name or ID of the species.}
 
-\item{\code{sim}}{\verb{<metaRangeSimulation>} A reference to the \link{metaRangeSimulation}
+\item{\code{sim}}{\verb{<[metaRangeSimulation]>} A reference to the simulation
 object that the species is part of.}
 }
 \if{html}{\out{</div>}}
@@ -91,7 +92,7 @@ Prints information about the species to the console
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 }
 }

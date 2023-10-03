@@ -13,7 +13,7 @@
 #' @examples
 #' set_verbosity(0)
 #' getOption("metaRange.verbose")
-#' @return invisible a list with the previous verboisty setting.
+#' @return `<invisible list>` a list with the previous verboisty setting.
 #' @export
 set_verbosity <- function(verbose) {
     checkmate::assert_int(verbose, lower = 0L, upper = 2L, coerce = TRUE)

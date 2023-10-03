@@ -47,6 +47,13 @@ using namespace Rcpp;
 //' Volume 84, Issue 5,
 //' Pages 607-614,
 //' ISSN 0305-7364, <doi:10.1006/anbo.1999.0955>
+//' @examples
+//' calculate_suitability(
+//'   vmax = 30,
+//'   vopt = 25,
+//'   vmin = 10,
+//'   venv = 0:40
+//' )
 //' @export
 // [[Rcpp::export]]
 NumericVector calculate_suitability(

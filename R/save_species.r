@@ -35,7 +35,7 @@
 #' # cleanup
 #' unlink(res_path)
 #' stopifnot(!file.exists(res_path))
-#' @return invisible the paths to the saved files.
+#' @return `<invisible character>` the paths to the saved files.
 #' @export
 save_species <- function(x, traits = NULL, prefix = NULL, path, overwrite = FALSE, ...) {
     checkres <- checkmate::check_class(x, "metaRangeSpecies")

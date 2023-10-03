@@ -59,7 +59,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' names(sim_env) <- "env_01"
         #' env <- metaRangeEnvironment$new(sourceSDS = sim_env)
         #' env$set_current(layer = 1)
-        #' @return invisible self
+        #' @return `<invisible self>`
         set_current = function(layer) {
             layer <- checkmate::assert_int(
                 x = layer,
@@ -86,7 +86,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #'     sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 2))
         #' )
         #' env$print()
-        #' @return invisible self
+        #' @return `<invisible self>`
         print = function() {
             show(self$sourceSDS)
             return(invisible(self))
@@ -102,7 +102,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         # that holds all the environmental values influencing the simulation.
         # Note that the individual data sets/ raster should be sensibly named as
         # their names will used throughout the simulation to refer to them.
-        # @return invisible self
+        # @return `<invisible self>`
         set_source_environment = function(sourceSDS) {
             checkmate::assert_class(x = sourceSDS, classes = "SpatRasterDataset")
             nlayer <- terra::nlyr(sourceSDS)

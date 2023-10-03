@@ -7,11 +7,11 @@
 dispersal(dispersal_kernel, abundance, suitability)
 }
 \arguments{
-\item{dispersal_kernel}{\verb{<matrix>} Dispersal kernel.}
+\item{dispersal_kernel}{\verb{<matrix>} dispersal kernel.}
 
-\item{abundance}{\verb{<matrix>} Abundance matrix.}
+\item{abundance}{\verb{<matrix>} abundance matrix.}
 
-\item{suitability}{\verb{<matrix>}  Optional suitability matrix \verb{range: 0, 1}.}
+\item{suitability}{\verb{<matrix>}  optional suitability matrix \verb{range: 0, 1}.}
 }
 \value{
 \verb{<matrix>} Dispersed abundance matrix.
@@ -32,17 +32,18 @@ n2 <- n^2
 abu <- matrix(1:n2, nrow = n, ncol = n)
 suitab <- matrix(1, nrow = n, ncol = n)
 kernel <- calculate_dispersal_kernel(
-     max_dispersal_dist = 4,
-     kfun = negative_exponential_function,
-     mean_dispersal_dist = 1.2)
+    max_dispersal_dist = 4,
+    kfun = negative_exponential_function,
+    mean_dispersal_dist = 1.2
+)
 res1 <- dispersal(
-     dispersal_kernel = kernel,
-     abundance = abu
+    dispersal_kernel = kernel,
+    abundance = abu
 )
 res2 <- dispersal(
-     dispersal_kernel = kernel,
-     abundance = abu,
-     suitability = suitab
+    dispersal_kernel = kernel,
+    abundance = abu,
+    suitability = suitab
 )
 stopifnot(sum(res1) - sum(res2) < 0.01)
 # Also, both results should be the same within numirical precision,

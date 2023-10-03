@@ -27,6 +27,13 @@
 #' Volume 84, Issue 5,
 #' Pages 607-614,
 #' ISSN 0305-7364, <doi:10.1006/anbo.1999.0955>
+#' @examples
+#' calculate_suitability(
+#'   vmax = 30,
+#'   vopt = 25,
+#'   vmin = 10,
+#'   venv = 0:40
+#' )
 #' @export
 calculate_suitability <- function(vmax, vopt, vmin, venv) {
     .Call('_metaRange_calculate_suitability', PACKAGE = 'metaRange', vmax, vopt, vmin, venv)
@@ -64,15 +71,18 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 
 #' Metabolic scaling
 #'
-#' A function to calculate the metabolic scaling of a parameter.
+#' A function to calculate the metabolic scaling of a parameter, based on the
+#' metabolic theory of ecology (Brown et al. 2004).
 #'
 #' @param normalization_constant `<numeric>` normalization constant.
 #' @param scaling_exponent `<numeric>` allometric scaling exponent of the mass.
 #' @param mass `<numeric matrix>`  mean (individual) mass.
 #' @param temperature `<numeric matrix>` temperature in kelvin (K).
-#' @param E `<numeric>` Activation energy in electronvolts (eV).
+#' @param E `<numeric>` activation energy in electronvolts (eV).
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
 #' @details
+#' The function uses the formula in the form of:
+#' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
 #' General notes:
 #'
 #' Reproduction rate is generally assumed to scale with an exponent of `-1/4`
@@ -82,7 +92,7 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 #' and an activation energy of `0.65 eV` (important: it's positive).
 #' But read: (Brown et. al. 2004; Brown & Sibly, 2012) for an in-depth explanation.
 #'
-#' Notes on units:
+#' Units:
 #'
 #' 1 electronvolt = 1.602176634 * 10^-19 Joule
 #'
@@ -97,19 +107,70 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 #' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
 #' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
 #' <doi:10.1002/9781119968535.ch2>
-#' @return The scaled parameter.
+#' @return `<numeric>` The scaled parameter.
+#' @examples
+#' reproduction_rate <- 0.25
+#' E_reproduction_rate <- -0.65
+#' estimated_normalization_constant <-
+#'     calculate_normalization_constant(
+#'         parameter_value = reproduction_rate,
+#'         scaling_exponent = -1/4,
+#'         mass = 100,
+#'         reference_temperature = 273.15 + 10,
+#'         E = E_reproduction_rate
+#'     )
+#' metabolic_scaling(
+#'     normalization_constant = estimated_normalization_constant,
+#'     scaling_exponent = -1/4,
+#'     mass = 100,
+#'     temperature = 273.15 + 20,
+#'     E = E_reproduction_rate
+#' )
+#'
+#' carrying_capacity <- 100
+#' E_carrying_capacity <- 0.65
+#' estimated_normalization_constant <-
+#'     calculate_normalization_constant(
+#'         parameter_value = carrying_capacity,
+#'         scaling_exponent = -3/4,
+#'         mass = 100,
+#'         reference_temperature = 273.15 + 10,
+#'         E = E_carrying_capacity
+#'     )
+#' metabolic_scaling(
+#'     normalization_constant = estimated_normalization_constant,
+#'     scaling_exponent = -3/4,
+#'     mass = 100,
+#'     temperature = 273.15 + 20,
+#'     E = E_carrying_capacity
+#' )
 #' @export
 metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, temperature, E, k = 8.617333e-05) {
     .Call('_metaRange_metabolic_scaling', PACKAGE = 'metaRange', normalization_constant, scaling_exponent, mass, temperature, E, k)
 }
 
-#' Ricker reproduction model c++ version
+#' Ricker reproduction model
 #'
-#' Ricker reproduction model c++ version
+#' An implementation of the "classic" Ricker reproduction model in the form of:
+#' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}
 #'
-#' @param abundance matrix .
-#' @param reproduction_rate matrix.
-#' @param carrying_capacity matrix.
+#' @param abundance `<numeric>` vector (or matrix) of abundances.
+#' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
+#' @param carrying_capacity `<numeric>` vector (or matrix) of carrying capacities.
+#' @details Note that the input should have an equal size and that the input abundance
+#' should be positive for the reulst to make sense.
+#' @return `<numeric>` vector (or matrix) of abundances.
+#' @examples
+#' ricker_reproduction_model(
+#'   abundance = 10,
+#'   reproduction_rate = 0.25,
+#'   carrying_capacity = 100
+#' )
+#' ricker_reproduction_model(
+#'   abundance = matrix(10, 10, 5),
+#'   reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
+#'   carrying_capacity =  matrix(100, 10, 5)
+#' )
 #' @references Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic
 #' models for the range dynamics of plant species.
 #' Global Ecology and Biogeography, 19, 85–97.

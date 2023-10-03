@@ -23,15 +23,18 @@ using namespace Rcpp;
 
 //' Metabolic scaling
 //'
-//' A function to calculate the metabolic scaling of a parameter.
+//' A function to calculate the metabolic scaling of a parameter, based on the
+//' metabolic theory of ecology (Brown et al. 2004).
 //'
 //' @param normalization_constant `<numeric>` normalization constant.
 //' @param scaling_exponent `<numeric>` allometric scaling exponent of the mass.
 //' @param mass `<numeric matrix>`  mean (individual) mass.
 //' @param temperature `<numeric matrix>` temperature in kelvin (K).
-//' @param E `<numeric>` Activation energy in electronvolts (eV).
+//' @param E `<numeric>` activation energy in electronvolts (eV).
 //' @param k `<numeric>` Boltzmann's constant (eV / K).
 //' @details
+//' The function uses the formula in the form of:
+//' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
 //' General notes:
 //'
 //' Reproduction rate is generally assumed to scale with an exponent of `-1/4`
@@ -41,7 +44,7 @@ using namespace Rcpp;
 //' and an activation energy of `0.65 eV` (important: it's positive).
 //' But read: (Brown et. al. 2004; Brown & Sibly, 2012) for an in-depth explanation.
 //'
-//' Notes on units:
+//' Units:
 //'
 //' 1 electronvolt = 1.602176634 * 10^-19 Joule
 //'
@@ -56,7 +59,43 @@ using namespace Rcpp;
 //' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
 //' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
 //' <doi:10.1002/9781119968535.ch2>
-//' @return The scaled parameter.
+//' @return `<numeric>` The scaled parameter.
+//' @examples
+//' reproduction_rate <- 0.25
+//' E_reproduction_rate <- -0.65
+//' estimated_normalization_constant <-
+//'     calculate_normalization_constant(
+//'         parameter_value = reproduction_rate,
+//'         scaling_exponent = -1/4,
+//'         mass = 100,
+//'         reference_temperature = 273.15 + 10,
+//'         E = E_reproduction_rate
+//'     )
+//' metabolic_scaling(
+//'     normalization_constant = estimated_normalization_constant,
+//'     scaling_exponent = -1/4,
+//'     mass = 100,
+//'     temperature = 273.15 + 20,
+//'     E = E_reproduction_rate
+//' )
+//'
+//' carrying_capacity <- 100
+//' E_carrying_capacity <- 0.65
+//' estimated_normalization_constant <-
+//'     calculate_normalization_constant(
+//'         parameter_value = carrying_capacity,
+//'         scaling_exponent = -3/4,
+//'         mass = 100,
+//'         reference_temperature = 273.15 + 10,
+//'         E = E_carrying_capacity
+//'     )
+//' metabolic_scaling(
+//'     normalization_constant = estimated_normalization_constant,
+//'     scaling_exponent = -3/4,
+//'     mass = 100,
+//'     temperature = 273.15 + 20,
+//'     E = E_carrying_capacity
+//' )
 //' @export
 // [[Rcpp::export]]
 NumericVector metabolic_scaling(
