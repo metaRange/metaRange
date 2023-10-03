@@ -7,7 +7,7 @@
 #' @description Creates a priority queue in form of an [R6][R6::R6Class] class,
 #' that manages the correct process execution order.
 #'
-#' @return A `<metaRangePriorityQueue>` object
+#' @return A `<[metaRangePriorityQueue]>` object
 #' @export
 metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
     cloneable = FALSE,
@@ -59,7 +59,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' Users should only use this method if they added a process to the simulation
         #' via the add_process method of the simulation object with the argument
         #' `queue = FALSE`. Otherwise the process is added to the queue automatically.
-        #' @param process `<metaRangeProcess>` A [metaRangeProcess].
+        #' @param process `<[metaRangeProcess]>` a process that should be added to the queue.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -81,7 +81,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' @description Remove a process from the (future) queue.
         #' Usefull to remove a process from the queue if it is no longer needed.
         #' E.g. if a species went extinct.
-        #' @param PID `<string>` The process ID.
+        #' @param PID `<string>` the ID of the procces, that should be deqeued.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -110,7 +110,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' pr_queue$enqueue(pr)
         #' pr_queue$sort_future_queue()
         #' # at least no error
-        #' @return invisible self.
+        #' @return `<invisible self>`.
         sort_future_queue = function() {
             private$future_queue <- sort(private$future_queue)
             return(invisible(self))
@@ -123,7 +123,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' pr_queue$enqueue(pr)
         #' pr_queue$update()
         #' pr_queue$get_queue()
-        #' @return invisible self.
+        #' @return `<invisible self>`.
         update = function() {
             self$sort_future_queue()
             private$queue <- private$future_queue
@@ -175,7 +175,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr_queue$print()
-        #' @return invisible self.
+        #' @return `<invisible self>`.
         print = function() {
             cat("At process: ", private$current_index, "out of: ", length(private$queue), "\n")
             cat("Remaining queue: \n")

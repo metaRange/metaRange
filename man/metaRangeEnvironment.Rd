@@ -115,7 +115,7 @@ No reason to call this as user. The current time step is set automatically.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -140,7 +140,7 @@ Prints information about the environment to the console
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

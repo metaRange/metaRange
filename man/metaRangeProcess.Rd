@@ -4,7 +4,7 @@
 \alias{metaRangeProcess}
 \title{metaRangeProcess object}
 \value{
-A \verb{<metaRangeProcess>} object.
+A \verb{<[metaRangeProcess]>} object.
 }
 \description{
 Creates an species object in form of an
@@ -71,7 +71,7 @@ pr$print()
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{fun}}{The processes function.}
+\item{\code{fun}}{\verb{<function>} The processes function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -115,21 +115,21 @@ in the specified environment (see arg: env) and has acces to all the
 variables in that environment. This function may not have any arguments,
 i.e. \code{is.null(formals(process_fun))} must be \code{TRUE}.}
 
-\item{\code{execution_priority}}{\verb{<integer>} The priority of the process.
+\item{\code{execution_priority}}{\verb{<integer>} the priority of the process.
 The lower the number the earlier the process is executed.
 Note that the priority is only used to sort the processes
 in the priority queue. The actual execution order is determined
 by the order of the processes in the queue.}
 
-\item{\code{env}}{\verb{<environment>} The environment where the process should be executed.}
+\item{\code{env}}{\verb{<environment>} the environment where the process should be executed.}
 
-\item{\code{env_label}}{\verb{<string>} Optional name of the execution environment.
+\item{\code{env_label}}{\verb{<string>} optional name of the execution environment.
 Just used as a human readeble label for debug purposes.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A \verb{<metaRangeProcess>} object.
+A \verb{<[metaRangeProcess]>} object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -249,7 +249,7 @@ Prints information about the species to the console
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

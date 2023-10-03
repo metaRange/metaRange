@@ -19,7 +19,7 @@
 \item{...}{additional arguments passed to \link[terra:plot]{terra::plot} or \link[base:plot]{base::plot}.}
 }
 \value{
-invisible \code{NULL}.
+\verb{<invisible NULL>}.
 }
 \description{
 Plots the specified element of a \link{metaRangeSimulation} object.

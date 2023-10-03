@@ -34,35 +34,35 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
     public = list(
         # ---------- 1 public fields -------------
         # ---------- // ID -------------------
-        #' @field ID simulation identification.
+        #' @field ID `<string>` simulation identification.
         ID = NULL,
 
         # ---------- // globals -------------------
-        #' @field globals a place to store global variables.
+        #' @field globals `<list>` a place to store global variables.
         globals = NULL,
 
         # ---------- // environment --------------
-        #' @field environment A [metaRangeEnvironment] that holds all the environmental
+        #' @field environment a `<[metaRangeEnvironment]>` that holds all the environmental
         #' values influencing the simulation.
         environment = NULL,
 
         # ---------- // time ----
-        #' @field  number_time_steps number of timeseps in the simulation.
+        #' @field  number_time_steps `<integer>` number of timeseps in the simulation.
         number_time_steps = NULL,
 
-        #' @field time_step_layer vector of layer IDs
+        #' @field time_step_layer `<integer>` vector of layer IDs
         #' that describe which environmental layer to use at each time step.
         time_step_layer = NULL,
 
-        #' @field current_time_step current time step.
+        #' @field current_time_step `<integer>` current time step.
         current_time_step = NULL,
 
         # ---------- // queue ----------
-        #' @field queue The order in which the processes should be executed.
+        #' @field queue `<[metaRangePriorityQueue]>` manages the order in which the processes should be executed.
         queue = NULL,
 
         # ---------- // processes ----------
-        #' @field processes global processes
+        #' @field processes `<list>` of global (simulation level) `<[metaRangeProcess]es>`
         processes = NULL,
 
         # ---------- // seed ----------------------
@@ -133,7 +133,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$add_globals(a = 1, b = 2)
         #' sim$globals$a
         #' #> [1] 1
-        #' @return invisible self
+        #' @return `<invisible self>`
         add_globals = function(...) {
             globals_to_add <- list(...)
             if (getOption("metaRange.verbose", default = FALSE) > 0L) {
@@ -154,7 +154,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$set_time_layer_mapping(1:2)
         #' stopifnot(identical(sim$time_step_layer, 1:2))
-        #' @return invisible self
+        #' @return `<invisible self>`
         set_time_layer_mapping = function(x) {
             x <- checkmate::assert_integerish(
                 x,
@@ -183,7 +183,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$get_current_time_step()
         #' #> [1] 1
-        #' @return invisible self
+        #' @return `<integer>` the current time step
         get_current_time_step = function() {
             return(private$current_time_step)
         },
@@ -256,7 +256,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$species_1$processes$species_process_1
         #' sim$add_process(species = NULL, "global_process_2", function() {message("process_2")}, 2)
         #' sim$processes$global_process_2
-        #' @return invisible(self).
+        #' @return `<invisible self>`.
         add_process = function(species = NULL, process_name, process_fun, execution_priority, queue = TRUE) {
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
@@ -309,7 +309,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' to such a matrix via [base::matrix()] or they already need to be a matrix with these dimension.
         #' If `FALSE` the traits will be added without any conversion and may have any type and dimension.
         #' @param ... `<atomic>` (see [base::is.atomic()]) The traits to be added.
-        #' @return invisible(self).
+        #' @return `<invisible self>`.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
@@ -422,7 +422,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #'      1
         #' )
         #' sim$begin()
-        #' @return The finished simulation (i.e. invisible self)
+        #' @return `<invisible self>` The finished simulation
         begin = function() {
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             if (verbosity > 0L) message("Starting simualtion.\n")
@@ -494,7 +494,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$print()
-        #' @return invisible self
+        #' @return `<invisible self>`
         print = function() {
             # TODO: pretty print
             cat("metaRangeSimulation object\n")
@@ -538,7 +538,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$summary()
-        #' @return invisible self
+        #' @return `<invisible self>`
         summary = function() {
             # TODO: pretty print
             cat("ID:", self$ID, "\n")
@@ -566,7 +566,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         # @description Set current time step
         # @param time_step `<integer>` The current time step of the simulation
-        # @return invisible self
+        # @return `<invisible self>`
         set_current_time_step = function(time_step) {
             self$number_time_steps <- checkmate::assert_int(
                 x = self$number_time_steps,
@@ -608,7 +608,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # @param sds `<SpatRasterDataset>` created by [terra::sds()] that represents the environment.
         # The individual data set represent different environmental variables and the number of layers
         # represent the different timesteps of the simulation.
-        # @return invisible self
+        # @return `<invisible self>`
         set_sim_environment = function(sds = NULL) {
             checkmate::assert_class(sds, "SpatRasterDataset")
             self$environment <- metaRangeEnvironment$new(sourceSDS = sds)

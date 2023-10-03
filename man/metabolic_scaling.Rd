@@ -22,17 +22,20 @@ metabolic_scaling(
 
 \item{temperature}{\verb{<numeric matrix>} temperature in kelvin (K).}
 
-\item{E}{\verb{<numeric>} Activation energy in electronvolts (eV).}
+\item{E}{\verb{<numeric>} activation energy in electronvolts (eV).}
 
 \item{k}{\verb{<numeric>} Boltzmann's constant (eV / K).}
 }
 \value{
-The scaled parameter.
+\verb{<numeric>} The scaled parameter.
 }
 \description{
-A function to calculate the metabolic scaling of a parameter.
+A function to calculate the metabolic scaling of a parameter, based on the
+metabolic theory of ecology (Brown et al. 2004).
 }
 \details{
+The function uses the formula in the form of:
+\deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
 General notes:
 
 Reproduction rate is generally assumed to scale with an exponent of \code{-1/4}
@@ -42,13 +45,50 @@ Carrying capacity is generally assumed to scale with an exponent of \code{-3/4}
 and an activation energy of \verb{0.65 eV} (important: it's positive).
 But read: (Brown et. al. 2004; Brown & Sibly, 2012) for an in-depth explanation.
 
-Notes on units:
+Units:
 
 1 electronvolt = 1.602176634 * 10^-19 Joule
 
 Boltzmann constant 1.380649 * 10^-23 Joule/Kelvin
 
 Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)
+}
+\examples{
+reproduction_rate <- 0.25
+E_reproduction_rate <- -0.65
+estimated_normalization_constant <-
+    calculate_normalization_constant(
+        parameter_value = reproduction_rate,
+        scaling_exponent = -1/4,
+        mass = 100,
+        reference_temperature = 273.15 + 10,
+        E = E_reproduction_rate
+    )
+metabolic_scaling(
+    normalization_constant = estimated_normalization_constant,
+    scaling_exponent = -1/4,
+    mass = 100,
+    temperature = 273.15 + 20,
+    E = E_reproduction_rate
+)
+
+carrying_capacity <- 100
+E_carrying_capacity <- 0.65
+estimated_normalization_constant <-
+    calculate_normalization_constant(
+        parameter_value = carrying_capacity,
+        scaling_exponent = -3/4,
+        mass = 100,
+        reference_temperature = 273.15 + 10,
+        E = E_carrying_capacity
+    )
+metabolic_scaling(
+    normalization_constant = estimated_normalization_constant,
+    scaling_exponent = -3/4,
+    mass = 100,
+    temperature = 273.15 + 20,
+    E = E_carrying_capacity
+)
 }
 \references{
 Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).

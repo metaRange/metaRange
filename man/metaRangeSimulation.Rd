@@ -146,23 +146,23 @@ sim$summary()
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{ID}}{simulation identification.}
+\item{\code{ID}}{\verb{<string>} simulation identification.}
 
-\item{\code{globals}}{a place to store global variables.}
+\item{\code{globals}}{\verb{<list>} a place to store global variables.}
 
-\item{\code{environment}}{A \link{metaRangeEnvironment} that holds all the environmental
+\item{\code{environment}}{a \verb{<[metaRangeEnvironment]>} that holds all the environmental
 values influencing the simulation.}
 
-\item{\code{number_time_steps}}{number of timeseps in the simulation.}
+\item{\code{number_time_steps}}{\verb{<integer>} number of timeseps in the simulation.}
 
-\item{\code{time_step_layer}}{vector of layer IDs
+\item{\code{time_step_layer}}{\verb{<integer>} vector of layer IDs
 that describe which environmental layer to use at each time step.}
 
-\item{\code{current_time_step}}{current time step.}
+\item{\code{current_time_step}}{\verb{<integer>} current time step.}
 
-\item{\code{queue}}{The order in which the processes should be executed.}
+\item{\code{queue}}{\verb{<[metaRangePriorityQueue]>} manages the order in which the processes should be executed.}
 
-\item{\code{processes}}{global processes}
+\item{\code{processes}}{\verb{<list>} of global (simulation level) \verb{<[metaRangeProcess]es>}}
 
 \item{\code{seed}}{\verb{<integer>} seed for the random number generator.}
 }
@@ -247,7 +247,7 @@ through the 'globals' field.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -280,7 +280,7 @@ that describe which environmental layer to use at each time step.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -304,7 +304,7 @@ Get current time step
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<integer>} the current time step
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -411,7 +411,7 @@ via the \link{metaRangePriorityQueue}\verb{$enqueue()} method.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible(self).
+\verb{<invisible self>}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -453,7 +453,7 @@ If \code{FALSE} the traits will be added without any conversion and may have any
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible(self).
+\verb{<invisible self>}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -514,7 +514,7 @@ Begins the simulation
 }
 
 \subsection{Returns}{
-The finished simulation (i.e. invisible self)
+\verb{<invisible self>} The finished simulation
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -546,7 +546,7 @@ Prints information about the simulation to the console
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -570,7 +570,7 @@ it to the console
 }
 
 \subsection{Returns}{
-invisible self
+\verb{<invisible self>}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

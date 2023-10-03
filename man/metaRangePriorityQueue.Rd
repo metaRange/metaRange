@@ -4,7 +4,7 @@
 \alias{metaRangePriorityQueue}
 \title{Process priority queue}
 \value{
-A \verb{<metaRangePriorityQueue>} object
+A \verb{<[metaRangePriorityQueue]>} object
 }
 \description{
 Creates a priority queue in form of an \link[R6:R6Class]{R6} class,
@@ -201,7 +201,7 @@ via the add_process method of the simulation object with the argument
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{process}}{\verb{<metaRangeProcess>} A \link{metaRangeProcess}.}
+\item{\code{process}}{\verb{<[metaRangeProcess]>} a process that should be added to the queue.}
 }
 \if{html}{\out{</div>}}
 }
@@ -234,7 +234,7 @@ E.g. if a species went extinct.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{PID}}{\verb{<string>} The process ID.}
+\item{\code{PID}}{\verb{<string>} the ID of the procces, that should be deqeued.}
 }
 \if{html}{\out{</div>}}
 }
@@ -265,7 +265,7 @@ This method is called automatically when a process is added to the queue.
 }
 
 \subsection{Returns}{
-invisible self.
+\verb{<invisible self>}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -291,7 +291,7 @@ This method is called automatically at the end of each time step.
 }
 
 \subsection{Returns}{
-invisible self.
+\verb{<invisible self>}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -412,7 +412,7 @@ Prints information about the queue to the console.
 }
 
 \subsection{Returns}{
-invisible self.
+\verb{<invisible self>}.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

@@ -2,19 +2,39 @@
 % Please edit documentation in R/RcppExports.R
 \name{ricker_reproduction_model}
 \alias{ricker_reproduction_model}
-\title{Ricker reproduction model c++ version}
+\title{Ricker reproduction model}
 \usage{
 ricker_reproduction_model(abundance, reproduction_rate, carrying_capacity)
 }
 \arguments{
-\item{abundance}{matrix .}
+\item{abundance}{\verb{<numeric>} vector (or matrix) of abundances.}
 
-\item{reproduction_rate}{matrix.}
+\item{reproduction_rate}{\verb{<numeric>} vector (or matrix) of reproduction rates.}
 
-\item{carrying_capacity}{matrix.}
+\item{carrying_capacity}{\verb{<numeric>} vector (or matrix) of carrying capacities.}
+}
+\value{
+\verb{<numeric>} vector (or matrix) of abundances.
 }
 \description{
-Ricker reproduction model c++ version
+An implementation of the "classic" Ricker reproduction model in the form of:
+\deqn{abundance_{(t+1)} = abundance_t \cdot e^{reproduction_rate \cdot (1 - \frac{abundance_t}{carrying_capacity})}}
+}
+\details{
+Note that the input should have an equal size and that the input abundance
+should be positive for the reulst to make sense.
+}
+\examples{
+ricker_reproduction_model(
+  abundance = 10,
+  reproduction_rate = 0.25,
+  carrying_capacity = 100
+)
+ricker_reproduction_model(
+  abundance = matrix(10, 10, 10),
+  reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 100), 10, 10),
+  carrying_capacity =  matrix(100, 10, 10)
+)
 }
 \references{
 Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic

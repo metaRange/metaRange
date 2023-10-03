@@ -93,11 +93,11 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 #'
 #' Use a user defined function to create a 2D dispersal kernel.
 #'
-#' @param max_dispersal_dist `<numeric>` Maximum dispersal distance.
-#' @param kfun `<function>` The kernel function to use. Can be user-defined,
+#' @param max_dispersal_dist `<numeric>` maximum dispersal distance.
+#' @param kfun `<function>` the kernel function to use. Can be user-defined,
 #' in which case it needs to accept (at least) the parameter
 #' "x" representing the distance from the source as its input and return a probability.
-#' @param ... Additional parameters to be passed to the kernel function.
+#' @param ... additional parameters to be passed to the kernel function.
 #' @examples
 #' calculate_dispersal_kernel(
 #'     max_dispersal_dist = 3,
@@ -125,9 +125,9 @@ calculate_dispersal_kernel <- function(
 #' Dispersal process.
 #'
 #' Disperse a (abundance) matrix using a dispersal kernel and optional suitability weights.
-#' @param dispersal_kernel `<matrix>` Dispersal kernel.
-#' @param abundance `<matrix>` Abundance matrix.
-#' @param suitability `<matrix>`  Optional suitability matrix `range: 0, 1`.
+#' @param dispersal_kernel `<matrix>` dispersal kernel.
+#' @param abundance `<matrix>` abundance matrix.
+#' @param suitability `<matrix>`  optional suitability matrix `range: 0, 1`.
 #' @details
 #' The abundance matrix is dispersed using the dispersal kernel.
 #' If a suitability matrix is supplied, the individuals will redistribute

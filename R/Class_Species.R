@@ -15,24 +15,25 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
     lock_objects = FALSE,
     public = list(
         # ---------- public fields -------------
-        #' @field name name or ID of the species.
+        #' @field name `<string>` name or ID of the species.
         name = NULL,
 
-        #' @field processes The processes that describe how the species interacts
+        #' @field processes `<list>` of `<[metaRangeProcess]es>`.
+        #' The processes that describe how the species interacts
         #' with the environment, itself and other species.
         processes = NULL,
 
-        #' @field traits The traits of the species.
+        #' @field traits `<list>` the traits of the species.
         traits = NULL,
 
-        #' @field sim A reference to the [metaRangeSimulation] object that the species is part of.
+        #' @field sim `<[metaRangeSimulation]>` a reference to the simulation object that the species is part of.
         #' Usefull to acces evironmental data or data of other species.
         sim = NULL,
         # ---------- initialization -----------
 
         #' @description Creates a new [metaRangeSpecies] object
         #' @param name `<string>` name or ID of the species.
-        #' @param sim `<metaRangeSimulation>` A reference to the [metaRangeSimulation]
+        #' @param sim `<[metaRangeSimulation]>` A reference to the simulation
         #' object that the species is part of.
         #' @examples
         #' # The following is bad practice, since species should be added to a simulation
@@ -60,7 +61,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         },
         # ---------- public methods -----------
         #' @description Prints information about the species to the console
-        #' @return invisible self
+        #' @return `<invisible self>`
         print = function() {
             cat("Species: ", self$name, "\n")
             cat("processes: \n")

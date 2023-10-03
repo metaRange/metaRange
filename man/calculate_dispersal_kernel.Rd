@@ -7,13 +7,13 @@
 calculate_dispersal_kernel(max_dispersal_dist, kfun, ...)
 }
 \arguments{
-\item{max_dispersal_dist}{\verb{<numeric>} Maximum dispersal distance.}
+\item{max_dispersal_dist}{\verb{<numeric>} maximum dispersal distance.}
 
-\item{kfun}{\verb{<function>} The kernel function to use. Can be user-defined,
+\item{kfun}{\verb{<function>} the kernel function to use. Can be user-defined,
 in which case it needs to accept (at least) the parameter
 "x" representing the distance from the source as its input and return a probability.}
 
-\item{...}{Additional parameters to be passed to the kernel function.}
+\item{...}{additional parameters to be passed to the kernel function.}
 }
 \value{
 Dispersal kernel with probabilities.
@@ -23,8 +23,8 @@ Use a user defined function to create a 2D dispersal kernel.
 }
 \examples{
 calculate_dispersal_kernel(
-     max_dispersal_dist = 3,
-     kfun = negative_exponential_function,
-     mean_dispersal_dist = 1
+    max_dispersal_dist = 3,
+    kfun = negative_exponential_function,
+    mean_dispersal_dist = 1
 )
 }

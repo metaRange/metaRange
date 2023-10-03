@@ -19,7 +19,7 @@
 #' test_sim$add_species("species_01")
 #' test_sim$add_traits("species_01", trait_01 = matrix(1, nrow = 2, ncol = 2))
 #' plot(test_sim, "species_01", "trait_01")
-#' @return invisible `NULL`.
+#' @return `<invisible NULL>`.
 #' @export
 plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
     if (missing(x) || is.null(x)) {
@@ -47,7 +47,7 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
 #' `n =50` and a random palette.
 #' @param main `<string>` optional title of the plot. Will be labeled automatically when NULL.
 #' @param ... additional arguments passed to [terra::plot] or [base::plot].
-#' @return invisible `NULL`.
+#' @return `<invisible NULL>`.
 #' @examples
 #' sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
@@ -90,7 +90,7 @@ plot.metaRangeEnvironment <- function(x, env_name, col, main = NULL, ...) {
 #' test_sim$add_species("species_01")
 #' test_sim$add_traits("species_01", trait_01 = matrix(1:4, nrow = 2, ncol = 2))
 #' plot(test_sim$species_01, "trait_01")
-#' @return invisible `NULL`.
+#' @return `<invisible NULL>`.
 #' @export
 plot.metaRangeSpecies <- function(x, trait_name, col, main = NULL, ...) {
     if (missing(x) || is.null(x)) {
@@ -127,7 +127,7 @@ plot.metaRangeSpecies <- function(x, trait_name, col, main = NULL, ...) {
 #' @param ... if x is a [terra::SpatRaster] these can be arguments
 #' passed to [terra::plot], else these are additional
 #' graphical arguments passed on to [base::plot]
-#' @return invisible `NULL`
+#' @return `<invisible NULL>`
 #' @keywords internal
 #' @noRd
 plot_internal <- function(x, col, ...) {
