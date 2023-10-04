@@ -16,8 +16,8 @@ tba.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/srfall/metaRange}
-  \item Report bugs at \url{https://github.com/srfall/metaRange/issues}
+  \item \url{https://github.com/metaRange/metaRange}
+  \item Report bugs at \url{https://github.com/metaRange/metaRange/issues}
 }
 
 }
