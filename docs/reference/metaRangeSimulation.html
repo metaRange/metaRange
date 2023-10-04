@@ -32,7 +32,7 @@ that are necessary to run a simulation."><meta property="og:image" content="/log
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/srfall/metaRange/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/metaRange/metaRange/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -45,7 +45,7 @@ that are necessary to run a simulation."><meta property="og:image" content="/log
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>metaRangeSimulation object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/srfall/metaRange/blob/HEAD/R/Class_Simulation.R" class="external-link"><code>R/Class_Simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metaRange/metaRange/blob/HEAD/R/Class_Simulation.R" class="external-link"><code>R/Class_Simulation.R</code></a></small>
       <div class="d-none name"><code>metaRangeSimulation.Rd</code></div>
     </div>
 
@@ -599,19 +599,19 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_process_1"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_1"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">species_process_1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  species_process_1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-110955301-species_process_1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1258d4d41-species_process_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  species_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_1")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000184a19ed550&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001ef0f389688&gt;</span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, <span class="st">"global_process_2"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_2"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process_2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  global_process_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-253b06822-global_process_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-24404462-global_process_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_472946 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_1d1fe6e </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_2")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000018511d2afb8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001ef0f4b3460&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeSimulation$add_traits`</span></span></span>
@@ -707,7 +707,7 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">metaRangeSimulation</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>source_environment <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">summary</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_2cc7214 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_354671a </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Environment: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRasterDataset </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> subdatasets : 1 </span>
@@ -719,7 +719,7 @@ it to the console</p><div class="section">
 <span class="r-out co"><span class="r-pr">#&gt;</span> source(s)   : memory </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time step layer mapping:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Current time step:  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  439 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  207 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Species:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Queue:</span>
