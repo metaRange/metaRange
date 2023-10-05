@@ -264,7 +264,10 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             if (verbosity > 0L) message("adding process: ", process_name)
             if (!is.null(species)) {
                 speciec_in_sim <- self$species_names()
-                if (verbosity > 0L) message("to species: ", species)
+                if (verbosity > 0L) {
+                    message("to species: ")
+                    message(show(species), appendLF = FALSE)
+                }
                 species_present <- species %in% speciec_in_sim
                 if (!all(species_present)) {
                     stop("Species '", species[!species_present], "' not found in simulation. Unable to add process.")
