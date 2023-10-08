@@ -34,10 +34,10 @@ A function to calculate the metabolic scaling of a parameter, based on the
 metabolic theory of ecology (Brown et al. 2004).
 }
 \details{
-\subsection{Formula:}{
+\subsection{Equation:}{
 
-The function uses the formula in the form of:
-\deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
+The function uses the equation in the form of:
+\deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{Activation\_energy}{k \cdot temperature}}}{parameter = normalization_constant * mass^scaling_exponent * e^(Activation_energy/ (k * temperature))}
 }
 
 \subsection{Parameter:}{
@@ -108,4 +108,7 @@ Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
 Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 In \emph{Metabolic Ecology} (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
 \href{https://doi.org/10.1002/9781119968535.ch}{doi:10.1002/9781119968535.ch}
+}
+\seealso{
+\code{calculate_normalization_constant()}
 }

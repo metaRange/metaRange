@@ -13,7 +13,7 @@
 #' @return `<numeric>` environmental suitability
 #' @details The environmental suitability is calculated based on a beta distribution
 #' after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
-#' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}
+#' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}{suitability = ((V_max - V_env) / (V_max - V_opt)) * ((V_env - V_min) / (V_opt - V_min))^((V_opt - V_min) / (V_max - V_opt)))}
 #' @note The original formula by Yin et al. was only intended to calculate
 #' the relative daily growth rate of plants in relation to temperature. The abstraction to
 #' use this to A) calculate a niche suitability; and B) use it on other
@@ -89,9 +89,9 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 #' @param E `<numeric>` activation energy in electronvolts (eV).
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
 #' @details
-#' ## Formula:
-#' The function uses the formula in the form of:
-#' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
+#' ## Equation:
+#' The function uses the equation in the form of:
+#' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{Activation\_energy}{k \cdot temperature}}}{parameter = normalization_constant * mass^scaling_exponent * e^(Activation_energy/ (k * temperature))}
 #'
 #' ## Parameter:
 #' Note the different scaling values for different parameter.
@@ -119,6 +119,8 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 #' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 #' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
 #' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
+#' @seealso
+#' `calculate_normalization_constant()`
 #' @return `<numeric>` The scaled parameter.
 #' @examples
 #' reproduction_rate <- 0.25
@@ -163,13 +165,16 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 
 #' Ricker reproduction model
 #'
-#' An implementation of the "classic" Ricker reproduction model in the form of:
-#' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}
+#' An implementation of the "classic" Ricker reproduction model (Ricker, 1954).
 #'
 #' @param abundance `<numeric>` vector (or matrix) of abundances.
 #' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
 #' @param carrying_capacity `<numeric>` vector (or matrix) of carrying capacities.
-#' @details Note that the input should have an equal size and that the input abundance
+#' @details
+#' ## Equation:
+#' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
+#'
+#' Note that the input should have an equal size and that the input abundance
 #' should be positive for the reulst to make sense.
 #' @return `<numeric>` vector (or matrix) of abundances.
 #' @examples

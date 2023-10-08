@@ -33,7 +33,7 @@ using namespace Rcpp;
 //' @return `<numeric>` environmental suitability
 //' @details The environmental suitability is calculated based on a beta distribution
 //' after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
-//' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}
+//' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}{suitability = ((V_max - V_env) / (V_max - V_opt)) * ((V_env - V_min) / (V_opt - V_min))^((V_opt - V_min) / (V_max - V_opt)))}
 //' @note The original formula by Yin et al. was only intended to calculate
 //' the relative daily growth rate of plants in relation to temperature. The abstraction to
 //' use this to A) calculate a niche suitability; and B) use it on other

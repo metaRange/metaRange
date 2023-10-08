@@ -17,12 +17,16 @@ ricker_reproduction_model(abundance, reproduction_rate, carrying_capacity)
 \verb{<numeric>} vector (or matrix) of abundances.
 }
 \description{
-An implementation of the "classic" Ricker reproduction model in the form of:
-\deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}
+An implementation of the "classic" Ricker reproduction model (Ricker, 1954).
 }
 \details{
+\subsection{Equation:}{
+
+\deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
+
 Note that the input should have an equal size and that the input abundance
 should be positive for the reulst to make sense.
+}
 }
 \examples{
 ricker_reproduction_model(

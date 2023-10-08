@@ -32,6 +32,8 @@
 #' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 #' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
 #' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
+#' @seealso
+#' `metabolic_scaling()`
 #' @examples
 #' calculate_normalization_constant(
 #'      parameter_value = 1,
@@ -89,7 +91,7 @@ calculate_normalization_constant <- function(
 #' @param mean_dispersal_dist `<numeric>` mean dispersal distance (>0)
 #' @details
 #' The negative exponential kernel is defined as:
-#' \deqn{f(x) = \frac{1}{2 \pi a^2} e^{-\frac{x}{a}}}
+#' \deqn{f(x) = \frac{1}{2 \pi a^2} e^{-\frac{x}{a}}}{fx = 1 / (2 * pi * a^2) * exp(-x / a)}
 #' where \eqn{a} is the mean dispersal distance divided by 2.
 #' @examples
 #' negative_exponential_function(1, 1)
