@@ -84,7 +84,7 @@ based on a beta distribution, using the three "cardinal" values of the species f
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The environmental suitability is calculated based on a beta distribution
-after a formula provided by Yin et al. (1995) and simplified by Yan &amp; Hunt (1999) (see references paragraph)
+after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
 $$suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}$$</p>
     </div>
     <div class="section level2">
@@ -100,26 +100,26 @@ decreases towards the tolerable minimum and maximum values in a nonlinear fashio
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995)
 A nonlinear model for crop development as a function of temperature,
-Agricultural and Forest Meteorology,
-Volume 77, Issues 1–2,
-Pages 1-16,
-<a href="doi:10.1016/0168-1923(95)02236-Q">doi:10.1016/0168-1923(95)02236-Q</a></p>
+<em>Agricultural and Forest Meteorology</em>,
+Volume <strong>77</strong>, Issues 1–2,
+Pages 1--16,
+<a href="https://doi.org/10.1016/0168-1923(95)02236-Q" class="external-link">doi:10.1016/0168-1923(95)02236-Q</a></p>
 <p>Also, see equation 4 in:
 Weikai Yan, L.A. Hunt, (1999)
 An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures,
-Annals of Botany,
-Volume 84, Issue 5,
-Pages 607-614,
-ISSN 0305-7364, <a href="doi:10.1006/anbo.1999.0955">doi:10.1006/anbo.1999.0955</a></p>
+<em>Annals of Botany</em>,
+Volume <strong>84</strong>, Issue 5,
+Pages 607--614,
+ISSN 0305-7364, <a href="https://doi.org/10.1006/anbo.1999.0955" class="external-link">doi:10.1006/anbo.1999.0955</a></p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calculate_suitability</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  vmax <span class="op">=</span> <span class="fl">30</span>,</span></span>
-<span class="r-in"><span>  vopt <span class="op">=</span> <span class="fl">25</span>,</span></span>
-<span class="r-in"><span>  vmin <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>  venv <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">40</span></span></span>
+<span class="r-in"><span>    vmax <span class="op">=</span> <span class="fl">30</span>,</span></span>
+<span class="r-in"><span>    vopt <span class="op">=</span> <span class="fl">25</span>,</span></span>
+<span class="r-in"><span>    vmin <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>    venv <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">40</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001125926</span>
