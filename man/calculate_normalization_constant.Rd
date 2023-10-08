@@ -14,7 +14,7 @@ calculate_normalization_constant(
 )
 }
 \arguments{
-\item{parameter_value}{\verb{<numeric>} paramter value under the reference temperature.}
+\item{parameter_value}{\verb{<numeric>} paramter value at the reference temperature.}
 
 \item{scaling_exponent}{\verb{<numeric>} allometric scaling exponent of the mass.}
 
@@ -31,7 +31,17 @@ The calculated normalization constant.
 }
 \description{
 Calculates the normalization constant for the metabolic scaling
-based on a parameter value under the optimal thermal conditions.
+based on a known or estimated parameter value under at a reference temperature.
+}
+\details{
+Note the different scaling values for different parameter.
+The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+(see references).\tabular{lcr}{
+   Parameter \tab Scaling exponent \tab Activation energy \cr
+   resource usage \tab 3/4 \tab -0.65 \cr
+   reproduction, mortality \tab -1/4 \tab -0.65 \cr
+   carrying capacity \tab -3/4 \tab 0.65 \cr
+}
 }
 \examples{
 calculate_normalization_constant(
@@ -43,10 +53,12 @@ calculate_normalization_constant(
 )
 }
 \references{
-Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).
-Toward a Metabolic Theory of Ecology. Ecology, 85, 1771–1789.
+Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
+Toward a Metabolic Theory of Ecology. \emph{Ecology}, \strong{85} 1771--1789.
+\href{https://doi.org/10.1890/03-9000}{doi:10.1890/03-9000}
 
-Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
-In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
-\url{doi:10.1002/9781119968535.ch2}
+Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
+Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
+In \emph{Metabolic Ecology} (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
+\href{https://doi.org/10.1002/9781119968535.ch}{doi:10.1002/9781119968535.ch}
 }

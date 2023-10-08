@@ -5,7 +5,7 @@
 # @param abundance `<numeric>` Abundance.
 # @param reproduction_rate `<numeric>` Growth / reproduction rate.
 # @param carrying_capacity `<numeric>` Carrying capacity.
-# @references Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic
+# @references Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic
 # models for the range dynamics of plant species.
 # GlobalEcology and Biogeography, 19, 85–97.
 # Original model:

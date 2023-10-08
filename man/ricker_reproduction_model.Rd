@@ -26,24 +26,24 @@ should be positive for the reulst to make sense.
 }
 \examples{
 ricker_reproduction_model(
-  abundance = 10,
-  reproduction_rate = 0.25,
-  carrying_capacity = 100
+    abundance = 10,
+    reproduction_rate = 0.25,
+    carrying_capacity = 100
 )
 ricker_reproduction_model(
-  abundance = matrix(10, 10, 5),
-  reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
-  carrying_capacity =  matrix(100, 10, 5)
+    abundance = matrix(10, 10, 5),
+    reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
+    carrying_capacity =  matrix(100, 10, 5)
 )
 }
 \references{
-Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic
-models for the range dynamics of plant species.
-Global Ecology and Biogeography, 19, 85–97.
-\url{doi:10.1111/j.1466-8238.2009.00492.x}
+Cabral, J.S. and Schurr, F.M. (2010)
+Estimating demographic models for the range dynamics of plant species.
+\emph{Global Ecology and Biogeography}, \strong{19}, 85--97.
+\href{https://doi.org/10.1111/j.1466-8238.2009.00492.x}{doi:10.1111/j.1466-8238.2009.00492.x}
 
 Original model:
 Ricker, W.E. (1954) Stock and recruitment.
-Journal of the Fisheries Research Board of Canada, 11, 559–623.
-\url{doi:10.1139/f54-039}
+\emph{Journal of the Fisheries Research Board of Canada}, \strong{11}, 559--623.
+\href{https://doi.org/10.1139/f54-039}{doi:10.1139/f54-039}
 }

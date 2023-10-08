@@ -32,7 +32,7 @@ using namespace Rcpp;
 //' @param venv `<numeric>` environmental value for which to calculate the suitability
 //' @return `<numeric>` environmental suitability
 //' @details The environmental suitability is calculated based on a beta distribution
-//' after a formula provided by Yin et al. (1995) and simplified by Yan & Hunt (1999) (see references paragraph)
+//' after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
 //' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}
 //' @note The original formula by Yin et al. was only intended to calculate
 //' the relative daily growth rate of plants in relation to temperature. The abstraction to
@@ -43,24 +43,24 @@ using namespace Rcpp;
 //' @references
 //' Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995)
 //' A nonlinear model for crop development as a function of temperature,
-//' Agricultural and Forest Meteorology,
-//' Volume 77, Issues 1–2,
-//' Pages 1-16,
-//' <doi:10.1016/0168-1923(95)02236-Q>
+//' *Agricultural and Forest Meteorology*,
+//' Volume **77**, Issues 1–2,
+//' Pages 1--16,
+//' [doi:10.1016/0168-1923(95)02236-Q](https://doi.org/10.1016/0168-1923(95)02236-Q)
 //'
 //' Also, see equation 4 in:
 //' Weikai Yan, L.A. Hunt, (1999)
 //' An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures,
-//' Annals of Botany,
-//' Volume 84, Issue 5,
-//' Pages 607-614,
-//' ISSN 0305-7364, <doi:10.1006/anbo.1999.0955>
+//' *Annals of Botany*,
+//' Volume **84**, Issue 5,
+//' Pages 607--614,
+//' ISSN 0305-7364, [doi:10.1006/anbo.1999.0955](https://doi.org/10.1006/anbo.1999.0955)
 //' @examples
 //' calculate_suitability(
-//'   vmax = 30,
-//'   vopt = 25,
-//'   vmin = 10,
-//'   venv = 0:40
+//'     vmax = 30,
+//'     vopt = 25,
+//'     vmin = 10,
+//'     venv = 0:40
 //' )
 //' @export
 // [[Rcpp::export]]
