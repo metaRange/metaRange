@@ -33,9 +33,9 @@ using namespace Rcpp;
 //' @param E `<numeric>` activation energy in electronvolts (eV).
 //' @param k `<numeric>` Boltzmann's constant (eV / K).
 //' @details
-//' ## Formula:
-//' The function uses the formula in the form of:
-//' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
+//' ## Equation:
+//' The function uses the equation in the form of:
+//' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{Activation\_energy}{k \cdot temperature}}}{parameter = normalization_constant * mass^scaling_exponent * e^(Activation_energy/ (k * temperature))}
 //'
 //' ## Parameter:
 //' Note the different scaling values for different parameter.
@@ -63,6 +63,8 @@ using namespace Rcpp;
 //' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 //' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
 //' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
+//' @seealso
+//' `calculate_normalization_constant()`
 //' @return `<numeric>` The scaled parameter.
 //' @examples
 //' reproduction_rate <- 0.25

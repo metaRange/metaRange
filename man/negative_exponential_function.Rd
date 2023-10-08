@@ -19,7 +19,7 @@ Negative Exponential kernel
 }
 \details{
 The negative exponential kernel is defined as:
-\deqn{f(x) = \frac{1}{2 \pi a^2} e^{-\frac{x}{a}}}
+\deqn{f(x) = \frac{1}{2 \pi a^2} e^{-\frac{x}{a}}}{fx = 1 / (2 * pi * a^2) * exp(-x / a)}
 where \eqn{a} is the mean dispersal distance divided by 2.
 }
 \examples{
