@@ -33,32 +33,36 @@ using namespace Rcpp;
 //' @param E `<numeric>` activation energy in electronvolts (eV).
 //' @param k `<numeric>` Boltzmann's constant (eV / K).
 //' @details
+//' ## Formula:
 //' The function uses the formula in the form of:
 //' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
-//' General notes:
 //'
-//' Reproduction rate is generally assumed to scale with an exponent of `-1/4`
-//' and an activation energy of `-0.65 eV` (important: it's negative).
+//' ## Parameter:
+//' Note the different scaling values for different parameter.
+//' The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+//' (see references).
+//' | Parameter  | Scaling exponent | Activation energy |
+//' | :------------ | :-----------: | -------------------: |
+//' | resource usage | 3/4 | -0.65 |
+//' | reproduction, mortality | -1/4 | -0.65 |
+//' | carrying capacity | -3/4 | 0.65 |
 //'
-//' Carrying capacity is generally assumed to scale with an exponent of `-3/4`
-//' and an activation energy of `0.65 eV` (important: it's positive).
-//' But read: (Brown et. al. 2004; Brown & Sibly, 2012) for an in-depth explanation.
-//'
-//' Units:
+//' ## Units:
 //'
 //' 1 electronvolt = 1.602176634 * 10^-19 Joule
 //'
-//' Boltzmann constant 1.380649 * 10^-23 Joule/Kelvin
+//' Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin
 //'
 //' Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)
 //' @references
-//' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).
-//' Toward a Metabolic Theory of Ecology. Ecology, 85, 1771–1789.
-//' <doi:10.1890/03-9000>
+//' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
+//' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
+//' [doi:10.1890/03-9000](https://doi.org/10.1890/03-9000)
 //'
-//' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
-//' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
-//' <doi:10.1002/9781119968535.ch2>
+//' Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
+//' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
+//' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
+//' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
 //' @return `<numeric>` The scaled parameter.
 //' @examples
 //' reproduction_rate <- 0.25

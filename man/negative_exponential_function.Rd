@@ -26,10 +26,10 @@ where \eqn{a} is the mean dispersal distance divided by 2.
 negative_exponential_function(1, 1)
 }
 \references{
-Nathan, R., Klein, E., Robledo-Arnuncio, J.J. & Revilla, E. (2012)
+Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012)
 Dispersal kernels: review.
-in: Dispersal Ecology and Evolution
-(eds J. Clobert, M. Baguette, T.G. Benton & J.M. Bullock),
-pp. 187–210. (Oxford, 2012; online edn, Oxford Academic, 17 Dec. 2013), UK.
-\url{doi:10.1093/acprof:oso/9780199608898.003.0015}
+in: \emph{Dispersal Ecology and Evolution} pp. 187--210.
+(eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock),
+Oxford, UK: Oxford Academic, 2013.
+\href{https://doi.org/10.1093/acprof:oso/9780199608898.003.0015}{doi:10.1093/acprof:oso/9780199608898.003.0015}
 }

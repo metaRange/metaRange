@@ -12,7 +12,7 @@
 #' @param venv `<numeric>` environmental value for which to calculate the suitability
 #' @return `<numeric>` environmental suitability
 #' @details The environmental suitability is calculated based on a beta distribution
-#' after a formula provided by Yin et al. (1995) and simplified by Yan & Hunt (1999) (see references paragraph)
+#' after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
 #' \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}
 #' @note The original formula by Yin et al. was only intended to calculate
 #' the relative daily growth rate of plants in relation to temperature. The abstraction to
@@ -23,24 +23,24 @@
 #' @references
 #' Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995)
 #' A nonlinear model for crop development as a function of temperature,
-#' Agricultural and Forest Meteorology,
-#' Volume 77, Issues 1–2,
-#' Pages 1-16,
-#' <doi:10.1016/0168-1923(95)02236-Q>
+#' *Agricultural and Forest Meteorology*,
+#' Volume **77**, Issues 1–2,
+#' Pages 1--16,
+#' [doi:10.1016/0168-1923(95)02236-Q](https://doi.org/10.1016/0168-1923(95)02236-Q)
 #'
 #' Also, see equation 4 in:
 #' Weikai Yan, L.A. Hunt, (1999)
 #' An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures,
-#' Annals of Botany,
-#' Volume 84, Issue 5,
-#' Pages 607-614,
-#' ISSN 0305-7364, <doi:10.1006/anbo.1999.0955>
+#' *Annals of Botany*,
+#' Volume **84**, Issue 5,
+#' Pages 607--614,
+#' ISSN 0305-7364, [doi:10.1006/anbo.1999.0955](https://doi.org/10.1006/anbo.1999.0955)
 #' @examples
 #' calculate_suitability(
-#'   vmax = 30,
-#'   vopt = 25,
-#'   vmin = 10,
-#'   venv = 0:40
+#'     vmax = 30,
+#'     vopt = 25,
+#'     vmin = 10,
+#'     venv = 0:40
 #' )
 #' @export
 calculate_suitability <- function(vmax, vopt, vmin, venv) {
@@ -89,32 +89,36 @@ dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
 #' @param E `<numeric>` activation energy in electronvolts (eV).
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
 #' @details
+#' ## Formula:
 #' The function uses the formula in the form of:
 #' \deqn{parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}
-#' General notes:
 #'
-#' Reproduction rate is generally assumed to scale with an exponent of `-1/4`
-#' and an activation energy of `-0.65 eV` (important: it's negative).
+#' ## Parameter:
+#' Note the different scaling values for different parameter.
+#' The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+#' (see references).
+#' | Parameter  | Scaling exponent | Activation energy |
+#' | :------------ | :-----------: | -------------------: |
+#' | resource usage | 3/4 | -0.65 |
+#' | reproduction, mortality | -1/4 | -0.65 |
+#' | carrying capacity | -3/4 | 0.65 |
 #'
-#' Carrying capacity is generally assumed to scale with an exponent of `-3/4`
-#' and an activation energy of `0.65 eV` (important: it's positive).
-#' But read: (Brown et. al. 2004; Brown & Sibly, 2012) for an in-depth explanation.
-#'
-#' Units:
+#' ## Units:
 #'
 #' 1 electronvolt = 1.602176634 * 10^-19 Joule
 #'
-#' Boltzmann constant 1.380649 * 10^-23 Joule/Kelvin
+#' Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin
 #'
 #' Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)
 #' @references
-#' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).
-#' Toward a Metabolic Theory of Ecology. Ecology, 85, 1771–1789.
-#' <doi:10.1890/03-9000>
+#' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
+#' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
+#' [doi:10.1890/03-9000](https://doi.org/10.1890/03-9000)
 #'
-#' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
-#' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
-#' <doi:10.1002/9781119968535.ch2>
+#' Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
+#' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
+#' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
+#' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
 #' @return `<numeric>` The scaled parameter.
 #' @examples
 #' reproduction_rate <- 0.25
@@ -170,24 +174,25 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' @return `<numeric>` vector (or matrix) of abundances.
 #' @examples
 #' ricker_reproduction_model(
-#'   abundance = 10,
-#'   reproduction_rate = 0.25,
-#'   carrying_capacity = 100
+#'     abundance = 10,
+#'     reproduction_rate = 0.25,
+#'     carrying_capacity = 100
 #' )
 #' ricker_reproduction_model(
-#'   abundance = matrix(10, 10, 5),
-#'   reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
-#'   carrying_capacity =  matrix(100, 10, 5)
+#'     abundance = matrix(10, 10, 5),
+#'     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
+#'     carrying_capacity =  matrix(100, 10, 5)
 #' )
-#' @references Cabral, J.S. & Schurr, F.M. (2010) Estimating demographic
-#' models for the range dynamics of plant species.
-#' Global Ecology and Biogeography, 19, 85–97.
-#' <doi:10.1111/j.1466-8238.2009.00492.x>
+#' @references
+#' Cabral, J.S. and Schurr, F.M. (2010)
+#' Estimating demographic models for the range dynamics of plant species.
+#' *Global Ecology and Biogeography*, **19**, 85--97.
+#' [doi:10.1111/j.1466-8238.2009.00492.x](https://doi.org/10.1111/j.1466-8238.2009.00492.x)
 #'
 #' Original model:
 #' Ricker, W.E. (1954) Stock and recruitment.
-#' Journal of the Fisheries Research Board of Canada, 11, 559–623.
-#' <doi:10.1139/f54-039>
+#' *Journal of the Fisheries Research Board of Canada*, **11**, 559--623.
+#' [doi:10.1139/f54-039](https://doi.org/10.1139/f54-039)
 #' @export
 ricker_reproduction_model <- function(abundance, reproduction_rate, carrying_capacity) {
     .Call('_metaRange_ricker_reproduction_model', PACKAGE = 'metaRange', abundance, reproduction_rate, carrying_capacity)

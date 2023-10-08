@@ -5,21 +5,33 @@
 #' Normalization constant calculation
 #'
 #' Calculates the normalization constant for the metabolic scaling
-#' based on a parameter value under the optimal thermal conditions.
+#' based on a known or estimated parameter value under at a reference temperature.
 #'
-#' @param parameter_value `<numeric>` paramter value under the reference temperature.
+#' @param parameter_value `<numeric>` paramter value at the reference temperature.
 #' @param reference_temperature `<numeric>` reference temperature in kelvin (K).
 #' @param E `<numeric>` Activation energy in electronvolts (eV).
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
 #' @param mass `<numeric>`  mean (individual) mass.
 #' @param scaling_exponent `<numeric>` allometric scaling exponent of the mass.
-#' @references
-#' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. & West, G.B. (2004).
-#' Toward a Metabolic Theory of Ecology. Ecology, 85, 1771–1789.
+#' @details
+#' Note the different scaling values for different parameter.
+#' The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+#' (see references).
 #'
-#' Brown, J.H. and Sibly, R.M. (2012). The Metabolic Theory of Ecology and Its Central Equation.
-#' In Metabolic Ecology (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown).
-#' <doi:10.1002/9781119968535.ch2>
+#' | Parameter  | Scaling exponent | Activation energy |
+#' | :------------ | :-----------: | -------------------: |
+#' | resource usage | 3/4 | -0.65 |
+#' | reproduction, mortality | -1/4 | -0.65 |
+#' | carrying capacity | -3/4 | 0.65 |
+#' @references
+#' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
+#' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
+#' [doi:10.1890/03-9000](https://doi.org/10.1890/03-9000)
+#'
+#' Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
+#' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
+#' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
+#' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
 #' @examples
 #' calculate_normalization_constant(
 #'      parameter_value = 1,
@@ -59,17 +71,15 @@ calculate_normalization_constant <- function(
 
 ## Implementation of a dispersal kernel as found in:
 #
-# Nathan, Ran & Klein, Etienne & Robledo-Arnuncio, Juan & Revilla, Eloy.
-#
+# Nathan et al. (2012),
 # 'Dispersal kernels: review',
-#
 # Chapter 15 (Pages 186–210) in Jean Clobert and others (eds),
 # Dispersal Ecology and Evolution (Oxford, 2012; online edn, Oxford Academic, 17 Dec. 2013),
 # https://doi.org/10.1093/acprof:oso/9780199608898.003.0015
 #
 # __________
 # The chapter can also be found on researchgate:
-# Nathan, Ran & Klein, Etienne & Robledo-Anuncio, J.J. & Revilla, Eloy. (2012).
+# Nathan, R., Klein, E., Robledo-Anuncio, J. J., Revilla, E., (2012).
 # Dispersal kernels: review. Chapter 15. Dispersal Ecology and Evolution.
 # https://www.researchgate.net/publication/284654445_Dispersal_kernels_review_Chapter_15
 
@@ -84,12 +94,12 @@ calculate_normalization_constant <- function(
 #' @examples
 #' negative_exponential_function(1, 1)
 #' @references
-#' Nathan, R., Klein, E., Robledo-Arnuncio, J.J. & Revilla, E. (2012)
+#' Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012)
 #' Dispersal kernels: review.
-#' in: Dispersal Ecology and Evolution
-#' (eds J. Clobert, M. Baguette, T.G. Benton & J.M. Bullock),
-#' pp. 187–210. (Oxford, 2012; online edn, Oxford Academic, 17 Dec. 2013), UK.
-#' <doi:10.1093/acprof:oso/9780199608898.003.0015>
+#' in: *Dispersal Ecology and Evolution* pp. 187--210.
+#' (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock),
+#' Oxford, UK: Oxford Academic, 2013.
+#' [doi:10.1093/acprof:oso/9780199608898.003.0015](https://doi.org/10.1093/acprof:oso/9780199608898.003.0015)
 #' @return `<numeric>` The probability at distance x.
 #' @export
 negative_exponential_function <- function(x, mean_dispersal_dist) {

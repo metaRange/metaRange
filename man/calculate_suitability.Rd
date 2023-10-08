@@ -24,7 +24,7 @@ based on a beta distribution, using the three "cardinal" values of the species f
 }
 \details{
 The environmental suitability is calculated based on a beta distribution
-after a formula provided by Yin et al. (1995) and simplified by Yan & Hunt (1999) (see references paragraph)
+after a formula provided by Yin et al. (1995) and simplified by Yan and Hunt (1999) (see references paragraph)
 \deqn{suitability = (\frac{V_{max} - V_{env}}{V_{max} - V_{opt}}) * (\frac{V_{env} - V_{min}}{V_{opt} - V_{min}})^{\frac{V_{opt} - V_{min}}{V_{max} - V_{opt}}}}
 }
 \note{
@@ -37,25 +37,25 @@ decreases towards the tolerable minimum and maximum values in a nonlinear fashio
 }
 \examples{
 calculate_suitability(
-  vmax = 30,
-  vopt = 25,
-  vmin = 10,
-  venv = 0:40
+    vmax = 30,
+    vopt = 25,
+    vmin = 10,
+    venv = 0:40
 )
 }
 \references{
 Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995)
 A nonlinear model for crop development as a function of temperature,
-Agricultural and Forest Meteorology,
-Volume 77, Issues 1–2,
-Pages 1-16,
-\url{doi:10.1016/0168-1923(95)02236-Q}
+\emph{Agricultural and Forest Meteorology},
+Volume \strong{77}, Issues 1–2,
+Pages 1--16,
+\href{https://doi.org/10.1016/0168-1923(95)02236-Q}{doi:10.1016/0168-1923(95)02236-Q}
 
 Also, see equation 4 in:
 Weikai Yan, L.A. Hunt, (1999)
 An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures,
-Annals of Botany,
-Volume 84, Issue 5,
-Pages 607-614,
-ISSN 0305-7364, \url{doi:10.1006/anbo.1999.0955}
+\emph{Annals of Botany},
+Volume \strong{84}, Issue 5,
+Pages 607--614,
+ISSN 0305-7364, \href{https://doi.org/10.1006/anbo.1999.0955}{doi:10.1006/anbo.1999.0955}
 }
