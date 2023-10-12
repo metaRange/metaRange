@@ -151,7 +151,7 @@ testfun <- function(n, simlength, directed, sim_env) {
             process_fun = function() {
                 self$traits[["abundance"]] <- dispersal(
                     abundance = self$traits[["abundance"]],
-                    suitability = self$traits[["suitability"]],
+                    weights = self$traits[["suitability"]],
                     dispersal_kernel = self$traits[["dispersal_kernel"]])
             },
             execution_priority = 4

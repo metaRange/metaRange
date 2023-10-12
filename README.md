@@ -5,7 +5,7 @@
 # metaRange
 ![](man/figures/logo.png)
 
-metaRange is a collection of functions that allow you to build an process based species distribution model that can include (basically) arbitrary number of environmental factors, procecess, species and species interactions. The common denominator for all models build with metaRange is that they are grid and population (i.e. not individual) based.
+metaRange is a collection of functions that allow you to build an process based species distribution model that can include (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid and population (i.e. not individual) based.
 
 _____________________________________________
 
@@ -22,15 +22,15 @@ devtools::install_github("metaRange/metaRange")
 ```
 
 # Overview
-Every simulated species consists of a set of `procecess` or functions that describe it's relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by `traits`, which can be any type of data that can be the basis for or changed by the procecesses. Each species consits of populations, each of which occupies one grid cell of the landscape. The processes of all the species are then executed in each timestep, for each population in the landscape, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time in the sequence/ simulation time step)
+Every simulated species consists of a set of `processes` or functions that describe it's relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by `traits`, which can be any type of data that can be the basis for or changed by the processes. Each species consists of populations, each of which occupies one grid cell of the landscape. The processes of all the species are then executed in each timestep, for each population in the landscape, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time in the sequence/ simulation time step)
 
-A simple example would be a species with the process `reproduction` that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species. This process would therfore most likely influence an `abundance` trait of the species (in form of a grid/ raster with an abundance value for each population). Note that neither `reproduction` nor `abundance` are automatically created but have to be defined by the user.
+A simple example would be a species with the process `reproduction` that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species. This process would therefore most likely influence an `abundance` trait of the species (in form of a grid/ raster with an abundance value for each population). Note that neither `reproduction` nor `abundance` are automatically created but have to be defined by the user.
 
 Note that this model is build using the [R6](https://r6.r-lib.org/) system, which means it feature a syntax that is slightly different than most base R functions. If one is unfamiliar with "classic" object-oriented programming, it might be advisable to read the short intro of the [R6 package](https://r6.r-lib.org/articles/Introduction.html) or even the chapter in [Hadley Wickham's "Advanced R"](https://adv-r.hadley.nz/r6.html).
 
 _____________________________________________
 
-## For developers interrested in changing the package itself:
+## For developers interested in changing the package itself:
 
 Note that this package includes `C++` code. To build it, you need a functioning compiler toolchain ([RTools](https://cran.r-project.org/bin/windows/Rtools/index.html) on windows).
 

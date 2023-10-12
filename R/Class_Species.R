@@ -27,7 +27,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         traits = NULL,
 
         #' @field sim `<[metaRangeSimulation]>` a reference to the simulation object that the species is part of.
-        #' Usefull to acces evironmental data or data of other species.
+        #' Useful to access environmental data or data of other species.
         sim = NULL,
         # ---------- initialization -----------
 
@@ -71,7 +71,4 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
             return(invisible(self))
         }
     )
-
-    # TODO add private deep_clone method to allow speciation
-    # https://r6.r-lib.org/articles/Introduction.html#cloning-objects
 )

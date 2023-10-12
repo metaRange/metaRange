@@ -25,7 +25,7 @@ An implementation of the "classic" Ricker reproduction model (Ricker, 1954).
 \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
 
 Note that the input should have an equal size and that the input abundance
-should be positive for the reulst to make sense.
+should be positive for the results to make sense.
 }
 }
 \examples{

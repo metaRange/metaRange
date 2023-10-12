@@ -47,7 +47,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         environment = NULL,
 
         # ---------- // time ----
-        #' @field  number_time_steps `<integer>` number of timeseps in the simulation.
+        #' @field  number_time_steps `<integer>` number of time steps in the simulation.
         number_time_steps = NULL,
 
         #' @field time_step_layer `<integer>` vector of layer IDs
@@ -125,7 +125,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # ---------- 3.1 low-level setup --------
         #' @description Add global variables to the simulation
         #' @param ... `<atomic>` (see [base::is.atomic()])
-        #' Variables to add to the simulation. They will be saved and accesible
+        #' Variables to add to the simulation. They will be saved and accessible
         #' through the 'globals' field.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
@@ -140,8 +140,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("adding global variables: ")
                 message(str(globals_to_add), appendLF = FALSE)
             }
-            # TODO: prevent user acces?
-            # list2env(globals_to_add, envir = self$globals) #TODO use env?
             self$globals <- c(self$globals, globals_to_add)
             return(invisible(self))
         },
@@ -239,7 +237,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         #' @description Adds a process to the simulation.
         #' @param species `<string>` Name of the species that the process should be added to.
-        #' If `NULL` the process will be added to the simulationn object itself.
+        #' If `NULL` the process will be added to the simulation object itself.
         #' @param process_name `<string>` Name of the process to add.
         #' @param process_fun `<named function>` The function to call when the process gets executed.
         #' @param execution_priority `<positive integer>` When this process should run within each time step.
@@ -396,8 +394,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # TLDR: there is a lot of potential for optimization here
 
         #' @description When called, will end the simulation (prematurely) once the current process is finished.
-        #' Usefull to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
-        #' and there would be no benefit to continue the execution util the last time step.
+        #' Useful to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
+        #' and there would be no benefit to continue the execution until the last time step.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
         #' names(sim_env) <- "env_var_name"
@@ -449,7 +447,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("Process queue is empty. Unable start the simulation.")
                 return(invisible(self))
             }
-            private$validate() # TODO call this every time step?
+            private$validate()
             if (verbosity > 1L) message("passed initial sanity checks.\n")
 
             for (i in private$current_time_step:self$number_time_steps) {
@@ -499,7 +497,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$print()
         #' @return `<invisible self>`
         print = function() {
-            # TODO: pretty print
             cat("metaRangeSimulation object\n")
             print_info <- self$species_names()
             cat("Fields: \n")
@@ -543,7 +540,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$summary()
         #' @return `<invisible self>`
         summary = function() {
-            # TODO: pretty print
             cat("ID:", self$ID, "\n")
             cat("Environment: \n")
             self$environment$print()

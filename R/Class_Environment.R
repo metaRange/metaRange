@@ -6,7 +6,7 @@
 #' @title metaRangeEnvironment object
 #'
 #' @description Creates an [metaRangeEnvironment] object in form of an
-#' [R6][R6::R6Class] class that stores and handles the environmetal
+#' [R6][R6::R6Class] class that stores and handles the environmental
 #' values that influence the species in the simulation.
 #'
 #' @return An `<metaRangeEnvironment>` object

@@ -47,7 +47,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
                 start_time_pr <- Sys.time()
                 message("|- ", pr$get_env_label(), " : ", pr$get_name())
             }
-            # TODO maybe wrap this in a tryCatch block and remove the process from the queue if it fails
+
             pr$fun()
             private$current_index <- private$current_index + 1L
             if (verbose) {
@@ -79,9 +79,9 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
             return(invisible(TRUE))
         },
         #' @description Remove a process from the (future) queue.
-        #' Usefull to remove a process from the queue if it is no longer needed.
+        #' Useful to remove a process from the queue if it is no longer needed.
         #' E.g. if a species went extinct.
-        #' @param PID `<string>` the ID of the procces, that should be deqeued.
+        #' @param PID `<string>` the ID of the process, that should be dequeued.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())

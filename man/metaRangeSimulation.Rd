@@ -153,7 +153,7 @@ sim$summary()
 \item{\code{environment}}{a \verb{<[metaRangeEnvironment]>} that holds all the environmental
 values influencing the simulation.}
 
-\item{\code{number_time_steps}}{\verb{<integer>} number of timeseps in the simulation.}
+\item{\code{number_time_steps}}{\verb{<integer>} number of time steps in the simulation.}
 
 \item{\code{time_step_layer}}{\verb{<integer>} vector of layer IDs
 that describe which environmental layer to use at each time step.}
@@ -241,7 +241,7 @@ Add global variables to the simulation
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}})
-Variables to add to the simulation. They will be saved and accesible
+Variables to add to the simulation. They will be saved and accessible
 through the 'globals' field.}
 }
 \if{html}{\out{</div>}}
@@ -394,7 +394,7 @@ Adds a process to the simulation.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{species}}{\verb{<string>} Name of the species that the process should be added to.
-If \code{NULL} the process will be added to the simulationn object itself.}
+If \code{NULL} the process will be added to the simulation object itself.}
 
 \item{\code{process_name}}{\verb{<string>} Name of the process to add.}
 
@@ -481,8 +481,8 @@ sim$species_1$traits$c
 \if{latex}{\out{\hypertarget{method-metaRangeSimulation-exit}{}}}
 \subsection{Method \code{exit()}}{
 When called, will end the simulation (prematurely) once the current process is finished.
-Usefull to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
-and there would be no benefit to continue the execution util the last time step.
+Useful to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
+and there would be no benefit to continue the execution until the last time step.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$exit()}\if{html}{\out{</div>}}
 }

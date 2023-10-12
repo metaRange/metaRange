@@ -9,7 +9,7 @@ calculate_suitability(vmax, vopt, vmin, venv)
 \arguments{
 \item{vmax}{\verb{<numeric>} upper (i.e. maximum) tolerable value}
 
-\item{vopt}{\verb{<numeric>} optimal (i.e. prefered) value}
+\item{vopt}{\verb{<numeric>} optimal (i.e. preferred) value}
 
 \item{vmin}{\verb{<numeric>} lower (i.e. minimum) tolerable value}
 

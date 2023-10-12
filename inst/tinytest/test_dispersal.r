@@ -13,26 +13,26 @@ res1 <- dispersal(
 res2 <- dispersal(
     dispersal_kernel = kernel,
     abundance = abu,
-    suitability = suitab
+    weights = suitab
 )
 expect_equal(
     sum(res1),
     sum(res2),
     tolerance = 0.001,
-    info = "dispersal with and without suitability redistribution results in the same sum of abundances."
+    info = "dispersal with and without weights redistribution results in the same sum of abundances."
 )
 
 suitab <- matrix(1, nrow = n, ncol = n)
 res2 <- dispersal(
     dispersal_kernel = kernel,
     abundance = abu,
-    suitability = suitab
+    weights = suitab
 )
 expect_equal(
     res1,
     res2,
     tolerance = 0.001,
-    info = "dispersal with a suitability of 1 gives the same result as when calling the function without it."
+    info = "dispersal with a weights of 1 gives the same result as when calling the function without it."
 )
 
 abu <- matrix(0, nrow = n, ncol = n)
