@@ -47,7 +47,7 @@ using namespace arma;
 //' Dispersal function that uses a fixed sized kernel and isn't influenced by
 //' the environmental suitability. The individuals in each cell are redistributed to the
 //' surrounding cells according to probability defined in the dispersal kernel.
-//' Usefull for e.g. wind dispersed plants.
+//' Useful for e.g. wind dispersed plants.
 //'
 //' @param abundance `<numeric matrix>` Values need to be non-negative.
 //' @param dispersal_kernel `<numeric matrix>` Dispersal kernel. Needs to have an odd size.

@@ -7,7 +7,7 @@
 #' based on a beta distribution, using the three "cardinal" values of the species for that environmental niche.
 #'
 #' @param vmax `<numeric>` upper (i.e. maximum) tolerable value
-#' @param vopt `<numeric>` optimal (i.e. prefered) value
+#' @param vopt `<numeric>` optimal (i.e. preferred) value
 #' @param vmin `<numeric>` lower (i.e. minimum) tolerable value
 #' @param venv `<numeric>` environmental value for which to calculate the suitability
 #' @return `<numeric>` environmental suitability
@@ -52,7 +52,7 @@ calculate_suitability <- function(vmax, vopt, vmin, venv) {
 #' Dispersal function that uses a fixed sized kernel and isn't influenced by
 #' the environmental suitability. The individuals in each cell are redistributed to the
 #' surrounding cells according to probability defined in the dispersal kernel.
-#' Usefull for e.g. wind dispersed plants.
+#' Useful for e.g. wind dispersed plants.
 #'
 #' @param abundance `<numeric matrix>` Values need to be non-negative.
 #' @param dispersal_kernel `<numeric matrix>` Dispersal kernel. Needs to have an odd size.
@@ -175,7 +175,7 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
 #'
 #' Note that the input should have an equal size and that the input abundance
-#' should be positive for the reulst to make sense.
+#' should be positive for the results to make sense.
 #' @return `<numeric>` vector (or matrix) of abundances.
 #' @examples
 #' ricker_reproduction_model(

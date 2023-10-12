@@ -24,7 +24,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' @param id `<string>` optional ID of the process.
         #' @param process_fun `<function>` The function to be
         #' called when the process is executed. This function will be executed
-        #' in the specified environment (see arg: env) and has acces to all the
+        #' in the specified environment (see argument: env) and has access to all the
         #' variables in that environment. This function may not have any arguments,
         #' i.e. `is.null(formals(process_fun))` must be `TRUE`.
         #' @param execution_priority `<integer>` the priority of the process.
@@ -34,7 +34,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' by the order of the processes in the queue.
         #' @param env `<environment>` the environment where the process should be executed.
         #' @param env_label `<string>` optional name of the execution environment.
-        #' Just used as a human readeble label for debug purposes.
+        #' Just used as a human readable label for debug purposes.
         #' @examples
         #' # Note: Only for illustration purposes. Use the add_process method of the
         #' # simulation object to add processes to a simulation.

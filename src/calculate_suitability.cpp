@@ -27,7 +27,7 @@ using namespace Rcpp;
 //' based on a beta distribution, using the three "cardinal" values of the species for that environmental niche.
 //'
 //' @param vmax `<numeric>` upper (i.e. maximum) tolerable value
-//' @param vopt `<numeric>` optimal (i.e. prefered) value
+//' @param vopt `<numeric>` optimal (i.e. preferred) value
 //' @param vmin `<numeric>` lower (i.e. minimum) tolerable value
 //' @param venv `<numeric>` environmental value for which to calculate the suitability
 //' @return `<numeric>` environmental suitability
