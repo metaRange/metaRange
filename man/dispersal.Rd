@@ -4,27 +4,28 @@
 \alias{dispersal}
 \title{Dispersal process.}
 \usage{
-dispersal(dispersal_kernel, abundance, suitability)
+dispersal(dispersal_kernel, abundance, weights)
 }
 \arguments{
 \item{dispersal_kernel}{\verb{<matrix>} dispersal kernel.}
 
 \item{abundance}{\verb{<matrix>} abundance matrix.}
 
-\item{suitability}{\verb{<matrix>}  optional suitability matrix \verb{range: 0, 1}.}
+\item{weights}{\verb{<matrix>}  optional weights in form of a matrix
+that has the same dimensions as the abundance and a \verb{range: 0, 1}.}
 }
 \value{
 \verb{<matrix>} Dispersed abundance matrix.
 }
 \description{
-Disperse a (abundance) matrix using a dispersal kernel and optional suitability weights.
+Disperse a (abundance) matrix using a dispersal kernel and optional weights.
 }
 \details{
 The abundance matrix is dispersed using the dispersal kernel.
-If a suitability matrix is supplied, the individuals will redistribute
-within the dispersal kernel according to the suitability matrix.
-This means that individuals will move towards more suitable areas,
-if they can reach them.
+If a matrix of weights is supplied, the individuals will redistribute
+within the dispersal kernel according to the weights.
+This means that individuals will move towards more areas with a higher
+weight, if they can reach them.
 }
 \examples{
 n <- 10
@@ -43,9 +44,7 @@ res1 <- dispersal(
 res2 <- dispersal(
     dispersal_kernel = kernel,
     abundance = abu,
-    suitability = suitab
+    weights = suitab
 )
 stopifnot(sum(res1) - sum(res2) < 0.01)
-# Also, both results should be the same within numirical precision,
-# since the suitability is 1 everywhere.
 }

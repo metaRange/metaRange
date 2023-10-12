@@ -38,15 +38,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // dispersal_fixed_directed
-arma::mat dispersal_fixed_directed(arma::mat abundance, arma::mat suitability, arma::mat dispersal_kernel);
-RcppExport SEXP _metaRange_dispersal_fixed_directed(SEXP abundanceSEXP, SEXP suitabilitySEXP, SEXP dispersal_kernelSEXP) {
+arma::mat dispersal_fixed_directed(arma::mat abundance, arma::mat weights, arma::mat dispersal_kernel);
+RcppExport SEXP _metaRange_dispersal_fixed_directed(SEXP abundanceSEXP, SEXP weightsSEXP, SEXP dispersal_kernelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type abundance(abundanceSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type suitability(suitabilitySEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type weights(weightsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type dispersal_kernel(dispersal_kernelSEXP);
-    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_directed(abundance, suitability, dispersal_kernel));
+    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_directed(abundance, weights, dispersal_kernel));
     return rcpp_result_gen;
 END_RCPP
 }

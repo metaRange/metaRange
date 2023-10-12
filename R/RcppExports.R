@@ -49,8 +49,8 @@ calculate_suitability <- function(vmax, vopt, vmin, venv) {
 
 #' Undirected and fixed sized dispersal
 #'
-#' Dispersal function that uses a fixed sized kernel and isn't influenced by
-#' the environmental suitability. The individuals in each cell are redistributed to the
+#' Dispersal function that uses a fixed sized kernel that isn't influenced by
+#' external factors. The individuals in each cell are redistributed to the
 #' surrounding cells according to probability defined in the dispersal kernel.
 #' Useful for e.g. wind dispersed plants.
 #'
@@ -64,17 +64,17 @@ dispersal_fixed_undirected <- function(abundance, dispersal_kernel) {
 
 #' Directed and fixed sized dispersal
 #'
-#' Dispersal function that uses a fixed sized kernel and directed dispersal towards suitable areas.
-#' Suitable for e.g. animals that can sense their surroundings.
+#' Dispersal function that uses a fixed sized kernel and directed dispersal towards areas that have a higher weight.
+#' Use case are e.g. animals that can sense their surroundings.
 #'
 #' @param abundance `<numeric matrix>` Values need to be non-negative.
-#' @param suitability `<numeric matrix>` Values need to non-missing and between 0 and 1 for the result to make sense.
+#' @param weights `<numeric matrix>` Values need to non-missing and between 0 and 1 for the result to make sense.
 #' Needs to have same size as abundance.
 #' @param dispersal_kernel `<numeric matrix>` Dispersal kernel. Needs to have an odd size.
 #' @return `<numeric matrix>` The new abundance matrix.
 #' @keywords internal
-dispersal_fixed_directed <- function(abundance, suitability, dispersal_kernel) {
-    .Call('_metaRange_dispersal_fixed_directed', PACKAGE = 'metaRange', abundance, suitability, dispersal_kernel)
+dispersal_fixed_directed <- function(abundance, weights, dispersal_kernel) {
+    .Call('_metaRange_dispersal_fixed_directed', PACKAGE = 'metaRange', abundance, weights, dispersal_kernel)
 }
 
 #' Metabolic scaling

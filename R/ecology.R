@@ -144,16 +144,17 @@ calculate_dispersal_kernel <- function(
 
 #' Dispersal process.
 #'
-#' Disperse a (abundance) matrix using a dispersal kernel and optional suitability weights.
+#' Disperse a (abundance) matrix using a dispersal kernel and optional weights.
 #' @param dispersal_kernel `<matrix>` dispersal kernel.
 #' @param abundance `<matrix>` abundance matrix.
-#' @param suitability `<matrix>`  optional suitability matrix `range: 0, 1`.
+#' @param weights `<matrix>`  optional weights in form of a matrix
+#' that has the same dimensions as the abundance and a `range: 0, 1`.
 #' @details
 #' The abundance matrix is dispersed using the dispersal kernel.
-#' If a suitability matrix is supplied, the individuals will redistribute
-#' within the dispersal kernel according to the suitability matrix.
-#' This means that individuals will move towards more suitable areas,
-#' if they can reach them.
+#' If a matrix of weights is supplied, the individuals will redistribute
+#' within the dispersal kernel according to the weights.
+#' This means that individuals will move towards more areas with a higher
+#' weight, if they can reach them.
 #' @examples
 #' n <- 10
 #' n2 <- n^2
@@ -171,24 +172,22 @@ calculate_dispersal_kernel <- function(
 #' res2 <- dispersal(
 #'     dispersal_kernel = kernel,
 #'     abundance = abu,
-#'     suitability = suitab
+#'     weights = suitab
 #' )
 #' stopifnot(sum(res1) - sum(res2) < 0.01)
-#' # Also, both results should be the same within numirical precision,
-#' # since the suitability is 1 everywhere.
 #' @return `<matrix>` Dispersed abundance matrix.
 #' @export
 dispersal <- function(
     dispersal_kernel,
     abundance,
-    suitability) {
+    weights) {
     if (missing(dispersal_kernel)) {
         stop("No dispersal kernel supplied.")
     }
     if (missing(abundance)) {
         stop("No abundance matrix supplied.")
     }
-    if (missing(suitability)) {
+    if (missing(weights)) {
         return(dispersal_fixed_undirected(
             dispersal_kernel = dispersal_kernel,
             abundance = abundance
@@ -197,7 +196,7 @@ dispersal <- function(
         return(dispersal_fixed_directed(
             dispersal_kernel = dispersal_kernel,
             abundance = abundance,
-            suitability = suitability
+            weights = weights
         ))
     }
 }

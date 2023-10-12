@@ -15,8 +15,8 @@ dispersal_fixed_undirected(abundance, dispersal_kernel)
 \verb{<numeric matrix>} The new abundance matrix.
 }
 \description{
-Dispersal function that uses a fixed sized kernel and isn't influenced by
-the environmental suitability. The individuals in each cell are redistributed to the
+Dispersal function that uses a fixed sized kernel that isn't influenced by
+external factors. The individuals in each cell are redistributed to the
 surrounding cells according to probability defined in the dispersal kernel.
 Useful for e.g. wind dispersed plants.
 }

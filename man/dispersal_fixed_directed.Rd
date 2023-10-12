@@ -4,12 +4,12 @@
 \alias{dispersal_fixed_directed}
 \title{Directed and fixed sized dispersal}
 \usage{
-dispersal_fixed_directed(abundance, suitability, dispersal_kernel)
+dispersal_fixed_directed(abundance, weights, dispersal_kernel)
 }
 \arguments{
 \item{abundance}{\verb{<numeric matrix>} Values need to be non-negative.}
 
-\item{suitability}{\verb{<numeric matrix>} Values need to non-missing and between 0 and 1 for the result to make sense.
+\item{weights}{\verb{<numeric matrix>} Values need to non-missing and between 0 and 1 for the result to make sense.
 Needs to have same size as abundance.}
 
 \item{dispersal_kernel}{\verb{<numeric matrix>} Dispersal kernel. Needs to have an odd size.}
@@ -18,7 +18,7 @@ Needs to have same size as abundance.}
 \verb{<numeric matrix>} The new abundance matrix.
 }
 \description{
-Dispersal function that uses a fixed sized kernel and directed dispersal towards suitable areas.
-Suitable for e.g. animals that can sense their surroundings.
+Dispersal function that uses a fixed sized kernel and directed dispersal towards areas that have a higher weight.
+Use case are e.g. animals that can sense their surroundings.
 }
 \keyword{internal}
