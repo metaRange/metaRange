@@ -15,7 +15,7 @@
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
-    calculation of the envionmental suitability based on cardinal values (
+    calculation of the environmental suitability based on cardinal values (
     Yin et al. (1995) &lt;doi:10.1016/0168-1923(95)02236-Q&gt;, simplified by
     Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in form of an
     Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
@@ -46,7 +46,7 @@
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
-    calculation of the envionmental suitability based on cardinal values (
+    calculation of the environmental suitability based on cardinal values (
     Yin et al. (1995) &lt;doi:10.1016/0168-1923(95)02236-Q&gt;, simplified by
     Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in form of an
     Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
@@ -110,7 +110,7 @@
 </h1>
 </div>
 <p><img src="reference/figures/logo.png"></p>
-<p>metaRange is a collection of functions that allow you to build an process based species distribution model that can include (basically) arbitrary number of environmental factors, procecess, species and species interactions. The common denominator for all models build with metaRange is that they are grid and population (i.e. not individual) based.</p>
+<p>metaRange is a collection of functions that allow you to build an process based species distribution model that can include (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid and population (i.e. not individual) based.</p>
 <hr>
 <div class="section level2">
 <h2 id="for-users">For users:<a class="anchor" aria-label="anchor" href="#for-users"></a>
@@ -127,12 +127,12 @@
 <div class="section level1">
 <h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h1>
-<p>Every simulated species consists of a set of <code>procecess</code> or functions that describe it’s relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by <code>traits</code>, which can be any type of data that can be the basis for or changed by the procecesses. Each species consits of populations, each of which occupies one grid cell of the landscape. The processes of all the species are then executed in each timestep, for each population in the landscape, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time in the sequence/ simulation time step)</p>
-<p>A simple example would be a species with the process <code>reproduction</code> that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species. This process would therfore most likely influence an <code>abundance</code> trait of the species (in form of a grid/ raster with an abundance value for each population). Note that neither <code>reproduction</code> nor <code>abundance</code> are automatically created but have to be defined by the user.</p>
+<p>Every simulated species consists of a set of <code>processes</code> or functions that describe it’s relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by <code>traits</code>, which can be any type of data that can be the basis for or changed by the processes. Each species consists of populations, each of which occupies one grid cell of the landscape. The processes of all the species are then executed in each timestep, for each population in the landscape, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time in the sequence/ simulation time step)</p>
+<p>A simple example would be a species with the process <code>reproduction</code> that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species. This process would therefore most likely influence an <code>abundance</code> trait of the species (in form of a grid/ raster with an abundance value for each population). Note that neither <code>reproduction</code> nor <code>abundance</code> are automatically created but have to be defined by the user.</p>
 <p>Note that this model is build using the <a href="https://r6.r-lib.org/" class="external-link">R6</a> system, which means it feature a syntax that is slightly different than most base R functions. If one is unfamiliar with “classic” object-oriented programming, it might be advisable to read the short intro of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6 package</a> or even the chapter in <a href="https://adv-r.hadley.nz/r6.html" class="external-link">Hadley Wickham’s “Advanced R”</a>.</p>
 <hr>
 <div class="section level2">
-<h2 id="for-developers-interrested-in-changing-the-package-itself">For developers interrested in changing the package itself:<a class="anchor" aria-label="anchor" href="#for-developers-interrested-in-changing-the-package-itself"></a>
+<h2 id="for-developers-interested-in-changing-the-package-itself">For developers interested in changing the package itself:<a class="anchor" aria-label="anchor" href="#for-developers-interested-in-changing-the-package-itself"></a>
 </h2>
 <p>Note that this package includes <code>C++</code> code. To build it, you need a functioning compiler toolchain (<a href="https://cran.r-project.org/bin/windows/Rtools/index.html" class="external-link">RTools</a> on windows).</p>
 <p>A quick workflow to make sure nothing breaks when making changes:</p>

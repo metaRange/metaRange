@@ -78,7 +78,7 @@ values influencing the simulation.</p></dd>
 
 
 <dt><code>number_time_steps</code></dt>
-<dd><p><code>&lt;integer&gt;</code> number of timeseps in the simulation.</p></dd>
+<dd><p><code>&lt;integer&gt;</code> number of time steps in the simulation.</p></dd>
 
 
 <dt><code>time_step_layer</code></dt>
@@ -177,7 +177,7 @@ Will be set automatically if none is specified.</p></dd>
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p><code>&lt;atomic&gt;</code> (see <code><a href="https://rdrr.io/r/base/is.recursive.html" class="external-link">base::is.atomic()</a></code>)
-Variables to add to the simulation. They will be saved and accesible
+Variables to add to the simulation. They will be saved and accessible
 through the 'globals' field.</p></dd>
 
 
@@ -313,7 +313,7 @@ that describe which environmental layer to use at each time step.</p></dd>
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>species</code></dt>
 <dd><p><code>&lt;string&gt;</code> Name of the species that the process should be added to.
-If <code>NULL</code> the process will be added to the simulationn object itself.</p></dd>
+If <code>NULL</code> the process will be added to the simulation object itself.</p></dd>
 
 
 <dt><code>process_name</code></dt>
@@ -406,8 +406,8 @@ If <code>FALSE</code> the traits will be added without any conversion and may ha
 </div><p></p><hr><a id="method-metaRangeSimulation-exit"></a><div class="section">
 <h3 id="method-exit-">Method <code>exit()</code><a class="anchor" aria-label="anchor" href="#method-exit-"></a></h3>
 <p>When called, will end the simulation (prematurely) once the current process is finished.
-Usefull to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
-and there would be no benefit to continue the execution util the last time step.</p><div class="section">
+Useful to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
+and there would be no benefit to continue the execution until the last time step.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">metaRangeSimulation</span><span class="op">$</span><span class="fu">exit</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -599,19 +599,19 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_process_1"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_1"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">species_process_1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  species_process_1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1581a45e1-species_process_1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-12d0ebe1-species_process_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  species_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_1")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000014a137ab730&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000019299c23158&gt;</span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, <span class="st">"global_process_2"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_2"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process_2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  global_process_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-24c57ff02-global_process_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-2e8e6a52-global_process_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_b1821f </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_14a9f99 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_2")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000014a136f57d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000019299b6cfc8&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeSimulation$add_traits`</span></span></span>
@@ -707,7 +707,7 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">metaRangeSimulation</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>source_environment <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">summary</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_21f2521 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_2d56f93 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Environment: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRasterDataset </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> subdatasets : 1 </span>
@@ -719,7 +719,7 @@ it to the console</p><div class="section">
 <span class="r-out co"><span class="r-pr">#&gt;</span> source(s)   : memory </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time step layer mapping:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Current time step:  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  808 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  593 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Species:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Queue:</span>
