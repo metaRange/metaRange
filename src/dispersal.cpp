@@ -164,9 +164,6 @@ arma::mat dispersal_fixed_directed(
             if (abundance(rowid, colid) <= 0) {
                 continue;
             }
-            // the following check prevents NaNs due to division by zero
-            // from floating point imprecision (accu(small_numers) == 0)
-            // TODO: Should this configurable?
             if (suitability(rowid, colid) <= 0) {
                 continue;
             }

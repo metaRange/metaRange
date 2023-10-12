@@ -49,7 +49,6 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' )
         #' pr
         #' @return A `<[metaRangeProcess]>` object.
-        # TODO: @param onError `<function>` The function to be called if the process fails.?
         initialize = function(process_name, id = "", process_fun, execution_priority, env, env_label = NULL) {
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
             checkmate::assert_string(x = id, min.chars = 0, max.chars = 64)

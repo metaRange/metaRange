@@ -71,7 +71,4 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
             return(invisible(self))
         }
     )
-
-    # TODO add private deep_clone method to allow speciation
-    # https://r6.r-lib.org/articles/Introduction.html#cloning-objects
 )

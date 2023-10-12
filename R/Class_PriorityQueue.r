@@ -47,7 +47,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
                 start_time_pr <- Sys.time()
                 message("|- ", pr$get_env_label(), " : ", pr$get_name())
             }
-            # TODO maybe wrap this in a tryCatch block and remove the process from the queue if it fails
+
             pr$fun()
             private$current_index <- private$current_index + 1L
             if (verbose) {

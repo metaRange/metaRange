@@ -140,8 +140,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("adding global variables: ")
                 message(str(globals_to_add), appendLF = FALSE)
             }
-            # TODO: prevent user access?
-            # list2env(globals_to_add, envir = self$globals) #TODO use env?
             self$globals <- c(self$globals, globals_to_add)
             return(invisible(self))
         },
@@ -449,7 +447,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("Process queue is empty. Unable start the simulation.")
                 return(invisible(self))
             }
-            private$validate() # TODO call this every time step?
+            private$validate()
             if (verbosity > 1L) message("passed initial sanity checks.\n")
 
             for (i in private$current_time_step:self$number_time_steps) {
@@ -499,7 +497,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$print()
         #' @return `<invisible self>`
         print = function() {
-            # TODO: pretty print
             cat("metaRangeSimulation object\n")
             print_info <- self$species_names()
             cat("Fields: \n")
@@ -543,7 +540,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim$summary()
         #' @return `<invisible self>`
         summary = function() {
-            # TODO: pretty print
             cat("ID:", self$ID, "\n")
             cat("Environment: \n")
             self$environment$print()
