@@ -36,11 +36,11 @@
 #' `metabolic_scaling()`
 #' @examples
 #' calculate_normalization_constant(
-#'      parameter_value = 1,
-#'      scaling_exponent = -1 / 4,
-#'      mass = 1,
-#'      reference_temperature = 273.15,
-#'      E = -0.65
+#'     parameter_value = 1,
+#'     scaling_exponent = -1 / 4,
+#'     mass = 1,
+#'     reference_temperature = 273.15,
+#'     E = -0.65
 #' )
 #' @return The calculated normalization constant.
 #' @export
