@@ -111,7 +111,7 @@ Creates a new \link{metaRangeProcess} object
 
 \item{\code{process_fun}}{\verb{<function>} The function to be
 called when the process is executed. This function will be executed
-in the specified environment (see arg: env) and has acces to all the
+in the specified environment (see argument: env) and has access to all the
 variables in that environment. This function may not have any arguments,
 i.e. \code{is.null(formals(process_fun))} must be \code{TRUE}.}
 
@@ -124,7 +124,7 @@ by the order of the processes in the queue.}
 \item{\code{env}}{\verb{<environment>} the environment where the process should be executed.}
 
 \item{\code{env_label}}{\verb{<string>} optional name of the execution environment.
-Just used as a human readeble label for debug purposes.}
+Just used as a human readable label for debug purposes.}
 }
 \if{html}{\out{</div>}}
 }

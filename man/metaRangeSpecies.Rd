@@ -37,7 +37,7 @@ with the environment, itself and other species.}
 \item{\code{traits}}{\verb{<list>} the traits of the species.}
 
 \item{\code{sim}}{\verb{<[metaRangeSimulation]>} a reference to the simulation object that the species is part of.
-Usefull to acces evironmental data or data of other species.}
+Useful to access environmental data or data of other species.}
 }
 \if{html}{\out{</div>}}
 }

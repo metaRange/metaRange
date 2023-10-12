@@ -14,7 +14,7 @@ calculate_normalization_constant(
 )
 }
 \arguments{
-\item{parameter_value}{\verb{<numeric>} paramter value at the reference temperature.}
+\item{parameter_value}{\verb{<numeric>} parameter value at the reference temperature.}
 
 \item{scaling_exponent}{\verb{<numeric>} allometric scaling exponent of the mass.}
 

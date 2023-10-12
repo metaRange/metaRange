@@ -8,7 +8,7 @@ An \verb{<metaRangeEnvironment>} object
 }
 \description{
 Creates an \link{metaRangeEnvironment} object in form of an
-\link[R6:R6Class]{R6} class that stores and handles the environmetal
+\link[R6:R6Class]{R6} class that stores and handles the environmental
 values that influence the species in the simulation.
 }
 \examples{

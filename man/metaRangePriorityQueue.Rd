@@ -225,7 +225,7 @@ pr_queue$get_future_queue()
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-dequeue}{}}}
 \subsection{Method \code{dequeue()}}{
 Remove a process from the (future) queue.
-Usefull to remove a process from the queue if it is no longer needed.
+Useful to remove a process from the queue if it is no longer needed.
 E.g. if a species went extinct.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$dequeue(PID = NULL)}\if{html}{\out{</div>}}
@@ -234,7 +234,7 @@ E.g. if a species went extinct.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{PID}}{\verb{<string>} the ID of the procces, that should be deqeued.}
+\item{\code{PID}}{\verb{<string>} the ID of the process, that should be dequeued.}
 }
 \if{html}{\out{</div>}}
 }
