@@ -142,7 +142,7 @@ calculate_dispersal_kernel <- function(
     dispersal_kernel / sum(dispersal_kernel)
 }
 
-#' Dispersal process.
+#' Dispersal process
 #'
 #' Disperse a (abundance) matrix using a dispersal kernel and optional weights.
 #' @param dispersal_kernel `<matrix>` dispersal kernel.
