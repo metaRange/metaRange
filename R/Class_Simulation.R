@@ -377,21 +377,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
 
         # ---------- 3.3 simulation -------------
-        #
-        # some general thought on futures optimizations:
-        # processes that have the same priority can/ should be able to be executed in parallel
-        # as they are by definition not sequential (using the parallel or future packages)
-        #
-        # there might also be the possibility to do some paralell processing within the processes
-        # themselves (at the c++ level).
-        # Ref: https://doi.org/10.1002/wics.1515
-        # "Parallel computing with R: A brief review"
-        # Edelbuettel (2020)
-        #
-        # another possible option would be to use subprocesses / callr to do the
-        # loading/ matrix conversion of the environment or the saving in an async worker thread
-        #
-        # TLDR: there is a lot of potential for optimization here
 
         #' @description When called, will end the simulation (prematurely) once the current process is finished.
         #' Useful to e.g. end the simulation safely (i.e. without an error) when no species is alive anymore
