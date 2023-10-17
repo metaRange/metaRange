@@ -52,10 +52,9 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         initialize = function(process_name, id = "", process_fun, execution_priority, env, env_label = NULL) {
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
             checkmate::assert_string(x = id, min.chars = 0, max.chars = 64)
-            checkmate::assert_function(x = process_fun)
+            checkmate::assert_function(x = process_fun, args = character(0))
             execution_priority <- checkmate::assert_int(x = execution_priority, lower = 1, coerce = TRUE)
             checkmate::assert_environment(x = env)
-            checkmate::assert_null(formals(process_fun))
             checkmate::assert_string(x = env_label, min.chars = 0, max.chars = 64, null.ok = TRUE)
             private$name <- process_name
             self$fun <- process_fun
