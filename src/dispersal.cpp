@@ -1,8 +1,4 @@
-
-// dispersal_fixed_directed.cpp: c++ implementation of an kernel based
-// directed dispersal function
-//
-// Copyright (C) 2023 Stefan Fallert
+// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -16,11 +12,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with metaRange.  If not, see <http://www.gnu.org/licenses/>.
+// along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 //
 // This file incorporates work covered by the following copyright and license:
 //
-// Copyright (c) 2018-2023 Tyler Morgan-Wall <tylermw@gmail.com>
+// Copyright (C) Tyler Morgan-Wall
 // License: GPL-3
 //
 // Explanation:

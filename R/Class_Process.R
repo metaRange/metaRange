@@ -1,6 +1,18 @@
-# Author: Stefan Fallert
-# Date: 26.02.2023
-# License: GPL-3 (See License.md)
+# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+#
+# This file is part of metaRange.
+#
+# metaRange is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# metaRange is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 
 #' @title metaRangeProcess object
 #'

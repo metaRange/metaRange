@@ -22,16 +22,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stefan Fallert \email{stefan.fallert@stud-mail.uni-wuerzburg.de} (\href{https://orcid.org/0000-0002-9939-4219}{ORCID})
+\strong{Maintainer}: Stefan Fallert \email{stefan.fallert@stud-mail.uni-wuerzburg.de} (\href{https://orcid.org/0000-0002-9939-4219}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Lea Li \email{lea.li@stud-mail.uni-wuerzburg.de}
-  \item Juliano S. Cabral \email{j.sarmentocabral@bham.ac.uk} (\href{https://orcid.org/0000-0002-0116-220X}{ORCID})
+  \item Lea Li (Contributed the first implementation of the metabolic scaling) [copyright holder]
+  \item Juliano S. Cabral \email{j.sarmentocabral@bham.ac.uk} (\href{https://orcid.org/0000-0002-0116-220X}{ORCID}) [copyright holder, thesis advisor]
 }
 
 Other contributors:
 \itemize{
+  \item Tyler Morgan-Wall (\href{https://orcid.org/0000-0002-3131-3814}{ORCID}) [contributor, copyright holder]
   \item Bavarian Ministry of Science and Arts (bayklif) [funder]
   \item Deutsche Bundesstiftung Umwelt (DBU) [funder]
 }
