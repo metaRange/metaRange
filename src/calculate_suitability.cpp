@@ -1,8 +1,4 @@
-
-// metabolic_scaling.cpp: c++ implementation of the metabolic scaling
-// as descibed in the metabolic theory of ecology (Brown et al. 2004)
-//
-// Copyright (C) 2023  Stefan Fallert
+// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -16,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with metaRange.  If not, see <http://www.gnu.org/licenses/>.
+// along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 
 #include <Rcpp.h>
 using namespace Rcpp;
