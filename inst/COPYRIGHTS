@@ -17,7 +17,7 @@ source projects:
   https://coolbutuseless.github.io/2021/02/19/modifying-r6-objects-after-creation/
   License: MIT
   Copyright: mikefc@coolbutuseless.com
-  (See top of the file 'Class_Species.R' for the full notice.)
+  (See top of the file 'Class_Simulation.R' for the full notice.)
 
 * metaRange uses and links to the R package "Rcpp"
   License: GPL (>= 2)
