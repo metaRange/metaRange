@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://metaRange.github.io/404.html</loc>
+    <loc>https://metaRange.github.io/metaRange/404.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/authors.html</loc>
+    <loc>https://metaRange.github.io/metaRange/authors.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/index.html</loc>
+    <loc>https://metaRange.github.io/metaRange/index.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/LICENSE.html</loc>
+    <loc>https://metaRange.github.io/metaRange/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/news/index.html</loc>
+    <loc>https://metaRange.github.io/metaRange/news/index.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/calculate_dispersal_kernel.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/calculate_dispersal_kernel.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/calculate_normalization_constant.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/calculate_normalization_constant.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/calculate_suitability.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/calculate_suitability.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/create_simulation.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/create_simulation.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/dispersal.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/dispersal.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/dispersal_fixed_directed.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/dispersal_fixed_directed.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/dispersal_fixed_undirected.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/dispersal_fixed_undirected.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/index.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metabolic_scaling.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metabolic_scaling.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRange-package.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRange-package.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRangeEnvironment.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRangeEnvironment.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRangePriorityQueue.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRangePriorityQueue.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRangeProcess.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRangeProcess.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRangeSimulation.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRangeSimulation.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/metaRangeSpecies.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/metaRangeSpecies.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/negative_exponential_function.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/negative_exponential_function.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/plot.metaRangeEnvironment.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/plot.metaRangeEnvironment.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/plot.metaRangeSimulation.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/plot.metaRangeSimulation.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/plot.metaRangeSpecies.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/plot.metaRangeSpecies.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/ricker_reproduction_model.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/ricker_reproduction_model.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/save_species.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/save_species.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/set_verbosity.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/set_verbosity.html</loc>
   </url>
   <url>
-    <loc>https://metaRange.github.io/reference/summary.metaRangeSimulation.html</loc>
+    <loc>https://metaRange.github.io/metaRange/reference/summary.metaRangeSimulation.html</loc>
   </url>
 </urlset>
