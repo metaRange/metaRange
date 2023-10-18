@@ -1,6 +1,18 @@
-# Author: Stefan Fallert
-# Date: 26.02.2023
-# License: GPL-3 (See License.md)
+# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+#
+# This file is part of metaRange.
+#
+# metaRange is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# metaRange is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 
 #' @title metaRangeProcess object
 #'
@@ -52,10 +64,9 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         initialize = function(process_name, id = "", process_fun, execution_priority, env, env_label = NULL) {
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
             checkmate::assert_string(x = id, min.chars = 0, max.chars = 64)
-            checkmate::assert_function(x = process_fun)
+            checkmate::assert_function(x = process_fun, args = character(0))
             execution_priority <- checkmate::assert_int(x = execution_priority, lower = 1, coerce = TRUE)
             checkmate::assert_environment(x = env)
-            checkmate::assert_null(formals(process_fun))
             checkmate::assert_string(x = env_label, min.chars = 0, max.chars = 64, null.ok = TRUE)
             private$name <- process_name
             self$fun <- process_fun

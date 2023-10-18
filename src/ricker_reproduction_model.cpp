@@ -1,7 +1,4 @@
-
-// ricker_reproduction_model.cpp: c++ implementation of a ricker reproduction model
-//
-// Copyright (C) 2023  Stefan Fallert
+// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -15,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with metaRange.  If not, see <http://www.gnu.org/licenses/>.
+// along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 
 #include <Rcpp.h>
 using namespace Rcpp;
