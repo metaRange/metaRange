@@ -2,7 +2,7 @@
 % Please edit documentation in R/ecology.R
 \name{dispersal}
 \alias{dispersal}
-\title{Dispersal process.}
+\title{Dispersal process}
 \usage{
 dispersal(dispersal_kernel, abundance, weights)
 }
