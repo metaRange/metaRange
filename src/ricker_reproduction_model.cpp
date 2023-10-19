@@ -46,12 +46,12 @@ using namespace Rcpp;
 //' Cabral, J.S. and Schurr, F.M. (2010)
 //' Estimating demographic models for the range dynamics of plant species.
 //' *Global Ecology and Biogeography*, **19**, 85--97.
-//' [doi:10.1111/j.1466-8238.2009.00492.x](https://doi.org/10.1111/j.1466-8238.2009.00492.x)
+//' \doi{10.1111/j.1466-8238.2009.00492.x}
 //'
 //' Original model:
 //' Ricker, W.E. (1954) Stock and recruitment.
 //' *Journal of the Fisheries Research Board of Canada*, **11**, 559--623.
-//' [doi:10.1139/f54-039](https://doi.org/10.1139/f54-039)
+//' \doi{10.1139/f54-039}
 //' @export
 // [[Rcpp::export]]
 NumericVector ricker_reproduction_model(

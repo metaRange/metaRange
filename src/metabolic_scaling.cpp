@@ -45,20 +45,20 @@ using namespace Rcpp;
 //'
 //' ## Units:
 //'
-//' 1 electronvolt = 1.602176634 * 10^-19 Joule
+//' \deqn{1 electronvolt = 1.602176634 \cdot 10^{-19} Joule}{1 electronvolt = 1.602176634 * 10^-19 Joule}
 //'
-//' Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin
+//' \deqn{Boltzmann constant = 1.380649 \cdot 10^{-23} \frac{Joule}{Kelvin}}{Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin}
 //'
-//' Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)
+//' \deqn{Boltzmann constant in \frac{eV}{K} = 8.617333e-05 = \frac{1.380649 \cdot 10^{-23}}{1.602176634 \cdot 10^{-19}}}{Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)}
 //' @references
 //' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
 //' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
-//' [doi:10.1890/03-9000](https://doi.org/10.1890/03-9000)
+//' \doi{10.1890/03-9000}
 //'
 //' Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
 //' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 //' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
-//' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
+//' \doi{10.1002/9781119968535.ch}
 //' @seealso
 //' `calculate_normalization_constant()`
 //' @return `<numeric>` The scaled parameter.

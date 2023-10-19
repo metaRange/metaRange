@@ -44,10 +44,10 @@ ricker_reproduction_model(
 Cabral, J.S. and Schurr, F.M. (2010)
 Estimating demographic models for the range dynamics of plant species.
 \emph{Global Ecology and Biogeography}, \strong{19}, 85--97.
-\href{https://doi.org/10.1111/j.1466-8238.2009.00492.x}{doi:10.1111/j.1466-8238.2009.00492.x}
+\doi{10.1111/j.1466-8238.2009.00492.x}
 
 Original model:
 Ricker, W.E. (1954) Stock and recruitment.
 \emph{Journal of the Fisheries Research Board of Canada}, \strong{11}, 559--623.
-\href{https://doi.org/10.1139/f54-039}{doi:10.1139/f54-039}
+\doi{10.1139/f54-039}
 }
