@@ -51,7 +51,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_dispersal_kernel</span><span class="op">(</span><span class="va">max_dispersal_dist</span>, <span class="va">kfun</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_dispersal_kernel</span><span class="op">(</span><span class="va">max_dispersal_dist</span>, <span class="va">kfun</span>, normalize <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,8 +62,13 @@
 
 <dt>kfun</dt>
 <dd><p><code>&lt;function&gt;</code> the kernel function to use. Can be user-defined,
-in which case it needs to accept (at least) the parameter
-"x" representing the distance from the source as its input and return a probability.</p></dd>
+in which case it needs to vectorized and accept (at least) the parameter
+"x" representing the distance from the source as its input and return a
+vector of the same size as <code>max_dispersal_dist</code>.</p></dd>
+
+
+<dt>normalize</dt>
+<dd><p><code>&lt;boolean&gt;</code> whether to normalize the kernel.</p></dd>
 
 
 <dt>...</dt>
@@ -79,7 +84,20 @@ in which case it needs to accept (at least) the parameter
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">calculate_dispersal_kernel</span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a very simple uniform kernel</span></span></span>
+<span class="r-in"><span><span class="va">uniform_kernel</span> <span class="op">&lt;-</span> <span class="fu">calculate_dispersal_kernel</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    max_dispersal_dist <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>    kfun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">*</span> <span class="fl">0</span> <span class="op">+</span> <span class="fl">1</span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># same as</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">uniform_kernel</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">49</span>, nrow <span class="op">=</span> <span class="fl">7</span>, ncol <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># now a negative exponential kernel</span></span></span>
+<span class="r-in"><span><span class="co"># not that `mean_dispersal_dist`</span></span></span>
+<span class="r-in"><span><span class="co"># is passed to the kernel function.</span></span></span>
+<span class="r-in"><span><span class="fu">calculate_dispersal_kernel</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    max_dispersal_dist <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>    kfun <span class="op">=</span> <span class="va">negative_exponential_function</span>,</span></span>
 <span class="r-in"><span>    mean_dispersal_dist <span class="op">=</span> <span class="fl">1</span></span></span>

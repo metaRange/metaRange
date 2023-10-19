@@ -109,6 +109,12 @@ Ricker, W.E. (1954) Stock and recruitment.
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12.52323</span>
 <span class="r-in"><span><span class="fu">ricker_reproduction_model</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    reproduction_rate <span class="op">=</span>  <span class="fl">0.25</span>,</span></span>
+<span class="r-in"><span>    carrying_capacity <span class="op">=</span>  <span class="fl">100</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> The sizes of abundance, reproduction_rate and carrying_capacity are not equal.</span>
+<span class="r-in"><span><span class="fu">ricker_reproduction_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    reproduction_rate <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, length.out <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    carrying_capacity <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
