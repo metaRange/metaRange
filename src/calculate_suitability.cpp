@@ -58,27 +58,76 @@ using namespace Rcpp;
 //'     vmin = 10,
 //'     venv = 0:40
 //' )
+//' calculate_suitability(
+//'     vmax = seq(30, 32, length.out = 40),
+//'     vopt = seq(20, 23, length.out = 40),
+//'     vmin = seq(9, 11, length.out = 40),
+//'     venv = 0:40
+//' )
+//'
+//' try(calculate_suitability(
+//'     vmax = 1,
+//'     vopt = seq(20, 23, length.out = 40),
+//'     vmin = seq(9, 11, length.out = 40),
+//'     venv = 0:40
+//' ))
 //' @export
 // [[Rcpp::export]]
 NumericVector calculate_suitability(
-        double vmax,
-        double vopt,
-        double vmin,
+        NumericVector vmax,
+        NumericVector vopt,
+        NumericVector vmin,
         NumericVector venv) {
-    if (vmax < vopt || vopt < vmin) {
-        stop("Arguments don't meet the following criteria: vmax > vopt > vmin");
-    }
     NumericVector result (venv.size());
-    for (int i = 0; i < result.size(); i++) {
-        if (venv[i] < vmin || venv[i] > vmax) {
-            result[i] = 0.0;
-            continue;
+    if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
+
+        double v_max = vmax[0];
+        double v_opt = vopt[0];
+        double v_min = vmin[0];
+        if (v_max < v_opt || v_opt < v_min) {
+            stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
         }
-        result[i] = ((vmax - venv[i]) / (vmax - vopt)) * pow(((venv[i] - vmin) / (vopt - vmin)), ((vopt - vmin) / (vmax - vopt)));
-        if (NumericVector::is_na(result[i])) {
-            result[i] = 0.0;
+        for (int i = 0; i < result.size(); i++) {
+            if (venv[i] < v_min || venv[i] > v_max) {
+                result[i] = 0.0;
+                continue;
+            }
+            result[i] = ((v_max - venv[i]) / (v_max - v_opt)) *
+                            pow(
+                                ((venv[i] - v_min) / (v_opt - v_min)),
+                                ((v_opt   - v_min) / (v_max - v_opt))
+                            );
+            if (NumericVector::is_na(result[i])) {
+                result[i] = 0.0;
+            }
         }
-    }
-    result.attr("dim") = venv.attr("dim");
-    return result;
+        result.attr("dim") = venv.attr("dim");
+        return result;
+    } else {
+        if (vmax.size() != vopt.size() || vmax.size() != vmin.size()) {
+            stop("The sizes of vmax, vopt and vmin are not equal.");
+        }
+        LogicalVector test = vmax < vopt;
+        bool test_res_1 = any(test).is_true();
+        test = vopt < vmin;
+        bool test_res_2 = any(test).is_true();
+        if (test_res_1 || test_res_2) {
+            stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
+        }
+        for (int i = 0; i < result.size(); i++) {
+            if (venv[i] < vmin[i] || venv[i] > vmax[i]) {
+                result[i] = 0.0;
+                continue;
+            }
+            result[i] = ((vmax[i] - venv[i]) / (vmax[i] - vopt[i])) *
+                            pow(
+                                ((venv[i] - vmin[i]) / (vopt[i] - vmin[i])),
+                                ((vopt[i] - vmin[i]) / (vmax[i] - vopt[i]))
+                            );
+            if (NumericVector::is_na(result[i])) {
+                result[i] = 0.0;
+            }
+        }
+        return result;
+    };
 }

@@ -12,14 +12,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // calculate_suitability
-NumericVector calculate_suitability(double vmax, double vopt, double vmin, NumericVector venv);
+NumericVector calculate_suitability(NumericVector vmax, NumericVector vopt, NumericVector vmin, NumericVector venv);
 RcppExport SEXP _metaRange_calculate_suitability(SEXP vmaxSEXP, SEXP voptSEXP, SEXP vminSEXP, SEXP venvSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type vmax(vmaxSEXP);
-    Rcpp::traits::input_parameter< double >::type vopt(voptSEXP);
-    Rcpp::traits::input_parameter< double >::type vmin(vminSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vmax(vmaxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vopt(voptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vmin(vminSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type venv(venvSEXP);
     rcpp_result_gen = Rcpp::wrap(calculate_suitability(vmax, vopt, vmin, venv));
     return rcpp_result_gen;
@@ -51,17 +51,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // metabolic_scaling
-NumericVector metabolic_scaling(double normalization_constant, double scaling_exponent, NumericVector mass, NumericVector temperature, double E, double k);
+NumericVector metabolic_scaling(NumericVector normalization_constant, NumericVector scaling_exponent, NumericVector mass, NumericVector temperature, NumericVector E, NumericVector k);
 RcppExport SEXP _metaRange_metabolic_scaling(SEXP normalization_constantSEXP, SEXP scaling_exponentSEXP, SEXP massSEXP, SEXP temperatureSEXP, SEXP ESEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type normalization_constant(normalization_constantSEXP);
-    Rcpp::traits::input_parameter< double >::type scaling_exponent(scaling_exponentSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type normalization_constant(normalization_constantSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type scaling_exponent(scaling_exponentSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type mass(massSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type temperature(temperatureSEXP);
-    Rcpp::traits::input_parameter< double >::type E(ESEXP);
-    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type E(ESEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type k(kSEXP);
     rcpp_result_gen = Rcpp::wrap(metabolic_scaling(normalization_constant, scaling_exponent, mass, temperature, E, k));
     return rcpp_result_gen;
 END_RCPP

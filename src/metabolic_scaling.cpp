@@ -101,17 +101,30 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 NumericVector metabolic_scaling(
-        double normalization_constant,
-        double scaling_exponent,
+        NumericVector normalization_constant,
+        NumericVector scaling_exponent,
         NumericVector mass,
         NumericVector temperature,
-        double E,
-        double k = 8.617333e-05) {
+        NumericVector E,
+        NumericVector k = 8.617333e-05) {
     if ((mass.size() != temperature.size())) {
         stop("The sizes of mass and temperature are not equal.");
     }
+    if (normalization_constant.size() != 1) {
+        stop("The normalization_constant should be a single value.");
+    }
+    if (scaling_exponent.size() != 1) {
+        stop("The scaling_exponent should be a single value.");
+    }
+    if (E.size() != 1) {
+        stop("Parameter E should be a single value.");
+    }
+    if (k.size() != 1) {
+        stop("Parameter k should be a single value.");
+    }
 
-    NumericVector result = normalization_constant * pow(mass, scaling_exponent) * exp((E / (k * temperature)));
+
+    NumericVector result = normalization_constant[0] * pow(mass, scaling_exponent[0]) * exp((E[0] / (k[0] * temperature)));
     result.attr("dim") = mass.attr("dim");
     return result;
 }

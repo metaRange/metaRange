@@ -39,6 +39,11 @@ using namespace Rcpp;
 //' )
 //' ricker_reproduction_model(
 //'     abundance = matrix(10, 10, 5),
+//'     reproduction_rate =  0.25,
+//'     carrying_capacity =  100
+//' )
+//' ricker_reproduction_model(
+//'     abundance = matrix(10, 10, 5),
 //'     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
 //'     carrying_capacity =  matrix(100, 10, 5)
 //' )
@@ -59,16 +64,27 @@ NumericVector ricker_reproduction_model(
         NumericVector reproduction_rate,
         NumericVector carrying_capacity) {
 
-    if ((abundance.size() != reproduction_rate.size()) || (abundance.size() != carrying_capacity.size())) {
-        stop("The sizes of abundance, reproduction_rate and carrying_capacity are not equal.");
-    }
-
-    for (int i = 0; i < abundance.size(); i++) {
-        if (abundance[i] > 0) {
-            abundance[i] = abundance[i] * exp(reproduction_rate[i] * (1 - abundance[i] / carrying_capacity[i]));
+    if (reproduction_rate.size() == 1 && carrying_capacity.size() == 1) {
+        for (int i = 0; i < abundance.size(); i++) {
+            if (abundance[i] > 0) {
+                abundance[i] = abundance[i] * exp(reproduction_rate[0] * (1 - abundance[i] / carrying_capacity[0]));
+            }
+            if (NumericVector::is_na(abundance[i])) {
+                abundance[i] = 0.0;
+            }
         }
-        if (NumericVector::is_na(abundance[i])) {
-            abundance[i] = 0.0;
+    } else {
+        if ((abundance.size() != reproduction_rate.size()) || (abundance.size() != carrying_capacity.size())) {
+            stop("The sizes of abundance, reproduction_rate and carrying_capacity are not equal.");
+        }
+
+        for (int i = 0; i < abundance.size(); i++) {
+            if (abundance[i] > 0) {
+                abundance[i] = abundance[i] * exp(reproduction_rate[i] * (1 - abundance[i] / carrying_capacity[i]));
+            }
+            if (NumericVector::is_na(abundance[i])) {
+                abundance[i] = 0.0;
+            }
         }
     }
     return abundance;

@@ -36,6 +36,11 @@ ricker_reproduction_model(
 )
 ricker_reproduction_model(
     abundance = matrix(10, 10, 5),
+    reproduction_rate =  0.25,
+    carrying_capacity =  100
+)
+ricker_reproduction_model(
+    abundance = matrix(10, 10, 5),
     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
     carrying_capacity =  matrix(100, 10, 5)
 )

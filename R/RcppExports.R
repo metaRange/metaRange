@@ -42,6 +42,19 @@
 #'     vmin = 10,
 #'     venv = 0:40
 #' )
+#' calculate_suitability(
+#'     vmax = seq(30, 32, length.out = 40),
+#'     vopt = seq(20, 23, length.out = 40),
+#'     vmin = seq(9, 11, length.out = 40),
+#'     venv = 0:40
+#' )
+#'
+#' try(calculate_suitability(
+#'     vmax = 1,
+#'     vopt = seq(20, 23, length.out = 40),
+#'     vmin = seq(9, 11, length.out = 40),
+#'     venv = 0:40
+#' ))
 #' @export
 calculate_suitability <- function(vmax, vopt, vmin, venv) {
     .Call('_metaRange_calculate_suitability', PACKAGE = 'metaRange', vmax, vopt, vmin, venv)
@@ -182,6 +195,11 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #'     abundance = 10,
 #'     reproduction_rate = 0.25,
 #'     carrying_capacity = 100
+#' )
+#' ricker_reproduction_model(
+#'     abundance = matrix(10, 10, 5),
+#'     reproduction_rate =  0.25,
+#'     carrying_capacity =  100
 #' )
 #' ricker_reproduction_model(
 #'     abundance = matrix(10, 10, 5),

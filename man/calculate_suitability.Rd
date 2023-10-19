@@ -42,6 +42,19 @@ calculate_suitability(
     vmin = 10,
     venv = 0:40
 )
+calculate_suitability(
+    vmax = seq(30, 32, length.out = 40),
+    vopt = seq(20, 23, length.out = 40),
+    vmin = seq(9, 11, length.out = 40),
+    venv = 0:40
+)
+
+try(calculate_suitability(
+    vmax = 1,
+    vopt = seq(20, 23, length.out = 40),
+    vmin = seq(9, 11, length.out = 40),
+    venv = 0:40
+))
 }
 \references{
 Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995)
