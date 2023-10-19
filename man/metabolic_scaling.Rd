@@ -55,11 +55,11 @@ The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
 
 \subsection{Units:}{
 
-\deqn{1 electronvolt = 1.602176634 \cdot 10^{-19} Joule}{1 electronvolt = 1.602176634 * 10^-19 Joule}
+\deqn{1 \ electronvolt = 1.602176634 \cdot 10^{-19} Joule}{1 electronvolt = 1.602176634 * 10^-19 Joule}
 
-\deqn{Boltzmann constant = 1.380649 \cdot 10^{-23} \frac{Joule}{Kelvin}}{Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin}
+\deqn{Boltzmann \ constant = 1.380649 \cdot 10^{-23} \frac{Joule}{Kelvin}}{Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin}
 
-\deqn{Boltzmann constant in \frac{eV}{K} = 8.617333e-05 = \frac{1.380649 \cdot 10^{-23}}{1.602176634 \cdot 10^{-19}}}{Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)}
+\deqn{Boltzmann \ constant \ in \frac{eV}{K} = 8.617333e-05 = \frac{1.380649 \cdot 10^{-23}}{1.602176634 \cdot 10^{-19}}}{Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)}
 }
 }
 \examples{

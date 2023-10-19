@@ -118,11 +118,11 @@ dispersal_fixed_directed <- function(abundance, weights, dispersal_kernel) {
 #'
 #' ## Units:
 #'
-#' \deqn{1 electronvolt = 1.602176634 \cdot 10^{-19} Joule}{1 electronvolt = 1.602176634 * 10^-19 Joule}
+#' \deqn{1 \ electronvolt = 1.602176634 \cdot 10^{-19} Joule}{1 electronvolt = 1.602176634 * 10^-19 Joule}
 #'
-#' \deqn{Boltzmann constant = 1.380649 \cdot 10^{-23} \frac{Joule}{Kelvin}}{Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin}
+#' \deqn{Boltzmann \ constant = 1.380649 \cdot 10^{-23} \frac{Joule}{Kelvin}}{Boltzmann constant = 1.380649 * 10^-23 Joule/Kelvin}
 #'
-#' \deqn{Boltzmann constant in \frac{eV}{K} = 8.617333e-05 = \frac{1.380649 \cdot 10^{-23}}{1.602176634 \cdot 10^{-19}}}{Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)}
+#' \deqn{Boltzmann \ constant \ in \frac{eV}{K} = 8.617333e-05 = \frac{1.380649 \cdot 10^{-23}}{1.602176634 \cdot 10^{-19}}}{Boltzmann constant in eV/K = 8.617333e-05 = (1.380649 * 10^-23) / (1.602176634 * 10^-19)}
 #' @references
 #' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
 #' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
