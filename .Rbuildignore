@@ -1,6 +1,7 @@
 ^metaRange\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^CONTRIBUTING.md$
 ^\.github$
 ^\.vscode$
 ^docs$

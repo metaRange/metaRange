@@ -31,5 +31,5 @@ Dispersal kernels: review.
 in: \emph{Dispersal Ecology and Evolution} pp. 187--210.
 (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock),
 Oxford, UK: Oxford Academic, 2013.
-\href{https://doi.org/10.1093/acprof:oso/9780199608898.003.0015}{doi:10.1093/acprof:oso/9780199608898.003.0015}
+\doi{10.1093/acprof:oso/9780199608898.003.0015}
 }

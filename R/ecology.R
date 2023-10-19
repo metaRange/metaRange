@@ -38,12 +38,12 @@
 #' @references
 #' Brown, J.H., Gillooly, J.F., Allen, A.P., Savage, V.M. and West, G.B. (2004)
 #' Toward a Metabolic Theory of Ecology. *Ecology*, **85** 1771--1789.
-#' [doi:10.1890/03-9000](https://doi.org/10.1890/03-9000)
+#' \doi{10.1890/03-9000}
 #'
 #' Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012)
 #' Introduction: Metabolism as the Basis for a Theoretical Unification of Ecology.
 #' In *Metabolic Ecology* (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
-#' [doi:10.1002/9781119968535.ch](https://doi.org/10.1002/9781119968535.ch)
+#' \doi{10.1002/9781119968535.ch}
 #' @seealso
 #' `metabolic_scaling()`
 #' @examples
@@ -113,7 +113,7 @@ calculate_normalization_constant <- function(
 #' in: *Dispersal Ecology and Evolution* pp. 187--210.
 #' (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock),
 #' Oxford, UK: Oxford Academic, 2013.
-#' [doi:10.1093/acprof:oso/9780199608898.003.0015](https://doi.org/10.1093/acprof:oso/9780199608898.003.0015)
+#' \doi{10.1093/acprof:oso/9780199608898.003.0015}
 #' @return `<numeric>` The probability at distance x.
 #' @export
 negative_exponential_function <- function(x, mean_dispersal_dist) {
@@ -127,10 +127,25 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 #'
 #' @param max_dispersal_dist `<numeric>` maximum dispersal distance.
 #' @param kfun `<function>` the kernel function to use. Can be user-defined,
-#' in which case it needs to accept (at least) the parameter
-#' "x" representing the distance from the source as its input and return a probability.
+#' in which case it needs to vectorized and accept (at least) the parameter
+#' "x" representing the distance from the source as its input and return a
+#' vector of the same size as `max_dispersal_dist`.
+#' @param normalize `<boolean>` whether to normalize the kernel.
 #' @param ... additional parameters to be passed to the kernel function.
 #' @examples
+#' # a very simple uniform kernel
+#' uniform_kernel <- calculate_dispersal_kernel(
+#'     max_dispersal_dist = 3,
+#'     kfun = function(x) {x * 0 + 1}
+#' )
+#' # same as
+#' stopifnot(
+#'     uniform_kernel == matrix(1 / 49, nrow = 7, ncol = 7)
+#' )
+#'
+#' # now a negative exponential kernel
+#' # not that `mean_dispersal_dist`
+#' # is passed to the kernel function.
 #' calculate_dispersal_kernel(
 #'     max_dispersal_dist = 3,
 #'     kfun = negative_exponential_function,
@@ -141,7 +156,11 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 calculate_dispersal_kernel <- function(
     max_dispersal_dist,
     kfun,
+    normalize = TRUE,
     ...) {
+    max_dispersal_dist <- checkmate::assert_int(max_dispersal_dist, coerce = TRUE, lower = 1L)
+    checkmate::assert_function(kfun, args = c("x"))
+    checkmate::assert_flag(normalize)
     size <- 2 * max_dispersal_dist + 1
     dispersal_kernel <- matrix(0, nrow = size, ncol = size)
     midpoint <- max_dispersal_dist + 1
@@ -151,7 +170,14 @@ calculate_dispersal_kernel <- function(
         }
     }
     dispersal_kernel <- kfun(x = dispersal_kernel, ...)
-    dispersal_kernel / sum(dispersal_kernel)
+    if (length(dispersal_kernel) != size^2) {
+        stop("Kernel function should return: ", size^2, " values, but returned: ", length(dispersal_kernel), ".")
+    }
+    dim(dispersal_kernel) <- c(size, size)
+    if (normalize) {
+        dispersal_kernel <- dispersal_kernel / sum(dispersal_kernel)
+    }
+    return(dispersal_kernel)
 }
 
 #' Dispersal process

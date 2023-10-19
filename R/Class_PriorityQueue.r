@@ -35,7 +35,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         initialize = function() {
             private$queue <- vector("integer")
             private$future_queue <- vector("integer")
-            private$procecces <- new.env()
+            private$processes <- new.env()
         },
         # ---------- public methods -----------
         #' @description Executes the next process in the queue.
@@ -54,7 +54,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
             if (self$is_empty()) {
                 return(FALSE)
             }
-            pr <- private$procecces[[names(private$queue)[private$current_index]]]
+            pr <- private$processes[[names(private$queue)[private$current_index]]]
             if (verbose) {
                 start_time_pr <- Sys.time()
                 message("|- ", pr$get_env_label(), " : ", pr$get_name())
@@ -83,7 +83,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
                 warning("failed to queue process. Argument 'PID' must be a string")
                 return(invisible(FALSE))
             }
-            private$procecces[[process$get_PID()]] <- process
+            private$processes[[process$get_PID()]] <- process
             new_item <- process$get_priority()
             names(new_item) <- process$get_PID()
             private$future_queue <- c(private$future_queue, new_item)
@@ -218,8 +218,8 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         # or existing processes are removed.
         future_queue = NULL,
 
-        # @field procecces references to the processes that have been added to the queue.
-        procecces = NULL,
+        # @field processes references to the processes that have been added to the queue.
+        processes = NULL,
 
         # @field current_index
         current_index = 0L

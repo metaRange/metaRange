@@ -24,7 +24,7 @@ Authors@R:
              role = c("fnd")),
       person(given = "Deutsche Bundesstiftung Umwelt (DBU)",
              role = c("fnd")))
-Description: A platform to build spatially and temporally explicit
+Description: Build spatially and temporally explicit
     process-based species distribution models, that can include an arbitrary
     number of environmental factors, species and processes including metabolic
     constraints and species interactions. Its focus is simulating populations
