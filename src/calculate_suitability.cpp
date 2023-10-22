@@ -81,9 +81,9 @@ NumericVector calculate_suitability(
     NumericVector result (venv.size());
     if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
 
-        double v_max = vmax[0];
-        double v_opt = vopt[0];
-        double v_min = vmin[0];
+        const double v_max = vmax[0];
+        const double v_opt = vopt[0];
+        const double v_min = vmin[0];
         if (v_max < v_opt || v_opt < v_min) {
             stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
         }
@@ -108,9 +108,9 @@ NumericVector calculate_suitability(
             stop("The sizes of vmax, vopt and vmin are not equal.");
         }
         LogicalVector test = vmax < vopt;
-        bool test_res_1 = any(test).is_true();
+        const bool test_res_1 = any(test).is_true();
         test = vopt < vmin;
-        bool test_res_2 = any(test).is_true();
+        const bool test_res_2 = any(test).is_true();
         if (test_res_1 || test_res_2) {
             stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
         }
