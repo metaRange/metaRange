@@ -30,7 +30,7 @@ Description: Build spatially and temporally explicit
     constraints and species interactions. Its focus is simulating populations
     of one or multiple species in a grid based landscape and studying the
     meta-population dynamics and emergent patterns that arise from the
-    interaction of species under complex environmental conditions. 'metaRange'
+    interaction of species under complex environmental conditions. The package
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) <doi:10.1093/acprof:oso/9780199608898.003.0015>),
