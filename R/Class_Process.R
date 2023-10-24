@@ -81,6 +81,8 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
                 "PID-",
                 execution_priority,
                 as.hexmode(sample.int(.Machine$integer.max, 1)),
+                # the id is a running counter that is incremented for each process
+                # intended to assuere that the names are unique even if the RNG gives the same number
                 id,
                 "-",
                 process_name
