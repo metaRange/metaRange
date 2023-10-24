@@ -109,7 +109,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 checkmate::assert_string(ID, min.chars = 1, max.chars = 64, null.ok = FALSE)
                 self$ID <- ID
             } else {
-                self$ID <- paste0("simulation_", as.hexmode(sample.int(100000000L, 1)))
+                self$ID <- paste0("simulation_", as.hexmode(sample.int(.Machine$integer.max, 1)))
             }
             lockBinding("ID", self)
 

@@ -80,7 +80,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
             private$PID <- paste0(
                 "PID-",
                 execution_priority,
-                as.hexmode(sample.int(100000000L, 1)),
+                as.hexmode(sample.int(.Machine$integer.max, 1)),
                 id,
                 "-",
                 process_name
