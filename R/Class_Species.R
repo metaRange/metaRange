@@ -35,7 +35,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         #' with the environment, itself and other species.
         processes = NULL,
 
-        #' @field traits `<list>` the traits of the species.
+        #' @field traits `<environment>` holds the traits of the species.
         traits = NULL,
 
         #' @field sim `<[metaRangeSimulation]>` a reference to the simulation object that the species is part of.
@@ -69,7 +69,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
             self$name <- name
 
             self$processes <- list()
-            self$traits <- list()
+            self$traits <- structure(new.env(), class = "metaRangeVariableStorage")
         },
         # ---------- public methods -----------
         #' @description Prints information about the species to the console
@@ -77,9 +77,9 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         print = function() {
             cat("Species: ", self$name, "\n")
             cat("processes: \n")
-            cat(str(self$processes))
+            print(names(self$processes))
             cat("traits: \n")
-            cat(str(self$traits))
+            print(names(self$traits))
             return(invisible(self))
         }
     )

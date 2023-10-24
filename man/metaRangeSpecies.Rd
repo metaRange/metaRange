@@ -34,7 +34,7 @@ sp
 The processes that describe how the species interacts
 with the environment, itself and other species.}
 
-\item{\code{traits}}{\verb{<list>} the traits of the species.}
+\item{\code{traits}}{\verb{<environment>} holds the traits of the species.}
 
 \item{\code{sim}}{\verb{<[metaRangeSimulation]>} a reference to the simulation object that the species is part of.
 Useful to access environmental data or data of other species.}

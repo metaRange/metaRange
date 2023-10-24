@@ -148,7 +148,7 @@ sim$summary()
 \describe{
 \item{\code{ID}}{\verb{<string>} simulation identification.}
 
-\item{\code{globals}}{\verb{<list>} a place to store global variables.}
+\item{\code{globals}}{\verb{<environment>} a place to store global variables.}
 
 \item{\code{environment}}{a \verb{<[metaRangeEnvironment]>} that holds all the environmental
 values influencing the simulation.}

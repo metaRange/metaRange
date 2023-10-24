@@ -50,7 +50,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         ID = NULL,
 
         # ---------- // globals -------------------
-        #' @field globals `<list>` a place to store global variables.
+        #' @field globals `<environment>` a place to store global variables.
         globals = NULL,
 
         # ---------- // environment --------------
@@ -113,7 +113,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             }
             lockBinding("ID", self)
 
-            self$globals <- list()
+            self$globals <- structure(new.env(), class = "metaRangeVariableStorage")
 
             self$processes <- list()
 
@@ -152,7 +152,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("adding global variables: ")
                 message(str(globals_to_add), appendLF = FALSE)
             }
-            self$globals <- c(self$globals, globals_to_add)
+            list2env(globals_to_add, envir = self$globals)
             return(invisible(self))
         },
 
@@ -544,6 +544,10 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("Current time step: ", private$current_time_step, "\n")
             cat("Seed: ", self$seed, "\n")
             cat("Species:\n", paste(self$species_names(), collapse = ", "), "\n")
+            cat("Simulation level processes:\n")
+            print(names(self$processes))
+            cat("Gobal variables:\n")
+            print(self$globals)
             cat("Queue:\n")
             self$queue$print()
             return(invisible(self))
@@ -622,6 +626,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 for (pr_name in pr_names) {
                     checkmate::assert_class(self[[sp_name]]$processes[[pr_name]], "metaRangeProcess")
                 }
+                checkmate::assert_environment(self[[sp_name]]$traits)
                 traits_names <- names(self[[sp_name]]$traits)
                 for (t_name in traits_names) {
                     checkmate::assert_atomic(self[[sp_name]]$traits[[t_name]])
@@ -632,7 +637,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             }
             checkmate::assert_class(self$environment, "metaRangeEnvironment")
             checkmate::assert_class(self$queue, "metaRangePriorityQueue")
-            checkmate::assert_class(self$globals, "list")
+            checkmate::assert_environment(self$globals)
             for (g in names(self$globals)) {
                 checkmate::assert_atomic(self$globals[[g]])
             }

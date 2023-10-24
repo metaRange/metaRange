@@ -126,7 +126,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
             return(private$execution_environment_label)
         },
 
-        #' @description Prints information about the species to the console
+        #' @description Prints information about the process to the console
         #' @examples
         #' pr <- metaRangeProcess$new("A", "1", \() {}, 1, new.env())
         #' pr$print()

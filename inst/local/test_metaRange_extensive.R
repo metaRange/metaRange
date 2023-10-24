@@ -216,7 +216,7 @@ state <- c(
     dispersal_kernel_mean = 0.00826446280991736, dispersal_kernel_median = 0.000914991939840905,
     dispersal_kernel_max = 0.261913481732312, dispersal_kernel_len = 121
 )
-expect_true(base::all.equal(res, state, scale = 1, tolerance = 1e-05))
+expect_true(base::all.equal(res[order(names(res))], state[order(names(state))], scale = 1, tolerance = 1e-05))
 
 # test_saving <- function(sim) {
 #     on.exit(unlink(save_paths, recursive = TRUE))
