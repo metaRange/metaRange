@@ -448,7 +448,8 @@ This means that the traits either need to be single values that will be extended
 to such a matrix via \code{\link[base:matrix]{base::matrix()}} or they already need to be a matrix with these dimension.
 If \code{FALSE} the traits will be added without any conversion and may have any type and dimension.}
 
-\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}}) The traits to be added.}
+\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}}) The named traits to be added.
+Named means: \code{Name = value} e.g. \code{a = 1}.}
 }
 \if{html}{\out{</div>}}
 }

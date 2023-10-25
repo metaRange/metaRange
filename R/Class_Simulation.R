@@ -321,7 +321,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' This means that the traits either need to be single values that will be extended
         #' to such a matrix via [base::matrix()] or they already need to be a matrix with these dimension.
         #' If `FALSE` the traits will be added without any conversion and may have any type and dimension.
-        #' @param ... `<atomic>` (see [base::is.atomic()]) The traits to be added.
+        #' @param ... `<atomic>` (see [base::is.atomic()]) The named traits to be added.
+        #' Named means: `Name = value` e.g. `a = 1`.
         #' @return `<invisible self>`.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
@@ -339,6 +340,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' #> [1] "c"
         add_traits = function(species, population_level = TRUE, ...) {
             trait_list <- list(...)
+            checkmate::assert_named(trait_list, "strict")
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             if (verbosity > 0L) {
                 message("adding traits: ")
