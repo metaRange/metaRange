@@ -38,7 +38,8 @@
 #' test_sim$add_traits(
 #'     "species_01",
 #'     trait_01 = matrix(1, nrow = 2, ncol = 2),
-#'     trait_02 = matrix(2, nrow = 2, ncol = 2))
+#'     trait_02 = matrix(2, nrow = 2, ncol = 2)
+#' )
 #'
 #' file_prefix <- "This_could_be_a_time_step"
 #' directory_name <- tempdir()

@@ -53,7 +53,9 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 #' # a very simple uniform kernel
 #' uniform_kernel <- calculate_dispersal_kernel(
 #'     max_dispersal_dist = 3,
-#'     kfun = function(x) {x * 0 + 1}
+#'     kfun = function(x) {
+#'         x * 0 + 1
+#'     }
 #' )
 #' # same as
 #' stopifnot(
