@@ -627,6 +627,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                     checkmate::assert_class(self[[sp_name]]$processes[[pr_name]], "metaRangeProcess")
                 }
                 checkmate::assert_environment(self[[sp_name]]$traits)
+                checkmate::assert_class(self[[sp_name]]$traits, "metaRangeVariableStorage")
                 traits_names <- names(self[[sp_name]]$traits)
                 for (t_name in traits_names) {
                     checkmate::assert_atomic(self[[sp_name]]$traits[[t_name]])
@@ -638,6 +639,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             checkmate::assert_class(self$environment, "metaRangeEnvironment")
             checkmate::assert_class(self$queue, "metaRangePriorityQueue")
             checkmate::assert_environment(self$globals)
+            checkmate::assert_class(self$globals, "metaRangeVariableStorage")
             for (g in names(self$globals)) {
                 checkmate::assert_atomic(self$globals[[g]])
             }
