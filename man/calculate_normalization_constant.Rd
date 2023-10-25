@@ -10,7 +10,8 @@ calculate_normalization_constant(
   mass,
   reference_temperature,
   E = NULL,
-  k = 8.617333e-05
+  k = 8.617333e-05,
+  warn_if_possibly_false_input = getOption("metaRange.verbose", default = FALSE) > 0
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ calculate_normalization_constant(
 \item{E}{\verb{<numeric>} Activation energy in electronvolts (eV).}
 
 \item{k}{\verb{<numeric>} Boltzmann's constant (eV / K).}
+
+\item{warn_if_possibly_false_input}{\verb{<boolean>} Print a warning if the input
+is different from the known literature value combinations.}
 }
 \value{
 The calculated normalization constant.

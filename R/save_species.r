@@ -80,43 +80,21 @@
 #' @return `<invisible character>` the paths to the saved files.
 #' @export
 save_species <- function(x, traits = NULL, prefix = NULL, path, overwrite = FALSE, ...) {
-    checkres <- checkmate::check_class(x, "metaRangeSpecies")
-    if (!checkmate::test_true(checkres)) {
-        warning("Can't save species. Argument 'x' is not a metaRangeSpecies object", call. = TRUE)
-        return()
-    }
-    checkres <- checkmate::check_character(traits, null.ok = TRUE)
-    if (!checkmate::test_true(checkres)) {
-        warning("Can't save species. Argument 'traits' is not a character vector or NULL", call. = TRUE)
-        return()
-    }
-    checkres <- checkmate::check_string(prefix, null.ok = TRUE)
-    if (!checkmate::test_true(checkres)) {
-        warning("Can't save species. Argument 'prefix' is not a character vector or NULL", call. = TRUE)
-        prefix <- NULL
-    }
-    checkres <- checkmate::check_flag(overwrite)
-    if (!checkmate::test_true(checkres)) {
-        warning("Argument 'overwrite' is not a boolean. Assuming FALSE", call. = TRUE)
-        overwrite <- FALSE
-    }
+    checkmate::assert_class(x, "metaRangeSpecies")
+    checkmate::assert_character(traits, null.ok = TRUE, unique = TRUE)
+    checkmate::assert_string(prefix, null.ok = TRUE)
+    checkmate::assert_flag(overwrite)
     if (is.null(traits)) {
         traits <- names(x[["traits"]])
     }
     return_paths <- c()
+    full_path <- c()
     for (att in traits) {
         if (is.null(x$traits[[att]])) {
             warning(att, " is not an trait of species: ", x$name, call. = TRUE)
             next
         }
-        if (inherits(x$traits[[att]], "SpatRaster")) {
-            full_path <- file.path(path, paste0(prefix, x$name, "_", att, ".tif"))
-            checkres <- checkmate::check_path_for_output(full_path, overwrite = overwrite)
-            if (!checkmate::test_true(checkres)) {
-                warning("Can't save ", att, ". ", checkres, call. = TRUE)
-            }
-            terra::writeRaster(x$traits[[att]], full_path, overwrite = overwrite, ...)
-        } else if (inherits(x$traits[[att]], "matrix")) {
+        if (inherits(x$traits[[att]], "matrix")) {
             dim_m <- dim(x$traits[[att]])[c(1, 2)]
             dim_r <- dim(x$sim$environment$sourceSDS)[c(1, 2)]
 
@@ -130,18 +108,17 @@ save_species <- function(x, traits = NULL, prefix = NULL, path, overwrite = FALS
                 r <- terra::rast(x$traits[[att]])
             }
             full_path <- file.path(path, paste0(prefix, x$name, "_", att, ".tif"))
-            checkres <- checkmate::check_path_for_output(full_path, overwrite = overwrite)
-            if (!checkmate::test_true(checkres)) {
-                warning("Can't save ", att, ". ", checkres, call. = TRUE)
-            }
+            checkmate::assert_path_for_output(full_path, overwrite = overwrite)
             terra::writeRaster(r, full_path, overwrite = overwrite, ...)
-        } else {
+        } else if (checkmate::test_atomic(x$traits[[att]])) {
             full_path <- file.path(path, paste0(prefix, x$name, "_", att, ".csv"))
-            checkres <- checkmate::check_path_for_output(full_path, overwrite = overwrite)
-            if (!checkmate::test_true(checkres)) {
-                warning("Can't save ", att, ". ", checkres, call. = TRUE)
-            }
+            checkmate::assert_path_for_output(full_path, overwrite = overwrite)
             write.csv(x$traits[[att]], full_path, row.names = FALSE)
+        } else {
+            warning(
+                "Couldn't save trait: ", att, " unknown format.\n",
+                "Use: [saveRDS()] to save arbitrary data."
+            )
         }
         return_paths <- c(return_paths, full_path)
     }

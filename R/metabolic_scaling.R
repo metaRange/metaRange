@@ -25,6 +25,8 @@
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
 #' @param mass `<numeric>`  mean (individual) mass.
 #' @param scaling_exponent `<numeric>` allometric scaling exponent of the mass.
+#' @param warn_if_possibly_false_input `<boolean>` Print a warning if the input
+#' is different from the known literature value combinations.
 #' @details
 #' Note the different scaling values for different parameter.
 #' The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
@@ -62,14 +64,16 @@ calculate_normalization_constant <- function(
     mass,
     reference_temperature,
     E = NULL,
-    k = 8.617333e-05) {
+    k = 8.617333e-05,
+    warn_if_possibly_false_input = getOption("metaRange.verbose", default = FALSE) > 0) {
     checkmate::assert_numeric(parameter_value)
     checkmate::assert_numeric(scaling_exponent, len = 1L)
     checkmate::assert_numeric(mass)
     checkmate::assert_numeric(reference_temperature, len = 1L)
     checkmate::assert_numeric(E, len = 1L)
     checkmate::assert_numeric(k, len = 1L)
-    verbosity <- getOption("metaRange.verbose", default = FALSE)
+    checkmate::assert_flag(warn_if_possibly_false_input)
+    verbosity <- warn_if_possibly_false_input
     if (verbosity && scaling_exponent == -1 / 4 && E > 0) {
         message(
             "Respiratory rates are generally assumed to scale with:\n",
