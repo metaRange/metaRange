@@ -63,6 +63,12 @@ calculate_normalization_constant <- function(
     reference_temperature,
     E = NULL,
     k = 8.617333e-05) {
+    checkmate::assert_numeric(parameter_value)
+    checkmate::assert_numeric(scaling_exponent, len = 1L)
+    checkmate::assert_numeric(mass)
+    checkmate::assert_numeric(reference_temperature, len = 1L)
+    checkmate::assert_numeric(E, len = 1L)
+    checkmate::assert_numeric(k, len = 1L)
     verbosity <- getOption("metaRange.verbose", default = FALSE)
     if (verbosity && scaling_exponent == -1 / 4 && E > 0) {
         message(
