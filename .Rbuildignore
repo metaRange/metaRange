@@ -8,6 +8,7 @@
 ^doc$
 ^cran-comments\.md$
 .lintr
+.clang-format
 # local testing
 ^.local$
 ^_pkgdown\.yml$
