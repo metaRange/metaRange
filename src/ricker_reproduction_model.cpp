@@ -63,25 +63,30 @@ NumericVector ricker_reproduction_model(
         NumericVector abundance,
         NumericVector reproduction_rate,
         NumericVector carrying_capacity) {
-
     const int size = abundance.size();
     if (reproduction_rate.size() == 1 && carrying_capacity.size() == 1) {
         for (int i = 0; i < size; i++) {
             if (abundance[i] > 0) {
-                abundance[i] = abundance[i] * exp(reproduction_rate[0] * (1 - abundance[i] / carrying_capacity[0]));
+                abundance[i] = abundance[i] *
+                               exp(reproduction_rate[0] *
+                                   (1 - abundance[i] / carrying_capacity[0]));
             }
             if (NumericVector::is_na(abundance[i])) {
                 abundance[i] = 0.0;
             }
         }
     } else {
-        if ((size != reproduction_rate.size()) || (size != carrying_capacity.size())) {
-            stop("The sizes of abundance, reproduction_rate and carrying_capacity are not equal.");
+        if ((size != reproduction_rate.size()) ||
+            (size != carrying_capacity.size())) {
+            stop("The sizes of abundance, reproduction_rate and "
+                 "carrying_capacity are not equal.");
         }
 
         for (int i = 0; i < size; i++) {
             if (abundance[i] > 0) {
-                abundance[i] = abundance[i] * exp(reproduction_rate[i] * (1 - abundance[i] / carrying_capacity[i]));
+                abundance[i] = abundance[i] *
+                               exp(reproduction_rate[i] *
+                                   (1 - abundance[i] / carrying_capacity[i]));
             }
             if (NumericVector::is_na(abundance[i])) {
                 abundance[i] = 0.0;

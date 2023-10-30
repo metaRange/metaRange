@@ -78,14 +78,15 @@ NumericVector calculate_suitability(
         NumericVector vopt,
         NumericVector vmin,
         NumericVector venv) {
-    NumericVector result (venv.size());
+    NumericVector result(venv.size());
     if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
 
         const double v_max = vmax[0];
         const double v_opt = vopt[0];
         const double v_min = vmin[0];
         if (v_max < v_opt || v_opt < v_min) {
-            stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
+            stop("Arguments don't meet the following criteria: v_max > vopt > "
+                 "vmin");
         }
         for (int i = 0; i < result.size(); i++) {
             if (venv[i] < v_min || venv[i] > v_max) {
@@ -93,10 +94,8 @@ NumericVector calculate_suitability(
                 continue;
             }
             result[i] = ((v_max - venv[i]) / (v_max - v_opt)) *
-                            pow(
-                                ((venv[i] - v_min) / (v_opt - v_min)),
-                                ((v_opt   - v_min) / (v_max - v_opt))
-                            );
+                        pow(((venv[i] - v_min) / (v_opt - v_min)),
+                            ((v_opt - v_min) / (v_max - v_opt)));
             if (NumericVector::is_na(result[i])) {
                 result[i] = 0.0;
             }
@@ -112,7 +111,8 @@ NumericVector calculate_suitability(
         test = vopt < vmin;
         const bool test_res_2 = any(test).is_true();
         if (test_res_1 || test_res_2) {
-            stop("Arguments don't meet the following criteria: v_max > vopt > vmin");
+            stop("Arguments don't meet the following criteria: v_max > vopt > "
+                 "vmin");
         }
         for (int i = 0; i < result.size(); i++) {
             if (venv[i] < vmin[i] || venv[i] > vmax[i]) {
@@ -120,10 +120,8 @@ NumericVector calculate_suitability(
                 continue;
             }
             result[i] = ((vmax[i] - venv[i]) / (vmax[i] - vopt[i])) *
-                            pow(
-                                ((venv[i] - vmin[i]) / (vopt[i] - vmin[i])),
-                                ((vopt[i] - vmin[i]) / (vmax[i] - vopt[i]))
-                            );
+                        pow(((venv[i] - vmin[i]) / (vopt[i] - vmin[i])),
+                            ((vopt[i] - vmin[i]) / (vmax[i] - vopt[i])));
             if (NumericVector::is_na(result[i])) {
                 result[i] = 0.0;
             }
