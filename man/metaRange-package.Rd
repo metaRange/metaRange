@@ -22,12 +22,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stefan Fallert \email{stefan.fallert@stud-mail.uni-wuerzburg.de} (\href{https://orcid.org/0000-0002-9939-4219}{ORCID}) [copyright holder]
+\strong{Maintainer}: Stefan Fallert \email{srfallert@gmail.com} (\href{https://orcid.org/0000-0002-9939-4219}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
   \item Lea Li (Contributed the first implementation of the metabolic scaling) [copyright holder]
-  \item Juliano S. Cabral \email{j.sarmentocabral@bham.ac.uk} (\href{https://orcid.org/0000-0002-0116-220X}{ORCID}) [copyright holder, thesis advisor]
+  \item Juliano Sarmento Cabral \email{j.sarmentocabral@bham.ac.uk} (\href{https://orcid.org/0000-0002-0116-220X}{ORCID}) [copyright holder, thesis advisor]
 }
 
 Other contributors:
