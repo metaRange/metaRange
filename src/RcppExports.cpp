@@ -25,28 +25,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dispersal_fixed_undirected
-arma::mat dispersal_fixed_undirected(arma::mat abundance, arma::mat dispersal_kernel);
-RcppExport SEXP _metaRange_dispersal_fixed_undirected(SEXP abundanceSEXP, SEXP dispersal_kernelSEXP) {
+// dispersal_fixed_unweighted
+arma::mat dispersal_fixed_unweighted(arma::mat abundance, arma::mat dispersal_kernel);
+RcppExport SEXP _metaRange_dispersal_fixed_unweighted(SEXP abundanceSEXP, SEXP dispersal_kernelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type abundance(abundanceSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type dispersal_kernel(dispersal_kernelSEXP);
-    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_undirected(abundance, dispersal_kernel));
+    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_unweighted(abundance, dispersal_kernel));
     return rcpp_result_gen;
 END_RCPP
 }
-// dispersal_fixed_directed
-arma::mat dispersal_fixed_directed(arma::mat abundance, arma::mat weights, arma::mat dispersal_kernel);
-RcppExport SEXP _metaRange_dispersal_fixed_directed(SEXP abundanceSEXP, SEXP weightsSEXP, SEXP dispersal_kernelSEXP) {
+// dispersal_fixed_weighted
+arma::mat dispersal_fixed_weighted(arma::mat abundance, arma::mat weights, arma::mat dispersal_kernel);
+RcppExport SEXP _metaRange_dispersal_fixed_weighted(SEXP abundanceSEXP, SEXP weightsSEXP, SEXP dispersal_kernelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type abundance(abundanceSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type weights(weightsSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type dispersal_kernel(dispersal_kernelSEXP);
-    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_directed(abundance, weights, dispersal_kernel));
+    rcpp_result_gen = Rcpp::wrap(dispersal_fixed_weighted(abundance, weights, dispersal_kernel));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -82,8 +82,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_metaRange_calculate_suitability", (DL_FUNC) &_metaRange_calculate_suitability, 4},
-    {"_metaRange_dispersal_fixed_undirected", (DL_FUNC) &_metaRange_dispersal_fixed_undirected, 2},
-    {"_metaRange_dispersal_fixed_directed", (DL_FUNC) &_metaRange_dispersal_fixed_directed, 3},
+    {"_metaRange_dispersal_fixed_unweighted", (DL_FUNC) &_metaRange_dispersal_fixed_unweighted, 2},
+    {"_metaRange_dispersal_fixed_weighted", (DL_FUNC) &_metaRange_dispersal_fixed_weighted, 3},
     {"_metaRange_metabolic_scaling", (DL_FUNC) &_metaRange_metabolic_scaling, 6},
     {"_metaRange_ricker_reproduction_model", (DL_FUNC) &_metaRange_ricker_reproduction_model, 3},
     {NULL, NULL, 0}

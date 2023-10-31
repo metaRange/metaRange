@@ -145,12 +145,12 @@ dispersal <- function(
         stop("No abundance matrix supplied.")
     }
     if (missing(weights)) {
-        return(dispersal_fixed_undirected(
+        return(dispersal_fixed_unweighted(
             dispersal_kernel = dispersal_kernel,
             abundance = abundance
         ))
     } else {
-        return(dispersal_fixed_directed(
+        return(dispersal_fixed_weighted(
             dispersal_kernel = dispersal_kernel,
             abundance = abundance,
             weights = weights
