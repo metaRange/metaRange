@@ -240,7 +240,7 @@ Add global variables to the simulation
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}})
+\item{\code{...}}{\verb{<any>} the variables to add.
 Variables to add to the simulation. They will be saved and accessible
 through the 'globals' field.}
 }
