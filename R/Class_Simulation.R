@@ -120,7 +120,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         # ---------- 3.1 low-level setup --------
         #' @description Add global variables to the simulation
-        #' @param ... `<atomic>` (see [base::is.atomic()])
+        #' @param ... `<any>` the variables to add.
         #' Variables to add to the simulation. They will be saved and accessible
         #' through the 'globals' field.
         #' @examples
@@ -626,9 +626,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             checkmate::assert_class(self$queue, "metaRangePriorityQueue")
             checkmate::assert_environment(self$globals)
             checkmate::assert_class(self$globals, "metaRangeVariableStorage")
-            for (g in names(self$globals)) {
-                checkmate::assert_atomic(self$globals[[g]])
-            }
             checkmate::assert_integerish(self$number_time_steps, lower = 1L)
             checkmate::assert_integerish(
                 self$time_step_layer,
