@@ -28,9 +28,14 @@
 #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
+#' plot(test_sim, "environment", "env_01")
+#'
 #' test_sim$add_species("species_01")
 #' test_sim$add_traits("species_01", trait_01 = matrix(1, nrow = 2, ncol = 2))
 #' plot(test_sim, "species_01", "trait_01")
+#'
+#' test_sim$add_globals("global_01" = 1)
+#' plot(test_sim, "globals", "global_01")
 #' @return `<invisible NULL>`.
 #' @export
 plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
@@ -38,13 +43,17 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
         stop("No 'x' supplied. Nothing to plot", call. = FALSE)
     }
     checkmate::assert_string(obj)
-    env_names <- names(x$environment$current)
     species_names <- x$species_names()
-    possible_names <- c(env_names, species_names)
-    if (obj %in% possible_names) {
-        plot(x[[obj]], name, col, ...)
-    } else {
+    possible_names <- c(species_names, "environment", "globals")
+    if (!obj %in% possible_names) {
         stop("No element named '", obj, "' found in 'x'", call. = FALSE)
+    }
+    if (obj == "environment") {
+        plot.metaRangeEnvironment(x[[obj]], name, col, ...)
+    } else if (obj %in% species_names) {
+        plot.metaRangeSpecies(x[[obj]], name, col, ...)
+    } else if (obj == "globals") {
+        plot_internal(x[[obj]], col, ...)
     }
     return(invisible(NULL))
 }
