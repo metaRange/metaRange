@@ -53,7 +53,7 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
     } else if (obj %in% species_names) {
         plot.metaRangeSpecies(x[[obj]], name, col, ...)
     } else if (obj == "globals") {
-        plot_internal(x[[obj]], col, ...)
+        plot_internal(x[[obj]][[name]], col, ...)
     }
     return(invisible(NULL))
 }
@@ -65,32 +65,72 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
 #' @param x `<metaRangeEnvironment>` [metaRangeEnvironment] object.
 #' @param env_name `<string>` name of the (sub) environment to plot.
 #' @param col `<character>` colors to use. Defaults to `grDevices::hcl.colors()` with
-#' `n =50` and a random palette.
+#' `n = 50` and a random palette.
+#' @param as_timeseries `<logical>` if `TRUE`, plot the mean of each layer of the (source)
+#' environment as a line graph over time, if `FALSE` plot the (current) environment as a raster.
 #' @param main `<string>` optional title of the plot. Will be labeled automatically when NULL.
 #' @param ... additional arguments passed to [terra::plot] or [base::plot].
 #' @return `<invisible NULL>`.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2))
+#' sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2), nlyr = 4)
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$environment$set_current(1)
 #' plot(test_sim$environment, "env_01")
+#' plot(test_sim$environment, "env_01", as_timeseries = TRUE)
 #' @export
-plot.metaRangeEnvironment <- function(x, env_name, col, main = NULL, ...) {
+plot.metaRangeEnvironment <- function(x, env_name, col, as_timeseries = FALSE, main = NULL, ...) {
     if (missing(x) || is.null(x)) {
         stop("No 'x' supplied. Nothing to plot", call. = FALSE)
     }
     checkmate::assert_string(env_name)
     checkmate::assert_string(main, null.ok = TRUE)
+    checkmate::assert_flag(as_timeseries)
     if (is.null(main)) {
         main <- env_name
     }
-    r <- terra::rast(
-        x$sourceSDS[[1]],
-        nlyrs = 1,
-        vals = x$current[[env_name]]
-    )
-    plot_internal(x = r, col = col, main = main, ...)
+    if (as_timeseries) {
+        if (missing(col)) {
+            plot_colors <- c("darkred", "grey90", "grey70")
+        } else {
+            if (checkmate::test_character(col, min.len = 3)) {
+                plot_colors <- col
+            } else {
+                warning("Argument 'col' is not a character vector of length > 3. Using default colors.")
+            }
+        }
+        vals <- terra::minmax(x$sourceSDS[[env_name]])
+        val_mean <- colMeans(vals)
+        plot(
+            val_mean,
+            type = "n",
+            ylim = c(min(vals), max(vals)),
+            main = main,
+            xlab = "layer",
+            ylab = "value (min, mean, max)",
+            ...
+        )
+        cords <- list(
+            x = c(seq_along(val_mean), rev(seq_along(val_mean))),
+            y = c(vals["min", ], rev(vals["max", ]))
+        )
+        stopifnot(length(cords$x) == length(cords$y))
+        graphics::polygon(
+            x = cords,
+            col = plot_colors[2],
+            border = plot_colors[3]
+        )
+        graphics::lines(val_mean, type = "l",
+            col = plot_colors[1])
+
+    } else {
+        r <- terra::rast(
+            x$sourceSDS[[1]],
+            nlyrs = 1,
+            vals = x$current[[env_name]]
+        )
+        plot_internal(x = r, col = col, main = main, ...)
+    }
     return(invisible(NULL))
 }
 

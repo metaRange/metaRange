@@ -52,7 +52,10 @@ Imports:
     Rcpp (>= 1.0.10),
     terra,
     R6,
-    checkmate
+    checkmate,
+    grDevices,
+    graphics,
+    utils
 Suggests:
     knitr,
     rmarkdown,

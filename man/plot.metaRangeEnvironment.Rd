@@ -4,7 +4,7 @@
 \alias{plot.metaRangeEnvironment}
 \title{Plotting function}
 \usage{
-\method{plot}{metaRangeEnvironment}(x, env_name, col, main = NULL, ...)
+\method{plot}{metaRangeEnvironment}(x, env_name, col, as_timeseries = FALSE, main = NULL, ...)
 }
 \arguments{
 \item{x}{\verb{<metaRangeEnvironment>} \link{metaRangeEnvironment} object.}
@@ -12,7 +12,10 @@
 \item{env_name}{\verb{<string>} name of the (sub) environment to plot.}
 
 \item{col}{\verb{<character>} colors to use. Defaults to \code{grDevices::hcl.colors()} with
-\code{n =50} and a random palette.}
+\code{n = 50} and a random palette.}
+
+\item{as_timeseries}{\verb{<logical>} if \code{TRUE}, plot the mean of each layer of the (source)
+environment as a line graph over time, if \code{FALSE} plot the (current) environment as a raster.}
 
 \item{main}{\verb{<string>} optional title of the plot. Will be labeled automatically when NULL.}
 
@@ -25,9 +28,10 @@
 Plots the specified current environment of a \link{metaRangeSimulation} object.
 }
 \examples{
-sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2), nlyr = 4)
 names(sim_env) <- "env_01"
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 test_sim$environment$set_current(1)
 plot(test_sim$environment, "env_01")
+plot(test_sim$environment, "env_01", as_timeseries = TRUE)
 }
