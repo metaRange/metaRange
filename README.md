@@ -1,11 +1,10 @@
-[![Name](https://img.shields.io/badge/meta-Range-blue.svg)](https://metarange.github.io/metaRange/)
 [![R-CMD-check](https://github.com/metaRange/metaRange/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/metaRange/metaRange/actions)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 # metaRange
 ![](man/figures/logo.png)
 
-The R package **`metaRange`** is a framework that allows you to build process based species distribution model that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.
+The R package **`metaRange`** is a framework that allows you to build process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.
 
 _____________________________________________
 
@@ -24,30 +23,42 @@ devtools::install_github("metaRange/metaRange")
 Ecologists and programmers that are interested in studying and predicting species distributions and interactions under the influence of a changing environment on an intermediate time scale (years to hundreds of years).
 
 ## Prerequisites / where to get help
-To allow users of different experience levels an easy introduction to metaRange, it is accompanied by vignettes that give in-depth explanations and examples on how to setup different types of simulations.
+To allow users of different experience levels an easy introduction to metaRange, it is accompanied by [vignettes](https://metarange.github.io/metaRange/articles) that give in-depth explanations and examples on how to setup different types of simulations.
 That being said, a basic knowledge of general R programming and "classic" object-oriented programming concepts might be beneficial. In case one is unfamiliar with the [R6 package](https://r6.r-lib.org/articles/Introduction.html) , it is advisable to read the short intro about it in [Hadley Wickham's "Advanced R"](https://adv-r.hadley.nz/r6.html).
 
 # Overview
 
 ## Environment
 Environment variables can be supplied as raster data (specifically as a [`SpatRasterDataset`](https://rspatial.github.io/terra/reference/sds.html) (SDS) created by the [terra](https://rspatial.github.io/terra/index.html) package).
-There is no hard limit on the number of environmental variables that can be included in a simulation and there is also no limit on the type of these variables. One can use climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation.
-The number of layer in the SDS correspond to the different time steps of the simulation. This means that each consecutive layer represents the environmental conditions of one time step. Note: Experienced users have the ability to define more complex mappings between layer and time steps.
+There is no hard limit on the number of environmental variables that can be included in a simulation and there is also no limit on the type of these variables.
+One can use climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation.
+The number of layer in the SDS correspond to the different time steps of the simulation.
+This means that each consecutive layer represents the environmental conditions of one time step.
+Note: Experienced users have the ability to define more complex mappings between layer and time steps.
 
 ## Species
-Every simulated species (i.e. each species object) consists of a set of `processes` or functions that describe it's relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by `traits`, which can be any type of data that can be accessed or changed by the processes. Species have implied populations, each of which inhabit one grid cell of the landscape. On a computational level this means that the `traits` of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
+Every simulated species (i.e. each species object) consists of a set of `processes` or functions that describe it's relationship with time, itself, the abiotic environment and other species.
+Additional to the processes, the species is described by `traits`, which can be any type of data that can be accessed or changed by the processes.
+Species have implied populations, each of which inhabit one grid cell of the landscape.
+On a computational level this means that the `traits` of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
 
-A simple example would be a species with the process `reproduction` that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species.
+A simple example would be a species with the process `reproduction` that describes how the species reproduces during one simulation time step.
+This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species.
 
-Summarized: A species consists of `processes` (functions) and `traits` (data). Processes can access trait and environmental data and change trait data of themselves or other species.
+Summarized: A species consists of `processes` (functions) and `traits` (data).
+Processes can access trait and environmental data and change trait data of themselves or other species.
 
-The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step). This gives enormous flexibility in the type of simulations the user wants to perform. One can simulate and study single species range dynamics, species interactions, age-structured populations, invasion dynamics, climate and land-use change or a combination of any of those factors on a population / meta-population level.
+The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step).
+This gives enormous flexibility in the type of simulations the user wants to perform.
+One can simulate and study single species range dynamics, species interactions, age-structured populations, invasion dynamics, climate and land-use change or a combination of any of those factors on a population / meta-population level.
+
 ## Ecological functions
 To provide the user a quick start into building models with metaRange, it includes a variety of common ecological functions such as negative exponential, kernel-based dispersal (see Nathan et al. 2012), calculation of the environmental suitability based on cardinal values (Yin et al. (1995), simplified by Yan and Hunt (1999) see eq: 4), reproduction in form of an Ricker model (see Ricker (1954) and Cabral and Schurr (2010)),
 as well as metabolic scaling based on the metabolic theory of ecology (see Brown et al. (2004) and Brown, Sibly and Kodric-Brown (2012)).
 
 ## Performance
-The performance critical parts of the package have been implemented in `C++` with the help of the [`Rcpp`](https://www.rcpp.org/) and [`RcppArmadillo`](https://github.com/RcppCore/RcppArmadillo) packages. The package can handle simulations of a large spatial (millions of grid cells) and temporal extent (> hundreds of years / time steps) on regular consumer grade hardware.
+The performance critical parts of the package have been implemented in `C++` with the help of the [`Rcpp`](https://www.rcpp.org/) and [`RcppArmadillo`](https://github.com/RcppCore/RcppArmadillo) packages.
+The package can handle simulations of a large spatial (millions of grid cells) and temporal extent (> hundreds of years / time steps) on regular consumer grade hardware.
 _____________________________________________
 
 ## Acknowledgements
