@@ -29,11 +29,12 @@ that manages the correct process execution order."><meta property="og:image" con
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
-    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
-    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
-    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
-    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+    <a class="dropdown-item" href="../articles/metaRange.html">Introduction</a>
+    <a class="dropdown-item" href="../articles/advanced_setup.html">Advanced setup</a>
+    <a class="dropdown-item" href="../articles/species_interactions.html">Species interactions</a>
+    <a class="dropdown-item" href="../articles/metabolic_scaling.html">Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/directed_dispersal.html">Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/age-structured-populations.html">Age structured populations</a>
   </div>
 </li>
 <li class="nav-item">
@@ -374,7 +375,7 @@ This method is called automatically at the end of each time step.</p><div class=
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">execute_next_process</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> |-  : A</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> test</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> |---- 0.00067 secs</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> |---- 0.00068 secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
@@ -385,7 +386,7 @@ This method is called automatically at the end of each time step.</p><div class=
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="va"><a href="metaRangeProcess.html">metaRangeProcess</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span>, \<span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">enqueue</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">get_future_queue</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID-126f5f4ac1-A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID-13ba638c31-A </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
@@ -418,7 +419,7 @@ This method is called automatically at the end of each time step.</p><div class=
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">enqueue</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">update</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">get_queue</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID-123927d2d1-A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID-16166463a1-A </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
@@ -437,8 +438,8 @@ This method is called automatically at the end of each time step.</p><div class=
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">enqueue</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">update</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">get_queue</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID-1382a9ab1-A </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID-111a639e91-A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangePriorityQueue$get_future_queue`</span></span></span>
@@ -448,7 +449,7 @@ This method is called automatically at the end of each time step.</p><div class=
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="va"><a href="metaRangeProcess.html">metaRangeProcess</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span>, \<span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">enqueue</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr_queue</span><span class="op">$</span><span class="fu">get_future_queue</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID-15c5c14f71-A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID-11fa5b7d71-A </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
