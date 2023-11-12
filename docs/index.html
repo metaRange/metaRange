@@ -11,7 +11,7 @@
     constraints and species interactions. Its focus is simulating populations
     of one or multiple species in a grid based landscape and studying the
     meta-population dynamics and emergent patterns that arise from the
-    interaction of species under complex environmental conditions. metaRange
+    interaction of species under complex environmental conditions. The package
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
@@ -42,7 +42,7 @@
     constraints and species interactions. Its focus is simulating populations
     of one or multiple species in a grid based landscape and studying the
     meta-population dynamics and emergent patterns that arise from the
-    interaction of species under complex environmental conditions. metaRange
+    interaction of species under complex environmental conditions. The package
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
@@ -79,7 +79,20 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/metaRange.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
@@ -110,59 +123,70 @@
 </h1>
 </div>
 <p><img src="reference/figures/logo.png"></p>
-<p>metaRange is a collection of functions that allow you to build an process based species distribution model that can include (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid and population (i.e. not individual) based.</p>
-<hr>
+<p>The R package <strong><code>metaRange</code></strong> is a framework that allows you to build process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.</p>
 <div class="section level2">
-<h2 id="for-users">For users:<a class="anchor" aria-label="anchor" href="#for-users"></a>
+<h2 id="installation">Installation:<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install with:</p>
-<pre><code><span><span class="co"># CRAN / stable version</span></span>
-<span><span class="co"># install.packages("metaRange")</span></span>
-<span><span class="co"># Note: not yet on CRAN</span></span>
-<span></span>
-<span><span class="co"># github / development version</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"metaRange/metaRange"</span><span class="op">)</span></span></code></pre>
+<p>Install the <strong>stable version</strong> from CRAN with:</p>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"metaRange"</span><span class="op">)</span></span></code></pre>
+<p>Or the <strong>development version</strong> from github with:</p>
+<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"metaRange/metaRange"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="who-is-this-package-for">Who is this package for?<a class="anchor" aria-label="anchor" href="#who-is-this-package-for"></a>
+</h2>
+<p>Ecologists and programmers that are interested in studying and predicting species distributions and interactions under the influence of a changing environment on an intermediate time scale (years to hundreds of years).</p>
+</div>
+<div class="section level2">
+<h2 id="prerequisites--where-to-get-help">Prerequisites / where to get help<a class="anchor" aria-label="anchor" href="#prerequisites--where-to-get-help"></a>
+</h2>
+<p>To give users with different experience levels an easy introduction to metaRange, it is accompanied by <a href="https://metarange.github.io/metaRange/articles/index.html" class="external-link">vignettes / articles</a> that give in-depth explanations and examples on how to setup different types of simulations. That being said, a basic knowledge of general R programming and “classic” object-oriented programming concepts might be beneficial. In case one is unfamiliar with the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6 package</a> (Chang 2021), it is advisable to read the short intro about it in <a href="https://adv-r.hadley.nz/r6.html" class="external-link">Hadley Wickham’s “Advanced R”</a>.</p>
 </div>
 </div>
 <div class="section level1">
-<h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+<h1 id="feature-overview">Feature overview<a class="anchor" aria-label="anchor" href="#feature-overview"></a>
 </h1>
-<p>Every simulated species consists of a set of <code>processes</code> or functions that describe it’s relationship with time, itself, the abiotic environment and other species. Additional to the processes the species is described by <code>traits</code>, which can be any type of data that can be the basis for or changed by the processes. Each species consists of populations, each of which occupies one grid cell of the landscape. The processes of all the species are then executed in each timestep, for each population in the landscape, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time in the sequence/ simulation time step)</p>
-<p>A simple example would be a species with the process <code>reproduction</code> that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species. This process would therefore most likely influence an <code>abundance</code> trait of the species (in form of a grid/ raster with an abundance value for each population). Note that neither <code>reproduction</code> nor <code>abundance</code> are automatically created but have to be defined by the user.</p>
-<p>Note that this model is build using the <a href="https://r6.r-lib.org/" class="external-link">R6</a> system, which means it feature a syntax that is slightly different than most base R functions. If one is unfamiliar with “classic” object-oriented programming, it might be advisable to read the short intro of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6 package</a> or even the chapter in <a href="https://adv-r.hadley.nz/r6.html" class="external-link">Hadley Wickham’s “Advanced R”</a>.</p>
-<hr>
 <div class="section level2">
-<h2 id="for-developers-interested-in-changing-the-package-itself">For developers interested in changing the package itself:<a class="anchor" aria-label="anchor" href="#for-developers-interested-in-changing-the-package-itself"></a>
+<h2 id="environment">Environment<a class="anchor" aria-label="anchor" href="#environment"></a>
 </h2>
-<p>Note that this package includes <code>C++</code> code. To build it, you need a functioning compiler toolchain (<a href="https://cran.r-project.org/bin/windows/Rtools/index.html" class="external-link">RTools</a> on windows).</p>
-<p>A quick workflow to make sure nothing breaks when making changes:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span><span class="fu">styler</span><span class="fu">::</span><span class="fu"><a href="https://styler.r-lib.org/reference/style_pkg.html" class="external-link">style_pkg</a></span><span class="op">(</span></span>
-<span>    scope <span class="op">=</span> <span class="st">"line_breaks"</span>,</span>
-<span>    strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    indent_by <span class="op">=</span> <span class="fl">4L</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">Rcpp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">compileAttributes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">roxygen2</span><span class="fu">::</span><span class="fu"><a href="https://roxygen2.r-lib.org/reference/roxygenize.html" class="external-link">roxygenize</a></span><span class="op">(</span><span class="st">'.'</span>, roclets<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'rd'</span>, <span class="st">'collate'</span>, <span class="st">'namespace'</span><span class="op">)</span>, clean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># or: devtools::document()</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markvanderloo/tinytest" class="external-link">tinytest</a></span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Enable extensive reporting from metaRange functions when testing</span></span>
-<span><span class="fu"><a href="reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># quick tests; suitable for CRAN and the CI</span></span>
-<span><span class="fu">tinytest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytest/man/run_test_dir.html" class="external-link">test_all</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># extensive tests; suitable for local testing</span></span>
-<span><span class="fu">tinytest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytest/man/run_test_dir.html" class="external-link">test_all</a></span><span class="op">(</span>testdir <span class="op">=</span> <span class="st">"inst/local"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># and lastly the R CMD check</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
-<hr>
-<p>Copyright (C) 2023 metaRange authors License: GPL-3</p>
+<p>The package supports an unlimited number and type of environmental variables as for example climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation. Environment variables can be supplied as raster data (specifically as a <a href="https://rspatial.github.io/terra/reference/sds.html" class="external-link"><code>SpatRasterDataset</code></a> (SDS) created by the <a href="https://rspatial.github.io/terra/index.html" class="external-link">terra</a> package) (Hijmans 2023). The layer in the SDS correspond to / represent the different time steps of the simulation which enables simulations with varying environmental conditions.</p>
 </div>
+<div class="section level2">
+<h2 id="species">Species<a class="anchor" aria-label="anchor" href="#species"></a>
+</h2>
+<p>A simulation can contain multiple species, as well as interactions between them. Every simulated species (i.e. each species object) consists of a set of <code>processes</code> that describe it’s relationship with time, itself, the abiotic environment and other species and <code>traits</code>, which can be any type of data that can be accessed or changed by the processes.</p>
+<p>Species have implied populations, each of which inhabit one grid cell of the landscape. On a computational level this means that the <code>traits</code> of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.</p>
+<p>A simple example would be a species with the process <code>reproduction</code> that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species.</p>
+<p>Summarized: A species consists of <code>processes</code> (functions) and <code>traits</code> (data). Processes can access trait and environmental data and change trait data of themselves or other species.</p>
+</div>
+<div class="section level2">
+<h2 id="flexibility--dynamic-process-execution">Flexibility / dynamic process execution<a class="anchor" aria-label="anchor" href="#flexibility--dynamic-process-execution"></a>
+</h2>
+<p>The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step). This gives enormous flexibility in the type of simulations the user wants to perform. One can simulate and study single species <a href="https://metarange.github.io/metaRange/articles/metaRange.html" class="external-link">range dynamics</a>, <a href="https://metarange.github.io/metaRange/articles/03_species_interactions.html" class="external-link">species interactions</a>, <a href="https://metarange.github.io/metaRange/articles/06_age-structured-populations.html" class="external-link">age-structured populations</a>, <a href="https://metarange.github.io/metaRange/articles/02_advanced_setup.html#interaction-with-the-priority-queue" class="external-link">invasion dynamics</a>, climate and land-use change or a combination of any of those factors on a population / meta-population level.</p>
+</div>
+<div class="section level2">
+<h2 id="ecological-functions">Ecological functions<a class="anchor" aria-label="anchor" href="#ecological-functions"></a>
+</h2>
+<p>To provide the user a quick start into building models with metaRange, it includes common ecological functions that can be used to model a variety of species such as <a href="https://metarange.github.io/metaRange/reference/dispersal.html" class="external-link">kernel-based dispersal</a>, a <a href="https://metarange.github.io/metaRange/reference/negative_exponential_function.html" class="external-link">negative exponential function</a> to calculate such a kernel, <a href="https://metarange.github.io/metaRange/reference/calculate_suitability.html" class="external-link">environmental suitability estimation</a> based on cardinal values, a <a href="https://metarange.github.io/metaRange/reference/ricker_reproduction_model.html" class="external-link">reproduction model</a> in form of an Ricker model, as well as <a href="https://metarange.github.io/metaRange/reference/metabolic_scaling.html" class="external-link">metabolic scaling</a> of multiple parameter based on the bodymass and temperature.</p>
+</div>
+<div class="section level2">
+<h2 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
+</h2>
+<p>The performance critical parts of the package have been implemented in <code>C++</code> with the help of the <a href="https://www.rcpp.org/" class="external-link"><code>Rcpp</code></a> (Eddelbuettel &amp; Balamuta 2018) and <a href="https://github.com/RcppCore/RcppArmadillo" class="external-link"><code>RcppArmadillo</code></a> (Eddelbuettel &amp; Sanderson 2014) packages. The package can handle simulations of a large spatial (millions of grid cells) and temporal extent (&gt; hundreds of years / time steps) on regular consumer grade hardware.</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h1>
+<p>Thanks to <a href="https://github.com/coolbutuseless" class="external-link">mikefc / coolbutuseless</a> for the tutorial on <a href="https://coolbutuseless.github.io/2021/02/19/modifying-r6-objects-after-creation/" class="external-link">“Modifying R6 objects after creation”</a> and to <a href="https://github.com/tylermorganwall" class="external-link">Tyler Morgan-Wall</a> for the R package <a href="https://github.com/tylermorganwall/rayimage" class="external-link">rayimage</a> which gave a good example of a <em>Rcpp</em> implementation of an image convolution function.</p>
+</div>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
+<p>Eddelbuettel D, Balamuta J (2018). “Extending R with C++: A Brief Introduction to Rcpp.” <em>The American Statistician</em>, <em>72</em>(1), 28-36. <a href="https://doi.org/10.1080/00031305.2017.1375990" class="external-link uri">https://doi.org/10.1080/00031305.2017.1375990</a></p>
+<p>Eddelbuettel D, Sanderson C (2014). “RcppArmadillo: Accelerating R with high-performance C++ linear algebra.” <em>Computational Statistics and Data Analysis</em>, <em>71</em>, 1054-1063. <a href="https://doi.org/10.1016/j.csda.2013.02.005" class="external-link uri">https://doi.org/10.1016/j.csda.2013.02.005</a></p>
+<p>Chang W (2021). <em>R6: Encapsulated Classes with Reference Semantics</em>. R package version 2.5.1, <a href="https://CRAN.R-project.org/package=R6" class="external-link uri">https://CRAN.R-project.org/package=R6</a>.</p>
+<p>Hijmans R (2023). <em>terra: Spatial Data Analysis</em>. R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" class="external-link uri">https://CRAN.R-project.org/package=terra</a>.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
@@ -200,7 +224,7 @@
 <ul class="list-unstyled">
 <li>Stefan Fallert <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-9939-4219" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Lea Li <br><small class="roles"> Author, copyright holder </small>  </li>
-<li>Juliano S. Cabral <br><small class="roles"> Author, copyright holder, thesis advisor </small> <a href="https://orcid.org/0000-0002-0116-220X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Juliano Sarmento Cabral <br><small class="roles"> Author, copyright holder, thesis advisor </small> <a href="https://orcid.org/0000-0002-0116-220X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Bavarian Ministry of Science and Arts (bayklif) <br><small class="roles"> Funder </small>  </li>
 <li>Deutsche Bundesstiftung Umwelt (DBU) <br><small class="roles"> Funder </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
@@ -210,8 +234,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/metaRange/metaRange/actions" class="external-link"><img src="https://github.com/metaRange/metaRange/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
 
@@ -221,7 +245,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+<p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

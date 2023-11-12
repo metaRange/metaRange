@@ -22,8 +22,21 @@ that are necessary to run a simulation."><meta property="og:image" content="http
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -69,7 +82,7 @@ that are necessary to run a simulation.</p>
 
 
 <dt><code>globals</code></dt>
-<dd><p><code>&lt;list&gt;</code> a place to store global variables.</p></dd>
+<dd><p><code>&lt;environment&gt;</code> a place to store global variables.</p></dd>
 
 
 <dt><code>environment</code></dt>
@@ -176,7 +189,7 @@ Will be set automatically if none is specified.</p></dd>
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
-<dd><p><code>&lt;atomic&gt;</code> (see <code><a href="https://rdrr.io/r/base/is.recursive.html" class="external-link">base::is.atomic()</a></code>)
+<dd><p><code>&lt;any&gt;</code> the variables to add.
 Variables to add to the simulation. They will be saved and accessible
 through the 'globals' field.</p></dd>
 
@@ -376,7 +389,8 @@ If <code>FALSE</code> the traits will be added without any conversion and may ha
 
 
 <dt><code>...</code></dt>
-<dd><p><code>&lt;atomic&gt;</code> (see <code><a href="https://rdrr.io/r/base/is.recursive.html" class="external-link">base::is.atomic()</a></code>) The traits to be added.</p></dd>
+<dd><p><code>&lt;atomic&gt;</code> (see <code><a href="https://rdrr.io/r/base/is.recursive.html" class="external-link">base::is.atomic()</a></code>) The named traits to be added.
+Named means: <code>Name = value</code> e.g. <code>a = 1</code>.</p></dd>
 
 
 </dl><p></p></div>
@@ -573,9 +587,9 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Species:  species_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> processes: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> traits: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeSimulation$species_names`</span></span></span>
@@ -599,19 +613,19 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_process_1"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_1"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">species_process_1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  species_process_1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-14729461-species_process_1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-14657b4ca1-species_process_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  species_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_1")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002161ad2fdd8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001dd3ed308c8&gt;</span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, <span class="st">"global_process_2"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_2"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process_2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  global_process_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-223c5e502-global_process_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-2311c0bcc2-global_process_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_1c56f0e </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_14f21e60 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_2")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002161ac6bf08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001dd3f994470&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeSimulation$add_traits`</span></span></span>
@@ -707,7 +721,7 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">metaRangeSimulation</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>source_environment <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">summary</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_2d56f93 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_68758c1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Environment: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRasterDataset </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> subdatasets : 1 </span>
@@ -715,13 +729,17 @@ it to the console</p><div class="section">
 <span class="r-out co"><span class="r-pr">#&gt;</span> nlyr        : 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 180, 90  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> source(s)   : memory </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time step layer mapping:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Current time step:  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  593 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  943 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Species:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simulation level processes:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Gobal variables:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Queue:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> At process:  0 out of:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Remaining queue: </span>
@@ -735,7 +753,7 @@ it to the console</p><div class="section">
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

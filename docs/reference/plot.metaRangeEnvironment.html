@@ -18,8 +18,21 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -52,7 +65,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for metaRangeEnvironment</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">env_name</span>, <span class="va">col</span>, main <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">env_name</span>, <span class="va">col</span>, as_timeseries <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,7 +80,12 @@
 
 <dt>col</dt>
 <dd><p><code>&lt;character&gt;</code> colors to use. Defaults to <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code> with
-<code>n =50</code> and a random palette.</p></dd>
+<code>n = 50</code> and a random palette.</p></dd>
+
+
+<dt>as_timeseries</dt>
+<dd><p><code>&lt;logical&gt;</code> if <code>TRUE</code>, plot the mean of each layer of the (source)
+environment as a line graph over time, if <code>FALSE</code> plot the (current) environment as a raster.</p></dd>
 
 
 <dt>main</dt>
@@ -87,12 +105,14 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, nlyr <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sim_env</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"env_01"</span></span></span>
 <span class="r-in"><span><span class="va">test_sim</span> <span class="op">&lt;-</span> <span class="va"><a href="metaRangeSimulation.html">metaRangeSimulation</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>source_environment <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">test_sim</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="fu">set_current</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">test_sim</span><span class="op">$</span><span class="va">environment</span>, <span class="st">"env_01"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.metaRangeEnvironment-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">test_sim</span><span class="op">$</span><span class="va">environment</span>, <span class="st">"env_01"</span>, as_timeseries <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.metaRangeEnvironment-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -100,7 +120,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

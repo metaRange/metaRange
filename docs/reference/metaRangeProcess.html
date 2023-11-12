@@ -22,8 +22,21 @@ that define a species."><meta property="og:image" content="https://metaRange.git
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -232,7 +245,7 @@ Just used as a human readable label for debug purposes.</p></dd>
 
 </div><p></p><hr><a id="method-metaRangeProcess-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
-<p>Prints information about the species to the console</p><div class="section">
+<p>Prints information about the process to the console</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">metaRangeProcess</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -272,13 +285,13 @@ Just used as a human readable label for debug purposes.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  my_process </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-14b2d996-my_process </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1403eaab5-my_process </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  my_environment </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cat("Hello World!")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002161d277000&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001dd7c223c90&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeProcess$get_PID`</span></span></span>
@@ -286,7 +299,7 @@ Just used as a human readable label for debug purposes.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="va">metaRangeProcess</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span>, \<span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr</span><span class="op">$</span><span class="fu">get_PID</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PID-1370b1751-A"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PID-11d098e891-A"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeProcess$get_name`</span></span></span>
@@ -319,11 +332,11 @@ Just used as a human readable label for debug purposes.</p></dd>
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="va">metaRangeProcess</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span>, \<span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pr</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  A </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1409e5e11-A </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1619801e81-A </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: \() {}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000002161d7b9948&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001dd7c7a0d58&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -331,7 +344,7 @@ Just used as a human readable label for debug purposes.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

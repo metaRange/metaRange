@@ -20,8 +20,21 @@ based on a known or estimated parameter value under at a reference temperature."
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -43,7 +56,7 @@ based on a known or estimated parameter value under at a reference temperature."
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Normalization constant calculation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/metaRange/metaRange/blob/HEAD/R/ecology.R" class="external-link"><code>R/ecology.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metaRange/metaRange/blob/HEAD/R/metabolic_scaling.R" class="external-link"><code>R/metabolic_scaling.R</code></a></small>
       <div class="d-none name"><code>calculate_normalization_constant.Rd</code></div>
     </div>
 
@@ -60,7 +73,8 @@ based on a known or estimated parameter value under at a reference temperature.<
 <span>  <span class="va">mass</span>,</span>
 <span>  <span class="va">reference_temperature</span>,</span>
 <span>  E <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  k <span class="op">=</span> <span class="fl">8.617333e-05</span></span>
+<span>  k <span class="op">=</span> <span class="fl">8.617333e-05</span>,</span>
+<span>  warn_if_possibly_false_input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"metaRange.verbose"</span>, default <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,6 +102,11 @@ based on a known or estimated parameter value under at a reference temperature.<
 
 <dt>k</dt>
 <dd><p><code>&lt;numeric&gt;</code> Boltzmann's constant (eV / K).</p></dd>
+
+
+<dt>warn_if_possibly_false_input</dt>
+<dd><p><code>&lt;boolean&gt;</code> Print a warning if the input
+is different from the known literature value combinations.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -133,7 +152,7 @@ In <em>Metabolic Ecology</em> (eds R.M. Sibly, J.H. Brown and A. Kodric-Brown)
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -18,8 +18,21 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="../articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="../articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="../articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -41,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Calculate 2D dispersal kernel.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/metaRange/metaRange/blob/HEAD/R/ecology.R" class="external-link"><code>R/ecology.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/metaRange/metaRange/blob/HEAD/R/dispersal.R" class="external-link"><code>R/dispersal.R</code></a></small>
       <div class="d-none name"><code>calculate_dispersal_kernel.Rd</code></div>
     </div>
 
@@ -87,7 +100,9 @@ vector of the same size as <code>max_dispersal_dist</code>.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a very simple uniform kernel</span></span></span>
 <span class="r-in"><span><span class="va">uniform_kernel</span> <span class="op">&lt;-</span> <span class="fu">calculate_dispersal_kernel</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    max_dispersal_dist <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>    kfun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span> <span class="op">*</span> <span class="fl">0</span> <span class="op">+</span> <span class="fl">1</span><span class="op">}</span></span></span>
+<span class="r-in"><span>    kfun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>        <span class="va">x</span> <span class="op">*</span> <span class="fl">0</span> <span class="op">+</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># same as</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span></span>
@@ -125,7 +140,7 @@ vector of the same size as <code>max_dispersal_dist</code>.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -19,7 +19,20 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="articles/metaRange.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/02_advanced_setup.html">02: Advanced setup</a>
+    <a class="dropdown-item" href="articles/03_species_interactions.html">03: Species interactions</a>
+    <a class="dropdown-item" href="articles/04_metabolic_scaling.html">04: Metabolic scaling</a>
+    <a class="dropdown-item" href="articles/05_directed_dispersal.html">05: Directed (weighted) dispersal</a>
+    <a class="dropdown-item" href="articles/06_age-structured-populations.html">06: Age structured populations</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
@@ -55,6 +68,37 @@
 <p>Please provide a minimal reproducible example if applicable and depending on the severity of the bug (typo vs crash) also your <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>.</p>
 </div>
 <div class="section level2">
+<h2 id="notes-for-developers-interested-in-contributing">Notes for developers interested in contributing:<a class="anchor" aria-label="anchor" href="#notes-for-developers-interested-in-contributing"></a></h2>
+<p>Note that this package includes <code>C++</code> code. To build it, you need a functioning compiler toolchain (<a href="https://cran.r-project.org/bin/windows/Rtools/index.html" class="external-link">RTools</a> on windows).</p>
+<div class="section level3">
+<h3 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h3>
+<p>Functions, parameter and variables are in <code>snake_case</code>, classes are in <code>CamelCase</code>. Note the <code>.lintr</code> file for <code>R</code> code and <code>.clang-format</code> file for the <code>c++</code> code. Also, the very helpful command:</p>
+<pre><code><span><span class="fu">styler</span><span class="fu">::</span><span class="fu"><a href="https://styler.r-lib.org/reference/style_pkg.html" class="external-link">style_pkg</a></span><span class="op">(</span></span>
+<span>    scope <span class="op">=</span> <span class="st">"line_breaks"</span>,</span>
+<span>    strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    indent_by <span class="op">=</span> <span class="fl">4L</span></span>
+<span><span class="op">)</span></span></code></pre>
+<p>A quick workflow to make sure nothing breaks when making changes:</p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="fu">Rcpp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">compileAttributes</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">document</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markvanderloo/tinytest" class="external-link">tinytest</a></span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Enable extensive reporting from metaRange functions when testing</span></span>
+<span><span class="fu"><a href="reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># quick tests; suitable for CRAN and the CI</span></span>
+<span><span class="fu">tinytest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytest/man/run_test_dir.html" class="external-link">test_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># A longer a bit more extensive test; suitable for local testing</span></span>
+<span><span class="fu">tinytest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytest/man/run_test_dir.html" class="external-link">test_all</a></span><span class="op">(</span>testdir <span class="op">=</span> <span class="st">"inst/local"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># and lastly the R CMD check</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level2">
 <h2 id="feature-requests">Feature requests<a class="anchor" aria-label="anchor" href="#feature-requests"></a></h2>
 <p>Open an issue with the desired functionality to discuss.</p>
 </div>
@@ -73,7 +117,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano S. Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
+  <p></p><p>Developed by Stefan Fallert, Lea Li, Juliano Sarmento Cabral, Bavarian Ministry of Science and Arts (bayklif), Deutsche Bundesstiftung Umwelt (DBU).</p>
 </div>
 
 <div class="pkgdown-footer-right">

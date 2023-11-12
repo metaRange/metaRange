@@ -4,6 +4,27 @@
     <loc>https://metaRange.github.io/metaRange/404.html</loc>
   </url>
   <url>
+    <loc>https://metaRange.github.io/metaRange/articles/02_advanced_setup.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/03_species_interactions.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/04_metabolic_scaling.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/05_directed_dispersal.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/06_age-structured-populations.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/articles/metaRange.html</loc>
+  </url>
+  <url>
     <loc>https://metaRange.github.io/metaRange/authors.html</loc>
   </url>
   <url>
@@ -38,6 +59,12 @@
   </url>
   <url>
     <loc>https://metaRange.github.io/metaRange/reference/dispersal_fixed_undirected.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/reference/dispersal_fixed_unweighted.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/reference/dispersal_fixed_weighted.html</loc>
   </url>
   <url>
     <loc>https://metaRange.github.io/metaRange/reference/index.html</loc>
@@ -76,6 +103,9 @@
     <loc>https://metaRange.github.io/metaRange/reference/plot.metaRangeSpecies.html</loc>
   </url>
   <url>
+    <loc>https://metaRange.github.io/metaRange/reference/print.metaRangeVariableStorage.html</loc>
+  </url>
+  <url>
     <loc>https://metaRange.github.io/metaRange/reference/ricker_reproduction_model.html</loc>
   </url>
   <url>
@@ -86,5 +116,8 @@
   </url>
   <url>
     <loc>https://metaRange.github.io/metaRange/reference/summary.metaRangeSimulation.html</loc>
+  </url>
+  <url>
+    <loc>https://metaRange.github.io/metaRange/reference/summary.metaRangeSpecies.html</loc>
   </url>
 </urlset>
