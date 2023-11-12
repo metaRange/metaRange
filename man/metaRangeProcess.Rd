@@ -243,7 +243,7 @@ pr$get_env_label()
 \if{html}{\out{<a id="method-metaRangeProcess-print"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangeProcess-print}{}}}
 \subsection{Method \code{print()}}{
-Prints information about the species to the console
+Prints information about the process to the console
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeProcess$print()}\if{html}{\out{</div>}}
 }

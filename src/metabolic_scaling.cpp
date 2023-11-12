@@ -123,8 +123,9 @@ NumericVector metabolic_scaling(
         stop("Parameter k should be a single value.");
     }
 
-
-    NumericVector result = normalization_constant[0] * pow(mass, scaling_exponent[0]) * exp((E[0] / (k[0] * temperature)));
+    NumericVector result = normalization_constant[0] *
+                           pow(mass, scaling_exponent[0]) *
+                           exp((E[0] / (k[0] * temperature)));
     result.attr("dim") = mass.attr("dim");
     return result;
 }

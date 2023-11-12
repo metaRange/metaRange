@@ -51,6 +51,48 @@ summary.metaRangeSimulation <- function(object, ...) {
     return(invisible(NULL))
 }
 
+#' Summary for metaRange species
+#' @param object `<metaRangeSpecies>` The [metaRangeSpecies] object to summarize.
+#' @param ... `<any>` ignored.
+#' @examples
+#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' names(sim_env) <- "env_01"
+#' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
+#' test_sim$add_species("species_01")
+#' summary(test_sim$species_01)
+#' @return `<invisible NULL>`
+#' @export
+summary.metaRangeSpecies <- function(object, ...) {
+    cat("Species name: ", object$name, "\n")
+    cat("Species processes: \n")
+    print(object$processes)
+    cat("Species traits: \n")
+    print(object$traits)
+    return(invisible(NULL))
+}
+
+#' Print Traits or globals
+#'
+#' Print method for Species traits and simulation globals.
+#' @param x `<metaRangeVariableStorage>` The object to print.
+#' @param ... `<any>` ignored.
+#' @examples
+#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' names(sim_env) <- "env_01"
+#' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
+#' test_sim$add_species("species_01")
+#' print(test_sim$species_01$traits)
+#' print(test_sim$globals)
+#' @return `<invisible x>`
+#' @export
+print.metaRangeVariableStorage <- function(x, ...) {
+    if (length(ls(x, sorted = FALSE)) == 0) {
+        cat("NULL\n")
+    } else {
+        print(utils::ls.str(x))
+    }
+    return(invisible(x))
+}
 
 #' Create a simulation
 #'

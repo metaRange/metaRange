@@ -38,7 +38,7 @@ using namespace arma;
 
 
 
-//' Undirected and fixed sized dispersal
+//' Unweighted and fixed sized dispersal
 //'
 //' Dispersal function that uses a fixed sized kernel that isn't influenced by
 //' external factors. The individuals in each cell are redistributed to the
@@ -50,7 +50,7 @@ using namespace arma;
 //' @return `<numeric matrix>` The new abundance matrix.
 //' @keywords internal
 // [[Rcpp::export]]
-arma::mat dispersal_fixed_undirected(
+arma::mat dispersal_fixed_unweighted(
         arma::mat abundance,
         arma::mat dispersal_kernel) {
     if ((dispersal_kernel.n_rows != dispersal_kernel.n_cols)) {
@@ -104,11 +104,15 @@ arma::mat dispersal_fixed_undirected(
             }
 
             arma::mat current_dispersal_kernel = dispersal_kernel.submat(
-                kernel_min_row, kernel_min_col, kernel_max_row, kernel_max_col);
+                    kernel_min_row,
+                    kernel_min_col,
+                    kernel_max_row,
+                    kernel_max_col);
 
-            offspring.submat(min_row, min_col, max_row, max_col) += (abundance(rowid, colid) *
-                (current_dispersal_kernel  / accu(current_dispersal_kernel)));
-
+            offspring.submat(min_row, min_col, max_row, max_col) +=
+                    (abundance(rowid, colid) *
+                     (current_dispersal_kernel /
+                      accu(current_dispersal_kernel)));
         }
         // check if the user wants to interrupt the function
         // do this here to avoid overhead from checking in each cell
@@ -118,11 +122,9 @@ arma::mat dispersal_fixed_undirected(
     return abundance;
 }
 
-
-
-//' Directed and fixed sized dispersal
+//' Weighted and fixed sized dispersal
 //'
-//' Dispersal function that uses a fixed sized kernel and directed dispersal towards areas that have a higher weight.
+//' Dispersal function that uses a fixed sized kernel and weighted dispersal towards areas that have a higher weight.
 //' Use case are e.g. animals that can sense their surroundings.
 //'
 //' @param abundance `<numeric matrix>` Values need to be non-negative.
@@ -132,11 +134,12 @@ arma::mat dispersal_fixed_undirected(
 //' @return `<numeric matrix>` The new abundance matrix.
 //' @keywords internal
 // [[Rcpp::export]]
-arma::mat dispersal_fixed_directed(
+arma::mat dispersal_fixed_weighted(
         arma::mat abundance,
         arma::mat weights,
         arma::mat dispersal_kernel) {
-    if ((abundance.n_rows != weights.n_rows) || (abundance.n_cols != weights.n_cols)) {
+    if ((abundance.n_rows != weights.n_rows) ||
+        (abundance.n_cols != weights.n_cols)) {
         stop("Size of abundance and weights are not equal.");
     }
     if ((dispersal_kernel.n_rows != dispersal_kernel.n_cols)) {
@@ -191,13 +194,18 @@ arma::mat dispersal_fixed_directed(
                 max_col = ncols - 1;
             }
 
-            arma::mat current_dispersal_kernel = dispersal_kernel.submat(kernel_min_row, kernel_min_col, kernel_max_row, kernel_max_col);
-            arma::mat current_weights = weights.submat(min_row, min_col, max_row, max_col);
+            arma::mat current_dispersal_kernel = dispersal_kernel.submat(
+                    kernel_min_row,
+                    kernel_min_col,
+                    kernel_max_row,
+                    kernel_max_col);
+            arma::mat current_weights =
+                    weights.submat(min_row, min_col, max_row, max_col);
 
-            offspring.submat(min_row, min_col, max_row, max_col) += (abundance(rowid, colid) *
-                ((current_dispersal_kernel % current_weights)  /
-                accu((current_dispersal_kernel % current_weights))));
-
+            offspring.submat(min_row, min_col, max_row, max_col) +=
+                    (abundance(rowid, colid) *
+                     ((current_dispersal_kernel % current_weights) /
+                      accu((current_dispersal_kernel % current_weights))));
         }
         // check if the user wants to interrupt the function
         // do this here to avoid overhead from checking in each cell

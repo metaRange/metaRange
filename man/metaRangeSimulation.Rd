@@ -148,7 +148,7 @@ sim$summary()
 \describe{
 \item{\code{ID}}{\verb{<string>} simulation identification.}
 
-\item{\code{globals}}{\verb{<list>} a place to store global variables.}
+\item{\code{globals}}{\verb{<environment>} a place to store global variables.}
 
 \item{\code{environment}}{a \verb{<[metaRangeEnvironment]>} that holds all the environmental
 values influencing the simulation.}
@@ -240,7 +240,7 @@ Add global variables to the simulation
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}})
+\item{\code{...}}{\verb{<any>} the variables to add.
 Variables to add to the simulation. They will be saved and accessible
 through the 'globals' field.}
 }
@@ -448,7 +448,8 @@ This means that the traits either need to be single values that will be extended
 to such a matrix via \code{\link[base:matrix]{base::matrix()}} or they already need to be a matrix with these dimension.
 If \code{FALSE} the traits will be added without any conversion and may have any type and dimension.}
 
-\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}}) The traits to be added.}
+\item{\code{...}}{\verb{<atomic>} (see \code{\link[base:is.recursive]{base::is.atomic()}}) The named traits to be added.
+Named means: \code{Name = value} e.g. \code{a = 1}.}
 }
 \if{html}{\out{</div>}}
 }

@@ -13,12 +13,6 @@ source projects:
   Links:
       https://www.rayimage.dev, https://github.com/tylermorganwall/rayimage
 
-* Class_Species.R uses a code snippet from:
-  https://coolbutuseless.github.io/2021/02/19/modifying-r6-objects-after-creation/
-  License: MIT
-  Copyright: mikefc@coolbutuseless.com
-  (See top of the file 'Class_Simulation.R' for the full notice.)
-
 * metaRange uses and links to the R package "Rcpp"
   License: GPL (>= 2)
   Copyright: Dirk Eddelbuettel, Romain Francois, JJ Allaire, Kevin Ushey, Qiang Kou, Nathan Russell, Inaki Ucar, Douglas Bates and John Chambers

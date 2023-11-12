@@ -12,7 +12,7 @@ habitat <- rep(habitat, simlength)
 sim_env <- terra::sds(temperature, precipitation, habitat)
 names(sim_env) <- c("temperature", "precipitation", "habitat")
 
-testfun <- function(n, simlength, directed, sim_env) {
+testfun <- function(n, simlength, weighted, sim_env) {
 
     test_simulation <- create_simulation(sim_env)
 
@@ -144,7 +144,7 @@ testfun <- function(n, simlength, directed, sim_env) {
             mean_dispersal_dist = 0.5)
     )
     # Add a process to calculate the dispersal
-    if (directed) {
+    if (weighted) {
         test_simulation$add_process(
             species = "test_species",
             process_name = "dispersal_process",
@@ -174,7 +174,7 @@ testfun <- function(n, simlength, directed, sim_env) {
 }
 
 expect_equal(
-    testfun(n = n, simlength = simlength, directed = TRUE, sim_env = sim_env),
+    testfun(n = n, simlength = simlength, weighted = TRUE, sim_env = sim_env),
     matrix(
         c(
             0, 102, 130, 136, 120,
@@ -185,11 +185,11 @@ expect_equal(
         ),
         n, n
     ),
-    info = "testing directed dispersal"
+    info = "testing weighted dispersal"
 )
 
 expect_equal(
-    testfun(n = n, simlength = simlength, directed = FALSE, sim_env = sim_env),
+    testfun(n = n, simlength = simlength, weighted = FALSE, sim_env = sim_env),
     matrix(
         c(
             3, 120, 144, 147, 133,
@@ -200,7 +200,7 @@ expect_equal(
         ),
         n, n
     ),
-    info = "testing undirected dispersal"
+    info = "testing unweighted dispersal"
 )
 
 testfun_deueue <- function(n, simlength, sim_env) {

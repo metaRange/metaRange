@@ -60,7 +60,7 @@ calculate_suitability <- function(vmax, vopt, vmin, venv) {
     .Call('_metaRange_calculate_suitability', PACKAGE = 'metaRange', vmax, vopt, vmin, venv)
 }
 
-#' Undirected and fixed sized dispersal
+#' Unweighted and fixed sized dispersal
 #'
 #' Dispersal function that uses a fixed sized kernel that isn't influenced by
 #' external factors. The individuals in each cell are redistributed to the
@@ -71,13 +71,13 @@ calculate_suitability <- function(vmax, vopt, vmin, venv) {
 #' @param dispersal_kernel `<numeric matrix>` Dispersal kernel. Needs to have an odd size.
 #' @return `<numeric matrix>` The new abundance matrix.
 #' @keywords internal
-dispersal_fixed_undirected <- function(abundance, dispersal_kernel) {
-    .Call('_metaRange_dispersal_fixed_undirected', PACKAGE = 'metaRange', abundance, dispersal_kernel)
+dispersal_fixed_unweighted <- function(abundance, dispersal_kernel) {
+    .Call('_metaRange_dispersal_fixed_unweighted', PACKAGE = 'metaRange', abundance, dispersal_kernel)
 }
 
-#' Directed and fixed sized dispersal
+#' Weighted and fixed sized dispersal
 #'
-#' Dispersal function that uses a fixed sized kernel and directed dispersal towards areas that have a higher weight.
+#' Dispersal function that uses a fixed sized kernel and weighted dispersal towards areas that have a higher weight.
 #' Use case are e.g. animals that can sense their surroundings.
 #'
 #' @param abundance `<numeric matrix>` Values need to be non-negative.
@@ -86,8 +86,8 @@ dispersal_fixed_undirected <- function(abundance, dispersal_kernel) {
 #' @param dispersal_kernel `<numeric matrix>` Dispersal kernel. Needs to have an odd size.
 #' @return `<numeric matrix>` The new abundance matrix.
 #' @keywords internal
-dispersal_fixed_directed <- function(abundance, weights, dispersal_kernel) {
-    .Call('_metaRange_dispersal_fixed_directed', PACKAGE = 'metaRange', abundance, weights, dispersal_kernel)
+dispersal_fixed_weighted <- function(abundance, weights, dispersal_kernel) {
+    .Call('_metaRange_dispersal_fixed_weighted', PACKAGE = 'metaRange', abundance, weights, dispersal_kernel)
 }
 
 #' Metabolic scaling

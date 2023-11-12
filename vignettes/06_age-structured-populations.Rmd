@@ -1,0 +1,179 @@
+---
+title: "06: Age structured populations"
+author: "Fallert, S. and Cabral, J.S."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{06: Age structured populations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+Many species have population dynamics that can't be described by a simple Ricker model.
+A common abstraction to deal with this complexity is to partition a species into functional subgroups that undergo different processes, as for example *juveniles* who are dispersing and looking for a habitat, who then become *adults* who are stationary but have the ability to reproduce and generate the next generation of *juveniles*.
+The following illustrates how to model such a system.
+
+
+## Basic setup
+```{r setup}
+library(metaRange)
+library(terra)
+```
+```{r load_landscape_fun, echo = FALSE, results  = FALSE}
+create_example_landscape <- function() {
+    set.seed(3)
+    create_land <- function() {
+        sample_size <- 100
+        n_cells <- 100
+        res <- terra::disagg(
+            terra::rast(
+                matrix(
+                    sample.int(
+                        sample_size,
+                        n_cells,
+                        replace = TRUE,
+                        prob = sin(seq(0.05, pi-0.05, length.out = sample_size))
+                    ),
+                    nrow = sqrt(n_cells),
+                    ncol = sqrt(n_cells)
+                )
+            ),
+            10,
+            "bilinear"
+        )  / 100
+        ext(res) <- c(0, 100, 0, 100)
+        return(res)
+    }
+    temperature <- create_land() * 20 + 273.15
+    temperature <- rep(temperature, 10)
+    precipitation <- create_land() * 1000
+    precipitation <- rep(precipitation, 10)
+    habitat <- create_land()
+    habitat <- rep(habitat, 10)
+    landscape <- terra::sds(temperature, precipitation, habitat)
+    names(landscape) <- c("temperature", "precipitation", "habitat")
+    return(landscape)
+}
+```
+
+Setup the basic simulation.
+```{r setup_sim}
+sim <- create_simulation(create_example_landscape())
+sim$add_species("species_1")
+```
+
+
+## Traits
+Now we add the traits for both the *juveniles* and  *adults*.
+```{r some-traits}
+
+sim$add_traits(
+    species = "species_1",
+    n_juveniles = 100,
+    n_adults = 100,
+    mortality_juveniles = 0.1,
+    mortality_adults = 0.7,
+    reproduction_rate = 2
+)
+sim$add_traits(
+    species = "species_1",
+    population_level = FALSE,
+    dispersal_kernel = calculate_dispersal_kernel(
+        max_dispersal_dist = 8,
+        kfun = negative_exponential_function,
+        mean_dispersal_dist = 4
+    )
+)
+```
+
+## Processes
+Now we add some processes that manage the transition between the age classes.
+```{r repro1}
+sim$add_process(
+    species = "species_1",
+    process_name = "reproduction",
+    process_fun = function() {
+        self$traits[["n_juveniles"]] <-
+            self$traits[["n_adults"]] + (
+                self$traits[["n_adults"]] * self$traits[["reproduction_rate"]]
+            ) * self$sim$environment$current$habitat
+    },
+    execution_priority = 1
+)
+sim$add_process(
+    species = "species_1",
+    process_name = "getting_older",
+    process_fun = function() {
+        self$traits[["n_adults"]] <-
+            self$traits[["n_adults"]] +
+              self$traits[["n_juveniles"]] * (1 - self$traits[["mortality_juveniles"]])
+    },
+    execution_priority = 3
+)
+```
+
+## More processes
+And some more for the dispersal and mortality.
+```{r dispersal1}
+sim$add_process(
+    species = "species_1",
+    process_name = "dispersal_of_juveniles",
+    process_fun = function() {
+        self$traits[["n_juveniles"]] <- dispersal(
+            abundance = self$traits[["n_juveniles"]],
+            dispersal_kernel = self$traits[["dispersal_kernel"]]
+        )
+    },
+    execution_priority = 2
+)
+sim$add_process(
+    species = "species_1",
+    process_name = "mortality_of_adults",
+    process_fun = function() {
+        self$traits[["n_adults"]] <-
+            self$traits[["n_adults"]] * (1 - self$traits[["mortality_adults"]])
+    },
+    execution_priority = 4
+)
+```
+
+## Result
+Lastly, we add a process that reports the numbers of adults and juveniles over time, then execute the simulation and plot the results.
+```{r run_sim}
+sim$add_globals(n_juveniles = c(), n_adults = c())
+sim$add_process(
+    process_name = "logger",
+    process_fun = function() {
+        self$globals$n_juveniles <-
+            c(self$globals$n_juveniles, sum(self$species_1$traits[["n_juveniles"]]))
+        self$globals$n_adults <-
+            c(self$globals$n_adults, sum(self$species_1$traits[["n_adults"]]))
+    },
+    execution_priority = 5
+)
+sim$begin()
+plot(
+    1:10,
+    sim$globals$n_juveniles,
+    col = "darkred",
+    type = "l",
+    ylim = c(0, 2000000),
+    xlab = "Time",
+    ylab = "Number of individuals",
+    cex.lab = 0.7,
+    cex.axis = 0.7
+)
+lines(1:10, sim$globals$n_adults, col = "darkblue")
+legend(
+    "topright",
+    legend = c("juveniles", "adults"),
+    col = c("darkred", "darkblue"),
+    lty = 1,
+    cex = 0.7
+)
+```

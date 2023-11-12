@@ -80,7 +80,9 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
             private$PID <- paste0(
                 "PID-",
                 execution_priority,
-                as.hexmode(sample.int(100000000L, 1)),
+                as.hexmode(sample.int(.Machine$integer.max, 1)),
+                # the id is a running counter that is incremented for each process
+                # intended to assuere that the names are unique even if the RNG gives the same number
                 id,
                 "-",
                 process_name
@@ -124,7 +126,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
             return(private$execution_environment_label)
         },
 
-        #' @description Prints information about the species to the console
+        #' @description Prints information about the process to the console
         #' @examples
         #' pr <- metaRangeProcess$new("A", "1", \() {}, 1, new.env())
         #' pr$print()

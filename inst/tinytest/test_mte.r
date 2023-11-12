@@ -445,7 +445,76 @@ expect_true(test_mte_reproduction_rate_mass(),
     info = "testing that reproduction rate scales correct with mass"
 )
 
+expect_error(
+    metabolic_scaling(
+        normalization_constant = 1,
+        scaling_exponent = -1 / 4,
+        mass = c(1, 2),
+        temperature = 1,
+        E = 0.65,
+        k = 8.617333e-05
+    ),
+    info = "error for different sizes of mass & temperature"
+)
 
+expect_error(
+    metabolic_scaling(
+        normalization_constant = 1,
+        scaling_exponent = c(2,2),
+        mass = 1,
+        temperature = 1,
+        E = 0.65,
+        k = 8.617333e-05
+    ),
+    info = "error for single number as scaling exponent"
+)
+
+expect_error(
+    metabolic_scaling(
+        normalization_constant = 1,
+        scaling_exponent = -1 / 4,
+        mass = 1,
+        temperature = 1,
+        E = c(0.65, 0.65),
+        k = 8.617333e-05
+    ),
+    info = "error for single number as E"
+)
+
+expect_error(
+    metabolic_scaling(
+        normalization_constant = 1,
+        scaling_exponent = -1 / 4,
+        mass = 1,
+        temperature = 1,
+        E = 0.65,
+        k = c(8.617333e-05, 1)
+    ),
+    info = "error for single number as k"
+)
+
+
+expect_message(
+    calculate_normalization_constant(
+        parameter_value = 1,
+        scaling_exponent = -1 / 4,
+        mass = 1,
+        reference_temperature = 273.15,
+        E = 0.65,
+        warn_if_possibly_false_input = TRUE
+    )
+)
+
+expect_message(
+    calculate_normalization_constant(
+        parameter_value = 1,
+        scaling_exponent = -3 / 4,
+        mass = 1,
+        reference_temperature = 273.15,
+        E = -0.65,
+        warn_if_possibly_false_input = TRUE
+    )
+)
 
 rm(
     test_mte_carrying_capactiy_temerature,

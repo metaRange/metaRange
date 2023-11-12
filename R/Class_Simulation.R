@@ -14,22 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with metaRange. If not, see <http://www.gnu.org/licenses/>.
 #
-# This file incorporates work covered by the following copyright and
-# permission notice:
-#
-# ~~~~~~~~~~~~
-# MIT License
-# Copyright (c) 2018,2019,2020 mikefc@coolbutuseless.com
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# ~~~~~~~~~~~~~
-# Compare the assignment of the correct `.__enclos_env__` to the process function to
-# https://coolbutuseless.github.io/2021/02/19/modifying-r6-objects-after-creation/
-
 
 #' @title metaRangeSimulation object
 #'
@@ -50,7 +34,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         ID = NULL,
 
         # ---------- // globals -------------------
-        #' @field globals `<list>` a place to store global variables.
+        #' @field globals `<environment>` a place to store global variables.
         globals = NULL,
 
         # ---------- // environment --------------
@@ -109,11 +93,11 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 checkmate::assert_string(ID, min.chars = 1, max.chars = 64, null.ok = FALSE)
                 self$ID <- ID
             } else {
-                self$ID <- paste0("simulation_", as.hexmode(sample.int(100000000L, 1)))
+                self$ID <- paste0("simulation_", as.hexmode(sample.int(.Machine$integer.max, 1)))
             }
             lockBinding("ID", self)
 
-            self$globals <- list()
+            self$globals <- structure(new.env(), class = "metaRangeVariableStorage")
 
             self$processes <- list()
 
@@ -136,7 +120,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         # ---------- 3.1 low-level setup --------
         #' @description Add global variables to the simulation
-        #' @param ... `<atomic>` (see [base::is.atomic()])
+        #' @param ... `<any>` the variables to add.
         #' Variables to add to the simulation. They will be saved and accessible
         #' through the 'globals' field.
         #' @examples
@@ -152,7 +136,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 message("adding global variables: ")
                 message(str(globals_to_add), appendLF = FALSE)
             }
-            self$globals <- c(self$globals, globals_to_add)
+            list2env(globals_to_add, envir = self$globals)
             return(invisible(self))
         },
 
@@ -321,7 +305,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' This means that the traits either need to be single values that will be extended
         #' to such a matrix via [base::matrix()] or they already need to be a matrix with these dimension.
         #' If `FALSE` the traits will be added without any conversion and may have any type and dimension.
-        #' @param ... `<atomic>` (see [base::is.atomic()]) The traits to be added.
+        #' @param ... `<atomic>` (see [base::is.atomic()]) The named traits to be added.
+        #' Named means: `Name = value` e.g. `a = 1`.
         #' @return `<invisible self>`.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
@@ -339,6 +324,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' #> [1] "c"
         add_traits = function(species, population_level = TRUE, ...) {
             trait_list <- list(...)
+            checkmate::assert_named(trait_list, "strict")
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             if (verbosity > 0L) {
                 message("adding traits: ")
@@ -544,6 +530,10 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("Current time step: ", private$current_time_step, "\n")
             cat("Seed: ", self$seed, "\n")
             cat("Species:\n", paste(self$species_names(), collapse = ", "), "\n")
+            cat("Simulation level processes:\n")
+            print(names(self$processes))
+            cat("Gobal variables:\n")
+            print(self$globals)
             cat("Queue:\n")
             self$queue$print()
             return(invisible(self))
@@ -622,6 +612,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 for (pr_name in pr_names) {
                     checkmate::assert_class(self[[sp_name]]$processes[[pr_name]], "metaRangeProcess")
                 }
+                checkmate::assert_environment(self[[sp_name]]$traits)
+                checkmate::assert_class(self[[sp_name]]$traits, "metaRangeVariableStorage")
                 traits_names <- names(self[[sp_name]]$traits)
                 for (t_name in traits_names) {
                     checkmate::assert_atomic(self[[sp_name]]$traits[[t_name]])
@@ -632,10 +624,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             }
             checkmate::assert_class(self$environment, "metaRangeEnvironment")
             checkmate::assert_class(self$queue, "metaRangePriorityQueue")
-            checkmate::assert_class(self$globals, "list")
-            for (g in names(self$globals)) {
-                checkmate::assert_atomic(self$globals[[g]])
-            }
+            checkmate::assert_environment(self$globals)
+            checkmate::assert_class(self$globals, "metaRangeVariableStorage")
             checkmate::assert_integerish(self$number_time_steps, lower = 1L)
             checkmate::assert_integerish(
                 self$time_step_layer,
