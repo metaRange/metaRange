@@ -1,0 +1,239 @@
+---
+title: "02: Advanced setup"
+author: "Fallert, S. and Cabral, J.S."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{02: Advanced setup}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+More realistic and complicated simulations may require a more advanced setup. This vignette will cover some of the more advanced features of the `metaRange` package.
+
+# Time layer mapping
+The setup and processing of the environmental `SDS` can take quite some time, especially when the environmental data is large.
+In order to save the user time, the method `set_time_layer_mapping()` allows the user to define a custom mapping between the time steps and the layers of the environmental raster.
+Use cases may be:
+
+1. Using a "burn-in" period in the simulation, before the main simulation begins.
+This is usually done to let the simulation state reach a (semi) equilibrium state, from which the simulation objectives can be studied.
+2. If the environment is static and doesn't undergo any change, the user may want to use the same environmental raster layer for all time steps.
+3. Shortening or lengthening the number of time steps of the simulation.
+
+## Default mapping
+The default configuration is that each layer in the environment represents one time step of the simulation.
+I.e:
+```{r setup}
+library(metaRange)
+library(terra)
+```
+```{r load_landscape_fun, echo = FALSE, results  = FALSE}
+create_example_landscape <- function() {
+    set.seed(3)
+    create_land <- function() {
+        sample_size <- 100
+        n_cells <- 100
+        res <- terra::disagg(
+            terra::rast(
+                matrix(
+                    sample.int(
+                        sample_size,
+                        n_cells,
+                        replace = TRUE,
+                        prob = sin(seq(0.05, pi-0.05, length.out = sample_size))
+                    ),
+                    nrow = sqrt(n_cells),
+                    ncol = sqrt(n_cells)
+                )
+            ),
+            10,
+            "bilinear"
+        )  / 100
+        ext(res) <- c(0, 100, 0, 100)
+        return(res)
+    }
+    temperature <- create_land() * 20 + 273.15
+    temperature <- rep(temperature, 10)
+    precipitation <- create_land() * 1000
+    precipitation <- rep(precipitation, 10)
+    habitat <- create_land()
+    habitat <- rep(habitat, 10)
+    landscape <- terra::sds(temperature, precipitation, habitat)
+    names(landscape) <- c("temperature", "precipitation", "habitat")
+    return(landscape)
+}
+```
+```{r setup2}
+sim <- create_simulation(create_example_landscape())
+sim$number_time_steps
+sim$time_step_layer
+```
+## Burn-in period
+To add a burn-in period of 10 time steps, where the environmental data is not updated, one could use the function as follows:
+```{r burnin}
+sim$set_time_layer_mapping(c(rep_len(1, 10), 2:10))
+sim$number_time_steps
+sim$time_step_layer
+```
+
+## Static environment
+To use the same environmental raster (i.e. the first one) for all time steps, one can use:
+```{r static}
+sim$set_time_layer_mapping(rep_len(1, 10))
+sim$number_time_steps
+sim$time_step_layer
+```
+
+## Changing the number of time steps
+In the same way described above, one can also pick the specific layer that are used to use and shorten the simulation length.
+```{r change_num_time}
+sim$set_time_layer_mapping(c(2, 4, 6))
+sim$number_time_steps
+sim$time_step_layer
+```
+
+# Global variables and processes
+`metaRange` uses an object orient programming paradigm, this means each species is described by its own biologically relevant processes and traits.
+However, there may be cases where the user wants to define a global variable or process that is shared between all species, be it to store intermediate results that don't belong to one species or processes to visualize or store output.
+This can by done by using the `add_globals()` function for adding global variables and the `add_process()` function with no `species` argument specified, for adding global processes.
+The global variables and processes are accessible through in the `globals`and `processes` field of the simulation object itself, respectively.
+The benefit of using a global process is that the `self` keyword refers to the simulation object itself, which allows for easier indexing across multiple species.
+```{r globals}
+sim$add_globals(
+    global_var = 1
+    # ... more global variables
+)
+sim$globals$global_var
+```
+```{r processes}
+sim$add_process(
+    # Note the missing species argument
+    process_name = "global_process",
+    process_fun = function() {
+        # self = simulation object
+        self$globals
+        # easy access to simulation functions
+        self$species_names() # no species yet
+    },
+    execution_priority = 1
+)
+sim$processes$global_process
+```
+
+
+# Interaction with the priority queue
+With some specific study questions, it may not be desired to simulate all species from the first time step.
+As an example, during the simulation of invasion dynamics, one may want to have a burn-in period without the invasive species present and then introduce it after this point.
+On the other hand, there may be a need to simulate a species for a specific time period and then remove it from the simulation (e.g. there is no point in calculating the reproduction of a species that has gone extinct).
+To accommodate this, `metaRange` allows the user to manually add and remove processes from the priority queue during the simulation.
+
+## Queuing a process
+The default behavior of `add_process()` is to immediately add the process to the priority queue.
+Setting the argument `queue = FALSE` will add the process to the simulation, but not to the priority queue.
+In that case, the user has at any point during the simulation the option to add the process to the priority queue using the `enqueue()` method of the priority queue.
+```{r quequing}
+sim <- create_simulation(create_example_landscape())
+sim$set_time_layer_mapping(c(1:6))
+sim$add_species(name = "species_1")
+sim$add_process(
+    species = "species_1",
+    process_name = "invasion",
+    process_fun = function() {
+        message("Species invades!")
+    },
+    execution_priority = 1,
+    # Note the queue = FALSE argument
+    queue = FALSE
+)
+sim$add_process(
+    process_name = "activate_species_1",
+    process_fun = function() {
+        message(paste0("time step: ", self$get_current_time_step()))
+        # Note that when manually changing the queue,
+        # the changes will take place in the
+        # _next_ time step
+        # e.g. the following will lead to the process
+        # being first executed in time step 4)
+        if (self$get_current_time_step() == 3) {
+            message("Activating species 1")
+            for (pr in self$species_1$processes) {
+                self$queue$enqueue(pr)
+            }
+        }
+    },
+    execution_priority = 1
+)
+sim$begin()
+```
+
+
+## Dequeue a process
+The `dequeue()` function of the priority queue allows the user to remove a process from the priority queue.
+```{r dequeuing}
+sim <- create_simulation(create_example_landscape())
+sim$set_time_layer_mapping(c(1:6))
+sim$add_species(name = "species_1")
+sim$add_process(
+    species = "species_1",
+    process_name = "invasion",
+    process_fun = function() {
+        message("Species invades!")
+    },
+    execution_priority = 1,
+)
+sim$add_process(
+    process_name = "stop_invasion",
+    process_fun = function() {
+        message(paste0("time step: ", self$get_current_time_step()))
+        if (self$get_current_time_step() == 3) {
+            message("Extiction species 1")
+            for (pr in self$species_1$processes) {
+                # Here we are querying the process ID,
+                # which is a unique identifier for each process
+                # so that the priority queue knows what to remove
+                self$queue$dequeue(pr$get_PID())
+            }
+        }
+    },
+    execution_priority = 1
+)
+sim$begin()
+```
+
+
+# Ending the simulation early
+To end the simulation safely, before the last time step, the user can use the `exit()` method of the simulation.
+This will end the simulation at the end of the process it is called inside of.
+A possibly use case would be to conditionally end the simulation if all species are extinct.
+```{r exit}
+sim <- create_simulation(create_example_landscape())
+sim$set_time_layer_mapping(c(1:6))
+sim$add_species(name = "species_1")
+sim$add_process(
+    species = "species_1",
+    process_name = "invasion",
+    process_fun = function() {
+        message("Species invades!")
+    },
+    execution_priority = 1,
+)
+sim$add_process(
+    process_name = "end_simualtion",
+    process_fun = function() {
+        message(paste0("time step: ", self$get_current_time_step()))
+        if (self$get_current_time_step() == 4) {
+            message("Ending simulation early")
+            self$exit()
+        }
+    },
+    execution_priority = 1
+)
+sim$begin()
+```
