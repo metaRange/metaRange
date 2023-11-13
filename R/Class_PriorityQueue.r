@@ -19,19 +19,20 @@
 #' @description Creates a priority queue in form of an [R6][R6::R6Class] class,
 #' that manages the correct process execution order.
 #'
-#' @return A `<[metaRangePriorityQueue]>` object
+#' @return `<metaRangePriorityQueue>` A [metaRangePriorityQueue] object.
 #' @export
 metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
     cloneable = FALSE,
     public = list(
         # ---------- initialization -----------
-        #' @description Creates a new [metaRangePriorityQueue] object
-        #' Note: Only for illustration purposes. No reason to call this as user.
+        #' @description Creates a new [metaRangePriorityQueue] object.
+        #' Note: No reason to call this as user.
         #' The priority queue is created automatically when a simulation is created.
         #' @examples
         #' # Only for illustration purposes.
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr_queue
+        #' @return `<metaRangePriorityQueue>` A [metaRangePriorityQueue] object.
         initialize = function() {
             private$queue <- vector("integer")
             private$future_queue <- vector("integer")
@@ -71,7 +72,8 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' Users should only use this method if they added a process to the simulation
         #' via the add_process method of the simulation object with the argument
         #' `queue = FALSE`. Otherwise the process is added to the queue automatically.
-        #' @param process `<[metaRangeProcess]>` a process that should be added to the queue.
+        #' @param process `<metaRangeProcess>` A [metaRangeProcess] that should be added
+        #' to the queue.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())

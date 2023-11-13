@@ -4,7 +4,7 @@
 \alias{metaRangePriorityQueue}
 \title{Process priority queue}
 \value{
-A \verb{<[metaRangePriorityQueue]>} object
+\verb{<metaRangePriorityQueue>} A \link{metaRangePriorityQueue} object.
 }
 \description{
 Creates a priority queue in form of an \link[R6:R6Class]{R6} class,
@@ -133,13 +133,16 @@ pr_queue$print()
 \if{html}{\out{<a id="method-metaRangePriorityQueue-new"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-new}{}}}
 \subsection{Method \code{new()}}{
-Creates a new \link{metaRangePriorityQueue} object
-Note: Only for illustration purposes. No reason to call this as user.
+Creates a new \link{metaRangePriorityQueue} object.
+Note: No reason to call this as user.
 The priority queue is created automatically when a simulation is created.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$new()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\verb{<metaRangePriorityQueue>} A \link{metaRangePriorityQueue} object.
+}
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# Only for illustration purposes.
@@ -201,7 +204,8 @@ via the add_process method of the simulation object with the argument
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{process}}{\verb{<[metaRangeProcess]>} a process that should be added to the queue.}
+\item{\code{process}}{\verb{<metaRangeProcess>} A \link{metaRangeProcess} that should be added
+to the queue.}
 }
 \if{html}{\out{</div>}}
 }

@@ -102,16 +102,16 @@ calculate_dispersal_kernel <- function(
 #' Dispersal process
 #'
 #' Disperse a (abundance) matrix using a dispersal kernel and optional weights.
-#' @param dispersal_kernel `<matrix>` dispersal kernel.
-#' @param abundance `<matrix>` abundance matrix.
-#' @param weights `<matrix>`  optional weights in form of a matrix
+#' @param dispersal_kernel `<numeric matrix>` dispersal kernel.
+#' @param abundance `<numeric matrix>` abundance matrix.
+#' @param weights `<numeric matrix>`  optional weights in form of a matrix
 #' that has the same dimensions as the abundance and a `range: 0, 1`.
 #' @details
 #' The abundance matrix is dispersed using the dispersal kernel.
 #' If a matrix of weights is supplied, the individuals will redistribute
 #' within the dispersal kernel according to the weights.
-#' This means that individuals will move towards more areas with a higher
-#' weight, if they can reach them.
+#' I.e. individuals will more likely move towards areas with a higher
+#' weight, if they are within their dispersal distance.
 #' @examples
 #' n <- 10
 #' n2 <- n^2
@@ -132,7 +132,7 @@ calculate_dispersal_kernel <- function(
 #'     weights = suitab
 #' )
 #' stopifnot(sum(res1) - sum(res2) < 0.01)
-#' @return `<matrix>` Dispersed abundance matrix.
+#' @return `<numeric matrix>` Dispersed abundance matrix.
 #' @export
 dispersal <- function(
     dispersal_kernel,

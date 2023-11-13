@@ -30,13 +30,14 @@ sp
 \describe{
 \item{\code{name}}{\verb{<string>} name or ID of the species.}
 
-\item{\code{processes}}{\verb{<list>} of \verb{<[metaRangeProcess]es>}.
+\item{\code{processes}}{\verb{<list>} of \verb{<metaRangeProcesses>}.
 The processes that describe how the species interacts
 with the environment, itself and other species.}
 
 \item{\code{traits}}{\verb{<environment>} holds the traits of the species.}
 
-\item{\code{sim}}{\verb{<[metaRangeSimulation]>} a reference to the simulation object that the species is part of.
+\item{\code{sim}}{\verb{<metaRangeSimulation>} A reference to the \link{metaRangeSimulation}
+simulation object that the species is part of.
 Useful to access environmental data or data of other species.}
 }
 \if{html}{\out{</div>}}
@@ -62,10 +63,14 @@ Creates a new \link{metaRangeSpecies} object
 \describe{
 \item{\code{name}}{\verb{<string>} name or ID of the species.}
 
-\item{\code{sim}}{\verb{<[metaRangeSimulation]>} A reference to the simulation
-object that the species is part of.}
+\item{\code{sim}}{\verb{<metaRangeSimulation>} A reference to the \link{metaRangeSimulation}
+simulation object that the species is part of.
+Useful to access environmental data or data of other species.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A \verb{<metaRangeSpecies>} object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}

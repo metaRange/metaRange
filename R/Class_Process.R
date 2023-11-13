@@ -16,11 +16,11 @@
 
 #' @title metaRangeProcess object
 #'
-#' @description Creates an species object in form of an
+#' @description Creates an metaRangeProcess object in form of an
 #' [R6][R6::R6Class] class that stores and handles all the individual parts
-#' that define a species.
+#' that define a process.
 #'
-#' @return A `<[metaRangeProcess]>` object.
+#' @return `<metaRangeProcess>` A [metaRangeProcess] object.
 #' @export
 metaRangeProcess <- R6::R6Class("metaRangeProcess",
     cloneable = FALSE,
@@ -51,16 +51,16 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' # Note: Only for illustration purposes. Use the add_process method of the
         #' # simulation object to add processes to a simulation.
         #' pr <- metaRangeProcess$new(
-        #'    process_name = "my_process",
+        #'    process_name = "ecological_process",
         #'    process_fun = function() {
-        #'       cat("Hello World!")
+        #'       cat("Execute ecological process!")
         #'    },
         #'    execution_priority = 1L,
         #'    env = new.env(),
-        #'    env_label = "my_environment"
+        #'    env_label = "a_species_name"
         #' )
         #' pr
-        #' @return A `<[metaRangeProcess]>` object.
+        #' @return `<metaRangeProcess>` A [metaRangeProcess] object.
         initialize = function(process_name, id = "", process_fun, execution_priority, env, env_label = NULL) {
             checkmate::assert_string(x = process_name, min.chars = 1, max.chars = 64)
             checkmate::assert_string(x = id, min.chars = 0, max.chars = 64)
