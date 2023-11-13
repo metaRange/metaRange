@@ -34,7 +34,7 @@
 #' test_sim$add_traits("species_01", trait_01 = matrix(1, nrow = 2, ncol = 2))
 #' plot(test_sim, "species_01", "trait_01")
 #'
-#' test_sim$add_globals("global_01" = 1)
+#' test_sim$add_globals("global_01" = 1:10)
 #' plot(test_sim, "globals", "global_01")
 #' @return `<invisible NULL>`.
 #' @export
