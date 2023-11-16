@@ -150,8 +150,8 @@ sim$summary()
 
 \item{\code{globals}}{\verb{<environment>} a place to store global variables.}
 
-\item{\code{environment}}{a \verb{<[metaRangeEnvironment]>} that holds all the environmental
-values influencing the simulation.}
+\item{\code{environment}}{\verb{<metaRangeEnvironment>} A \link{metaRangeEnvironment}
+that holds all the environmental values influencing the simulation.}
 
 \item{\code{number_time_steps}}{\verb{<integer>} number of time steps in the simulation.}
 
@@ -160,9 +160,9 @@ that describe which environmental layer to use at each time step.}
 
 \item{\code{current_time_step}}{\verb{<integer>} current time step.}
 
-\item{\code{queue}}{\verb{<[metaRangePriorityQueue]>} manages the order in which the processes should be executed.}
+\item{\code{queue}}{\verb{<metaRangePriorityQueue>} manages the order in which the processes should be executed.}
 
-\item{\code{processes}}{\verb{<list>} of global (simulation level) \verb{<[metaRangeProcess]es>}}
+\item{\code{processes}}{\verb{<list>} of global (simulation level) \verb{<metaRangeProcess>} (es).}
 
 \item{\code{seed}}{\verb{<integer>} seed for the random number generator.}
 }

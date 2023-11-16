@@ -38,8 +38,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         globals = NULL,
 
         # ---------- // environment --------------
-        #' @field environment a `<[metaRangeEnvironment]>` that holds all the environmental
-        #' values influencing the simulation.
+        #' @field environment `<metaRangeEnvironment>` A [metaRangeEnvironment]
+        #' that holds all the environmental values influencing the simulation.
         environment = NULL,
 
         # ---------- // time ----
@@ -54,11 +54,11 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         current_time_step = NULL,
 
         # ---------- // queue ----------
-        #' @field queue `<[metaRangePriorityQueue]>` manages the order in which the processes should be executed.
+        #' @field queue `<metaRangePriorityQueue>` manages the order in which the processes should be executed.
         queue = NULL,
 
         # ---------- // processes ----------
-        #' @field processes `<list>` of global (simulation level) `<[metaRangeProcess]es>`
+        #' @field processes `<list>` of global (simulation level) `<metaRangeProcess>` (es).
         processes = NULL,
 
         # ---------- // seed ----------------------

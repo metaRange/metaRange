@@ -4,12 +4,12 @@
 \alias{metaRangeProcess}
 \title{metaRangeProcess object}
 \value{
-A \verb{<[metaRangeProcess]>} object.
+\verb{<metaRangeProcess>} A \link{metaRangeProcess} object.
 }
 \description{
-Creates an species object in form of an
+Creates an metaRangeProcess object in form of an
 \link[R6:R6Class]{R6} class that stores and handles all the individual parts
-that define a species.
+that define a process.
 }
 \examples{
 
@@ -20,13 +20,13 @@ that define a species.
 # Note: Only for illustration purposes. Use the add_process method of the
 # simulation object to add processes to a simulation.
 pr <- metaRangeProcess$new(
-   process_name = "my_process",
+   process_name = "ecological_process",
    process_fun = function() {
-      cat("Hello World!")
+      cat("Execute ecological process!")
    },
    execution_priority = 1L,
    env = new.env(),
-   env_label = "my_environment"
+   env_label = "a_species_name"
 )
 pr
 
@@ -129,20 +129,20 @@ Just used as a human readable label for debug purposes.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A \verb{<[metaRangeProcess]>} object.
+\verb{<metaRangeProcess>} A \link{metaRangeProcess} object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# Note: Only for illustration purposes. Use the add_process method of the
 # simulation object to add processes to a simulation.
 pr <- metaRangeProcess$new(
-   process_name = "my_process",
+   process_name = "ecological_process",
    process_fun = function() {
-      cat("Hello World!")
+      cat("Execute ecological process!")
    },
    execution_priority = 1L,
    env = new.env(),
-   env_label = "my_environment"
+   env_label = "a_species_name"
 )
 pr
 }

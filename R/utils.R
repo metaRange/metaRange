@@ -71,9 +71,9 @@ summary.metaRangeSpecies <- function(object, ...) {
     return(invisible(NULL))
 }
 
-#' Print Traits or globals
+#' Print traits or globals
 #'
-#' Print method for Species traits and simulation globals.
+#' Print method for species traits and simulation globals.
 #' @param x `<metaRangeVariableStorage>` The object to print.
 #' @param ... `<any>` ignored.
 #' @examples
@@ -81,7 +81,9 @@ summary.metaRangeSpecies <- function(object, ...) {
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$add_species("species_01")
+#' test_sim$add_traits(species = "species_01", a = 1)
 #' print(test_sim$species_01$traits)
+#' test_sim$add_globals(b = 2)
 #' print(test_sim$globals)
 #' @return `<invisible x>`
 #' @export

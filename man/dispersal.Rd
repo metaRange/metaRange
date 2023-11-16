@@ -7,15 +7,15 @@
 dispersal(dispersal_kernel, abundance, weights)
 }
 \arguments{
-\item{dispersal_kernel}{\verb{<matrix>} dispersal kernel.}
+\item{dispersal_kernel}{\verb{<numeric matrix>} dispersal kernel.}
 
-\item{abundance}{\verb{<matrix>} abundance matrix.}
+\item{abundance}{\verb{<numeric matrix>} abundance matrix.}
 
-\item{weights}{\verb{<matrix>}  optional weights in form of a matrix
+\item{weights}{\verb{<numeric matrix>}  optional weights in form of a matrix
 that has the same dimensions as the abundance and a \verb{range: 0, 1}.}
 }
 \value{
-\verb{<matrix>} Dispersed abundance matrix.
+\verb{<numeric matrix>} Dispersed abundance matrix.
 }
 \description{
 Disperse a (abundance) matrix using a dispersal kernel and optional weights.
@@ -24,8 +24,8 @@ Disperse a (abundance) matrix using a dispersal kernel and optional weights.
 The abundance matrix is dispersed using the dispersal kernel.
 If a matrix of weights is supplied, the individuals will redistribute
 within the dispersal kernel according to the weights.
-This means that individuals will move towards more areas with a higher
-weight, if they can reach them.
+I.e. individuals will more likely move towards areas with a higher
+weight, if they are within their dispersal distance.
 }
 \examples{
 n <- 10

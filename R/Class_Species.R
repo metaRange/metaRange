@@ -30,7 +30,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         #' @field name `<string>` name or ID of the species.
         name = NULL,
 
-        #' @field processes `<list>` of `<[metaRangeProcess]es>`.
+        #' @field processes `<list>` of `<metaRangeProcesses>`.
         #' The processes that describe how the species interacts
         #' with the environment, itself and other species.
         processes = NULL,
@@ -38,15 +38,17 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         #' @field traits `<environment>` holds the traits of the species.
         traits = NULL,
 
-        #' @field sim `<[metaRangeSimulation]>` a reference to the simulation object that the species is part of.
+        #' @field sim `<metaRangeSimulation>` A reference to the [metaRangeSimulation]
+        #' simulation object that the species is part of.
         #' Useful to access environmental data or data of other species.
         sim = NULL,
         # ---------- initialization -----------
 
         #' @description Creates a new [metaRangeSpecies] object
         #' @param name `<string>` name or ID of the species.
-        #' @param sim `<[metaRangeSimulation]>` A reference to the simulation
-        #' object that the species is part of.
+        #' @param sim `<metaRangeSimulation>` A reference to the [metaRangeSimulation]
+        #' simulation object that the species is part of.
+        #' Useful to access environmental data or data of other species.
         #' @examples
         #' # The following is bad practice, since species should be added to a simulation
         #' # via the add_species method of the simulation object. But for illustration
@@ -55,6 +57,7 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)
         #' sp
+        #' @return A `<metaRangeSpecies>` object.
         initialize = function(name, sim) {
             checkmate::assert_class(sim, "metaRangeSimulation")
             cond_01 <- is.null(sim$environment)

@@ -1,0 +1,185 @@
+---
+title: "04: Dispersal"
+author: "Fallert, S. and Cabral, J.S."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{04: Dispersal}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+The ability to disperse is a key trait for many species and can have a large impact on the population dynamics and te ability of a species to survive and adapt to a changing environment.
+`metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
+
+Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
+If one is not familiar with this topics, a good introduction is ["Nathan, R., Klein, E., Robledo-Arnuncio, J.J. & Revilla, E. (2012) Dispersal kernels: review"](https://doi.org/10.1093/acprof%3Aoso/9780199608898.003.0015) [Ref. 1].
+
+To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population to move to its surrounding habitat.
+Since this is a probability distribution, this dispersal kernel can be multiplied with each cell of the abundance matrix to get the new abundance of the species in each cell after dispersal.
+In other scietific fields this process is known as convolution and is for example often used in image processing and especially when "blurring" an image.
+
+We can use the function `calculate_dispersal_kernel()` to create such a dispersal kernel.
+This function creates a matrix that has `max_dispersal_dist` rows and columns on both sides of the source cell and expects another function as input that it calls for each of those cells with the distance from the source cell as an argument.
+This may sound complicated but the code is very short if we use the built-in `negative_exponential_function`:
+
+```{r, kernel, fig.cap="Figure 1: Example dispersal kernel for a negative exponential function"}
+max_dispersal_distance = 10
+mean_dispersal_distance = 7
+dispersal_kernel = metaRange::calculate_dispersal_kernel(
+    # in grid cells
+    max_dispersal_dist = max_dispersal_distance,
+    # the function to use to calculate the kernel values
+    # i.e. this function is called for each cell in the kernel
+    kfun = metaRange::negative_exponential_function,
+    # in grid cells
+    # this is the parameter that is passed to the kfun
+    mean_dispersal_dist = mean_dispersal_distance
+)
+```
+
+We can plot the kernel to get a better understanding of what it looks like.
+As you can see in the plot, the dispersal kernel is symmetrical around the source cell and the probability of dispersal decreases with the distance from the source cell.
+The sum of all values in the kernel is 1, which means that the total abundance of the species is conserved during dispersal.
+```{r, plot_kernel, fig.cap="Figure 2: Plot of the dispersal kernel."}
+terra::plot(
+    terra::rast(
+        dispersal_kernel,
+        extent = terra::ext(
+            -max_dispersal_distance, max_dispersal_distance,
+            -max_dispersal_distance, max_dispersal_distance
+        )
+    ),
+    main = "Dispersal probability"
+)
+```
+
+While the assumption of dispersal via such a static kernel is an often used simplification  (i.e. the same kernel is applied to every population), it is not always appropriate.
+For many species, dispersal is not solely random, but directed towards a specific target or influenced by other external factors.
+To allow simulations that include this, the `dispersal()` function gives the user the option to supply a third argument, `weights`, which is used to redistribute the individuals within the dispersal kernel.
+If supplied, the weights needs to be a matrix of the same dimensions as environment and the values should be in the range of `[0-1]`.
+One could for example use `calculate_suitability()` to create a matrix that represent a general habitat suitability and use it as weights, which would correspond to an ecological meaning of "individuals moving towards a more suitable habitat during dispersal, if they have the ability to reach it".
+
+
+## Basic setup
+First, we load the necesarry packages and create an example landscape.
+```{r create_landscape}
+library(metaRange)
+library(terra)
+set_verbosity(2)
+
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+temperature <- scale(r, center = FALSE, scale = TRUE) * 10 + 273.15
+temperature <- rep(temperature, 10)
+landscape <- sds(temperature)
+names(landscape) <- c("temperature")
+```
+
+Then we set up the basic simulation with two identical species.
+```{r setup_sim}
+sim <- create_simulation(landscape)
+sim$add_species("species_1")
+sim$add_species("species_2")
+sim$add_traits(
+    species = c("species_1", "species_2"),
+    abundance = 100,
+    climate_suitability = 1,
+    reproduction_rate = 0.3,
+    carrying_capacity = 1000
+)
+sim$add_traits(
+    species = c("species_1", "species_2"),
+    population_level = FALSE,
+    max_temperature = 300,
+    optimal_temperature = 288,
+    min_temperature = 280,
+    dispersal_kernel = calculate_dispersal_kernel(
+        max_dispersal_dist = 7,
+        kfun = negative_exponential_function,
+        mean_dispersal_dist = 4
+    )
+)
+sim$add_process(
+    species = c("species_1", "species_2"),
+    process_name = "calculate_suitability",
+    process_fun = function() {
+        self$traits$climate_suitability <-
+            calculate_suitability(
+                self$traits$max_temperature,
+                self$traits$optimal_temperature,
+                self$traits$min_temperature,
+                self$sim$environment$current$temperature
+            )
+    },
+    execution_priority = 1
+)
+sim$add_process(
+    species = c("species_1", "species_2"),
+    process_name = "reproduction",
+    process_fun = function() {
+        self$traits$abundance <-
+            ricker_reproduction_model(
+                self$traits$abundance,
+                self$traits$reproduction_rate * self$traits$climate_suitability,
+                self$traits$carrying_capacity * self$traits$climate_suitability
+            )
+    },
+    execution_priority = 2
+)
+```
+
+Now we add the two methods of dispersal to the two species to highlight the difference.
+
+## Unweighted dispersal
+
+```{r Dispersal1}
+sim$add_process(
+    species = "species_1",
+    process_name = "dispersal_process",
+    process_fun = function() {
+        self$traits[["abundance"]] <- dispersal(
+            abundance = self$traits[["abundance"]],
+            dispersal_kernel = self$traits[["dispersal_kernel"]]
+        )
+    },
+    execution_priority = 3
+)
+```
+
+## Weighted dispersal
+```{r Dispersal2}
+sim$add_process(
+    species = "species_2",
+    process_name = "dispersal_process",
+    process_fun = function() {
+        self$traits[["abundance"]] <- dispersal(
+            abundance = self$traits[["abundance"]],
+            dispersal_kernel = self$traits[["dispersal_kernel"]],
+            weights = self$traits[["climate_suitability"]]
+        )
+    },
+    execution_priority = 3
+)
+```
+
+## Comparison of the results
+To see the effect, we run the simulation for 10 time steps and plot the results.
+```{r run_sim, fig.show="hold"}
+set_verbosity(0)
+sim$begin()
+plot_cols <- hcl.colors(100, "Purple-Yellow", rev = TRUE)
+plot(sim, "species_1", "abundance", col = plot_cols)
+plot(sim, "species_2", "abundance", col = plot_cols)
+```
+
+Note how the plot for species two is less "blurry" and the different scales of the two plots.
+While the first species looses individuals by dispersing in unsuitable habitat, the second species can keep a much larger population size, by moving towards more suitable habitat during dispersal.
+
+## References
+[1] Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012) Dispersal kernels: review. in: Dispersal Ecology and Evolution pp. 187--210. (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock), Oxford, UK: Oxford Academic, 2013. doi:10.1093/acprof:oso/9780199608898.003.0015

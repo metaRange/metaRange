@@ -1,0 +1,163 @@
+---
+title: "02: Multiple species"
+author: "Fallert, S. and Cabral, J.S."
+output:
+    rmarkdown::html_vignette:
+        code_folding: show
+vignette: >
+  %\VignetteIndexEntry{02: Multiple species}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+We are going to expand the example from the previous vignette to include multiple species.
+
+# Setting up the simulation
+As previously, we start by loading the packages and creating the landscape.
+```{r setup, fig.cap = "Figure 1: The habitat quality of the example landscape. Note: higher value = better habitat quality"}
+library(metaRange)
+library(terra)
+
+# find the file
+raster_file <- system.file("ex/elev.tif", package = "terra")
+
+# load it
+r <- rast(raster_file)
+
+# scale it
+r <- scale(r, center = FALSE, scale = TRUE)
+
+r <- rep(r, 10)
+landscape <- sds(r)
+names(landscape) <- c("habitat_quality")
+
+# plot the first layer of the landscape
+plot(landscape[["habitat_quality"]][[1]], main = "Habitat quality")
+```
+
+As before, we create a simulation environment and add the landscape to it.
+```{r create_simulation}
+sim <- create_simulation(
+    source_environment = landscape,
+    ID = "example_simulation",
+    seed = 1)
+```
+
+# Adding more species to the simulation
+Instead of only adding one species to the simulation, we can just repeat the  ``add_species()` call to add more.
+```{r add_species}
+species_to_add <- c("species_1", "species_2")
+for (species in species_to_add) {
+    sim$add_species(name = species)
+}
+```
+
+If you are at any point wondering which, or how many species are in the simulation, you can use the `species_names()` method.
+```{r species_names}
+sim$species_names()
+```
+
+# Adding traits to (multiple) species
+The `add_traits()` method is able to add (multiple) traits to multiple species at once, which is useful when setting up a large number of species with the same traits.
+So instead of only specifying one `species` argument, we can specify a vector of species names, all of which will get the same traits.
+```{r add_trait}
+sim$add_traits(
+    species = c("species_1", "species_2"),
+    population_level = TRUE,
+    abundance = 100
+)
+```
+
+If we would want to add a trait to all species in the simulation, without having to type their names, we could use the already mentined `species_names()` method to get a vector of all species names and then use that as the `species` argument.
+```{r add_trait_2}
+sim$add_traits(
+    species = sim$species_names(),
+    population_level = TRUE,
+    reproduction_rate = 0.5,
+    carrying_capacity = 1000
+)
+```
+
+Since we only have the two species in the simulation this would be equivalent to the previous call.
+
+
+# Adding processes
+Until now, we have two species in the simulation that are virtually identical.
+In order to make them behave differently, we can add different processes to them.
+
+## Reproduction
+We are going to use the same reproduction process as in the previous vignette, but we will vary the influence of the habitat quality.
+For species 1, we will let the carrying capacity depend on the habitat quality, while for species 2, it is going to influence the reproduction rate.
+```{r Reproduction}
+sim$add_process(
+    species = "species_1",
+    process_name = "reproduction",
+    process_fun = function() {
+        ricker_reproduction_model(
+            self$traits$abundance,
+            self$traits$reproduction_rate,
+            self$traits$carrying_capacity * self$sim$environment$current$habitat_quality
+        )
+        print(
+            paste0(self$name, " mean abundance: ", mean(self$traits$abundance))
+        )
+    },
+    execution_priority = 1
+)
+```
+
+```{r Reproduction2}
+sim$add_process(
+    species = "species_2",
+    process_name = "reproduction",
+    process_fun = function() {
+    self$traits$abundance <-
+        ricker_reproduction_model(
+            self$traits$abundance,
+            self$traits$reproduction_rate * self$sim$environment$current$habitat_quality,
+            self$traits$carrying_capacity
+        )
+        print(
+            paste0(self$name, " mean abundance: ", mean(self$traits$abundance))
+        )
+    },
+    execution_priority = 1
+)
+```
+
+# Executing the simulation
+Now we can execute the simulation again and compare the results.
+```{r run_simulation}
+set_verbosity(0)
+sim$begin()
+```
+
+```{r resA, fig.cap = "Figure 2: The resulting abundance distribution of species 1 after 10 simulation time steps."}
+# define a nice color palette
+plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
+plot(
+    sim,
+    obj = "species_1",
+    name = "abundance",
+    main = "Species 1: abundance",
+    col = plot_cols
+)
+```
+
+
+```{r resB, fig.cap = "Figure 3: The resulting abundance distribution of species 2 after 10 simulation time steps."}
+plot(
+    sim,
+    obj = "species_2",
+    name = "abundance",
+    main = "Species 2: abundance",
+    col = plot_cols
+)
+```

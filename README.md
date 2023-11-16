@@ -24,8 +24,17 @@ Ecologists and programmers that are interested in studying and predicting specie
 
 ## Prerequisites / where to get help
 To give users with different experience levels an easy introduction to metaRange, it is accompanied by [vignettes / articles](https://metarange.github.io/metaRange/articles/index.html) that give in-depth explanations and examples on how to setup different types of simulations.
-That being said, a basic knowledge of general R programming and "classic" object-oriented programming concepts might be beneficial.
-In case one is unfamiliar with the [R6 package](https://r6.r-lib.org/articles/Introduction.html) (Chang 2021), it is advisable to read the short intro about it in [Hadley Wickham's "Advanced R"](https://adv-r.hadley.nz/r6.html).
+That being said, a basic knowledge of general R programming and "classic" object-oriented programming (OOP) concepts as well as some familiarity with geographic (raster) data processing and species distribution models (SDM) might be beneficial.
+In case one is unfamiliar with any of these topics here are some reading recomendations:
+
+| Topic  | Recommended introduction |
+| ------------- | ------------- |
+|  general R programming  | [Hadley Wickham's "Advanced R"](https://adv-r.hadley.nz/r6.html)  |
+| OOP / [R6 package](https://r6.r-lib.org/articles/Introduction.html)  | ["Advanced R" Chapter "R6"](https://adv-r.hadley.nz/r6.html) |
+| terra & geodata handling | [rspatial.org](https://rspatial.org/spatial/) |
+| SDMs | [Dormann et al. 2012](https://doi.org/10.1111/j.1365-2699.2011.02659.x) |
+
+
 
 # Feature overview
 
@@ -40,13 +49,6 @@ Every simulated species (i.e. each species object) consists of a set of `process
 
 Species have implied populations, each of which inhabit one grid cell of the landscape.
 On a computational level this means that the `traits` of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
-
-A simple example would be a species with the process `reproduction` that describes how the species reproduces during one simulation time step.
-This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species.
-
-Summarized: A species consists of `processes` (functions) and `traits` (data).
-Processes can access trait and environmental data and change trait data of themselves or other species.
-
 
 ## Flexibility / dynamic process execution
 The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step).
@@ -79,3 +81,5 @@ R package version 2.5.1, <https://CRAN.R-project.org/package=R6>.
 
 Hijmans R (2023). _terra: Spatial Data Analysis_. R package version
 1.7-46, <https://CRAN.R-project.org/package=terra>.
+
+Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. *Journal of Biogeography*, **39**: 2119--2131. <https://doi.org/10.1111/j.1365-2699.2011.02659.x>
