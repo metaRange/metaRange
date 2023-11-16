@@ -1,20 +1,3 @@
 url: https://metaRange.github.io/metaRange
 template:
   bootstrap: 5
-navbar:
- components:
-   articles:
-    text: Articles
-    menu:
-    - text: Introduction
-      href: articles/metaRange.html
-    - text: Advanced setup
-      href: articles/advanced_setup.html
-    - text: Species interactions
-      href: articles/species_interactions.html
-    - text: Metabolic scaling
-      href: articles/metabolic_scaling.html
-    - text: Directed (weighted) dispersal
-      href: articles/directed_dispersal.html
-    - text: Age structured populations
-      href: articles/age-structured-populations.html
