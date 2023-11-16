@@ -1,9 +1,9 @@
 ---
-title: "04: Metabolic scaling"
+title: "06: Metabolic scaling"
 author: "Fallert, S. and Cabral, J.S."
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{04: Metabolic scaling}
+  %\VignetteIndexEntry{06: Metabolic scaling}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,61 +36,28 @@ In the absence of experimentally measured values for the normalization constant,
 ```{r setup}
 library(metaRange)
 library(terra)
-```
-```{r load_landscape_fun, echo = FALSE, results  = FALSE}
-create_example_landscape <- function() {
-    set.seed(3)
-    create_land <- function() {
-        sample_size <- 100
-        n_cells <- 100
-        res <- terra::disagg(
-            terra::rast(
-                matrix(
-                    sample.int(
-                        sample_size,
-                        n_cells,
-                        replace = TRUE,
-                        prob = sin(seq(0.05, pi-0.05, length.out = sample_size))
-                    ),
-                    nrow = sqrt(n_cells),
-                    ncol = sqrt(n_cells)
-                )
-            ),
-            10,
-            "bilinear"
-        )  / 100
-        ext(res) <- c(0, 100, 0, 100)
-        return(res)
-    }
-    temperature <- create_land() * 20 + 273.15
-    temperature <- rep(temperature, 10)
-    precipitation <- create_land() * 1000
-    precipitation <- rep(precipitation, 10)
-    habitat <- create_land()
-    habitat <- rep(habitat, 10)
-    landscape <- terra::sds(temperature, precipitation, habitat)
-    names(landscape) <- c("temperature", "precipitation", "habitat")
-    return(landscape)
-}
-```
+set_verbosity(0)
 
-Setup the basic simulation.
-```{r setup_sim}
-sim <- create_simulation(create_example_landscape())
-sim$add_species("sp1")
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+temperature <- scale(r, center = FALSE, scale = TRUE) * 10 + 273.15
+precipitation <- r * 2
+temperature <- rep(temperature, 10)
+precipitation <- rep(precipitation, 10)
+landscape <- sds(temperature, precipitation)
+names(landscape) <- c("temperature", "precipitation")
+
+sim <- create_simulation(landscape)
+sim$add_species(name = "species_1")
 ```
 Define some basic traits.
 ```{r define_traits}
 sim$add_traits(
-    species = "sp1",
+    species = "species_1",
     population_level = FALSE,
-    "suitability" = NA_real_,
-    "temperature_maximum" = 30 + 273,
-    "temperature_optimum" = 20 + 273,
-    "temperature_minimum" = 0 + 273,
-    "precipitation_maximum" = 1200,
-    "precipitation_optimum" = 800,
-    "precipitation_minimum" = 0
+    temperature_maximum = 300,
+    temperature_optimum = 288,
+    temperature_minimum = 280
 )
 ```
 Add the parameter used in the metabolic scaling as global variables, since they are not species specific.
@@ -107,7 +74,7 @@ sim$add_globals(
 Add traits that are used in the reproduction model including an estimate of the reproduction rate and the carrying capacity.
 ```{r add_rep_traits}
 sim$add_traits(
-    species = "sp1",
+    species = "species_1",
     population_level = TRUE,
     "abundance" = 100,
     "reproduction_rate" = 0.5,
@@ -120,35 +87,23 @@ Calculate the normalization constant, based on the parameter estimate and the op
 Note that this could also be done in a loop over multiple species.
 ```{r add_more_traits}
 sim$add_traits(
-    species = "sp1",
+    species = "species_1",
     population_level = FALSE,
     "reproduction_rate_mte_constant" = calculate_normalization_constant(
-        parameter_value =
-            sim$sp1$traits[["reproduction_rate"]][[1]],
-        scaling_exponent =
-            sim$globals[["exponent_reproduction_rate"]],
-        mass =
-            sim$sp1$traits[["mass"]][[1]],
-        reference_temperature =
-            sim$sp1$traits[["temperature_optimum"]],
-        E =
-            sim$globals[["E_reproduction_rate"]],
-        k =
-            sim$globals[["k"]]
+        parameter_value = sim$species_1$traits[["reproduction_rate"]][[1]],
+        scaling_exponent = sim$globals[["exponent_reproduction_rate"]],
+        mass = sim$species_1$traits[["mass"]][[1]],
+        reference_temperature = sim$species_1$traits[["temperature_optimum"]],
+        E = sim$globals[["E_reproduction_rate"]],
+        k = sim$globals[["k"]]
     ),
     "carrying_capacity_mte_constant" = calculate_normalization_constant(
-        parameter_value =
-            sim$sp1$traits[["carrying_capacity"]][[1]],
-        scaling_exponent =
-            sim$globals[["exponent_carrying_capacity"]],
-        mass =
-            sim$sp1$traits[["mass"]][[1]],
-        reference_temperature =
-            sim$sp1$traits[["temperature_optimum"]],
-        E =
-            sim$globals[["E_carrying_capacity"]],
-        k =
-            sim$globals[["k"]]
+        parameter_value = sim$species_1$traits[["carrying_capacity"]][[1]],
+        scaling_exponent = sim$globals[["exponent_carrying_capacity"]],
+        mass = sim$species_1$traits[["mass"]][[1]],
+        reference_temperature = sim$species_1$traits[["temperature_optimum"]],
+        E = sim$globals[["E_carrying_capacity"]],
+        k = sim$globals[["k"]]
     )
 )
 ```
@@ -156,37 +111,25 @@ sim$add_traits(
 Add a process that does the metabolic scaling in each time step.
 ```{r add_processes}
 sim$add_process(
-    species = "sp1",
+    species = "species_1",
     process_name = "mte",
     process_fun = function() {
         self$traits[["reproduction_rate"]] <- metabolic_scaling(
-            normalization_constant =
-                self$traits[["reproduction_rate_mte_constant"]],
-            scaling_exponent =
-                self$sim$globals[["exponent_reproduction_rate"]],
-            mass =
-                self$traits[["mass"]],
-            temperature =
-                self$sim$environment$current[["temperature"]],
-            E =
-                self$sim$globals[["E_reproduction_rate"]],
-            k =
-                self$sim$globals[["k"]]
+            normalization_constant = self$traits[["reproduction_rate_mte_constant"]],
+            scaling_exponent = self$sim$globals[["exponent_reproduction_rate"]],
+            mass = self$traits[["mass"]],
+            temperature = self$sim$environment$current[["temperature"]],
+            E = self$sim$globals[["E_reproduction_rate"]],
+            k = self$sim$globals[["k"]]
         )
 
         self$traits[["carrying_capacity"]] <- metabolic_scaling(
-            normalization_constant =
-                self$traits[["carrying_capacity_mte_constant"]],
-            scaling_exponent =
-                self$sim$globals[["exponent_carrying_capacity"]],
-            mass =
-                self$traits[["mass"]],
-            temperature =
-                self$sim$environment$current[["temperature"]],
-            E =
-                self$sim$globals[["E_carrying_capacity"]],
-            k =
-                self$sim$globals[["k"]]
+            normalization_constant = self$traits[["carrying_capacity_mte_constant"]],
+            scaling_exponent = self$sim$globals[["exponent_carrying_capacity"]],
+            mass = self$traits[["mass"]],
+            temperature = self$sim$environment$current[["temperature"]],
+            E = self$sim$globals[["E_carrying_capacity"]],
+            k = self$sim$globals[["k"]]
         )
     },
     execution_priority = 2
@@ -199,8 +142,8 @@ Here we just plot the scaled parameter instead.
 sim$set_time_layer_mapping(c(1, 2))
 sim$begin()
 plot_cols <- hcl.colors(100, "Purple-Yellow", rev = TRUE)
-plot(sim, "sp1", "reproduction_rate", col = plot_cols)
-plot(sim, "sp1", "carrying_capacity", col = plot_cols)
+plot(sim, "species_1", "reproduction_rate", col = plot_cols, main = "Reproduction rate")
+plot(sim, "species_1", "carrying_capacity", col = plot_cols, main = "Carrying capacity")
 ```
 
 Note that these results show an "everything else equal" scenario, where the only variable is the temperature.

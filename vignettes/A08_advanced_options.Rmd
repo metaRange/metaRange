@@ -1,17 +1,17 @@
 ---
-title: "02: Advanced setup"
+title: "08: Advanced options"
 author: "Fallert, S. and Cabral, J.S."
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{02: Advanced setup}
+  %\VignetteIndexEntry{08: Advanced options}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
 
@@ -34,44 +34,18 @@ I.e:
 library(metaRange)
 library(terra)
 ```
-```{r load_landscape_fun, echo = FALSE, results  = FALSE}
-create_example_landscape <- function() {
-    set.seed(3)
-    create_land <- function() {
-        sample_size <- 100
-        n_cells <- 100
-        res <- terra::disagg(
-            terra::rast(
-                matrix(
-                    sample.int(
-                        sample_size,
-                        n_cells,
-                        replace = TRUE,
-                        prob = sin(seq(0.05, pi-0.05, length.out = sample_size))
-                    ),
-                    nrow = sqrt(n_cells),
-                    ncol = sqrt(n_cells)
-                )
-            ),
-            10,
-            "bilinear"
-        )  / 100
-        ext(res) <- c(0, 100, 0, 100)
-        return(res)
-    }
-    temperature <- create_land() * 20 + 273.15
-    temperature <- rep(temperature, 10)
-    precipitation <- create_land() * 1000
-    precipitation <- rep(precipitation, 10)
-    habitat <- create_land()
-    habitat <- rep(habitat, 10)
-    landscape <- terra::sds(temperature, precipitation, habitat)
-    names(landscape) <- c("temperature", "precipitation", "habitat")
-    return(landscape)
-}
+```{r load_landscape_fun}
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+temperature <- scale(r, center = FALSE, scale = TRUE) * 10 + 273.15
+precipitation <- r * 2
+temperature <- rep(temperature, 10)
+precipitation <- rep(precipitation, 10)
+landscape <- sds(temperature, precipitation)
+names(landscape) <- c("temperature", "precipitation")
 ```
 ```{r setup2}
-sim <- create_simulation(create_example_landscape())
+sim <- create_simulation(landscape)
 sim$number_time_steps
 sim$time_step_layer
 ```
@@ -139,7 +113,7 @@ The default behavior of `add_process()` is to immediately add the process to the
 Setting the argument `queue = FALSE` will add the process to the simulation, but not to the priority queue.
 In that case, the user has at any point during the simulation the option to add the process to the priority queue using the `enqueue()` method of the priority queue.
 ```{r quequing}
-sim <- create_simulation(create_example_landscape())
+sim <- create_simulation(landscape)
 sim$set_time_layer_mapping(c(1:6))
 sim$add_species(name = "species_1")
 sim$add_process(
@@ -177,7 +151,7 @@ sim$begin()
 ## Dequeue a process
 The `dequeue()` function of the priority queue allows the user to remove a process from the priority queue.
 ```{r dequeuing}
-sim <- create_simulation(create_example_landscape())
+sim <- create_simulation(landscape)
 sim$set_time_layer_mapping(c(1:6))
 sim$add_species(name = "species_1")
 sim$add_process(
@@ -213,7 +187,7 @@ To end the simulation safely, before the last time step, the user can use the `e
 This will end the simulation at the end of the process it is called inside of.
 A possibly use case would be to conditionally end the simulation if all species are extinct.
 ```{r exit}
-sim <- create_simulation(create_example_landscape())
+sim <- create_simulation(landscape)
 sim$set_time_layer_mapping(c(1:6))
 sim$add_species(name = "species_1")
 sim$add_process(

@@ -1,11 +1,11 @@
 ---
-title: "03: Species interactions"
+title: "05: Species interactions"
 author: "Fallert, S. and Cabral, J.S."
 output:
     rmarkdown::html_vignette:
         code_folding: show
 vignette: >
-  %\VignetteIndexEntry{03: Species interactions}
+  %\VignetteIndexEntry{05: Species interactions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,52 +16,24 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 ```
-To make the example from the "Introduction / Get started" vignette more interesting, we can introduce more processes around the interaction between the two species.
+To make the example we have so far more interesting, we can introduce more processes around the interaction between the two species.
 
 First we will generate the same setup.
-```{r setup}
+```{r setup, class.source = 'fold-hide'}
 library(metaRange)
 library(terra)
-```
+set_verbosity(0)
 
-```{r load_landscape_fun, echo = FALSE, results  = FALSE}
-create_example_landscape <- function() {
-    set.seed(3)
-    create_land <- function() {
-        sample_size <- 100
-        n_cells <- 100
-        res <- terra::disagg(
-            terra::rast(
-                matrix(
-                    sample.int(
-                        sample_size,
-                        n_cells,
-                        replace = TRUE,
-                        prob = sin(seq(0.05, pi - 0.05, length.out = sample_size))
-                    ),
-                    nrow = sqrt(n_cells),
-                    ncol = sqrt(n_cells)
-                )
-            ),
-            10,
-            "bilinear"
-        )  / 100
-        ext(res) <- c(0, 100, 0, 100)
-        return(res)
-    }
-    temperature <- create_land() * 20 + 273.15
-    temperature <- rep(temperature, 10)
-    precipitation <- create_land() * 1000
-    precipitation <- rep(precipitation, 10)
-    habitat <- create_land()
-    habitat <- rep(habitat, 10)
-    landscape <- terra::sds(temperature, precipitation, habitat)
-    names(landscape) <- c("temperature", "precipitation", "habitat")
-    return(landscape)
-}
-```
-```{r create_simulation, class.source = 'fold-hide'}
-sim <- create_simulation(create_example_landscape())
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+temperature <- scale(r, center = FALSE, scale = TRUE) * 10 + 273.15
+precipitation <- r * 2
+temperature <- rep(temperature, 10)
+precipitation <- rep(precipitation, 10)
+landscape <- sds(temperature, precipitation)
+names(landscape) <- c("temperature", "precipitation")
+
+sim <- create_simulation(landscape)
 sim$add_species(name = "species_1")
 sim$add_species(name = "species_2")
 
@@ -126,19 +98,11 @@ sim$add_process(
     species = c("species_1", "species_2"),
     process_name = "reproduction",
     process_fun = function() {
-        self$traits$carrying_capacity <-
-            self$traits$carrying_capacity *
-            self$traits$climate_suitability
-
-        self$traits$reproduction_rate <-
-            self$traits$reproduction_rate *
-            self$sim$environment$current$habitat
-
         self$traits$abundance <-
             ricker_reproduction_model(
                 self$traits$abundance,
-                self$traits$reproduction_rate,
-                self$traits$carrying_capacity
+                self$traits$reproduction_rate * self$traits$climate_suitability,
+                self$traits$carrying_capacity * self$traits$climate_suitability
             )
     },
     execution_priority = 2
@@ -156,10 +120,10 @@ sim$add_process(
 ```
 
 ## Competition
-We'll start by adding a process that simulates competition between the two species.
+But now we will continue by adding a process that simulates competition between the two species.
 This process will reduce the carrying capacity of a habitat cell based on the abundance of the other species.
-For simplicity, we'll assume asymmetric competition, with species 1 being the superior competitor.
-Therefore we'll only reduce the carrying capacity of species 2 based on the abundance of species 1.
+For simplicity, we will assume asymmetric competition, with species 1 being the superior competitor.
+Therefore, we'll only reduce the carrying capacity of species 2 based on the abundance of species 1.
 ```{r Competition}
 sim$add_process(
     species = "species_2",
@@ -184,7 +148,7 @@ plot(sim, "species_1", "abundance", main = "Sp: 1 abundance", col = plot_cols)
 plot(sim, "species_2", "abundance", main = "Sp: 2 abundance", col = plot_cols)
 ```
 
-As you can see, species 2 is only able to survive in habitat that is unsuitable for species 1.
+As you can see, species 2 is only able to survive at long-term without further coexistence mechanisms (e.g. temporal stochasticity and disturbance) in habitat that is unsuitable for species 1.
 
 ## Throphic interactions
 
@@ -192,7 +156,7 @@ We can also add a process that simulates trophic interactions in the form of pre
 Assuming that species 2 is a predator and species 1 is its prey, this means that species 2 will reduce the abundance of species 1, but can only occur in the same areas as species 1.
 We'll again use a similar setup as before, with slightly adjusted values:
 ```{r setup_again, class.source = 'fold-hide'}
-sim <- create_simulation(create_example_landscape())
+sim <- create_simulation(landscape)
 sim$add_species(name = "species_1")
 sim$add_species(name = "species_2")
 
@@ -265,19 +229,11 @@ sim$add_process(
     species = c("species_1", "species_2"),
     process_name = "reproduction",
     process_fun = function() {
-        self$traits$carrying_capacity <-
-            self$traits$carrying_capacity *
-            self$traits$climate_suitability
-
-        self$traits$reproduction_rate <-
-            self$traits$reproduction_rate *
-            self$sim$environment$current$habitat
-
         self$traits$abundance <-
             ricker_reproduction_model(
                 self$traits$abundance,
-                self$traits$reproduction_rate,
-                self$traits$carrying_capacity
+                self$traits$reproduction_rate * self$traits$climate_suitability,
+                self$traits$carrying_capacity * self$traits$climate_suitability
             )
     },
     execution_priority = 2
@@ -294,7 +250,7 @@ sim$add_process(
 )
 ```
 
-But now with a process that simulates predation.
+Now we can add a process that simulates predation.
 Note that the predation effectiveness is dependent on the climate suitability of the predator.
 ```{r predation}
 sim$add_globals(trophic_conversion_factor = 0.5)

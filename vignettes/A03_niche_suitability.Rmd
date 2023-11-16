@@ -1,0 +1,220 @@
+---
+title: "03: Niche suitability"
+author: "Fallert, S. and Cabral, J.S."
+output:
+    rmarkdown::html_vignette:
+        code_folding: show
+vignette: >
+  %\VignetteIndexEntry{03: Niche suitability}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+
+The influence of envionmental conditions on species distribution is a central topic in ecology.
+In this tutorial we will show how to implement a simple niche suitability model in metaRange.
+For this, we will first create a landscape with two environmental variables (temperature and precipitation) and then add two species to it, that have different envionmental preferences.
+
+# Setup
+first we load the packages and create the example landscape.
+
+```{r create_landscape}
+library(metaRange)
+library(terra)
+set_verbosity(2)
+
+# find the example raster file
+raster_file <- system.file("ex/elev.tif", package = "terra")
+
+# load it
+r <- rast(raster_file)
+
+# adjust the values
+temperature <- scale(r, center = FALSE, scale = TRUE) * 10 + 273.15
+precipitation <- r * 2
+```
+
+
+Now we can (again) turn the raster into an `SDS` with one layer per time step.
+
+```{r}
+temperature <- rep(temperature, 10)
+precipitation <- rep(precipitation, 10)
+landscape <- sds(temperature, precipitation)
+names(landscape) <- c("temperature", "precipitation")
+```
+
+
+
+```{r landscape_01, fig.cap = "Figure 1: The temperature of the example landscape. Only the first layer of 10 identical ones is shown."}
+terra::plot(
+    landscape$temperature[[1]],
+    col = hcl.colors(100, "RdYlBu", rev = TRUE),
+    main = "Temperature [K]")
+```
+```{r landscape_02, fig.cap = "Figure 2: The precipitation of the example landscape. Only the first layer of 10 identical ones is shown."}
+terra::plot(
+    landscape$precipitation[[1]],
+    col = hcl.colors(100, "Earth"),
+    main = "Precipitation [mm]")
+```
+
+# Creating the simulation and species
+```{r add_species}
+sim <- create_simulation(
+    source_environment = landscape,
+    ID = "example_simulation",
+    seed = 1
+)
+sim$add_species(name = "species_1")
+sim$add_species(name = "species_2")
+```
+
+# Adding traits to species
+To start, we add the same traits as in the previous tutorials and also add a trait called `climate_suitability`, where we will store the information about how suitable the environment in each cell is for the population that lives there.
+```{r add_trait}
+sim$add_traits(
+    species = c("species_1", "species_2"),
+    population_level = TRUE,
+    abundance = 500,
+    climate_suitability = 1,
+    reproduction_rate = 0.3,
+    carrying_capacity = 1000
+)
+```
+
+Contrary to the above, some traits may not require to be stored at the population level, e.g. if they are a property of the species as a whole.
+In this case, `population_level` can be set to `FALSE` and the trait will be added as-is, without further processing.
+In this example, this applies to the environmental niche of the species.
+We assume that the environmental preferences of a species are the same for all population and therefore do not need to be stored at the population level.
+
+Therfore, we can give both species different environmental preferences for the two envionmental variables in the simulation environment (temperature & precipitation).
+Note that the names of the traits are arbitrary and can be chosen by the user and that there is no predetermined connection between e.g. "min_temperature" and the temperature variable in the environment.
+It is the responsibility of the species processes (therfore of the user) to access the correct traits and use them in the correct way, which is why meaningfull trait names are important.
+```{r add_trait_3}
+sim$add_traits(
+    species = "species_1",
+    population_level = FALSE,
+    max_temperature = 300, # Kelvin
+    optimal_temperature = 288,
+    min_temperature = 280,
+    max_precipitation = 1000, # mm
+    optimal_precipitation = 700,
+    min_precipitation = 200
+)
+sim$add_traits(
+    species = "species_2",
+    population_level = FALSE,
+    max_temperature = 290,
+    optimal_temperature = 285,
+    min_temperature = 270,
+    max_precipitation = 1000,
+    optimal_precipitation = 500,
+    min_precipitation = 0
+)
+```
+
+
+# Adding processes
+
+## Calculate the suitability
+To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a formula published by [Yin et al. in 1995](https://doi.org/10.1016/0168-1923(95)02236-Q) [Ref. 1] and simplified by [Yan and Hunt in 1999 (eq:4)](https://doi.org/10.1006/anbo.1999.0955) [Ref. 2].
+The formula takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
+
+```{r calculate_suitability, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}
+min_value <- 270
+opt_value <- 285
+max_value <- 290
+x <- seq(min_value, max_value, length.out = 100)
+y <- calculate_suitability(max_value, opt_value, min_value, x)
+plot(x, y, type = "l", xlab = "Temperature [K]", ylab = "Suitability")
+```
+
+
+In the following code we add a process to both species that calculates the environmental suitability for precipitation and temperature and then multiplies the values to create a joint suitability over the two niches.
+Note that one could also define a custom function to calculate the suitability, if this built-in function does not adequately describe the ecology of the target species.
+
+## Suitability
+```{r Suitability}
+sim$add_process(
+    species = c("species_1", "species_2"),
+    process_name = "calculate_suitability",
+    process_fun = function() {
+        self$traits$climate_suitability <-
+            calculate_suitability(
+                self$traits$max_temperature,
+                self$traits$optimal_temperature,
+                self$traits$min_temperature,
+                self$sim$environment$current$temperature
+            ) *
+            calculate_suitability(
+                self$traits$max_precipitation,
+                self$traits$optimal_precipitation,
+                self$traits$min_precipitation,
+                self$sim$environment$current$precipitation
+            )
+    },
+    execution_priority = 1
+)
+```
+
+## Reproduction
+As in the previous tutorials, we use a Ricker reproduction model to calculate the new abundance of the species, but this time we let the carrying capacity and the reproduction rate depend on the niche suitability of the environment.
+```{r Reproduction}
+sim$add_process(
+    species = c("species_1", "species_2"),
+    process_name = "reproduction",
+    process_fun = function() {
+        self$traits$abundance <-
+            ricker_reproduction_model(
+                self$traits$abundance,
+                self$traits$reproduction_rate * self$traits$climate_suitability,
+                self$traits$carrying_capacity * self$traits$climate_suitability
+            )
+    },
+    execution_priority = 2
+)
+```
+
+# Results
+Now, we can execute the simulation and compare the results.
+```{r run_simulation}
+set_verbosity(1)
+sim$begin()
+```
+
+```{r resA, fig.cap = "Figure 6: The resulting abundance distribution of species 1 after 10 simulation time steps."}
+# define a nice color palette
+plot_cols <- hcl.colors(100, "Purple-Yellow", rev = TRUE)
+plot(
+    sim,
+    obj = "species_1",
+    name = "abundance",
+    main = "Species 1: abundance",
+    col = plot_cols
+)
+
+```
+
+
+```{r resB, fig.cap = "Figure 7: The resulting abundance distribution of species 2 after 10 simulation time steps."}
+plot(
+    sim$species_2,
+    trait = "abundance",
+    main = "Species 2: abundance",
+    col = plot_cols
+)
+```
+
+
+# References
+(1) Yin, X., Kropff, M.J., McLaren, G., Visperas, R.M., (1995) A nonlinear model for crop development as a function of temperature, Agricultural and Forest Meteorology, Volume 77, Issues 1-2, Pages 1--16, doi:10.1016/0168-1923(95)02236-Q
+
+(2) Yan, W., Hunt, L.A. (1999) An Equation for Modelling the Temperature Response of Plants using only the Cardinal Temperatures, Annals of Botany, Volume 84, Issue 5, Pages 607--614, ISSN 0305-7364, doi:10.1006/anbo.1999.0955

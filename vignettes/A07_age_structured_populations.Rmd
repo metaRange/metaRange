@@ -1,20 +1,20 @@
 ---
-title: "06: Age structured populations"
+title: "07: Age structured populations"
 author: "Fallert, S. and Cabral, J.S."
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{06: Age structured populations}
+  %\VignetteIndexEntry{07: Age structured populations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
-Many species have population dynamics that can't be described by a simple Ricker model.
+Many species have population dynamics that require more complex equations than the simple Ricker model, which describes overcompensatory scramble competition dynamics.
 A common abstraction to deal with this complexity is to partition a species into functional subgroups that undergo different processes, as for example *juveniles* who are dispersing and looking for a habitat, who then become *adults* who are stationary but have the ability to reproduce and generate the next generation of *juveniles*.
 The following illustrates how to model such a system.
 
@@ -24,46 +24,16 @@ The following illustrates how to model such a system.
 library(metaRange)
 library(terra)
 ```
-```{r load_landscape_fun, echo = FALSE, results  = FALSE}
-create_example_landscape <- function() {
-    set.seed(3)
-    create_land <- function() {
-        sample_size <- 100
-        n_cells <- 100
-        res <- terra::disagg(
-            terra::rast(
-                matrix(
-                    sample.int(
-                        sample_size,
-                        n_cells,
-                        replace = TRUE,
-                        prob = sin(seq(0.05, pi-0.05, length.out = sample_size))
-                    ),
-                    nrow = sqrt(n_cells),
-                    ncol = sqrt(n_cells)
-                )
-            ),
-            10,
-            "bilinear"
-        )  / 100
-        ext(res) <- c(0, 100, 0, 100)
-        return(res)
-    }
-    temperature <- create_land() * 20 + 273.15
-    temperature <- rep(temperature, 10)
-    precipitation <- create_land() * 1000
-    precipitation <- rep(precipitation, 10)
-    habitat <- create_land()
-    habitat <- rep(habitat, 10)
-    landscape <- terra::sds(temperature, precipitation, habitat)
-    names(landscape) <- c("temperature", "precipitation", "habitat")
-    return(landscape)
-}
-```
 
 Setup the basic simulation.
 ```{r setup_sim}
-sim <- create_simulation(create_example_landscape())
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+habitat <- scale(r, center = FALSE, scale = TRUE)
+habitat <- rep(habitat, 10)
+landscape <- sds(habitat)
+names(landscape) <- c("habitat")
+sim <- create_simulation(landscape)
 sim$add_species("species_1")
 ```
 
@@ -143,7 +113,7 @@ sim$add_process(
 ```
 
 ## Result
-Lastly, we add a process that reports the numbers of adults and juveniles over time, then execute the simulation and plot the results.
+Lastly, we add a process that reports the numbers of adults and juveniles over time, after which we can execute the simulation and plot the results.
 ```{r run_sim}
 sim$add_globals(n_juveniles = c(), n_adults = c())
 sim$add_process(
@@ -162,7 +132,7 @@ plot(
     sim$globals$n_juveniles,
     col = "darkred",
     type = "l",
-    ylim = c(0, 2000000),
+    ylim = c(0, max(sim$globals$n_juveniles, sim$globals$n_adults)),
     xlab = "Time",
     ylab = "Number of individuals",
     cex.lab = 0.7,
