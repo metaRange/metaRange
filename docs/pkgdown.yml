@@ -2,13 +2,16 @@ pandoc: 3.1.9
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  advanced_setup: advanced_setup.html
-  age-structured-populations: age-structured-populations.html
-  directed_dispersal: directed_dispersal.html
-  metabolic_scaling: metabolic_scaling.html
-  metaRange: metaRange.html
-  species_interactions: species_interactions.html
-last_built: 2023-11-12T21:16Z
+  A01_intro: A01_intro.html
+  A02_multiple_species: A02_multiple_species.html
+  A03_niche_suitability: A03_niche_suitability.html
+  A04_dispersal: A04_dispersal.html
+  A05_species_interactions: A05_species_interactions.html
+  A06_metabolic_scaling: A06_metabolic_scaling.html
+  A07_age_structured_populations: A07_age_structured_populations.html
+  A08_advanced_options: A08_advanced_options.html
+  A09_troubleshooting_and_caveats: A09_troubleshooting_and_caveats.html
+last_built: 2023-11-16T15:57Z
 urls:
   reference: https://metaRange.github.io/metaRange/reference
   article: https://metaRange.github.io/metaRange/articles

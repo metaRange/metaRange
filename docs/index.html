@@ -79,20 +79,20 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="articles/metaRange.html">Get started</a>
-</li>
-<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/metaRange.html">Introduction</a>
-    <a class="dropdown-item" href="articles/advanced_setup.html">Advanced setup</a>
-    <a class="dropdown-item" href="articles/species_interactions.html">Species interactions</a>
-    <a class="dropdown-item" href="articles/metabolic_scaling.html">Metabolic scaling</a>
-    <a class="dropdown-item" href="articles/directed_dispersal.html">Directed (weighted) dispersal</a>
-    <a class="dropdown-item" href="articles/age-structured-populations.html">Age structured populations</a>
+    <a class="dropdown-item" href="articles/A01_intro.html">01: Introduction to metaRange</a>
+    <a class="dropdown-item" href="articles/A02_multiple_species.html">02: Multiple species</a>
+    <a class="dropdown-item" href="articles/A03_niche_suitability.html">03: Niche suitability</a>
+    <a class="dropdown-item" href="articles/A04_dispersal.html">04: Dispersal</a>
+    <a class="dropdown-item" href="articles/A05_species_interactions.html">05: Species interactions</a>
+    <a class="dropdown-item" href="articles/A06_metabolic_scaling.html">06: Metabolic scaling</a>
+    <a class="dropdown-item" href="articles/A07_age_structured_populations.html">07: Age structured populations</a>
+    <a class="dropdown-item" href="articles/A08_advanced_options.html">08: Advanced options</a>
+    <a class="dropdown-item" href="articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
   </div>
 </li>
 <li class="nav-item">
@@ -141,7 +141,36 @@
 <div class="section level2">
 <h2 id="prerequisites--where-to-get-help">Prerequisites / where to get help<a class="anchor" aria-label="anchor" href="#prerequisites--where-to-get-help"></a>
 </h2>
-<p>To give users with different experience levels an easy introduction to metaRange, it is accompanied by <a href="https://metarange.github.io/metaRange/articles/index.html" class="external-link">vignettes / articles</a> that give in-depth explanations and examples on how to setup different types of simulations. That being said, a basic knowledge of general R programming and “classic” object-oriented programming concepts might be beneficial. In case one is unfamiliar with the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6 package</a> (Chang 2021), it is advisable to read the short intro about it in <a href="https://adv-r.hadley.nz/r6.html" class="external-link">Hadley Wickham’s “Advanced R”</a>.</p>
+<p>To give users with different experience levels an easy introduction to metaRange, it is accompanied by <a href="https://metarange.github.io/metaRange/articles/index.html" class="external-link">vignettes / articles</a> that give in-depth explanations and examples on how to setup different types of simulations. That being said, a basic knowledge of general R programming and “classic” object-oriented programming (OOP) concepts as well as some familiarity with geographic (raster) data processing and species distribution models (SDM) might be beneficial. In case one is unfamiliar with any of these topics here are some reading recomendations:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Topic</th>
+<th>Recommended introduction</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>general R programming</td>
+<td><a href="https://adv-r.hadley.nz/r6.html" class="external-link">Hadley Wickham’s “Advanced R”</a></td>
+</tr>
+<tr class="even">
+<td>OOP / <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6 package</a>
+</td>
+<td><a href="https://adv-r.hadley.nz/r6.html" class="external-link">“Advanced R” Chapter “R6”</a></td>
+</tr>
+<tr class="odd">
+<td>terra &amp; geodata handling</td>
+<td><a href="https://rspatial.org/spatial/" class="external-link">rspatial.org</a></td>
+</tr>
+<tr class="even">
+<td>SDMs</td>
+<td><a href="https://doi.org/10.1111/j.1365-2699.2011.02659.x" class="external-link">Dormann et al. 2012</a></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level1">
@@ -157,8 +186,6 @@
 </h2>
 <p>A simulation can contain multiple species, as well as interactions between them. Every simulated species (i.e. each species object) consists of a set of <code>processes</code> that describe it’s relationship with time, itself, the abiotic environment and other species and <code>traits</code>, which can be any type of data that can be accessed or changed by the processes.</p>
 <p>Species have implied populations, each of which inhabit one grid cell of the landscape. On a computational level this means that the <code>traits</code> of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.</p>
-<p>A simple example would be a species with the process <code>reproduction</code> that describes how the species reproduces during one simulation time step. This process could for example depend on: the temperature of the environment, the presence of other species (e.g. as food source), the current population density of the species and the reproduction rate of the species.</p>
-<p>Summarized: A species consists of <code>processes</code> (functions) and <code>traits</code> (data). Processes can access trait and environmental data and change trait data of themselves or other species.</p>
 </div>
 <div class="section level2">
 <h2 id="flexibility--dynamic-process-execution">Flexibility / dynamic process execution<a class="anchor" aria-label="anchor" href="#flexibility--dynamic-process-execution"></a>
@@ -188,6 +215,7 @@
 <p>Eddelbuettel D, Sanderson C (2014). “RcppArmadillo: Accelerating R with high-performance C++ linear algebra.” <em>Computational Statistics and Data Analysis</em>, <em>71</em>, 1054-1063. <a href="https://doi.org/10.1016/j.csda.2013.02.005" class="external-link uri">https://doi.org/10.1016/j.csda.2013.02.005</a></p>
 <p>Chang W (2021). <em>R6: Encapsulated Classes with Reference Semantics</em>. R package version 2.5.1, <a href="https://CRAN.R-project.org/package=R6" class="external-link uri">https://CRAN.R-project.org/package=R6</a>.</p>
 <p>Hijmans R (2023). <em>terra: Spatial Data Analysis</em>. R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" class="external-link uri">https://CRAN.R-project.org/package=terra</a>.</p>
+<p>Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. <em>Journal of Biogeography</em>, <strong>39</strong>: 2119–2131. <a href="https://doi.org/10.1111/j.1365-2699.2011.02659.x" class="external-link uri">https://doi.org/10.1111/j.1365-2699.2011.02659.x</a></p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">

@@ -22,21 +22,21 @@ that define a species."><meta property="og:image" content="https://metaRange.git
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../articles/metaRange.html">Get started</a>
-</li>
-<li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/metaRange.html">Introduction</a>
-    <a class="dropdown-item" href="../articles/advanced_setup.html">Advanced setup</a>
-    <a class="dropdown-item" href="../articles/species_interactions.html">Species interactions</a>
-    <a class="dropdown-item" href="../articles/metabolic_scaling.html">Metabolic scaling</a>
-    <a class="dropdown-item" href="../articles/directed_dispersal.html">Directed (weighted) dispersal</a>
-    <a class="dropdown-item" href="../articles/age-structured-populations.html">Age structured populations</a>
+    <a class="dropdown-item" href="../articles/A01_intro.html">01: Introduction to metaRange</a>
+    <a class="dropdown-item" href="../articles/A02_multiple_species.html">02: Multiple species</a>
+    <a class="dropdown-item" href="../articles/A03_niche_suitability.html">03: Niche suitability</a>
+    <a class="dropdown-item" href="../articles/A04_dispersal.html">04: Dispersal</a>
+    <a class="dropdown-item" href="../articles/A05_species_interactions.html">05: Species interactions</a>
+    <a class="dropdown-item" href="../articles/A06_metabolic_scaling.html">06: Metabolic scaling</a>
+    <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
+    <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
+    <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
   </div>
 </li>
 <li class="nav-item">
@@ -83,7 +83,7 @@ that define a species.</p>
 
 
 <dt><code>processes</code></dt>
-<dd><p><code>&lt;list&gt;</code> of <code>&lt;[metaRangeProcess]es&gt;</code>.
+<dd><p><code>&lt;list&gt;</code> of <code>&lt;metaRangeProcesses&gt;</code>.
 The processes that describe how the species interacts
 with the environment, itself and other species.</p></dd>
 
@@ -93,7 +93,8 @@ with the environment, itself and other species.</p></dd>
 
 
 <dt><code>sim</code></dt>
-<dd><p><code>&lt;[metaRangeSimulation]&gt;</code> a reference to the simulation object that the species is part of.
+<dd><p><code>&lt;metaRangeSimulation&gt;</code> A reference to the <a href="metaRangeSimulation.html">metaRangeSimulation</a>
+simulation object that the species is part of.
 Useful to access environmental data or data of other species.</p></dd>
 
 
@@ -121,11 +122,16 @@ Useful to access environmental data or data of other species.</p></dd>
 
 
 <dt><code>sim</code></dt>
-<dd><p><code>&lt;[metaRangeSimulation]&gt;</code> A reference to the simulation
-object that the species is part of.</p></dd>
+<dd><p><code>&lt;metaRangeSimulation&gt;</code> A reference to the <a href="metaRangeSimulation.html">metaRangeSimulation</a>
+simulation object that the species is part of.
+Useful to access environmental data or data of other species.</p></dd>
 
 
 </dl><p></p></div>
+</div>
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>A <code>&lt;metaRangeSpecies&gt;</code> object.</p>
 </div>
 <div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
@@ -147,7 +153,7 @@ object that the species is part of.</p></dd>
 </div>
 
 <div class="section">
-<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code>&lt;invisible self&gt;</code></p>
 </div>
 
