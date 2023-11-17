@@ -122,12 +122,12 @@ where each value represents the trait value for one population in the
 corresponding grid cell of the of the environment. Based on this, most
 <code>processes</code> will describe population (and meta population)
 dynamics and not individual based mechanisms. Figure 1 shows an example
-of some of the different envionmental factors, species traits and
+of some of the different environmental factors, species traits and
 processes that could be included in a simulation.</p>
 <div class="figure">
-<img src="../reference/figures/example_simulation.svg" alt="Figure 1: Example of some of the different envionmental factors, species traits and processes that could be included in a simulation." width="100%"><p class="caption">
-Figure 1: Example of some of the different envionmental factors, species
-traits and processes that could be included in a simulation.
+<img src="../reference/figures/example_simulation.svg" alt="Figure 1: Example of some of the different environmental factors, species traits and processes that could be included in a simulation." width="100%"><p class="caption">
+Figure 1: Example of some of the different environmental factors,
+species traits and processes that could be included in a simulation.
 </p>
 </div>
 A more technical overview of the different components of a simulation
@@ -135,7 +135,7 @@ and how they interact with each other is shown in Figure 2. While the
 environment has a temporal dimension (i.e. the different time steps, see
 Fig.1), the traits (or the global variables of the simulation) have no
 temporal property. They represent the state of the species (or of the
-simulation respectivly) in one (the current) time step. When a process
+simulation respectively) in one (the current) time step. When a process
 is executed within a time step, it can access this current state of the
 simulation and modify it, which results in changing traits over the
 course of the simulation. Each process can be assigned a priority, that
@@ -159,7 +159,7 @@ introduction we will see how the abundance of the species changes in
 relation to the quality of the habitat each population occupies.</p>
 <p>To start, we need to load the package and its dependencies.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange">metaRange</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/metaRange/metaRange" class="external-link">metaRange</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; metaRange version: 0.0.0.9000</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span></code></pre></div>
@@ -328,7 +328,7 @@ function to get an overview of the simulation state.</p>
 </h2>
 <p>After the simulation is created, species can be added to it using the
 <code>add_species()</code> function. At this point one has to switch to
-the sytax of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6</a> package,
+the syntax of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6</a> package,
 that metaRange uses. This means that <code>add_species()</code> is a
 method of the <code>simulation</code> object and can be called using the
 <code>$</code> operator (i.e. by indexing the simulation object and
@@ -366,7 +366,7 @@ individuals in each population), <code>reproduction_rate</code> (how
 fast the populations can reproduce) and <code>carrying_capacity</code>
 (maximum number of individuals per grid cell). Traits always represent
 the “current” state of a species. This means that the abundance we use
-as input here represents the inital state of the simulation. Over the
+as input here represents the initial state of the simulation. Over the
 course of the simulation (i.e. in each time step) the traits can be
 updated and change. In this example, the abundance will change each time
 step while e.g. the reproduction rate stays the same, but in other cases
@@ -401,9 +401,8 @@ each trait might change with time.</p>
 Figure 4: The initial abundance of the species.
 </p>
 </div>
-<p>Note that the above plot is not very interresting, since the
-abundance is the same for each population at the beginning of the
-simulation.</p>
+<p>Note that the above plot is not very interesting, since the abundance
+is the same for each population at the beginning of the simulation.</p>
 </div>
 <div class="section level2">
 <h2 id="adding-processes">Adding processes<a class="anchor" aria-label="anchor" href="#adding-processes"></a>
@@ -479,76 +478,76 @@ it can be executed via the <code>begin()</code> method.</p>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 84.1732579542268"</span></span>
-<span><span class="co">#&gt; |---- 0.00063 secs</span></span>
+<span><span class="co">#&gt; |---- 0.0012 secs</span></span>
 <span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.066 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.13 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 10 % done</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 127.598064388471"</span></span>
-<span><span class="co">#&gt; |---- 0.00054 secs</span></span>
+<span><span class="co">#&gt; |---- 0.0013 secs</span></span>
 <span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.11 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.2 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 20 % done</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 185.433176212344"</span></span>
-<span><span class="co">#&gt; |---- 0.00049 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
 <span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.044 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.084 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 30 % done</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 254.974925085775"</span></span>
-<span><span class="co">#&gt; |---- 5e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 9e-04 secs</span></span>
 <span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.04 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.071 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 40 % done</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 328.335965177599"</span></span>
-<span><span class="co">#&gt; |---- 0.00049 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00094 secs</span></span>
 <span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.034 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.061 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 50 % done</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 394.79908318955"</span></span>
-<span><span class="co">#&gt; |---- 5e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
 <span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.025 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.049 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 60 % done</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 446.224976588256"</span></span>
-<span><span class="co">#&gt; |---- 0.00055 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
 <span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.023 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.037 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 70 % done</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 480.705159122178"</span></span>
-<span><span class="co">#&gt; |---- 5e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
 <span><span class="co">#&gt; end of time step: 8</span></span>
-<span><span class="co">#&gt; 0.015 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.024 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 80 % done</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 501.356439544315"</span></span>
-<span><span class="co">#&gt; |---- 0.00056 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00097 secs</span></span>
 <span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.0074 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.013 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 90 % done</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 512.803082103058"</span></span>
-<span><span class="co">#&gt; |---- 0.00053 secs</span></span>
+<span><span class="co">#&gt; |---- 9e-04 secs</span></span>
 <span><span class="co">#&gt; end of time step: 10</span></span>
 <span><span class="co">#&gt; 0 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 100 % done</span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.081 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.15 secs</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="plotting-the-results">Plotting the results<a class="anchor" aria-label="anchor" href="#plotting-the-results"></a>
