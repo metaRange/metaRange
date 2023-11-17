@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 ```
-The ability to disperse is a key trait for many species and can have a large impact on the population dynamics and te ability of a species to survive and adapt to a changing environment.
+The ability to disperse is a key trait for many species and can have a large impact on the population dynamics and the ability of a species to survive and adapt to a changing environment.
 `metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
 
 Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
@@ -22,7 +22,7 @@ If one is not familiar with this topics, a good introduction is ["Nathan, R., Kl
 
 To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population to move to its surrounding habitat.
 Since this is a probability distribution, this dispersal kernel can be multiplied with each cell of the abundance matrix to get the new abundance of the species in each cell after dispersal.
-In other scietific fields this process is known as convolution and is for example often used in image processing and especially when "blurring" an image.
+In other scientific fields this process is known as convolution and is for example often used in image processing and especially when "blurring" an image.
 
 We can use the function `calculate_dispersal_kernel()` to create such a dispersal kernel.
 This function creates a matrix that has `max_dispersal_dist` rows and columns on both sides of the source cell and expects another function as input that it calls for each of those cells with the distance from the source cell as an argument.
@@ -67,7 +67,7 @@ One could for example use `calculate_suitability()` to create a matrix that repr
 
 
 ## Basic setup
-First, we load the necesarry packages and create an example landscape.
+First, we load the necessary packages and create an example landscape.
 ```{r create_landscape}
 library(metaRange)
 library(terra)

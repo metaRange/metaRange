@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 While creating your own simulation, you may encounter issues and errors to which the solution may not be immediately obvious and the resulting error messages can be cryptic and hard to understand.
-Here we will cover a basic stategy on how to solve them with the example of a simple typo in one of the species traits.
+Here we will cover a basic strategy on how to solve them with the example of a simple typo in one of the species traits.
 
 # Debugging
 The following code will result in an error:

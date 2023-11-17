@@ -25,7 +25,7 @@ Ecologists and programmers that are interested in studying and predicting specie
 ## Prerequisites / where to get help
 To give users with different experience levels an easy introduction to metaRange, it is accompanied by [vignettes / articles](https://metarange.github.io/metaRange/articles/index.html) that give in-depth explanations and examples on how to setup different types of simulations.
 That being said, a basic knowledge of general R programming and "classic" object-oriented programming (OOP) concepts as well as some familiarity with geographic (raster) data processing and species distribution models (SDM) might be beneficial.
-In case one is unfamiliar with any of these topics here are some reading recomendations:
+In case one is unfamiliar with any of these topics here are some reading recommendations:
 
 | Topic  | Recommended introduction |
 | ------------- | ------------- |

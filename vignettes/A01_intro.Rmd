@@ -28,17 +28,17 @@ During each time step of the simulation, the processes of the species are execut
 While the models built with metaRange can be quite variable in their structure, they are all based on population dynamics.
 This means that in most cases a `trait` will not be a singular number but a matrix that has the same size as the raster data in the environment, where each value represents the trait value for one population in the corresponding grid cell of the of the environment.
 Based on this, most `processes` will describe population (and meta population) dynamics and not individual based mechanisms.
-Figure 1 shows an example of some of the different envionmental factors, species traits and processes that could be included in a simulation.
+Figure 1 shows an example of some of the different environmental factors, species traits and processes that could be included in a simulation.
 
 
-```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 1: Example of some of the different envionmental factors, species traits and processes that could be included in a simulation."}
+```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 1: Example of some of the different environmental factors, species traits and processes that could be included in a simulation."}
 knitr::include_graphics("../man/figures/example_simulation.svg")
 ```
 
 
 A more technical overview of the different components of a simulation and how they interact with each other is shown in Figure 2.
 While the environment has a temporal dimension (i.e. the different time steps, see Fig.1), the traits (or the global variables of the simulation) have no temporal property.
-They represent the state of the species (or of the simulation respectivly) in one (the current) time step.
+They represent the state of the species (or of the simulation respectively) in one (the current) time step.
 When a process is executed within a time step, it can access this current state of the simulation and modify it, which results in changing traits over the course of the simulation.
 Each process can be assigned a priority, that is used by the `process priority queue` to determine in which order the processes are executed within one time step.
 ```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species & processes per species is not limited, but only two are shown for simplicity."}
@@ -122,7 +122,7 @@ summary(sim)
 
 # Adding species to the simulation
 After the simulation is created, species can be added to it using the `add_species()` function.
-At this point one has to switch to the sytax of the [R6](https://r6.r-lib.org/articles/Introduction.html) package, that metaRange uses.
+At this point one has to switch to the syntax of the [R6](https://r6.r-lib.org/articles/Introduction.html) package, that metaRange uses.
 This means that `add_species()` is a method of the `simulation` object and can be called using the `$` operator (i.e. by indexing the simulation object and calling a function that is stored inside of it).
 The only required argument is `name` which is the name of the species that will be added.
 ```{r add_species}
@@ -142,7 +142,7 @@ All following arguments can be supplied in the form of `trait_name = trait_value
 
 For now we only add three traits: `abundance` (number of individuals in each population), `reproduction_rate` (how fast the populations can reproduce) and `carrying_capacity` (maximum number of individuals per grid cell).
 Traits always represent the "current" state of a species.
-This means that the abundance we use as input here represents the inital state of the simulation.
+This means that the abundance we use as input here represents the initial state of the simulation.
 Over the course of the simulation (i.e. in each time step) the traits can be updated and change.
 In this example, the abundance will change each time step while e.g. the reproduction rate stays the same, but in other cases each trait might change with time.
 ```{r add_trait}
@@ -167,7 +167,7 @@ Or plotting them:
 plot(sim$species_1, "abundance")
 ```
 
-Note that the above plot is not very interresting, since the abundance is the same for each population at the beginning of the simulation.
+Note that the above plot is not very interesting, since the abundance is the same for each population at the beginning of the simulation.
 
 # Adding processes
 After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_processes()` method.
