@@ -75,7 +75,7 @@ sim$add_traits(
 )
 ```
 
-If we would want to add a trait to all species in the simulation, without having to type their names, we could use the already mentined `species_names()` method to get a vector of all species names and then use that as the `species` argument.
+If we would want to add a trait to all species in the simulation, without having to type their names, we could use the already mentioned `species_names()` method to get a vector of all species names and then use that as the `species` argument.
 ```{r add_trait_2}
 sim$add_traits(
     species = sim$species_names(),

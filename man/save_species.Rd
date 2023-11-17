@@ -30,7 +30,7 @@ Saves the specified traits of a \link{metaRangeSpecies} object.
 The generated file names are of the form
 \code{file.path(path, paste0(prefix, species_name, "_", trait_name, ".file_extension"))}.
 If the trait is in a matrix or raster form, the file extension is \code{.tif}. Otherwise it is \code{.csv}.
-The prefix is optional and mainly usefull to add a time step to the file name, in case the trait
+The prefix is optional and mainly useful to add a time step to the file name, in case the trait
 is saved multiple times during a simulation.
 }
 \examples{

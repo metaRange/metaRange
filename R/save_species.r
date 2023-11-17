@@ -28,7 +28,7 @@
 #' @details The generated file names are of the form
 #' `file.path(path, paste0(prefix, species_name, "_", trait_name, ".file_extension"))`.
 #' If the trait is in a matrix or raster form, the file extension is `.tif`. Otherwise it is `.csv`.
-#' The prefix is optional and mainly usefull to add a time step to the file name, in case the trait
+#' The prefix is optional and mainly useful to add a time step to the file name, in case the trait
 #' is saved multiple times during a simulation.
 #' @examples
 #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
