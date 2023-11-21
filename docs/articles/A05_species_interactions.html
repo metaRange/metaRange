@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,8 +97,8 @@ Cabral, J.S.</h4>
 
     
     
-<p>To make the example we have so far more interesting, we can introduce
-more processes around the interaction between the two species.</p>
+<p>To expand the example we have so far, we can introduce more processes
+around the interaction between the two species.</p>
 <p>First we will generate the same setup.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/metaRange/metaRange" class="external-link">metaRange</a></span><span class="op">)</span></span>
@@ -123,7 +123,7 @@ more processes around the interaction between the two species.</p>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
 <span>    population_level <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    abundance <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    abundance <span class="op">=</span> <span class="fl">900</span>,</span>
 <span>    climate_suitability <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    reproduction_rate <span class="op">=</span> <span class="fl">0.3</span>,</span>
 <span>    carrying_capacity <span class="op">=</span> <span class="fl">1000</span></span>
@@ -136,26 +136,85 @@ more processes around the interaction between the two species.</p>
 <span>        kfun <span class="op">=</span> <span class="va">negative_exponential_function</span>,</span>
 <span>        mean_dispersal_dist <span class="op">=</span> <span class="fl">1</span></span>
 <span>    <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>To highlight the competition, we will give both species the same
+preferred values for their optimal environmental niches, but species 2
+will be able to tolerate lower and higher values for both niches
+compared to species 1.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">opt_temp</span> <span class="op">&lt;-</span> <span class="fl">285</span></span>
+<span><span class="va">min_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">270</span></span>
+<span><span class="va">max_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">290</span></span>
+<span><span class="va">min_temp_sp2</span> <span class="op">&lt;-</span> <span class="fl">260</span></span>
+<span><span class="va">max_temp_sp2</span> <span class="op">&lt;-</span> <span class="fl">295</span></span>
+<span></span>
+<span><span class="va">opt_prec</span> <span class="op">&lt;-</span> <span class="fl">700</span></span>
+<span><span class="va">min_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
+<span><span class="va">max_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">min_prec_sp2</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">max_prec_sp2</span> <span class="op">&lt;-</span> <span class="fl">1200</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">min_temp_sp2</span>, <span class="va">max_temp_sp2</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">y_sp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_suitability.html">calculate_suitability</a></span><span class="op">(</span><span class="va">max_temp_sp1</span>, <span class="va">opt_temp</span>, <span class="va">min_temp_sp1</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">y_sp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_suitability.html">calculate_suitability</a></span><span class="op">(</span><span class="va">max_temp_sp2</span>, <span class="va">opt_temp</span>, <span class="va">min_temp_sp2</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_sp1</span>, type <span class="op">=</span> <span class="st">"l"</span>, xlab <span class="op">=</span> <span class="st">"Temperature [K]"</span>, ylab <span class="op">=</span> <span class="st">"Suitability"</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_sp2</span>, col <span class="op">=</span> <span class="st">"darkblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
+<span>    <span class="st">"topleft"</span>,</span>
+<span>    legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species 1"</span>, <span class="st">"species 2"</span><span class="op">)</span>,</span>
+<span>    col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkred"</span>, <span class="st">"darkblue"</span><span class="op">)</span>,</span>
+<span>    lty <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    cex <span class="op">=</span> <span class="fl">0.7</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="A05_species_interactions_files/figure-html/suitability1-1.png" alt="Figure 1: Suitability curve for the temperature niches of species 1 (blue) and species 2 (red)." width="700"><p class="caption">
+Figure 1: Suitability curve for the temperature niches of species 1
+(blue) and species 2 (red).
+</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">min_prec_sp2</span>, <span class="va">max_prec_sp2</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">y_sp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_suitability.html">calculate_suitability</a></span><span class="op">(</span><span class="va">max_prec_sp1</span>, <span class="va">opt_prec</span>, <span class="va">min_prec_sp1</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">y_sp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_suitability.html">calculate_suitability</a></span><span class="op">(</span><span class="va">max_prec_sp2</span>, <span class="va">opt_prec</span>, <span class="va">min_prec_sp2</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_sp1</span>, type <span class="op">=</span> <span class="st">"l"</span>, xlab <span class="op">=</span> <span class="st">"precipitation [mm]"</span>, ylab <span class="op">=</span> <span class="st">"Suitability"</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_sp2</span>, col <span class="op">=</span> <span class="st">"darkblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
+<span>    <span class="st">"topleft"</span>,</span>
+<span>    legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species 1"</span>, <span class="st">"species 2"</span><span class="op">)</span>,</span>
+<span>    col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkred"</span>, <span class="st">"darkblue"</span><span class="op">)</span>,</span>
+<span>    lty <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    cex <span class="op">=</span> <span class="fl">0.7</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="A05_species_interactions_files/figure-html/suitability2-1.png" alt="Figure 2: Suitability curve for the precipitation niches of species 1 (blue) and species 2 (red)." width="700"><p class="caption">
+Figure 2: Suitability curve for the precipitation niches of species 1
+(blue) and species 2 (red).
+</p>
+</div>
+<p>Now we can add these values as traits to the species and also add the
+other processes.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
 <span>    population_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    max_temperature <span class="op">=</span> <span class="fl">300</span>,</span>
-<span>    optimal_temperature <span class="op">=</span> <span class="fl">288</span>,</span>
-<span>    min_temperature <span class="op">=</span> <span class="fl">280</span>,</span>
-<span>    max_precipitation <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>    optimal_precipitation <span class="op">=</span> <span class="fl">700</span>,</span>
-<span>    min_precipitation <span class="op">=</span> <span class="fl">200</span></span>
+<span>    max_temperature <span class="op">=</span> <span class="va">max_temp_sp1</span>,</span>
+<span>    optimal_temperature <span class="op">=</span> <span class="va">opt_temp</span>,</span>
+<span>    min_temperature <span class="op">=</span> <span class="va">min_temp_sp1</span>,</span>
+<span>    max_precipitation <span class="op">=</span> <span class="va">max_prec_sp1</span>,</span>
+<span>    optimal_precipitation <span class="op">=</span> <span class="va">opt_prec</span>,</span>
+<span>    min_precipitation <span class="op">=</span> <span class="va">min_prec_sp1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>
 <span>    population_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    max_temperature <span class="op">=</span> <span class="fl">290</span>,</span>
-<span>    optimal_temperature <span class="op">=</span> <span class="fl">285</span>,</span>
-<span>    min_temperature <span class="op">=</span> <span class="fl">270</span>,</span>
-<span>    max_precipitation <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>    optimal_precipitation <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>    min_precipitation <span class="op">=</span> <span class="fl">0</span></span>
+<span>    max_temperature <span class="op">=</span> <span class="va">max_temp_sp2</span>,</span>
+<span>    optimal_temperature <span class="op">=</span> <span class="va">opt_temp</span>,</span>
+<span>    min_temperature <span class="op">=</span> <span class="va">min_temp_sp2</span>,</span>
+<span>    max_precipitation <span class="op">=</span> <span class="va">max_prec_sp2</span>,</span>
+<span>    optimal_precipitation <span class="op">=</span> <span class="va">opt_prec</span>,</span>
+<span>    min_precipitation <span class="op">=</span> <span class="va">min_prec_sp2</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
@@ -177,6 +236,9 @@ more processes around the interaction between the two species.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"reproduction"</span>,</span>
@@ -196,29 +258,28 @@ more processes around the interaction between the two species.</p>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"abundance"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dispersal.html">dispersal</a></span><span class="op">(</span></span>
 <span>            abundance <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"abundance"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>            dispersal_kernel <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"dispersal_kernel"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span>            dispersal_kernel <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"dispersal_kernel"</span><span class="op">]</span><span class="op">]</span></span>
+<span>        <span class="op">)</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="competition">Competition<a class="anchor" aria-label="anchor" href="#competition"></a>
 </h2>
-<p>But now we will continue by adding a process that simulates
-competition between the two species. This process will reduce the
-carrying capacity of a habitat cell based on the abundance of the other
-species. For simplicity, we will assume asymmetric competition, with
-species 1 being the superior competitor. Therefore, we’ll only reduce
-the carrying capacity of species 2 based on the abundance of species
-1.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>The process that simulates competition between the two species will
+reduce the carrying capacity of one species based on the abundance of
+the other species. For simplicity, we will assume asymmetric
+competition, with species 1 being the superior competitor. Therefore, we
+will only reduce the carrying capacity of species 2 based on the
+abundance of species 1.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"competition"</span>,</span>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">max_capacity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span><span class="op">)</span></span>
 <span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span> <span class="op">&lt;-</span></span>
-<span>            <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span> <span class="op">-</span> <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span></span>
-<span></span>
-<span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span><span class="op">[</span><span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="va">max_capacity</span> <span class="op">-</span> <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">4</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -226,15 +287,14 @@ the carrying capacity of species 2 based on the abundance of species
 carrying capacity will be reduced for the next time step, not the
 current one. One could change this by changing the execution priority of
 the competition process.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 1 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 2 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A05_species_interactions_files/figure-html/resA-1.png" width="700"><img src="A05_species_interactions_files/figure-html/resA-2.png" width="700"></p>
-<p>As you can see, species 2 is only able to survive at long-term
-without further coexistence mechanisms (e.g. temporal stochasticity and
-disturbance) in habitat that is unsuitable for species 1.</p>
+<p>As you can see, species 2 is being pushed out of its preferred
+habitat, towards areas that are more unsuitable for species 1.</p>
 </div>
 <div class="section level2">
 <h2 id="throphic-interactions">Throphic interactions<a class="anchor" aria-label="anchor" href="#throphic-interactions"></a>
@@ -242,9 +302,9 @@ disturbance) in habitat that is unsuitable for species 1.</p>
 <p>We can also add a process that simulates trophic interactions in the
 form of predation. Assuming that species 2 is a predator and species 1
 is its prey, this means that species 2 will reduce the abundance of
-species 1, but can only occur in the same areas as species 1. We’ll
+species 1, but can only occur in the same areas as species 1. We will
 again use a similar setup as before, with slightly adjusted values:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_1"</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_2"</span><span class="op">)</span></span>
@@ -333,14 +393,15 @@ again use a similar setup as before, with slightly adjusted values:</p>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"abundance"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dispersal.html">dispersal</a></span><span class="op">(</span></span>
 <span>            abundance <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"abundance"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>            dispersal_kernel <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"dispersal_kernel"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span>            dispersal_kernel <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"dispersal_kernel"</span><span class="op">]</span><span class="op">]</span></span>
+<span>        <span class="op">)</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now we can add a process that simulates predation. Note that the
 predation effectiveness is dependent on the climate suitability of the
 predator.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_globals</span><span class="op">(</span>trophic_conversion_factor <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>
@@ -358,7 +419,7 @@ predator.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">4</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 1 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span>
@@ -367,7 +428,7 @@ predator.</p>
 <p>Note how species 2 occupies the same areas as species 1 despite
 having a completely different climatic niche. Reminder:</p>
 <p><strong>species_1</strong></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_temperature</span> <span class="op">=</span> <span class="fl">300</span></span>
 <span><span class="va">optimal_temperature</span> <span class="op">=</span> <span class="fl">290</span></span>
 <span><span class="va">min_temperature</span> <span class="op">=</span> <span class="fl">270</span></span>
@@ -375,7 +436,7 @@ having a completely different climatic niche. Reminder:</p>
 <span><span class="va">optimal_precipitation</span> <span class="op">=</span> <span class="fl">800</span></span>
 <span><span class="va">min_precipitation</span> <span class="op">=</span> <span class="fl">0</span></span></code></pre></div>
 <p><strong>species_2</strong></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_temperature</span> <span class="op">=</span> <span class="fl">300</span></span>
 <span><span class="va">optimal_temperature</span> <span class="op">=</span> <span class="fl">270</span></span>
 <span><span class="va">min_temperature</span> <span class="op">=</span> <span class="fl">260</span></span>

@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,13 +131,13 @@ Figure 1: The habitat quality of the example landscape. Note: higher
 value = better habitat quality
 </p>
 </div>
-<p>As before, we create a simulation environment and add the landscape
-to it.</p>
+<p>As before, we create a simulation and add the landscape to it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span></span>
 <span>    source_environment <span class="op">=</span> <span class="va">landscape</span>,</span>
 <span>    ID <span class="op">=</span> <span class="st">"example_simulation"</span>,</span>
-<span>    seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<span>    seed <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="adding-more-species-to-the-simulation">Adding more species to the simulation<a class="anchor" aria-label="anchor" href="#adding-more-species-to-the-simulation"></a>
@@ -218,12 +218,12 @@ rate.</p>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"reproduction"</span>,</span>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span> <span class="op">&lt;-</span></span>
-<span>        <span class="fu"><a href="../reference/ricker_reproduction_model.html">ricker_reproduction_model</a></span><span class="op">(</span></span>
-<span>            <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span>,</span>
-<span>            <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">reproduction_rate</span> <span class="op">*</span> <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="va">current</span><span class="op">$</span><span class="va">habitat_quality</span>,</span>
-<span>            <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span></span>
-<span>        <span class="op">)</span></span>
+<span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span> <span class="op">&lt;-</span></span>
+<span>            <span class="fu"><a href="../reference/ricker_reproduction_model.html">ricker_reproduction_model</a></span><span class="op">(</span></span>
+<span>                <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span>,</span>
+<span>                <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">reproduction_rate</span> <span class="op">*</span> <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="va">current</span><span class="op">$</span><span class="va">habitat_quality</span>,</span>
+<span>                <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span></span>
+<span>            <span class="op">)</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span></span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">self</span><span class="op">$</span><span class="va">name</span>, <span class="st">" mean abundance: "</span>, <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summarize-generics.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="op">)</span></span>

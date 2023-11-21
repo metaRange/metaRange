@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,7 +114,7 @@ raster. Use cases may be:</p>
 simulation begins. This is usually done to let the simulation state
 reach a (semi) equilibrium state, from which the simulation objectives
 can be studied.</li>
-<li>If the environment is static and doesn’t undergo any change, the
+<li>If the environment is static and does not undergo any change, the
 user may want to use the same environmental raster layer for all time
 steps.</li>
 <li>Shortening or lengthening the number of time steps of the
@@ -174,7 +174,7 @@ time steps, one can use:</p>
 <h3 id="changing-the-number-of-time-steps">Changing the number of time steps<a class="anchor" aria-label="anchor" href="#changing-the-number-of-time-steps"></a>
 </h3>
 <p>In the same way described above, one can also pick the specific layer
-that are used to use and shorten the simulation length.</p>
+that are used and shorten the simulation length.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">number_time_steps</span></span>
@@ -221,16 +221,16 @@ itself, which allows for easier indexing across multiple species.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process</span></span>
 <span><span class="co">#&gt; Process name:  global_process </span></span>
-<span><span class="co">#&gt; PID:  PID-15f49e7041-global_process </span></span>
+<span><span class="co">#&gt; PID:  PID-15ad39bee1-global_process </span></span>
 <span><span class="co">#&gt; execution_priority:  1 </span></span>
-<span><span class="co">#&gt; execution_environment_label:  simulation_10422cd7 </span></span>
+<span><span class="co">#&gt; execution_environment_label:  simulation_1a712bb1 </span></span>
 <span><span class="co">#&gt; $fun: function() {</span></span>
 <span><span class="co">#&gt;         # self = simulation object</span></span>
 <span><span class="co">#&gt;         self$globals</span></span>
 <span><span class="co">#&gt;         # easy access to simulation functions</span></span>
 <span><span class="co">#&gt;         self$species_names() # no species yet</span></span>
 <span><span class="co">#&gt;     }</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x0000025fc8d6c4f8&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;environment: 0x00000247944167a0&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="interaction-with-the-priority-queue">Interaction with the priority queue<a class="anchor" aria-label="anchor" href="#interaction-with-the-priority-queue"></a>
@@ -349,7 +349,7 @@ user to remove a process from the priority queue.</p>
 </h2>
 <p>To end the simulation safely, before the last time step, the user can
 use the <code>exit()</code> method of the simulation. This will end the
-simulation at the end of the process it is called inside of. A possibly
+simulation at the end of the process it is called inside of. A possible
 use case would be to conditionally end the simulation if all species are
 extinct.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">

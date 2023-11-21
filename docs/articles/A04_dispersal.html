@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,12 +97,12 @@ Cabral, J.S.</h4>
 
     
     
-<p>The ability to disperse is a key trait for many species and can have
-a large impact on the population dynamics and the ability of a species
-to survive and adapt to a changing environment. <code>metaRange</code>
-allows the user to simulate dispersal in two different ways using the
-<code><a href="../reference/dispersal.html">dispersal()</a></code> function, which are described in the following
-sections.</p>
+<p>Dispersal is a key process in the lifecycle of many species and can
+have a large impact on the population dynamics and the ability of a
+species to survive and adapt to a changing environment.
+<code>metaRange</code> allows the user to simulate dispersal in two
+different ways using the <code><a href="../reference/dispersal.html">dispersal()</a></code> function, which are
+described in the following sections.</p>
 <p>Since metaRange is not an individual based model it uses the concept
 of a dispersal kernel to simulate dispersal for each population. If one
 is not familiar with this topics, a good introduction is <a href="https://doi.org/10.1093/acprof%3Aoso/9780199608898.003.0015" class="external-link">“Nathan,
@@ -114,8 +114,9 @@ a source population to move to its surrounding habitat. Since this is a
 probability distribution, this dispersal kernel can be multiplied with
 each cell of the abundance matrix to get the new abundance of the
 species in each cell after dispersal. In other scientific fields this
-process is known as convolution and is for example often used in image
-processing and especially when “blurring” an image.</p>
+process is known as convolution and is for example often used in a
+similar form in image processing and especially when “blurring” an
+image.</p>
 <p>We can use the function <code><a href="../reference/calculate_dispersal_kernel.html">calculate_dispersal_kernel()</a></code> to
 create such a dispersal kernel. This function creates a matrix that has
 <code>max_dispersal_dist</code> rows and columns on both sides of the
@@ -127,14 +128,9 @@ built-in <code>negative_exponential_function</code>:</p>
 <code class="sourceCode R"><span><span class="va">max_dispersal_distance</span> <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="va">mean_dispersal_distance</span> <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="va">dispersal_kernel</span> <span class="op">=</span> <span class="fu">metaRange</span><span class="fu">::</span><span class="fu"><a href="../reference/calculate_dispersal_kernel.html">calculate_dispersal_kernel</a></span><span class="op">(</span></span>
-<span>    <span class="co"># in grid cells</span></span>
-<span>    max_dispersal_dist <span class="op">=</span> <span class="va">max_dispersal_distance</span>,</span>
-<span>    <span class="co"># the function to use to calculate the kernel values</span></span>
-<span>    <span class="co"># i.e. this function is called for each cell in the kernel</span></span>
-<span>    kfun <span class="op">=</span> <span class="fu">metaRange</span><span class="fu">::</span><span class="va"><a href="../reference/negative_exponential_function.html">negative_exponential_function</a></span>,</span>
-<span>    <span class="co"># in grid cells</span></span>
-<span>    <span class="co"># this is the parameter that is passed to the kfun</span></span>
-<span>    mean_dispersal_dist <span class="op">=</span> <span class="va">mean_dispersal_distance</span></span>
+<span>    max_dispersal_dist <span class="op">=</span> <span class="va">max_dispersal_distance</span>, <span class="co"># units: grid cells</span></span>
+<span>    kfun <span class="op">=</span> <span class="fu">metaRange</span><span class="fu">::</span><span class="va"><a href="../reference/negative_exponential_function.html">negative_exponential_function</a></span>, <span class="co"># this function calculates the kernel values</span></span>
+<span>    mean_dispersal_dist <span class="op">=</span> <span class="va">mean_dispersal_distance</span> <span class="co"># this is passed to the kfun</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We can plot the kernel to get a better understanding of what it looks
 like. As you can see in the plot, the dispersal kernel is symmetrical
@@ -154,8 +150,8 @@ during dispersal.</p>
 <span>    main <span class="op">=</span> <span class="st">"Dispersal probability"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="A04_dispersal_files/figure-html/plot_kernel-1.png" alt="Figure 2: Plot of the dispersal kernel." width="700"><p class="caption">
-Figure 2: Plot of the dispersal kernel.
+<img src="A04_dispersal_files/figure-html/plot_kernel-1.png" alt="Figure 1: Example dispersal kernel for a negative exponential function" width="700"><p class="caption">
+Figure 1: Example dispersal kernel for a negative exponential function
 </p>
 </div>
 <p>While the assumption of dispersal via such a static kernel is an
@@ -166,13 +162,14 @@ influenced by other external factors. To allow simulations that include
 this, the <code><a href="../reference/dispersal.html">dispersal()</a></code> function gives the user the option to
 supply a third argument, <code>weights</code>, which is used to
 redistribute the individuals within the dispersal kernel. If supplied,
-the weights needs to be a matrix of the same dimensions as environment
-and the values should be in the range of <code>[0-1]</code>. One could
-for example use <code><a href="../reference/calculate_suitability.html">calculate_suitability()</a></code> to create a matrix
-that represent a general habitat suitability and use it as weights,
-which would correspond to an ecological meaning of “individuals moving
-towards a more suitable habitat during dispersal, if they have the
-ability to reach it”.</p>
+the weights need to be a matrix of the same dimensions as the
+environment and the values should be in the range of
+<code>[0-1]</code>.</p>
+<p>In this example use <code><a href="../reference/calculate_suitability.html">calculate_suitability()</a></code> to create a
+matrix that represent a general habitat suitability and use it as
+weights, which would correspond to an ecological meaning of “individuals
+moving towards a more suitable habitat during dispersal, if they have
+the ability to reach it”.</p>
 <div class="section level2">
 <h2 id="basic-setup">Basic setup<a class="anchor" aria-label="anchor" href="#basic-setup"></a>
 </h2>
@@ -207,7 +204,7 @@ landscape.</p>
 <span><span class="co">#&gt; source(s)   : memory </span></span>
 <span><span class="co">#&gt; names       : temperature</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; created simulation: simulation_66465712</span></span>
+<span><span class="co">#&gt; created simulation: simulation_2e12956a</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span><span class="st">"species_1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; adding species</span></span>
 <span><span class="co">#&gt; Name: species_1</span></span>
@@ -334,12 +331,32 @@ the results.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
-<p><img src="A04_dispersal_files/figure-html/run_sim-1.png" width="700"><img src="A04_dispersal_files/figure-html/run_sim-2.png" width="700"></p>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="A04_dispersal_files/figure-html/run_sim-1.png" alt="Figure 2: Resulting abundance of species 1 (with unweighted dispersal) after 10 time steps." width="700"><p class="caption">
+Figure 2: Resulting abundance of species 1 (with unweighted dispersal)
+after 10 time steps.
+</p>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="A04_dispersal_files/figure-html/run_sim-2.png" alt="Figure 2: Resulting abundance of species 1 (with unweighted dispersal) after 10 time steps." width="700"><p class="caption">
+Figure 2: Resulting abundance of species 1 (with unweighted dispersal)
+after 10 time steps.
+</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="A04_dispersal_files/figure-html/run_sim2-1.png" alt="Figure 3: Resulting abundance of species 2 (with weighted dispersal) after 10 time steps." width="700"><p class="caption">
+Figure 3: Resulting abundance of species 2 (with weighted dispersal)
+after 10 time steps.
+</p>
+</div>
 <p>Note how the plot for species two is less “blurry” and the different
 scales of the two plots. While the first species looses individuals by
-dispersing in unsuitable habitat, the second species can keep a much
+dispersing into unsuitable habitat, the second species can keep a much
 larger population size, by moving towards more suitable habitat during
 dispersal.</p>
 </div>

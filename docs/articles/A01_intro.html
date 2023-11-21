@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,12 +108,13 @@ based.</p>
 factors that may influence the simulation (as raster data) and one or
 more <code>species</code> that are simulated in the environment.</p>
 <p>Each species object has two main characteristics: <code>traits</code>
-which can be (somewhat arbitrary) pieces of data that describe and store
-information about the species and <code>processes</code> which are
-functions that describe how the species interacts with itself, time,
-climate and other species. During each time step of the simulation, the
-processes of the species are executed in a user defined order and can
-access and modify the species traits.</p>
+and <code>processes</code>. Species <code>traits</code> can be (somewhat
+arbitrary) pieces of data that describe and store information about the
+species while <code>processes</code> are functions that describe how the
+species interacts with itself, time, climate and other species. During
+each time step of the simulation, the processes of the species are
+executed in a user defined order and can access and modify the species
+traits.</p>
 <p>While the models built with metaRange can be quite variable in their
 structure, they are all based on population dynamics. This means that in
 most cases a <code>trait</code> will not be a singular number but a
@@ -142,11 +143,11 @@ course of the simulation. Each process can be assigned a priority, that
 is used by the <code>process priority queue</code> to determine in which
 order the processes are executed within one time step.
 <div class="figure">
-<img src="../reference/figures/simulation_high_level_overview.svg" alt="Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species &amp; processes per species is not limited, but only two are shown for simplicity." width="100%"><p class="caption">
+<img src="../reference/figures/simulation_high_level_overview.svg" alt="Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species as well as the number of traits and processes per species is not limited, but only a selection is shown for simplicity." width="100%"><p class="caption">
 Figure 2: Overview of the different components of a simulation and how
-they interact with each other. Note that the number of species &amp;
-processes per species is not limited, but only two are shown for
-simplicity.
+they interact with each other. Note that the number of species as well
+as the number of traits and processes per species is not limited, but
+only a selection is shown for simplicity.
 </p>
 </div>
 <div class="section level2">
@@ -168,17 +169,16 @@ relation to the quality of the habitat each population occupies.</p>
 <h2 id="loading-the-landscape">Loading the landscape<a class="anchor" aria-label="anchor" href="#loading-the-landscape"></a>
 </h2>
 <p>The first step when setting up a simulation is the loading of the
-environment in which the simulation will take place. In the real world,
-this data can be obtained from a variety of sources, and may include for
+environment in which the simulation will take place. This can either be
+real world data or “theoretical” / generated data and may include for
 example different climate variables, land cover or elevation.</p>
-<p>The simulations expects this data as an
-<code>SpatRasterDataset</code> (<code>SDS</code>) which is a collection
-of different raster files that all share the same extent and resolution.
-Each sub-dataset in this SDS represents one environmental variable and
-each layer represents one time step of the simulation. In other words,
-metaRange doesn’t simulate the environmental conditions itself, but
-expects the user to provide the environmental data for each time
-step.</p>
+<p>The simulation expects this data as an <code>SpatRasterDataset</code>
+(<code>SDS</code>) which is a collection of different raster files that
+all share the same extent and resolution. Each sub-dataset in this SDS
+represents one environmental variable and each layer represents one time
+step of the simulation. In other words, metaRange does not simulate the
+environmental conditions itself, but expects the user to provide the
+environmental data for each time step.</p>
 <p>To create such a dataset one can use the function
 <code><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">terra::sds()</a></code>. One important note: Since the layer represent
 the condition in one time step, all the raster files that go into the
@@ -251,7 +251,8 @@ number generator.</p>
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span></span>
 <span>    source_environment <span class="op">=</span> <span class="va">landscape</span>,</span>
 <span>    ID <span class="op">=</span> <span class="st">"example_simulation"</span>,</span>
-<span>    seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>    seed <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; number of time steps: 10</span></span>
 <span><span class="co">#&gt; time step layer mapping: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</span></span>
 <span><span class="co">#&gt; added environment</span></span>
@@ -352,7 +353,7 @@ again.</p>
 <div class="section level2">
 <h2 id="adding-traits-to-species">Adding traits to species<a class="anchor" aria-label="anchor" href="#adding-traits-to-species"></a>
 </h2>
-<p>After species are added to the simulation, traits can be asigned to
+<p>After species are added to the simulation, traits can be assigned to
 them using the <code>add_traits()</code> method. The first argument is
 <code>species</code> which is a character vector of the species names to
 which the trait should be assigned to. The second argument is
@@ -409,18 +410,18 @@ is the same for each population at the beginning of the simulation.</p>
 </h2>
 <p>After the species and its traits are added, the processes that
 describe the how the species interacts with its environment can be
-added, using the <code>add_processes()</code> method. The arguments are:
+added, using the <code>add_process()</code> method. The arguments are:
 <code>species</code> which is a character vector of the species that
 should get the process, <code>process_name</code> which is a human
 readable name for the process and <code>process_fun</code> which is the
-function that will be executed when the process is called.</p>
+function that will be called when the process is executed.</p>
 <p>One argument that might be confusing is the
 <code>execution_priority</code>. This is a number that gives the process
 a priority “weight” and decides in which order the processes are
 executed within one time step. The smaller the number, the earlier the
 process will be executed (e.g. 1 gets executed before 2). In the case
 two (or more) processes have the same priority, it is assumed that they
-are independent from each other and that their execution order doesn’t
+are independent from each other and that their execution order does not
 matter.</p>
 <div class="section level3">
 <h3 id="reproduction">Reproduction<a class="anchor" aria-label="anchor" href="#reproduction"></a>
@@ -478,76 +479,76 @@ it can be executed via the <code>begin()</code> method.</p>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 84.1732579542268"</span></span>
-<span><span class="co">#&gt; |---- 0.0012 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00058 secs</span></span>
 <span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.13 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.063 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 10 % done</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 127.598064388471"</span></span>
-<span><span class="co">#&gt; |---- 0.0013 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00052 secs</span></span>
 <span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.2 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.087 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 20 % done</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 185.433176212344"</span></span>
-<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00052 secs</span></span>
 <span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.084 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.04 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 30 % done</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 254.974925085775"</span></span>
-<span><span class="co">#&gt; |---- 9e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00047 secs</span></span>
 <span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.071 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.034 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 40 % done</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 328.335965177599"</span></span>
-<span><span class="co">#&gt; |---- 0.00094 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00054 secs</span></span>
 <span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.061 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.03 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 50 % done</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 394.79908318955"</span></span>
-<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00047 secs</span></span>
 <span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.049 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.021 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 60 % done</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 446.224976588256"</span></span>
-<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00065 secs</span></span>
 <span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.037 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.017 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 70 % done</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 480.705159122178"</span></span>
-<span><span class="co">#&gt; |---- 0.00091 secs</span></span>
+<span><span class="co">#&gt; |---- 5e-04 secs</span></span>
 <span><span class="co">#&gt; end of time step: 8</span></span>
-<span><span class="co">#&gt; 0.024 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.011 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 80 % done</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 501.356439544315"</span></span>
-<span><span class="co">#&gt; |---- 0.00097 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00048 secs</span></span>
 <span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.013 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.0053 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 90 % done</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 512.803082103058"</span></span>
-<span><span class="co">#&gt; |---- 9e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 5e-04 secs</span></span>
 <span><span class="co">#&gt; end of time step: 10</span></span>
 <span><span class="co">#&gt; 0 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 100 % done</span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.15 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.068 secs</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="plotting-the-results">Plotting the results<a class="anchor" aria-label="anchor" href="#plotting-the-results"></a>
