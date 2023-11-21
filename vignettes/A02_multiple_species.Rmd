@@ -42,7 +42,7 @@ names(landscape) <- c("habitat_quality")
 plot(landscape[["habitat_quality"]][[1]], main = "Habitat quality")
 ```
 
-As before, we create a simulation environment and add the landscape to it.
+As before, we create a simulation and add the landscape to it.
 ```{r create_simulation}
 sim <- create_simulation(
     source_environment = landscape,

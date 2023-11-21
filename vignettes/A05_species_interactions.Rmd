@@ -123,7 +123,7 @@ sim$add_process(
 But now we will continue by adding a process that simulates competition between the two species.
 This process will reduce the carrying capacity of a habitat cell based on the abundance of the other species.
 For simplicity, we will assume asymmetric competition, with species 1 being the superior competitor.
-Therefore, we'll only reduce the carrying capacity of species 2 based on the abundance of species 1.
+Therefore, we will only reduce the carrying capacity of species 2 based on the abundance of species 1.
 ```{r Competition}
 sim$add_process(
     species = "species_2",
@@ -154,7 +154,7 @@ As you can see, species 2 is only able to survive at long-term without further c
 
 We can also add a process that simulates trophic interactions in the form of predation.
 Assuming that species 2 is a predator and species 1 is its prey, this means that species 2 will reduce the abundance of species 1, but can only occur in the same areas as species 1.
-We'll again use a similar setup as before, with slightly adjusted values:
+We will again use a similar setup as before, with slightly adjusted values:
 ```{r setup_again, class.source = 'fold-hide'}
 sim <- create_simulation(landscape)
 sim$add_species(name = "species_1")

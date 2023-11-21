@@ -18,12 +18,12 @@ knitr::opts_chunk$set(
 ```
 
 
-The influence of envionmental conditions on species distribution is a central topic in ecology.
+How envionmental conditions influence the distribution of species is a central study question in ecology.
 In this tutorial we will show how to implement a simple niche suitability model in metaRange.
 For this, we will first create a landscape with two environmental variables (temperature and precipitation) and then add two species to it, that have different envionmental preferences.
 
 # Setup
-first we load the packages and create the example landscape.
+First we load the packages and create the example landscape.
 
 ```{r create_landscape}
 library(metaRange)
@@ -90,14 +90,14 @@ sim$add_traits(
 )
 ```
 
-Contrary to the above, some traits may not require to be stored at the population level, e.g. if they are a property of the species as a whole.
-In this case, `population_level` can be set to `FALSE` and the trait will be added as-is, without further processing.
-In this example, this applies to the environmental niche of the species.
-We assume that the environmental preferences of a species are the same for all population and therefore do not need to be stored at the population level.
+Contrary to the above, some traits may not require to be stored at the population level.
+In this example, this could be the case for the environmental preferences of a species.
+If we assume that they are a property of the species as a whole (i.e. the same for all populations), we can set the parameter `population_level` to `FALSE` and the traits will be added as they are, without further processing.
 
-Therfore, we can give both species different environmental preferences for the two envionmental variables in the simulation environment (temperature & precipitation).
+In order to make the simulation more interresting, we can give both species different environmental preferences for the two envionmental variables in the simulation environment (temperature & precipitation).
+
 Note that the names of the traits are arbitrary and can be chosen by the user and that there is no predetermined connection between e.g. "min_temperature" and the temperature variable in the environment.
-It is the responsibility of the species processes (therfore of the user) to access the correct traits and use them in the correct way, which is why meaningfull trait names are important.
+It is the responsibility of the species processes to access the correct traits and use them in a sensible way, which is why meaningfull trait names are important.
 ```{r add_trait_3}
 sim$add_traits(
     species = "species_1",

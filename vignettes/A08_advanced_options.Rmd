@@ -24,7 +24,7 @@ Use cases may be:
 
 1. Using a "burn-in" period in the simulation, before the main simulation begins.
 This is usually done to let the simulation state reach a (semi) equilibrium state, from which the simulation objectives can be studied.
-2. If the environment is static and doesn't undergo any change, the user may want to use the same environmental raster layer for all time steps.
+2. If the environment is static and does not undergo any change, the user may want to use the same environmental raster layer for all time steps.
 3. Shortening or lengthening the number of time steps of the simulation.
 
 ## Default mapping

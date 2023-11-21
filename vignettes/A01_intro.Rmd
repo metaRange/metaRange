@@ -62,7 +62,7 @@ This can either be real world data or "theoretical" / generated data and may inc
 
 The simulations expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
 Each sub-dataset in this SDS represents one environmental variable and each layer represents one time step of the simulation.
-In other words, metaRange doesn't simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
+In other words, metaRange does not simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
 
 To create such a dataset one can use the function `terra::sds()`.
 One important note: Since the layer represent the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layer (i.e. the desired number of time steps the simulation should have).
@@ -176,7 +176,7 @@ The arguments are: `species` which is a character vector of the species that sho
 One argument that might be confusing is the `execution_priority`.
 This is a number that gives the process a priority "weight" and decides in which order the processes are executed within one time step.
 The smaller the number, the earlier the process will be executed (e.g. 1 gets executed before 2).
-In the case two (or more) processes have the same priority, it is assumed that they are independent from each other and that their execution order doesn't matter.
+In the case two (or more) processes have the same priority, it is assumed that they are independent from each other and that their execution order does not matter.
 
 ## Reproduction
 In this example we will only add a single process (`reproduction`) to the species, that is going to calculate the abundance (for each population) in the next time step, depending on the habitat quality.
