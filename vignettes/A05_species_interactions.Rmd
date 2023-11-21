@@ -56,7 +56,7 @@ sim$add_traits(
 )
 ```
 
-To highlight the competition, we will give both species the same prefered values for their optimal environmental niches, but species 2 will be able to tolerate lower and higher values for both niches compared to species 1.
+To highlight the competition, we will give both species the same preferred values for their optimal environmental niches, but species 2 will be able to tolerate lower and higher values for both niches compared to species 1.
 
 ```{r suitability1, fig.cap="Figure 1: Suitability curve for the temperature niches of species 1 (blue) and species 2 (red)."}
 opt_temp <- 285
