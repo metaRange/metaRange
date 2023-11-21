@@ -171,7 +171,6 @@ set_verbosity(0)
 sim$begin()
 plot_cols <- hcl.colors(100, "Purple-Yellow", rev = TRUE)
 plot(sim, "species_1", "abundance", col = plot_cols)
-plot(sim, "species_2", "abundance", col = plot_cols)
 ```
 
 ```{r run_sim2, fig.cap="Figure 3: Resulting abundance of species 2 (with weighted dispersal) after 10 time steps."}
