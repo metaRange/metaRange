@@ -41,7 +41,7 @@ While the environment has a temporal dimension (i.e. the different time steps, s
 They represent the state of the species (or of the simulation respectivly) in one (the current) time step.
 When a process is executed within a time step, it can access this current state of the simulation and modify it, which results in changing traits over the course of the simulation.
 Each process can be assigned a priority, that is used by the `process priority queue` to determine in which order the processes are executed within one time step.
-```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species & processes per species is not limited, but only two are shown for simplicity."}
+```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species as well as the number of traits and processes per species is not limited, but only a selection is shown for simplicity."}
 knitr::include_graphics("../man/figures/simulation_high_level_overview.svg")
 ```
 
@@ -58,7 +58,7 @@ library(terra)
 
 # Loading the landscape
 The first step when setting up a simulation is the loading of the environment in which the simulation will take place.
-In the real world, this data can be obtained from a variety of sources, and may include for example different climate variables, land cover or elevation.
+This can either be real world data or "theoretical" / generated data and may include for example different climate variables, land cover or elevation.
 
 The simulations expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
 Each sub-dataset in this SDS represents one environmental variable and each layer represents one time step of the simulation.
@@ -170,8 +170,8 @@ plot(sim$species_1, "abundance")
 Note that the above plot is not very interresting, since the abundance is the same for each population at the beginning of the simulation.
 
 # Adding processes
-After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_processes()` method.
-The arguments are: `species` which is a character vector of the species that should get the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be executed when the process is called.
+After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_process()` method.
+The arguments are: `species` which is a character vector of the species that should get the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be called when the process is executed.
 
 One argument that might be confusing is the `execution_priority`.
 This is a number that gives the process a priority "weight" and decides in which order the processes are executed within one time step.
