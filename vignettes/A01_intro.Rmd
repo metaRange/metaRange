@@ -112,7 +112,8 @@ One can optionally specify an ID for the simulation and a seed for the random nu
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 ```
 
 If you want to inspect the simulation object, you can either print it, to lists its fields and methods or use the `summary()` function to get an overview of the simulation state.
@@ -230,7 +231,6 @@ plot(
     main = "Species 1: abundance",
     col = plot_cols
 )
-
 ```
 
 

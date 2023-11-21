@@ -47,7 +47,8 @@ As before, we create a simulation and add the landscape to it.
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 ```
 
 # Adding more species to the simulation
@@ -118,12 +119,12 @@ sim$add_process(
     species = "species_2",
     process_name = "reproduction",
     process_fun = function() {
-    self$traits$abundance <-
-        ricker_reproduction_model(
-            self$traits$abundance,
-            self$traits$reproduction_rate * self$sim$environment$current$habitat_quality,
-            self$traits$carrying_capacity
-        )
+        self$traits$abundance <-
+            ricker_reproduction_model(
+                self$traits$abundance,
+                self$traits$reproduction_rate * self$sim$environment$current$habitat_quality,
+                self$traits$carrying_capacity
+            )
         print(
             paste0(self$name, " mean abundance: ", mean(self$traits$abundance))
         )

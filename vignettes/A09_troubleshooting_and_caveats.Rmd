@@ -10,8 +10,8 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
 
@@ -34,7 +34,8 @@ names(landscape) <- c("habitat_quality")
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 
 sim$add_species(name = "species_1")
 sim$add_traits(
@@ -67,7 +68,8 @@ set_verbosity(2)
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 
 sim$add_species(name = "species_1")
 sim$add_traits(
@@ -99,7 +101,8 @@ set_verbosity(2)
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 
 sim$add_species(name = "species_1")
 sim$add_traits(
@@ -142,7 +145,8 @@ set_verbosity(0)
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 
 sim$add_species(name = "species_1")
 sim$add_traits(
@@ -170,7 +174,8 @@ set_verbosity(0)
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 
 sim$add_species(name = "species_1")
 sim$add_traits(

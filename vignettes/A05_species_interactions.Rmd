@@ -109,9 +109,9 @@ Now we can add these values as traits to the species and also add the other proc
 sim$add_traits(
     species = "species_1",
     population_level = FALSE,
-    max_temperature =   max_temp_sp1,
-    optimal_temperature =   opt_temp,
-    min_temperature =   min_temp_sp1,
+    max_temperature = max_temp_sp1,
+    optimal_temperature = opt_temp,
+    min_temperature = min_temp_sp1,
     max_precipitation = max_prec_sp1,
     optimal_precipitation = opt_prec,
     min_precipitation = min_prec_sp1
@@ -119,9 +119,9 @@ sim$add_traits(
 sim$add_traits(
     species = "species_2",
     population_level = FALSE,
-    max_temperature =   max_temp_sp2,
-    optimal_temperature =   opt_temp,
-    min_temperature =   min_temp_sp2,
+    max_temperature = max_temp_sp2,
+    optimal_temperature = opt_temp,
+    min_temperature = min_temp_sp2,
     max_precipitation = max_prec_sp2,
     optimal_precipitation = opt_prec,
     min_precipitation = min_prec_sp2
@@ -168,7 +168,8 @@ sim$add_process(
     process_fun = function() {
         self$traits[["abundance"]] <- dispersal(
             abundance = self$traits[["abundance"]],
-            dispersal_kernel = self$traits[["dispersal_kernel"]])
+            dispersal_kernel = self$traits[["dispersal_kernel"]]
+        )
     },
     execution_priority = 3
 )
@@ -297,7 +298,8 @@ sim$add_process(
     process_fun = function() {
         self$traits[["abundance"]] <- dispersal(
             abundance = self$traits[["abundance"]],
-            dispersal_kernel = self$traits[["dispersal_kernel"]])
+            dispersal_kernel = self$traits[["dispersal_kernel"]]
+        )
     },
     execution_priority = 3
 )
