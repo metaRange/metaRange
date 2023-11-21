@@ -41,7 +41,6 @@ sim$add_species("species_1")
 ## Traits
 Now we add the traits for both the *juveniles* and  *adults*.
 ```{r some-traits}
-
 sim$add_traits(
     species = "species_1",
     n_juveniles = 100,
@@ -81,7 +80,7 @@ sim$add_process(
     process_fun = function() {
         self$traits[["n_adults"]] <-
             self$traits[["n_adults"]] +
-              self$traits[["n_juveniles"]] * (1 - self$traits[["mortality_juveniles"]])
+            self$traits[["n_juveniles"]] * (1 - self$traits[["mortality_juveniles"]])
     },
     execution_priority = 3
 )
@@ -140,7 +139,7 @@ plot(
 )
 lines(1:10, sim$globals$n_adults, col = "darkblue")
 legend(
-    "topright",
+    "topleft",
     legend = c("juveniles", "adults"),
     col = c("darkred", "darkblue"),
     lty = 1,

@@ -120,9 +120,11 @@ plot.metaRangeEnvironment <- function(x, env_name, col, as_timeseries = FALSE, m
             col = plot_colors[2],
             border = plot_colors[3]
         )
-        graphics::lines(val_mean, type = "l",
-            col = plot_colors[1])
-
+        graphics::lines(
+            val_mean,
+            type = "l",
+            col = plot_colors[1]
+        )
     } else {
         r <- terra::rast(
             x$sourceSDS[[1]],

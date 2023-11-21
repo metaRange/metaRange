@@ -22,7 +22,8 @@ The common denominator for all models build with metaRange is that they are rast
 
 Each metaRange `simulation` object contains one `environment` that holds and manages all the environmental factors that may influence the simulation (as raster data) and one or more `species` that are simulated in the environment.
 
-Each species object has two main characteristics: `traits` which can be (somewhat arbitrary) pieces of data that describe and store information about the species and `processes` which are functions that describe how the species interacts with itself, time, climate and other species.
+Each species object has two main characteristics: `traits` and `processes`.
+Species `traits` can be (somewhat arbitrary) pieces of data that describe and store information about the species while `processes` are functions that describe how the species interacts with itself, time, climate and other species.
 During each time step of the simulation, the processes of the species are executed in a user defined order and can access and modify the species traits.
 
 While the models built with metaRange can be quite variable in their structure, they are all based on population dynamics.
@@ -41,7 +42,7 @@ While the environment has a temporal dimension (i.e. the different time steps, s
 They represent the state of the species (or of the simulation respectively) in one (the current) time step.
 When a process is executed within a time step, it can access this current state of the simulation and modify it, which results in changing traits over the course of the simulation.
 Each process can be assigned a priority, that is used by the `process priority queue` to determine in which order the processes are executed within one time step.
-```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species & processes per species is not limited, but only two are shown for simplicity."}
+```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species as well as the number of traits and processes per species is not limited, but only a selection is shown for simplicity."}
 knitr::include_graphics("../man/figures/simulation_high_level_overview.svg")
 ```
 
@@ -58,11 +59,11 @@ library(terra)
 
 # Loading the landscape
 The first step when setting up a simulation is the loading of the environment in which the simulation will take place.
-In the real world, this data can be obtained from a variety of sources, and may include for example different climate variables, land cover or elevation.
+This can either be real world data or "theoretical" / generated data and may include for example different climate variables, land cover or elevation.
 
-The simulations expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
+The simulation expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
 Each sub-dataset in this SDS represents one environmental variable and each layer represents one time step of the simulation.
-In other words, metaRange doesn't simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
+In other words, metaRange does not simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
 
 To create such a dataset one can use the function `terra::sds()`.
 One important note: Since the layer represent the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layer (i.e. the desired number of time steps the simulation should have).
@@ -111,7 +112,8 @@ One can optionally specify an ID for the simulation and a seed for the random nu
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
-    seed = 1)
+    seed = 1
+)
 ```
 
 If you want to inspect the simulation object, you can either print it, to lists its fields and methods or use the `summary()` function to get an overview of the simulation state.
@@ -135,7 +137,7 @@ sim$species_1
 ```
 
 # Adding traits to species
-After species are added to the simulation, traits can be asigned to them using the `add_traits()` method.
+After species are added to the simulation, traits can be assigned to them using the `add_traits()` method.
 The first argument is `species` which is a character vector of the species names to which the trait should be assigned to.
 The second argument is `population_level`, a `TRUE/FALSE` value, that decides if the trait should be stored with one value per population (i.e. as a matrix of the same size as the landscape) or not (i.e. only one value per species).
 All following arguments can be supplied in the form of `trait_name = trait_value`.
@@ -170,13 +172,13 @@ plot(sim$species_1, "abundance")
 Note that the above plot is not very interesting, since the abundance is the same for each population at the beginning of the simulation.
 
 # Adding processes
-After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_processes()` method.
-The arguments are: `species` which is a character vector of the species that should get the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be executed when the process is called.
+After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_process()` method.
+The arguments are: `species` which is a character vector of the species that should get the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be called when the process is executed.
 
 One argument that might be confusing is the `execution_priority`.
 This is a number that gives the process a priority "weight" and decides in which order the processes are executed within one time step.
 The smaller the number, the earlier the process will be executed (e.g. 1 gets executed before 2).
-In the case two (or more) processes have the same priority, it is assumed that they are independent from each other and that their execution order doesn't matter.
+In the case two (or more) processes have the same priority, it is assumed that they are independent from each other and that their execution order does not matter.
 
 ## Reproduction
 In this example we will only add a single process (`reproduction`) to the species, that is going to calculate the abundance (for each population) in the next time step, depending on the habitat quality.
@@ -229,7 +231,6 @@ plot(
     main = "Species 1: abundance",
     col = plot_cols
 )
-
 ```
 
 
