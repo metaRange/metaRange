@@ -62,7 +62,7 @@ To provide the user a quick start into building models with metaRange, it includ
 The performance critical parts of the package have been implemented in `C++` with the help of the [`Rcpp`](https://www.rcpp.org/) (Eddelbuettel & Balamuta 2018) and [`RcppArmadillo`](https://github.com/RcppCore/RcppArmadillo) (Eddelbuettel & Sanderson 2014) packages.
 The package can handle simulations of a large spatial (millions of grid cells) and temporal extent (> hundreds of years / time steps) on regular consumer grade hardware.
 
-# Acknowledgements
+# Acknowledgments
 Thanks to  [mikefc / coolbutuseless](https://github.com/coolbutuseless) for the tutorial on ["Modifying R6 objects after creation"](https://coolbutuseless.github.io/2021/02/19/modifying-r6-objects-after-creation/) and to [Tyler Morgan-Wall](https://github.com/tylermorganwall) for the R package [rayimage](https://github.com/tylermorganwall/rayimage) which gave a good example of a *Rcpp* implementation of an image convolution function.
 
 # References

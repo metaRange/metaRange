@@ -186,7 +186,7 @@ sim$species_1$traits
 We can now quit the browser by typing `Q` and then `Enter` in the console and then proceed to fix the typo.
 Also, we can remove the `browser()` call from the code, as it is not needed anymore.
 
-# Genreral caveats
+# General caveats
 While metaRange can be used to simulate a wide range of scenarios, there are some caveats to keep in mind.
 
 1. **Different scales of the environment and the species**

@@ -94,10 +94,10 @@ Contrary to the above, some traits may not require to be stored at the populatio
 In this example, this could be the case for the environmental preferences of a species.
 If we assume that they are a property of the species as a whole (i.e. the same for all populations), we can set the parameter `population_level` to `FALSE` and the traits will be added as they are, without further processing.
 
-In order to make the simulation more interresting, we can give both species different environmental preferences for the two envionmental variables in the simulation environment (temperature & precipitation).
+In order to make the simulation more interesting, we can give both species different environmental preferences for the two environmental variables in the simulation environment (temperature & precipitation).
 
 Note that the names of the traits are arbitrary and can be chosen by the user and that there is no predetermined connection between e.g. "min_temperature" and the temperature variable in the environment.
-It is the responsibility of the species processes to access the correct traits and use them in a sensible way, which is why meaningfull trait names are important.
+It is the responsibility of the species processes to access the correct traits and use them in a sensible way, which is why meaningful trait names are important.
 ```{r add_trait_3}
 sim$add_traits(
     species = "species_1",

@@ -136,7 +136,7 @@ sim$species_1
 ```
 
 # Adding traits to species
-After species are added to the simulation, traits can be asigned to them using the `add_traits()` method.
+After species are added to the simulation, traits can be assigned to them using the `add_traits()` method.
 The first argument is `species` which is a character vector of the species names to which the trait should be assigned to.
 The second argument is `population_level`, a `TRUE/FALSE` value, that decides if the trait should be stored with one value per population (i.e. as a matrix of the same size as the landscape) or not (i.e. only one value per species).
 All following arguments can be supplied in the form of `trait_name = trait_value`.
