@@ -140,7 +140,7 @@ plot(
 )
 lines(1:10, sim$globals$n_adults, col = "darkblue")
 legend(
-    "topright",
+    "topleft",
     legend = c("juveniles", "adults"),
     col = c("darkred", "darkblue"),
     lty = 1,

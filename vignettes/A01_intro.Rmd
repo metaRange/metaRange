@@ -22,7 +22,8 @@ The common denominator for all models build with metaRange is that they are rast
 
 Each metaRange `simulation` object contains one `environment` that holds and manages all the environmental factors that may influence the simulation (as raster data) and one or more `species` that are simulated in the environment.
 
-Each species object has two main characteristics: `traits` which can be (somewhat arbitrary) pieces of data that describe and store information about the species and `processes` which are functions that describe how the species interacts with itself, time, climate and other species.
+Each species object has two main characteristics: `traits` and `processes`.
+Species `traits` can be (somewhat arbitrary) pieces of data that describe and store information about the species while `processes` are functions that describe how the species interacts with itself, time, climate and other species.
 During each time step of the simulation, the processes of the species are executed in a user defined order and can access and modify the species traits.
 
 While the models built with metaRange can be quite variable in their structure, they are all based on population dynamics.
@@ -60,7 +61,7 @@ library(terra)
 The first step when setting up a simulation is the loading of the environment in which the simulation will take place.
 This can either be real world data or "theoretical" / generated data and may include for example different climate variables, land cover or elevation.
 
-The simulations expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
+The simulation expects this data as an `SpatRasterDataset` (`SDS`) which is a collection of different raster files that all share the same extent and resolution.
 Each sub-dataset in this SDS represents one environmental variable and each layer represents one time step of the simulation.
 In other words, metaRange does not simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
 
