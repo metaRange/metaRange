@@ -71,7 +71,7 @@ Thanks to  [mikefc / coolbutuseless](https://github.com/coolbutuseless) for the 
 Introduction to Rcpp." _The American Statistician_, *72*(1), 28-36.
 doi:10.1080/00031305.2017.1375990
 
-(2)Eddelbuettel D, Sanderson C (2014). "RcppArmadillo: Accelerating R
+(2) Eddelbuettel D, Sanderson C (2014). "RcppArmadillo: Accelerating R
 with high-performance C++ linear algebra." _Computational Statistics
 and Data Analysis_, *71*, 1054-1063.
 doi:10.1016/j.csda.2013.02.005
