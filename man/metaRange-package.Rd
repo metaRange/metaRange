@@ -16,7 +16,7 @@ tba.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://metarange.github.io/metaRange/}
+  \item \url{https://metaRange.github.io/metaRange/}
   \item Report bugs at \url{https://github.com/metaRange/metaRange/issues}
 }
 
