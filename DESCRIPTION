@@ -45,7 +45,7 @@ Description: Build spatially and temporally explicit
     <doi:10.1002/9781119968535.ch>).
 License: GPL-3
 Copyright: see inst/COPYRIGHTS
-URL: https://metarange.github.io/metaRange
+URL: https://metarange.github.io/metaRange/
 BugReports: https://github.com/metaRange/metaRange/issues
 Depends: R (>= 3.5.0)
 Imports:
