@@ -132,6 +132,7 @@ plot(
     sim$globals$n_juveniles,
     col = "darkred",
     type = "l",
+    lwd = 2,
     ylim = c(0, max(sim$globals$n_juveniles, sim$globals$n_adults)),
     xlab = "Time",
     ylab = "Number of individuals",
