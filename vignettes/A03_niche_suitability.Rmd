@@ -129,7 +129,7 @@ sim$add_traits(
 # Adding processes
 
 ## Calculate the suitability
-To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a formula published by [Yin et al. in 1995](https://doi.org/10.1016/0168-1923(95)02236-Q) [Ref. 1] and simplified by [Yan and Hunt in 1999 (eq:4)](https://doi.org/10.1006/anbo.1999.0955) [Ref. 2].
+To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a formula published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt in 1999 (eq:4 in Ref. 2).
 The formula takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
 
 ```{r calculate_suitability, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}

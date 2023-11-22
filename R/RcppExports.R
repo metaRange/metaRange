@@ -26,7 +26,7 @@
 #' *Agricultural and Forest Meteorology*,
 #' Volume **77**, Issues 1–2,
 #' Pages 1--16,
-#' <doi:10.1016/0168-1923(95)02236-Q>
+#' \doi{10.1016/0168-1923(95)02236-Q}
 #'
 #' Also, see equation 4 in:
 #' Weikai Yan, L.A. Hunt, (1999)
@@ -34,7 +34,8 @@
 #' *Annals of Botany*,
 #' Volume **84**, Issue 5,
 #' Pages 607--614,
-#' ISSN 0305-7364, <doi:10.1006/anbo.1999.0955>
+#' ISSN 0305-7364,
+#' \doi{10.1006/anbo.1999.0955}
 #' @examples
 #' calculate_suitability(
 #'     vmax = 30,

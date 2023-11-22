@@ -32,7 +32,7 @@ In case one is unfamiliar with any of these topics here are some reading recomme
 |  general R programming  | [Hadley Wickham's "Advanced R"](https://adv-r.hadley.nz/r6.html)  |
 | OOP / [R6 package](https://r6.r-lib.org/articles/Introduction.html)  | ["Advanced R" Chapter "R6"](https://adv-r.hadley.nz/r6.html) |
 | terra & geodata handling | [rspatial.org](https://rspatial.org/spatial/) |
-| SDMs | [Dormann et al. 2012](https://doi.org/10.1111/j.1365-2699.2011.02659.x) |
+| SDMs | Dormann et al. 2012 (Ref. 5) |
 
 
 
@@ -67,19 +67,19 @@ Thanks to  [mikefc / coolbutuseless](https://github.com/coolbutuseless) for the 
 
 # References
 
-Eddelbuettel D, Balamuta J (2018). "Extending R with C++: A Brief
+(1) Eddelbuettel D, Balamuta J (2018). "Extending R with C++: A Brief
 Introduction to Rcpp." _The American Statistician_, *72*(1), 28-36.
-<https://doi.org/10.1080/00031305.2017.1375990>
+doi:10.1080/00031305.2017.1375990
 
-Eddelbuettel D, Sanderson C (2014). "RcppArmadillo: Accelerating R
+(2)Eddelbuettel D, Sanderson C (2014). "RcppArmadillo: Accelerating R
 with high-performance C++ linear algebra." _Computational Statistics
 and Data Analysis_, *71*, 1054-1063.
-<https://doi.org/10.1016/j.csda.2013.02.005>
+doi:10.1016/j.csda.2013.02.005
 
-Chang W (2021). _R6: Encapsulated Classes with Reference Semantics_.
+(3) Chang W (2021). _R6: Encapsulated Classes with Reference Semantics_.
 R package version 2.5.1, <https://CRAN.R-project.org/package=R6>.
 
-Hijmans R (2023). _terra: Spatial Data Analysis_. R package version
+(4) Hijmans R (2023). _terra: Spatial Data Analysis_. R package version
 1.7-46, <https://CRAN.R-project.org/package=terra>.
 
-Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. *Journal of Biogeography*, **39**: 2119--2131. <https://doi.org/10.1111/j.1365-2699.2011.02659.x>
+(5) Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. *Journal of Biogeography*, **39**: 2119--2131. doi:10.1111/j.1365-2699.2011.02659.x

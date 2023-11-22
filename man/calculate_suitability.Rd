@@ -62,7 +62,7 @@ A nonlinear model for crop development as a function of temperature,
 \emph{Agricultural and Forest Meteorology},
 Volume \strong{77}, Issues 1–2,
 Pages 1--16,
-\url{doi:10.1016/0168-1923(95)02236-Q}
+\doi{10.1016/0168-1923(95)02236-Q}
 
 Also, see equation 4 in:
 Weikai Yan, L.A. Hunt, (1999)
@@ -70,5 +70,6 @@ An Equation for Modelling the Temperature Response of Plants using only the Card
 \emph{Annals of Botany},
 Volume \strong{84}, Issue 5,
 Pages 607--614,
-ISSN 0305-7364, \url{doi:10.1006/anbo.1999.0955}
+ISSN 0305-7364,
+\doi{10.1006/anbo.1999.0955}
 }

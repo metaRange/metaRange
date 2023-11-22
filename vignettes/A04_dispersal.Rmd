@@ -18,7 +18,7 @@ Dispersal is a key process in the lifecycle of many species and can have a large
 `metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
 
 Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
-If one is not familiar with this topics, a good introduction is ["Nathan, R., Klein, E., Robledo-Arnuncio, J.J. & Revilla, E. (2012) Dispersal kernels: review"](https://doi.org/10.1093/acprof%3Aoso/9780199608898.003.0015) [Ref. 1].
+If one is not familiar with this topics, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" (Ref. 1).
 
 To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population to move to its surrounding habitat.
 Since this is a probability distribution, this dispersal kernel can be multiplied with each cell of the abundance matrix to get the new abundance of the species in each cell after dispersal.
@@ -181,4 +181,7 @@ Note how the plot for species two is less "blurry" and the different scales of t
 While the first species looses individuals by dispersing into unsuitable habitat, the second species can keep a much larger population size, by moving towards more suitable habitat during dispersal.
 
 ## References
-[1] Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012) Dispersal kernels: review. in: Dispersal Ecology and Evolution pp. 187--210. (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock), Oxford, UK: Oxford Academic, 2013. doi:10.1093/acprof:oso/9780199608898.003.0015
+(1) Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012)
+Dispersal kernels: review. in: Dispersal Ecology and Evolution pp. 187--210. (eds J. Clobert, M. Baguette, T.G. Benton and J.M. Bullock),
+Oxford, UK: Oxford Academic, 2013.
+doi:10.1093/acprof:oso/9780199608898.003.0015
