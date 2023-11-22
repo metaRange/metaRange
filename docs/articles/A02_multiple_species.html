@@ -193,10 +193,9 @@ different processes to them.</p>
 <h3 id="reproduction">Reproduction<a class="anchor" aria-label="anchor" href="#reproduction"></a>
 </h3>
 <p>We are going to use the same reproduction process as in the previous
-vignette, but we will vary the influence of the habitat quality. For
-species 1, we will let the carrying capacity depend on the habitat
-quality, while for species 2, it is going to influence the reproduction
-rate.</p>
+vignette, but we will vary the influence of the habitat quality. In the
+case of species 1, the habitat quality will only affect the carrying
+capacity of the habitat.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -213,6 +212,8 @@ rate.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p>In the case of species 2, the habitat quality will only affect the
+reproduction rate.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>

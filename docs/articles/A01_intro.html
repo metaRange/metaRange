@@ -117,10 +117,10 @@ executed in a user defined order and can access and modify the species
 traits.</p>
 <p>While the models built with metaRange can be quite variable in their
 structure, they are all based on population dynamics. This means that in
-most cases a <code>trait</code> will not be a singular number but a
-matrix that has the same size as the raster data in the environment,
-where each value represents the trait value for one population in the
-corresponding grid cell of the of the environment. Based on this, most
+most cases a <code>trait</code> will not be a single number but a matrix
+that has the same size as the raster data in the environment, where each
+value represents the trait value for one population in the corresponding
+grid cell of the of the environment. Based on this, most
 <code>processes</code> will describe population (and meta population)
 dynamics and not individual based mechanisms. Figure 1 shows an example
 of some of the different environmental factors, species traits and
@@ -154,8 +154,8 @@ only a selection is shown for simplicity.
 <h2 id="setting-up-a-simulation">Setting up a simulation<a class="anchor" aria-label="anchor" href="#setting-up-a-simulation"></a>
 </h2>
 <p>Following is a very simple example of how to set up a simulation with
-<code>metaRange</code>. In this example we only use a singular species
-and one environmental factor (habitat quality). At the end of this
+<code>metaRange</code>. In this example we only use a single species and
+one environmental factor (habitat quality). At the end of this
 introduction we will see how the abundance of the species changes in
 relation to the quality of the habitat each population occupies.</p>
 <p>To start, we need to load the package and its dependencies.</p>
@@ -182,12 +182,12 @@ environmental data for each time step.</p>
 <p>To create such a dataset one can use the function
 <code><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">terra::sds()</a></code>. One important note: Since the layer represent
 the condition in one time step, all the raster files that go into the
-<code>SDS</code> need to have the same number of layer (i.e. the desired
-number of time steps the simulation should have). After the
+<code>SDS</code> need to have the same number of layers (i.e. the
+desired number of time steps the simulation should have). After the
 <code>SDS</code> is created, the individual subdatasets should be named,
 since this is how the simulation will refer to them.</p>
 <p>To simplify this introduction, we use an example landscape consisting
-only of habitat quality data, with 10 time steps (layer) that are all
+only of habitat quality data, with 10 time steps (layers) that are all
 the same (i.e. no environmental change). Luckily the <code>terra</code>
 package has a built-in demo that we can use for this purpose.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -431,9 +431,8 @@ matter.</p>
 the abundance (for each population) in the next time step, depending on
 the habitat quality. To do so, we can use a built in function
 <code><a href="../reference/ricker_reproduction_model.html">ricker_reproduction_model()</a></code> that implements the “classic”
-Ricker reproduction model (<a href="https://doi.org/10.1139/f54-039" class="external-link">Ricker, W.E. (1954)</a> compare
-also: <a href="https://doi.org/10.1111/j.1466-8238.2009.00492.x" class="external-link">Cabral,
-J.S. and Schurr, F.M. (2010)</a>) [Ref. 1 &amp; 2].</p>
+Ricker reproduction model (Ricker, W.E. (1954) compare also: Cabral,
+J.S. and Schurr, F.M. (2010)) [Ref. 1 &amp; 2].</p>
 <p>Note the use of the <code>self</code> keyword in the function. In
 this context, <code>self</code> refers to the species that the process
 is attached to. This means that the function can access the species
@@ -479,76 +478,76 @@ it can be executed via the <code>begin()</code> method.</p>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 84.1732579542268"</span></span>
-<span><span class="co">#&gt; |---- 0.00064 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00053 secs</span></span>
 <span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.061 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.055 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 10 % done</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 127.598064388471"</span></span>
-<span><span class="co">#&gt; |---- 0.00057 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00043 secs</span></span>
 <span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.093 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.079 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 20 % done</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 185.433176212344"</span></span>
-<span><span class="co">#&gt; |---- 0.00045 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.039 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.033 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 30 % done</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 254.974925085775"</span></span>
-<span><span class="co">#&gt; |---- 0.00049 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.033 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.031 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 40 % done</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 328.335965177599"</span></span>
-<span><span class="co">#&gt; |---- 0.00047 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.028 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.023 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 50 % done</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 394.79908318955"</span></span>
-<span><span class="co">#&gt; |---- 0.00069 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.027 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.02 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 60 % done</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 446.224976588256"</span></span>
-<span><span class="co">#&gt; |---- 0.00051 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00042 secs</span></span>
 <span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.021 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.016 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 70 % done</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 480.705159122178"</span></span>
-<span><span class="co">#&gt; |---- 6e-04 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 8</span></span>
-<span><span class="co">#&gt; 0.013 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.0097 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 80 % done</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 501.356439544315"</span></span>
-<span><span class="co">#&gt; |---- 0.00046 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00041 secs</span></span>
 <span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.0065 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.0047 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 90 % done</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 512.803082103058"</span></span>
-<span><span class="co">#&gt; |---- 0.00056 secs</span></span>
+<span><span class="co">#&gt; |---- 0.00042 secs</span></span>
 <span><span class="co">#&gt; end of time step: 10</span></span>
 <span><span class="co">#&gt; 0 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 100 % done</span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.074 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.06 secs</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="plotting-the-results">Plotting the results<a class="anchor" aria-label="anchor" href="#plotting-the-results"></a>

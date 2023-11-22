@@ -100,9 +100,11 @@ Cabral, J.S.</h4>
 <p>How environmental conditions influence the distribution of species is
 a central study question in ecology. In this tutorial we will show how
 to implement a simple niche suitability model in metaRange. For this, we
-will first create a landscape with two environmental variables
-(temperature and precipitation) and then add two species to it, that
-have different environmental preferences.</p>
+will create a landscape with two environmental variables (temperature
+and precipitation) and then add two species to it, that have different
+environmental preferences. We are going to give the two species the same
+traits otherwise and then run the simulation for 10 time steps to see
+the impact of the different environmental preferences.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
@@ -222,9 +224,9 @@ precipitation).</p>
 <p>Note that the names of the traits are arbitrary and can be chosen by
 the user and that there is no predetermined connection between
 e.g. “min_temperature” and the temperature variable in the environment.
-It is the responsibility of the species processes to access the correct
-traits and use them in a sensible way, which is why meaningful trait
-names are important.</p>
+To establish these connections, the user needs to add species processes
+that access the correct traits and use them in a sensible way. This is
+why meaningful trait names are important.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -268,12 +270,11 @@ names are important.</p>
 </h3>
 <p>To calculate the suitability, we use the metaRange function
 <code><a href="../reference/calculate_suitability.html">calculate_suitability()</a></code> that was adapted from a formula
-published by <a href="https://doi.org/10.1016/0168-1923(95)02236-Q" class="external-link">Yin
-et al. in 1995</a> [Ref. 1] and simplified by <a href="https://doi.org/10.1006/anbo.1999.0955" class="external-link">Yan and Hunt in 1999
-(eq:4)</a> [Ref. 2]. The formula takes the three cardinal values of an
-environmental niche (minimum tolerable value, optimal vale and maximum
-tolerable value) and constructs a suitability curve based on a beta
-distribution.</p>
+published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt
+in 1999 (eq:4 in Ref. 2). The formula takes the three cardinal values of
+an environmental niche (minimum tolerable value, optimal vale and
+maximum tolerable value) and constructs a suitability curve based on a
+beta distribution.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">min_value</span> <span class="op">&lt;-</span> <span class="fl">270</span></span>
 <span><span class="va">opt_value</span> <span class="op">&lt;-</span> <span class="fl">285</span></span>
@@ -327,8 +328,8 @@ adequately describe the ecology of the target species.</p>
 <h3 id="reproduction">Reproduction<a class="anchor" aria-label="anchor" href="#reproduction"></a>
 </h3>
 <p>As in the previous tutorials, we use a Ricker reproduction model to
-calculate the new abundance of the species, but this time we let the
-carrying capacity and the reproduction rate depend on the niche
+calculate the new abundance of the species, but this time we let both
+the carrying capacity and the reproduction rate depend on the niche
 suitability of the environment.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
@@ -360,39 +361,39 @@ suitability of the environment.</p>
 <span><span class="co">#&gt; Starting simualtion.</span></span>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.1 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.11 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 10 % done</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.19 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.22 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 20 % done</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.072 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.081 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 30 % done</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.059 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.067 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 40 % done</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.05 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.057 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 50 % done</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.04 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.045 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 60 % done</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.031 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.035 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 70 % done</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; end of time step: 8</span></span>
-<span><span class="co">#&gt; 0.021 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.024 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 80 % done</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.01 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.012 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 90 % done</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; end of time step: 10</span></span>
@@ -400,7 +401,7 @@ suitability of the environment.</p>
 <span><span class="co">#&gt; 100 % done</span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.12 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.14 secs</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># define a nice color palette</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

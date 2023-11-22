@@ -110,15 +110,15 @@ In order to save the user time, the method
 mapping between the time steps and the layers of the environmental
 raster. Use cases may be:</p>
 <ol style="list-style-type: decimal">
-<li>Using a “burn-in” period in the simulation, before the main
-simulation begins. This is usually done to let the simulation state
-reach a (semi) equilibrium state, from which the simulation objectives
-can be studied.</li>
 <li>If the environment is static and does not undergo any change, the
 user may want to use the same environmental raster layer for all time
 steps.</li>
 <li>Shortening or lengthening the number of time steps of the
 simulation.</li>
+<li>Using a “burn-in” period in the simulation, before the main
+simulation begins. This is usually done to let the simulation state
+reach a (semi) equilibrium state, from which the simulation objectives
+can be studied.</li>
 </ol>
 <div class="section level3">
 <h3 id="default-mapping">Default mapping<a class="anchor" aria-label="anchor" href="#default-mapping"></a>
@@ -147,23 +147,11 @@ represents one time step of the simulation. I.e:</p>
 <span><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="burn-in-period">Burn-in period<a class="anchor" aria-label="anchor" href="#burn-in-period"></a>
-</h3>
-<p>To add a burn-in period of 10 time steps, where the environmental
-data is not updated, one could use the function as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="va">number_time_steps</span></span>
-<span><span class="co">#&gt; [1] 19</span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="va">time_step_layer</span></span>
-<span><span class="co">#&gt;  [1]  1  1  1  1  1  1  1  1  1  1  2  3  4  5  6  7  8  9 10</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="static-environment">Static environment<a class="anchor" aria-label="anchor" href="#static-environment"></a>
 </h3>
 <p>To use the same environmental raster (i.e. the first one) for all
 time steps, one can use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">number_time_steps</span></span>
 <span><span class="co">#&gt; [1] 10</span></span>
@@ -175,12 +163,24 @@ time steps, one can use:</p>
 </h3>
 <p>In the same way described above, one can also pick the specific layer
 that are used and shorten the simulation length.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">number_time_steps</span></span>
 <span><span class="co">#&gt; [1] 3</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">time_step_layer</span></span>
 <span><span class="co">#&gt; [1] 2 4 6</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="burn-in-period">Burn-in period<a class="anchor" aria-label="anchor" href="#burn-in-period"></a>
+</h3>
+<p>To add a burn-in period of 10 time steps, where the environmental
+data is not updated, one could use the function as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sim</span><span class="op">$</span><span class="va">number_time_steps</span></span>
+<span><span class="co">#&gt; [1] 19</span></span>
+<span><span class="va">sim</span><span class="op">$</span><span class="va">time_step_layer</span></span>
+<span><span class="co">#&gt;  [1]  1  1  1  1  1  1  1  1  1  1  2  3  4  5  6  7  8  9 10</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -201,36 +201,51 @@ object itself, respectively. The benefit of using a global process is
 that the <code>self</code> keyword refers to the simulation object
 itself, which allows for easier indexing across multiple species.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_globals</span><span class="op">(</span></span>
-<span>    global_var <span class="op">=</span> <span class="fl">1</span></span>
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span><span class="st">"species_one"</span><span class="op">)</span></span>
+<span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span><span class="st">"species_two"</span><span class="op">)</span></span>
+<span><span class="va">sim</span><span class="op">$</span><span class="fu">add_globals</span><span class="op">(</span></span>
+<span>    mean_abundance_over_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>        <span class="st">"species_one"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        <span class="st">"species_two"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span>    <span class="co"># ... more global variables</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">globals</span><span class="op">$</span><span class="va">global_var</span></span>
-<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    <span class="co"># Note the missing species argument</span></span>
 <span>    process_name <span class="op">=</span> <span class="st">"global_process"</span>,</span>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="co"># self = simulation object</span></span>
-<span>        <span class="va">self</span><span class="op">$</span><span class="va">globals</span></span>
 <span>        <span class="co"># easy access to simulation functions</span></span>
-<span>        <span class="va">self</span><span class="op">$</span><span class="fu">species_names</span><span class="op">(</span><span class="op">)</span> <span class="co"># no species yet</span></span>
+<span>        <span class="kw">for</span> <span class="op">(</span><span class="va">sp</span> <span class="kw">in</span> <span class="va">self</span><span class="op">$</span><span class="fu">species_names</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="va">self</span><span class="op">$</span><span class="va">globals</span><span class="op">$</span><span class="va">mean_abundance_over_time</span><span class="op">[[</span><span class="va">sp</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
+<span>                <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>                    <span class="va">self</span><span class="op">$</span><span class="va">globals</span><span class="op">$</span><span class="va">mean_abundance_over_time</span><span class="op">[[</span><span class="va">sp</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summarize-generics.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">self</span><span class="op">[[</span><span class="va">sp</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span><span class="op">)</span></span>
+<span>                <span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process</span></span>
 <span><span class="co">#&gt; Process name:  global_process </span></span>
-<span><span class="co">#&gt; PID:  PID-129aba9291-global_process </span></span>
+<span><span class="co">#&gt; PID:  PID-174abed771-global_process </span></span>
 <span><span class="co">#&gt; execution_priority:  1 </span></span>
-<span><span class="co">#&gt; execution_environment_label:  simulation_2ae31ccb </span></span>
+<span><span class="co">#&gt; execution_environment_label:  simulation_2eeb0d34 </span></span>
 <span><span class="co">#&gt; $fun: function() {</span></span>
 <span><span class="co">#&gt;         # self = simulation object</span></span>
-<span><span class="co">#&gt;         self$globals</span></span>
 <span><span class="co">#&gt;         # easy access to simulation functions</span></span>
-<span><span class="co">#&gt;         self$species_names() # no species yet</span></span>
+<span><span class="co">#&gt;         for (sp in self$species_names()) {</span></span>
+<span><span class="co">#&gt;             self$globals$mean_abundance_over_time[[sp]] &lt;-</span></span>
+<span><span class="co">#&gt;                 c(</span></span>
+<span><span class="co">#&gt;                     self$globals$mean_abundance_over_time[[sp]],</span></span>
+<span><span class="co">#&gt;                     mean(self[[sp]]$traits$abundance)</span></span>
+<span><span class="co">#&gt;                 )</span></span>
+<span><span class="co">#&gt;         }</span></span>
 <span><span class="co">#&gt;     }</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x0000011d91c4b430&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;environment: 0x000001ea952b0f38&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="interaction-with-the-priority-queue">Interaction with the priority queue<a class="anchor" aria-label="anchor" href="#interaction-with-the-priority-queue"></a>

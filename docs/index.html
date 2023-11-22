@@ -8,23 +8,23 @@
 <meta name="description" content="Build spatially and temporally explicit
     process-based species distribution models, that can include an arbitrary
     number of environmental factors, species and processes including metabolic
-    constraints and species interactions. Its focus is simulating populations
-    of one or multiple species in a grid based landscape and studying the
-    meta-population dynamics and emergent patterns that arise from the
-    interaction of species under complex environmental conditions. The package
+    constraints and species interactions. The focus of the package is simulating
+    populations of one or multiple species in a grid-based landscape and studying
+    the meta-population dynamics and emergent patterns that arise from the
+    interaction of species under complex environmental conditions. It
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
     calculation of the environmental suitability based on cardinal values (
     Yin et al. (1995) &lt;doi:10.1016/0168-1923(95)02236-Q&gt;, simplified by
-    Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in form of an
-    Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
+    Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in
+    form of an Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
     Cabral and Schurr (2010) &lt;doi:10.1111/j.1466-8238.2009.00492.x&gt;),
     as well as metabolic scaling based on the metabolic theory of ecology
     (see Brown et al. (2004) &lt;doi:10.1890/03-9000&gt; and
-    Brown, Sibly,and Kodric-Brown (2012)
+    Brown, Sibly and Kodric-Brown (2012)
     &lt;doi:10.1002/9781119968535.ch&gt;).">
-<title>Mechanistic and Metabolic Constrained Species Distribution Model • metaRange</title>
+<title>Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models • metaRange</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -35,25 +35,25 @@
 <link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Mechanistic and Metabolic Constrained Species Distribution Model">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models">
 <meta property="og:description" content="Build spatially and temporally explicit
     process-based species distribution models, that can include an arbitrary
     number of environmental factors, species and processes including metabolic
-    constraints and species interactions. Its focus is simulating populations
-    of one or multiple species in a grid based landscape and studying the
-    meta-population dynamics and emergent patterns that arise from the
-    interaction of species under complex environmental conditions. The package
+    constraints and species interactions. The focus of the package is simulating
+    populations of one or multiple species in a grid-based landscape and studying
+    the meta-population dynamics and emergent patterns that arise from the
+    interaction of species under complex environmental conditions. It
     provides functions for common ecological processes such as
     negative exponential, kernel-based dispersal (see
     Nathan et al. (2012) &lt;doi:10.1093/acprof:oso/9780199608898.003.0015&gt;),
     calculation of the environmental suitability based on cardinal values (
     Yin et al. (1995) &lt;doi:10.1016/0168-1923(95)02236-Q&gt;, simplified by
-    Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in form of an
-    Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
+    Yan and Hunt (1999) &lt;doi:10.1006/anbo.1999.0955&gt; see eq: 4), reproduction in
+    form of an Ricker model (see Ricker (1954) &lt;doi:10.1139/f54-039&gt; and
     Cabral and Schurr (2010) &lt;doi:10.1111/j.1466-8238.2009.00492.x&gt;),
     as well as metabolic scaling based on the metabolic theory of ecology
     (see Brown et al. (2004) &lt;doi:10.1890/03-9000&gt; and
-    Brown, Sibly,and Kodric-Brown (2012)
+    Brown, Sibly and Kodric-Brown (2012)
     &lt;doi:10.1002/9781119968535.ch&gt;).">
 <meta property="og:image" content="https://metaRange.github.io/metaRange/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -167,7 +167,7 @@
 </tr>
 <tr class="even">
 <td>SDMs</td>
-<td><a href="https://doi.org/10.1111/j.1365-2699.2011.02659.x" class="external-link">Dormann et al. 2012</a></td>
+<td>Dormann et al. 2012 (Ref. 5)</td>
 </tr>
 </tbody>
 </table>
@@ -211,11 +211,16 @@
 <div class="section level1">
 <h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h1>
-<p>Eddelbuettel D, Balamuta J (2018). “Extending R with C++: A Brief Introduction to Rcpp.” <em>The American Statistician</em>, <em>72</em>(1), 28-36. <a href="https://doi.org/10.1080/00031305.2017.1375990" class="external-link uri">https://doi.org/10.1080/00031305.2017.1375990</a></p>
-<p>Eddelbuettel D, Sanderson C (2014). “RcppArmadillo: Accelerating R with high-performance C++ linear algebra.” <em>Computational Statistics and Data Analysis</em>, <em>71</em>, 1054-1063. <a href="https://doi.org/10.1016/j.csda.2013.02.005" class="external-link uri">https://doi.org/10.1016/j.csda.2013.02.005</a></p>
-<p>Chang W (2021). <em>R6: Encapsulated Classes with Reference Semantics</em>. R package version 2.5.1, <a href="https://CRAN.R-project.org/package=R6" class="external-link uri">https://CRAN.R-project.org/package=R6</a>.</p>
-<p>Hijmans R (2023). <em>terra: Spatial Data Analysis</em>. R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" class="external-link uri">https://CRAN.R-project.org/package=terra</a>.</p>
-<p>Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. <em>Journal of Biogeography</em>, <strong>39</strong>: 2119–2131. <a href="https://doi.org/10.1111/j.1365-2699.2011.02659.x" class="external-link uri">https://doi.org/10.1111/j.1365-2699.2011.02659.x</a></p>
+<ol style="list-style-type: decimal">
+<li>Eddelbuettel D, Balamuta J (2018). “Extending R with C++: A Brief Introduction to Rcpp.” <em>The American Statistician</em>, <em>72</em>(1), 28-36. <a href="doi:10.1080/00031305.2017.1375990" class="uri">doi:10.1080/00031305.2017.1375990</a>
+</li>
+</ol>
+<p>(2)Eddelbuettel D, Sanderson C (2014). “RcppArmadillo: Accelerating R with high-performance C++ linear algebra.” <em>Computational Statistics and Data Analysis</em>, <em>71</em>, 1054-1063. <a href="doi:10.1016/j.csda.2013.02.005" class="uri">doi:10.1016/j.csda.2013.02.005</a></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Chang W (2021). <em>R6: Encapsulated Classes with Reference Semantics</em>. R package version 2.5.1, <a href="https://CRAN.R-project.org/package=R6" class="external-link uri">https://CRAN.R-project.org/package=R6</a>.</p></li>
+<li><p>Hijmans R (2023). <em>terra: Spatial Data Analysis</em>. R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" class="external-link uri">https://CRAN.R-project.org/package=terra</a>.</p></li>
+<li><p>Dormann, C.F., Schymanski, S.J., Cabral, J., Chuine, I., Graham, C., Hartig, F., Kearney, M., Morin, X., Römermann, C., Schröder, B. and Singer, A. (2012), Correlation and process in species distribution models: bridging a dichotomy. <em>Journal of Biogeography</em>, <strong>39</strong>: 2119–2131. <a href="doi:10.1111/j.1365-2699.2011.02659.x" class="uri">doi:10.1111/j.1365-2699.2011.02659.x</a></p></li>
+</ol>
 </div>
 
   </main><aside class="col-md-3"><div class="links">

@@ -168,7 +168,7 @@ classes.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
-<span>    process_name <span class="op">=</span> <span class="st">"getting_older"</span>,</span>
+<span>    process_name <span class="op">=</span> <span class="st">"maturation"</span>,</span>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"n_adults"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span></span>
 <span>            <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">[[</span><span class="st">"n_adults"</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span></span>
@@ -180,7 +180,10 @@ classes.</p>
 <div class="section level2">
 <h2 id="more-processes">More processes<a class="anchor" aria-label="anchor" href="#more-processes"></a>
 </h2>
-<p>And some more for the dispersal and mortality.</p>
+<p>And some more for the dispersal and mortality. note that we do not
+need to add an <code>mortality_of_juveniles</code> process, since their
+mortality is already included in the <code>maturation</code>
+process.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -233,12 +236,13 @@ the results.</p>
 <span>    cex.lab <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>    cex.axis <span class="op">=</span> <span class="fl">0.7</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">sim</span><span class="op">$</span><span class="va">globals</span><span class="op">$</span><span class="va">n_adults</span>, col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">sim</span><span class="op">$</span><span class="va">globals</span><span class="op">$</span><span class="va">n_adults</span>, col <span class="op">=</span> <span class="st">"darkblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
 <span>    <span class="st">"topleft"</span>,</span>
 <span>    legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"juveniles"</span>, <span class="st">"adults"</span><span class="op">)</span>,</span>
 <span>    col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkred"</span>, <span class="st">"darkblue"</span><span class="op">)</span>,</span>
 <span>    lty <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    lwd <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    cex <span class="op">=</span> <span class="fl">0.7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="A07_age_structured_populations_files/figure-html/run_sim-1.png" width="700"></p>
