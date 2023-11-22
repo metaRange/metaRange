@@ -27,7 +27,7 @@ Species `traits` can be (somewhat arbitrary) pieces of data that describe and st
 During each time step of the simulation, the processes of the species are executed in a user defined order and can access and modify the species traits.
 
 While the models built with metaRange can be quite variable in their structure, they are all based on population dynamics.
-This means that in most cases a `trait` will not be a singular number but a matrix that has the same size as the raster data in the environment, where each value represents the trait value for one population in the corresponding grid cell of the of the environment.
+This means that in most cases a `trait` will not be a single number but a matrix that has the same size as the raster data in the environment, where each value represents the trait value for one population in the corresponding grid cell of the of the environment.
 Based on this, most `processes` will describe population (and meta population) dynamics and not individual based mechanisms.
 Figure 1 shows an example of some of the different environmental factors, species traits and processes that could be included in a simulation.
 
@@ -48,7 +48,7 @@ knitr::include_graphics("../man/figures/simulation_high_level_overview.svg")
 
 # Setting up a simulation
 Following is a very simple example of how to set up a simulation with `metaRange`.
-In this example we only use a singular species and one environmental factor (habitat quality).
+In this example we only use a single species and one environmental factor (habitat quality).
 At the end of this introduction we will see how the abundance of the species changes in relation to the quality of the habitat each population occupies.
 
 To start, we need to load the package and its dependencies.
@@ -66,10 +66,10 @@ Each sub-dataset in this SDS represents one environmental variable and each laye
 In other words, metaRange does not simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
 
 To create such a dataset one can use the function `terra::sds()`.
-One important note: Since the layer represent the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layer (i.e. the desired number of time steps the simulation should have).
+One important note: Since the layer represent the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layers (i.e. the desired number of time steps the simulation should have).
 After the `SDS` is created, the individual subdatasets should be named, since this is how the simulation will refer to them.
 
-To simplify this introduction, we use an example landscape consisting only of habitat quality data, with 10 time steps (layer) that are all the same (i.e. no environmental change).
+To simplify this introduction, we use an example landscape consisting only of habitat quality data, with 10 time steps (layers) that are all the same (i.e. no environmental change).
 Luckily the `terra` package has a built-in demo that we can use for this purpose.
 
 ```{r create_landscape, fig.cap = "Figure 3: The habitat quality of the example landscape. Note: higher value = better habitat quality"}

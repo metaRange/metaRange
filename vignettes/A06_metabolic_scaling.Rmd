@@ -136,7 +136,7 @@ sim$add_process(
 )
 ```
 
-After this point, processes could be added that use the scaled parameters.
+After this point, processes could be added that use the scaled parameters (See previous articles / vignettes).
 Here we just plot the scaled parameter instead.
 ```{r add_processes2, fig.show="hold"}
 sim$set_time_layer_mapping(c(1, 2))

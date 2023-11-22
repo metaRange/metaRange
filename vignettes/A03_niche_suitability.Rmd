@@ -20,7 +20,8 @@ knitr::opts_chunk$set(
 
 How environmental conditions influence the distribution of species is a central study question in ecology.
 In this tutorial we will show how to implement a simple niche suitability model in metaRange.
-For this, we will first create a landscape with two environmental variables (temperature and precipitation) and then add two species to it, that have different environmental preferences.
+For this, we will create a landscape with two environmental variables (temperature and precipitation) and then add two species to it, that have different environmental preferences.
+We are going to give the two species the same traits otherwise and then run the simulation for 10 time steps to see the impact of the different environmental preferences.
 
 # Setup
 First we load the packages and create the example landscape.
@@ -99,7 +100,8 @@ If we assume that they are a property of the species as a whole (i.e. the same f
 In order to make the simulation more interesting, we can give both species different environmental preferences for the two environmental variables in the simulation environment (temperature & precipitation).
 
 Note that the names of the traits are arbitrary and can be chosen by the user and that there is no predetermined connection between e.g. "min_temperature" and the temperature variable in the environment.
-It is the responsibility of the species processes to access the correct traits and use them in a sensible way, which is why meaningful trait names are important.
+To establish these connections, the user needs to add species processes that access the correct traits and use them in a sensible way.
+This is why meaningful trait names are important.
 ```{r add_trait_3}
 sim$add_traits(
     species = "species_1",
@@ -168,7 +170,7 @@ sim$add_process(
 ```
 
 ## Reproduction
-As in the previous tutorials, we use a Ricker reproduction model to calculate the new abundance of the species, but this time we let the carrying capacity and the reproduction rate depend on the niche suitability of the environment.
+As in the previous tutorials, we use a Ricker reproduction model to calculate the new abundance of the species, but this time we let both the carrying capacity and the reproduction rate depend on the niche suitability of the environment.
 ```{r Reproduction}
 sim$add_process(
     species = c("species_1", "species_2"),
