@@ -204,7 +204,7 @@ plot(sim, "species_2", "abundance", main = "Sp: 2 abundance", col = plot_cols)
 
 As you can see, species 2 is being pushed out of its preferred habitat, towards areas that are more unsuitable for species 1.
 
-## Throphic interactions
+## Trophic interactions
 
 We can also add a process that simulates trophic interactions in the form of predation.
 Assuming that species 2 is a predator and species 1 is its prey, this means that species 2 will reduce the abundance of species 1, but can only occur in the same areas as species 1.
@@ -356,3 +356,8 @@ max_precipitation = 1000
 optimal_precipitation = 300
 min_precipitation = 0
 ```
+
+
+## Final notes
+This tutorial only shows the very basic options of species interactions that are possible with metaRange.
+One could also have a simulation that includes both competition and predation, or different (i.e. more complex) forms of these two processes or other processes such as e.g. mutualism.

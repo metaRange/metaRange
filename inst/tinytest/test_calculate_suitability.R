@@ -4,7 +4,7 @@
 # Agricultural and Forest Meteorology,
 # Volume 77, Issues 1–2,
 # Pages 1-16,
-# <doi:10.1016/0168-1923(95)02236-Q>
+# \doi{10.1016/0168-1923(95)02236-Q}
 # @export
 calculate_suitability_R <- function(vmax, vopt, vmin, venv) {
     res <- ((vmax - venv) / (vmax - vopt)) * ((venv - vmin) / (vopt - vmin))^((vopt - vmin) / (vmax - vopt))

@@ -95,7 +95,7 @@ In order to make them behave differently, we can add different processes to them
 
 ## Reproduction
 We are going to use the same reproduction process as in the previous vignette, but we will vary the influence of the habitat quality.
-For species 1, we will let the carrying capacity depend on the habitat quality, while for species 2, it is going to influence the reproduction rate.
+In the case of species 1, the habitat quality will only affect the carrying capacity of the habitat.
 ```{r Reproduction}
 sim$add_process(
     species = "species_1",
@@ -113,7 +113,7 @@ sim$add_process(
     execution_priority = 1
 )
 ```
-
+In the case of species 2, the habitat quality will only affect the reproduction rate.
 ```{r Reproduction2}
 sim$add_process(
     species = "species_2",

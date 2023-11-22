@@ -76,7 +76,7 @@ sim$add_process(
 )
 sim$add_process(
     species = "species_1",
-    process_name = "getting_older",
+    process_name = "maturation",
     process_fun = function() {
         self$traits[["n_adults"]] <-
             self$traits[["n_adults"]] +
@@ -88,6 +88,7 @@ sim$add_process(
 
 ## More processes
 And some more for the dispersal and mortality.
+note that we do not need to add an `mortality_of_juveniles` process, since their mortality is already included in the `maturation` process.
 ```{r dispersal1}
 sim$add_process(
     species = "species_1",
@@ -137,12 +138,13 @@ plot(
     cex.lab = 0.7,
     cex.axis = 0.7
 )
-lines(1:10, sim$globals$n_adults, col = "darkblue")
+lines(1:10, sim$globals$n_adults, col = "darkblue", lwd = 2)
 legend(
     "topleft",
     legend = c("juveniles", "adults"),
     col = c("darkred", "darkblue"),
     lty = 1,
+    lwd = 2,
     cex = 0.7
 )
 ```
