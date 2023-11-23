@@ -110,8 +110,8 @@ the impact of the different environmental preferences.</p>
 </h2>
 <p>First we load the packages and create the example landscape.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/metaRange/metaRange" class="external-link">metaRange</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; metaRange version: 0.0.0.9000</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; metaRange version: 1.0.0</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span>
 <span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
@@ -361,31 +361,31 @@ suitability of the environment.</p>
 <span><span class="co">#&gt; Starting simualtion.</span></span>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.11 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.16 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 10 % done</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.22 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.18 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 20 % done</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.081 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.084 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 30 % done</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.067 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.07 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 40 % done</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.057 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.06 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 50 % done</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.045 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.048 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 60 % done</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.035 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.047 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 70 % done</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; end of time step: 8</span></span>
@@ -393,7 +393,7 @@ suitability of the environment.</p>
 <span><span class="co">#&gt; 80 % done</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.012 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; 0.018 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; 90 % done</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; end of time step: 10</span></span>
@@ -401,7 +401,7 @@ suitability of the environment.</p>
 <span><span class="co">#&gt; 100 % done</span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.14 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.15 secs</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># define a nice color palette</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
