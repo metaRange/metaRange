@@ -1,6 +1,6 @@
-metaRange copyright: 2023 metaRange authors (see DESCRIPTION)
-metaRange is licensed under GPL-3 and includes work from the following open
-source projects:
+metaRange copyright: 2023 metaRange authors & contributors (see DESCRIPTION)
+metaRange is licensed under GPL-3 and includes work from or links during compilation
+to the following open source projects:
 
 * dispersal.cpp (in metaRange) is derived/ build upon the example of the
   function "convolution_cpp" in the file:
