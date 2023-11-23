@@ -614,19 +614,19 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_process_1"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_1"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">species_process_1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  species_process_1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-115f7024b1-species_process_1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-1324d20991-species_process_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  species_1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_1")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a414742c78&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c39616f8e8&gt;</span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, <span class="st">"global_process_2"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"process_2"</span><span class="op">)</span><span class="op">}</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="va">processes</span><span class="op">$</span><span class="va">global_process_2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Process name:  global_process_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-24b3247032-global_process_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> PID:  PID-27481814f2-global_process_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> execution_priority:  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_17cbddb5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> execution_environment_label:  simulation_18db21da </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fun: function() {message("process_2")}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001a4146a6c60&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001c3960ccee0&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `metaRangeSimulation$add_traits`</span></span></span>
@@ -722,7 +722,7 @@ it to the console</p><div class="section">
 <span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">metaRangeSimulation</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>source_environment <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim</span><span class="op">$</span><span class="fu">summary</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_68758c1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ID: simulation_47ca8db9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Environment: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRasterDataset </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> subdatasets : 1 </span>
@@ -734,7 +734,7 @@ it to the console</p><div class="section">
 <span class="r-out co"><span class="r-pr">#&gt;</span> source(s)   : memory </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time step layer mapping:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Current time step:  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  943 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Seed:  536 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Species:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simulation level processes:</span>
