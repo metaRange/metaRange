@@ -4,4 +4,6 @@ There were no ERRORs, WARNINGs or NOTEs.
 0 errors | 0 warnings | 0 note
 
 Comment:
-* This is my first submission to CRAN and the first release of this package
+This submission should fix the issues found by CRAN's ASAN / valgrind checks,
+mentioned in the mail from 30.11.2023.
+See: https://cran.r-project.org/web/checks/check_results_metaRange.html

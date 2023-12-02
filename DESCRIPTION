@@ -1,6 +1,6 @@
 Package: metaRange
 Title: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models
-Version: 1.0.0
+Version: 1.0.1
 Authors@R:
     c(person(given = "Stefan",
              family = "Fallert",
