@@ -40,20 +40,20 @@ calculate_suitability(
     vmax = 30,
     vopt = 25,
     vmin = 10,
-    venv = 0:40
+    venv = 1:40
 )
 calculate_suitability(
     vmax = seq(30, 32, length.out = 40),
     vopt = seq(20, 23, length.out = 40),
     vmin = seq(9, 11, length.out = 40),
-    venv = 0:40
+    venv = 1:40
 )
 
 try(calculate_suitability(
     vmax = 1,
     vopt = seq(20, 23, length.out = 40),
     vmin = seq(9, 11, length.out = 40),
-    venv = 0:40
+    venv = 1:40
 ))
 }
 \references{

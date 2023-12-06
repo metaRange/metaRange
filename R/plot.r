@@ -72,7 +72,7 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
 #' @param ... additional arguments passed to [terra::plot] or [base::plot].
 #' @return `<invisible NULL>`.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(vals = 1:4, nrow = 2, ncol = 2, nlyr = 4))
+#' sim_env <- terra::sds(terra::rast(vals = rep(1:4, 4), nrow = 2, ncol = 2, nlyr = 4))
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$environment$set_current(1)

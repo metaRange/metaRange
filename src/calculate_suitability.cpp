@@ -57,20 +57,20 @@ using namespace Rcpp;
 //'     vmax = 30,
 //'     vopt = 25,
 //'     vmin = 10,
-//'     venv = 0:40
+//'     venv = 1:40
 //' )
 //' calculate_suitability(
 //'     vmax = seq(30, 32, length.out = 40),
 //'     vopt = seq(20, 23, length.out = 40),
 //'     vmin = seq(9, 11, length.out = 40),
-//'     venv = 0:40
+//'     venv = 1:40
 //' )
 //'
 //' try(calculate_suitability(
 //'     vmax = 1,
 //'     vopt = seq(20, 23, length.out = 40),
 //'     vmin = seq(9, 11, length.out = 40),
-//'     venv = 0:40
+//'     venv = 1:40
 //' ))
 //' @export
 // [[Rcpp::export]]
@@ -104,8 +104,8 @@ NumericVector calculate_suitability(
         result.attr("dim") = venv.attr("dim");
         return result;
     } else {
-        if (vmax.size() != vopt.size() || vmax.size() != vmin.size()) {
-            stop("The sizes of vmax, vopt and vmin are not equal.");
+        if (vmax.size() != vopt.size() || vmax.size() != vmin.size() || vmax.size() != venv.size()) {
+            stop("The sizes of venv, vmax, vopt and vmin are not equal.");
         }
         LogicalVector test = vmax < vopt;
         const bool test_res_1 = any(test).is_true();
