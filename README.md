@@ -1,5 +1,5 @@
 [![R-CMD-check](https://github.com/metaRange/metaRange/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/metaRange/metaRange/actions)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/metaRange)](https://cran.r-project.org/package=metaRange)
 
 # metaRange
 ![](man/figures/logo.png)
