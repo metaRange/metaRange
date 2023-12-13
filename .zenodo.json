@@ -1,0 +1,33 @@
+{
+    "creators": [
+        {
+            "name": "Fallert, Stefan",
+            "orcid": "0000-0002-9939-42199"
+        },
+        {
+            "name": "Li, Lea"
+        },
+        {
+            "name": "Sarmento Cabral, Juliano",
+            "orcid": "0000-0002-0116-220X"
+        }
+    ],
+
+    "contributors": [
+        {
+            "name": "Morgan-Wall, Tyler",
+            "orcid": "0000-0002-3131-3814",
+            "type": "Other"
+        }
+    ],
+    "access_right": "open",
+
+    "license": "GPL-3",
+
+    "title": "metaRange: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models",
+
+    "grants": [
+        {"funder":"Deutsche Bundesstiftung Umwelt"},
+        {"funder":"Bavarian Ministry of Science and Arts"}
+    ]
+}
