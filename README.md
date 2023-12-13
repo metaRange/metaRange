@@ -1,5 +1,8 @@
 [![R-CMD-check](https://github.com/metaRange/metaRange/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/metaRange/metaRange/actions)
+[![CRAN version](https://www.r-pkg.org/badges/version/metaRange)](https://cran.r-project.org/package=metaRange)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/metaRange)](https://cran.r-project.org/package=metaRange)
+[![DOI](https://zenodo.org/badge/699263035.svg)](https://zenodo.org/doi/10.5281/zenodo.10364778)
+
 
 # metaRange
 ![](man/figures/logo.png)
