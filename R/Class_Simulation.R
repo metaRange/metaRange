@@ -182,31 +182,30 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             return(private$current_time_step)
         },
 
-        #' @description Adds a new species to the simulation
-        #' @param name `<string>` name or ID of the species.
+        #' @description Adds new species to the simulation
+        #' @param names `<string>` names of the species.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
-        #' sim$add_species("species_1")
+        #' sim$add_species(c("species_1", "species_2"))
         #' sim$species_1
         #' @return `<invisible boolean>` `TRUE` on success `FALSE` on failure.
-        add_species = function(name) {
+        add_species = function(names) {
+            checkmate::assert_character(x = names, min.chars = 1, max.chars = 64, any.missing = FALSE)
+            checkmate::assert_names(x = names, type = "strict", disjunct.from = ls(envir = self, sorted = FALSE))
+            if (any(grepl("^\\.", names))) {
+                stop("Species names can not start with a dot.")
+            }
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             if (verbosity > 0L) message("adding species")
-            if (!checkmate::test_string(name)) {
-                message("failed to add species. Argument 'name' must be a string")
-                return(invisible(FALSE))
+            for (name in names) {
+                if (is.null(self$environment) | !checkmate::test_class(self$environment, "metaRangeEnvironment")) {
+                    message("cannot add species to a simulation without environment. Please add environment first.")
+                    return(invisible(FALSE))
+                }
+                self[[name]] <- metaRangeSpecies$new(name = name, sim = self)
+                if (verbosity > 0L) message("name: ", name)
             }
-            if (is.null(self$environment) | !checkmate::test_class(self$environment, "metaRangeEnvironment")) {
-                message("cannot add species to a simulation without environment. Please add environment first.")
-                return(invisible(FALSE))
-            }
-            if (name %in% names(self)) {
-                message("Species already present in simulation. Use a different name.")
-                return(invisible(FALSE))
-            }
-            self[[name]] <- metaRangeSpecies$new(name = name, sim = self)
-            if (verbosity > 0L) message("Name: ", name)
             return(invisible(TRUE))
         },
 

@@ -55,7 +55,7 @@ sim$get_current_time_step()
 
 sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
-sim$add_species("species_1")
+sim$add_species(c("species_1", "species_2"))
 sim$species_1
 
 ## ------------------------------------------------
@@ -322,15 +322,15 @@ sim$get_current_time_step()
 \if{html}{\out{<a id="method-metaRangeSimulation-add_species"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangeSimulation-add_species}{}}}
 \subsection{Method \code{add_species()}}{
-Adds a new species to the simulation
+Adds new species to the simulation
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$add_species(name)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$add_species(names)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{\verb{<string>} name or ID of the species.}
+\item{\code{names}}{\verb{<string>} names of the species.}
 }
 \if{html}{\out{</div>}}
 }
@@ -341,7 +341,7 @@ Adds a new species to the simulation
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
-sim$add_species("species_1")
+sim$add_species(c("species_1", "species_2"))
 sim$species_1
 }
 \if{html}{\out{</div>}}
