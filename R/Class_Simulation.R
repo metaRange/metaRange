@@ -452,22 +452,28 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 if (!private$continue_execution) break
                 if (verbosity > 0L) {
                     message(
-                        "end of time step: ", private$current_time_step, "\n",
-                        format((Sys.time() - time_step_start) * (self$number_time_steps - private$current_time_step),
+                        # "end of time step: ", private$current_time_step, "\n",
+                        format(
+                            round(private$current_time_step / self$number_time_steps * 100, digits = 0),
+                            width = 3
+                        ), " % done | ",
+                        format(
+                            difftime(Sys.time(), time_step_start) *
+                                (self$number_time_steps - private$current_time_step),
                             digits = 2
                         ), " remaining (estimate)\n",
-                        round(private$current_time_step / self$number_time_steps * 100, digits = 2), " % done\n"
+                        appendLF = FALSE
                     )
                 }
                 if (!private$next_time_step()) break
             }
             if (verbosity > 0L) {
-                message("Simulation: '", self$ID, "' finished\n")
+                message("\nSimulation: '", self$ID, "' finished")
             }
             on.exit(
                 if (verbosity > 0L) {
-                    message("Exiting the Simulation\n")
-                    message("Runtime: ", format(Sys.time() - start_time_sim, digits = 2), "\n")
+                    message("Exiting the Simulation")
+                    message("Runtime: ", format(Sys.time() - start_time_sim, digits = 2))
                 }
             )
             return(invisible(self))
