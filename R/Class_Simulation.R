@@ -134,7 +134,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             globals_to_add <- list(...)
             if (getOption("metaRange.verbose", default = FALSE) > 0L) {
                 message("adding global variables: ")
-                message(str(globals_to_add), appendLF = FALSE)
+                message(utils::str(globals_to_add), appendLF = FALSE)
             }
             list2env(globals_to_add, envir = self$globals)
             return(invisible(self))
