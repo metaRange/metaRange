@@ -63,6 +63,9 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
 
             pr$fun()
             private$current_index <- private$current_index + 1L
+            if (private$current_index > length(private$queue)) {
+                private$current_index <- 0L
+            }
             if (verbose) {
                 message("|---- ", format(Sys.time() - start_time_pr, digits = 2))
             }
@@ -150,7 +153,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' stopifnot(pr_queue$is_empty())
         #' @return `<boolean>` `TRUE` if queue is empty `FALSE` otherwise.
         is_empty = function() {
-            return(length(private$queue) == 0L | private$current_index > length(private$queue))
+            return(length(private$queue) == 0L | private$current_index <= 0L)
         },
         #' @description Get the current queue.
         #' @examples
@@ -196,13 +199,13 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
             if (self$is_empty()) {
                 cat("--- empty", "\n")
             } else {
-                show(tail(private$queue, n = -(private$current_index - 1L)))
+                show(format(names(tail(private$queue, n = -(private$current_index - 1L)))))
             }
             cat("Future (next time step) queue: \n")
             if (length(private$future_queue) == 0) {
                 cat("--- empty", "\n")
             } else {
-                show(private$future_queue)
+                show(format(names(private$future_queue)))
             }
             return(invisible(self))
         }

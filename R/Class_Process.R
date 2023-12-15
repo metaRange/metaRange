@@ -85,7 +85,9 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
                 # intended to assuere that the names are unique even if the RNG gives the same number
                 id,
                 "-",
-                process_name
+                process_name,
+                "-",
+                env_label
             )
             if (nchar(private$PID) > 64) {
                 private$PID <- substr(private$PID, 1, 64)
