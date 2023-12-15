@@ -188,8 +188,19 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' ## Equation:
 #' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
 #'
-#' Note that the input should have an equal size and that the input abundance
-#' should be positive for the results to make sense.
+#' Note that:
+#'
+#' * `abundance` should generally be greater than 0.
+#' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of lenght 1.
+#' * `reproduction_rate` should generally be greater than 0. A negative reproduction rate only works reliably as long as the abundance is below the carrying capacity.
+#' * `carrying_capacity` should generally be greater than 0.
+#'
+#' Important Note:
+#' To optimize performance, the functions modifies the abundance in-place.
+#' This mean the input abundance will be modified (See Examples).
+#' Since the result of this function is usually assigned to the same variable as the input abundance, this is unnoticable in most use cases.
+#' Should you wish to keep the input abundance unchanged, you can `rlang::duplicate()` it before passing it to this function.
+#'
 #' @return `<numeric>` vector (or matrix) of abundances.
 #' @examples
 #' ricker_reproduction_model(
@@ -207,6 +218,14 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #'     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
 #'     carrying_capacity =  matrix(100, 10, 5)
 #' )
+#' # Note that the input abundance is modified in-place
+#' abu <- 10
+#' res <- ricker_reproduction_model(
+#'     abundance = abu,
+#'     reproduction_rate = 0.25,
+#'     carrying_capacity = 100
+#' )
+#' stopifnot(identical(abu, res))
 #' @references
 #' Cabral, J.S. and Schurr, F.M. (2010)
 #' Estimating demographic models for the range dynamics of plant species.
