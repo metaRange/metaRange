@@ -48,10 +48,10 @@ The layer in the SDS correspond to / represent the different time steps of the s
 
 ## Species
 A simulation can contain multiple species, as well as interactions between them.
-Every simulated species (i.e. each species object) consists of a set of `processes` that describe it's relationship with time, itself, the abiotic environment and other species and `traits`, which can be any type of data that can be accessed or changed by the processes.
+Every simulated species (i.e. each species object) consists of a set of `processes` that describe its relationship with time, itself, the abiotic environment and other species and `traits`, which can be any type of data that can be accessed or changed by the processes.
 
 Species have implied populations, each of which inhabit one grid cell of the landscape.
-On a computational level this means that the `traits` of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
+On a computational level this means that the `traits` of a species will in most cases be stored in a matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
 
 ## Flexibility / dynamic process execution
 The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step).
