@@ -194,19 +194,14 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' pr_queue$print()
         #' @return `<invisible self>`.
         print = function() {
-            cat("At process: ", private$current_index, "out of: ", length(private$queue), "\n")
-            cat("Remaining queue: \n")
-            if (self$is_empty()) {
-                cat("--- empty", "\n")
-            } else {
-                show(format(names(tail(private$queue, n = -(private$current_index - 1L)))))
+            remaining_names <- c()
+            if (!self$is_empty()) {
+                remaining_names <- names(tail(private$queue, n = -(private$current_index - 1L)))
             }
-            cat("Future (next time step) queue: \n")
-            if (length(private$future_queue) == 0) {
-                cat("--- empty", "\n")
-            } else {
-                show(format(names(private$future_queue)))
-            }
+            cat("Remaining queue (this time step): ", length(remaining_names), "\n")
+            utils::str(remaining_names, give.head = FALSE)
+            cat("Future queue (next time step): ", length(private$future_queue), "\n")
+            utils::str(names(private$future_queue), give.head = FALSE)
             return(invisible(self))
         }
     ),

@@ -498,10 +498,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $processes\n")
             cat("  $seed\n")
             if (length(print_info) > 0) {
-                cat("Species: \n")
-                for (i in seq_along(print_info)) {
-                    cat("  $", print_info[i], "\n", sep = "")
-                }
+                cat("Species: [", length(print_info), "]\n", sep = "")
+                utils::str(print_info, give.head = FALSE)
             } else {
                 cat("Species: none\n")
             }
@@ -534,7 +532,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("Time step layer mapping: ", self$time_step_layer, "\n")
             cat("Current time step: ", private$current_time_step, "\n")
             cat("Seed: ", self$seed, "\n")
-            cat("Species:\n", paste(self$species_names(), collapse = ", "), "\n")
+            print_info <- self$species_names()
+            cat("Species: ", length(print_info), "\n", sep = "")
+            utils::str(print_info, give.head = FALSE)
             cat("Simulation level processes:\n")
             print(names(self$processes))
             cat("Gobal variables:\n")
