@@ -330,7 +330,7 @@ Adds new species to the simulation
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{names}}{\verb{<string>} names of the species.}
+\item{\code{names}}{\verb{<character>} names of the species to add.}
 }
 \if{html}{\out{</div>}}
 }
@@ -393,7 +393,7 @@ Adds a process to the simulation.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{species}}{\verb{<string>} Name of the species that the process should be added to.
+\item{\code{species}}{\verb{<character>} Names of the species that the process should be added to.
 If \code{NULL} the process will be added to the simulation object itself.}
 
 \item{\code{process_name}}{\verb{<string>} Name of the process to add.}
@@ -440,7 +440,7 @@ Adds traits to a species.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{species}}{\verb{<string>} Name of the species that the traits should be added to.}
+\item{\code{species}}{\verb{<character>} Names of the species that the traits should be added to.}
 
 \item{\code{population_level}}{\verb{<boolean>} If \code{TRUE} the traits will be added at the population level
 (i.e. as a matrix with same dimensions (nrow/ncol) as the environment with one value for each population).

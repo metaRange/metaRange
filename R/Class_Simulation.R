@@ -183,7 +183,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         #' @description Adds new species to the simulation
-        #' @param names `<string>` names of the species.
+        #' @param names `<character>` names of the species to add.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
@@ -231,7 +231,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         #' @description Adds a process to the simulation.
-        #' @param species `<string>` Name of the species that the process should be added to.
+        #' @param species `<character>` Names of the species that the process should be added to.
         #' If `NULL` the process will be added to the simulation object itself.
         #' @param process_name `<string>` Name of the process to add.
         #' @param process_fun `<named function>` The function to call when the process gets executed.
@@ -298,7 +298,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         #' @description Adds traits to a species.
-        #' @param species `<string>` Name of the species that the traits should be added to.
+        #' @param species `<character>` Names of the species that the traits should be added to.
         #' @param population_level `<boolean>` If `TRUE` the traits will be added at the population level
         #' (i.e. as a matrix with same dimensions (nrow/ncol) as the environment with one value for each population).
         #' This means that the traits either need to be single values that will be extended
