@@ -117,9 +117,14 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         set_source_environment = function(sourceSDS) {
             checkmate::assert_class(x = sourceSDS, classes = "SpatRasterDataset")
             nlayer <- terra::nlyr(sourceSDS)
+            checkmate::assert_true(length(sourceSDS) >= 1)
             if (any(nlayer == 0)) stop("sourceSDS must have at least one layer")
             nlayer <- checkmate::assert_integerish(x = nlayer, lower = max(nlayer), upper = min(nlayer), coerce = TRUE)
             self$sourceSDS <- sourceSDS
+            if (all(nchar(names(self$sourceSDS)) == 0)) {
+                names(self$sourceSDS) <- paste0("env_", seq_len(length(self$sourceSDS)))
+            }
+            checkmate::assert_names(x = names(self$sourceSDS), type = "strict")
             return(invisible(self))
         }
     )
