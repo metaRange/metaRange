@@ -1,3 +1,8 @@
+# metaRange 1.0.3
+
+* fix bug where traits could be added as references, which in turn could
+    lead to unpredicted results in combination with the cpp functions.
+
 # metaRange 1.0.2
 
 * allow multiple species to be added in add_species()
