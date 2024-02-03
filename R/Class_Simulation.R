@@ -358,8 +358,13 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                     dim_m <- dim(trait_list[[i]])
                     dim_r <- dim(self$environment$sourceSDS)[c(1, 2)]
                     if (!population_level || is.matrix(trait_list[[i]]) && all(dim_m == dim_r)) {
+                        print("code path 1")
                         self[[sp]]$traits[[names(trait_list)[i]]] <- trait_list[[i]]
+                        # necessary hack to make sure that the objects are not stored as references
+                        val <- trait_list[[i]][[1]]
+                        self[[sp]]$traits[[names(trait_list)[i]]][[1]] <- val
                     } else {
+                        print("code path 2")
                         self[[sp]]$traits[[names(trait_list)[i]]] <- matrix(
                             trait_list[[i]],
                             nrow = dim_r[1],
