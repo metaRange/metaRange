@@ -68,11 +68,25 @@ sim$species_names()
 # Adding traits to (multiple) species
 The `add_traits()` method is able to add (multiple) traits to multiple species at once, which is useful when setting up a large number of species with the same traits.
 So instead of only specifying one `species` argument, we can specify a vector of species names, all of which will get the same traits.
+Here, we set the initial abundence of the species to be proportional to the habitat quality.
 ```{r add_trait}
 sim$add_traits(
     species = c("species_1", "species_2"),
     population_level = TRUE,
-    abundance = 100
+    abundance = 200 * terra::as.matrix(
+        sim$environment$sourceSDS[["habitat_quality"]][[1]],
+        wide = TRUE)
+)
+```
+```{r initAbundance, fig.cap = "Figure 2: The initial abundance of the species."}
+# define a nice color palette
+plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
+plot(
+    sim,
+    obj = "species_1",
+    name = "abundance",
+    main = "Initial abundance",
+    col = plot_cols
 )
 ```
 
@@ -81,8 +95,9 @@ If we would want to add a trait to all species in the simulation, without having
 sim$add_traits(
     species = sim$species_names(),
     population_level = TRUE,
-    reproduction_rate = 0.5,
-    carrying_capacity = 1000
+    reproduction_rate = 1.5,
+    carrying_capacity = 1000,
+    allee_threshold = 150
 )
 ```
 
@@ -94,8 +109,8 @@ Until now, we have two species in the simulation that are virtually identical.
 In order to make them behave differently, we can add different processes to them.
 
 ## Reproduction
-We are going to use the same reproduction process as in the previous vignette, but we will vary the influence of the habitat quality.
-In the case of species 1, the habitat quality will only affect the carrying capacity of the habitat.
+We are going to use two different reproduction models and we will let the habitat quality influence the carrying capacity.
+In the case of species 1, we will use the same reproduction model from the previous vignette `ricker_reproduction_model`.
 ```{r Reproduction}
 sim$add_process(
     species = "species_1",
@@ -113,17 +128,24 @@ sim$add_process(
     execution_priority = 1
 )
 ```
-In the case of species 2, the habitat quality will only affect the reproduction rate.
+In the case of species 2, we will use a Ricker model with additional allee effects `ricker_allee_reproduction_model`
+as described in: Cabral, J.S. and Schurr, F.M. (2010) [Ref. 1].
+This means the populations that are smaller than the allee threshold will have a negative per-capacity reproduction rate.
+The Allee effects is also known as "depensation" or "negative density dependence" and can describe
+multiple different mechanisms that lead to lower reproduction rates at small population sizes as for example
+difficulties finding a mate, or increased predation pressure (see: Liermann and Hilborn, 2001) [Ref. 2].
+
 ```{r Reproduction2}
 sim$add_process(
     species = "species_2",
     process_name = "reproduction",
     process_fun = function() {
         self$traits$abundance <-
-            ricker_reproduction_model(
+            ricker_allee_reproduction_model(
                 self$traits$abundance,
-                self$traits$reproduction_rate * self$sim$environment$current$habitat_quality,
-                self$traits$carrying_capacity
+                self$traits$reproduction_rate,
+                self$traits$carrying_capacity * self$sim$environment$current$habitat_quality,
+                self$traits$allee_threshold
             )
         print(
             paste0(self$name, " mean abundance: ", mean(self$traits$abundance))
@@ -140,9 +162,7 @@ set_verbosity(0)
 sim$begin()
 ```
 
-```{r resA, fig.cap = "Figure 2: The resulting abundance distribution of species 1 after 10 simulation time steps."}
-# define a nice color palette
-plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
+```{r resA, fig.cap = "Figure 3: The resulting abundance distribution of species 1 after 10 simulation time steps."}
 plot(
     sim,
     obj = "species_1",
@@ -153,7 +173,7 @@ plot(
 ```
 
 
-```{r resB, fig.cap = "Figure 3: The resulting abundance distribution of species 2 after 10 simulation time steps."}
+```{r resB, fig.cap = "Figure 4: The resulting abundance distribution of species 2 after 10 simulation time steps."}
 plot(
     sim,
     obj = "species_2",
@@ -162,3 +182,11 @@ plot(
     col = plot_cols
 )
 ```
+
+Note how the populations of species 2 that are smaller than the allee threshold going extinct.
+
+
+# References:
+(1) Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic models for the range dynamics of plant species. Global Ecology and Biogeography, 19, 85--97. doi:10.1111/j.1466-8238.2009.00492.x
+
+(2) Liermann, and Hilborn, (2001), Depensation: evidence, models and implications. Fish and Fisheries, 2: 33--58. doi:10.1046/j.1467-2979.2001.00029.x

@@ -182,7 +182,7 @@ In the case two (or more) processes have the same priority, it is assumed that t
 
 ## Reproduction
 In this example we will only add a single process (`reproduction`) to the species, that is going to calculate the abundance (for each population) in the next time step, depending on the habitat quality.
-To do so, we can use a built in function `ricker_reproduction_model()` that implements the "classic" Ricker reproduction model (Ricker, W.E. (1954) compare also: Cabral, J.S. and Schurr, F.M. (2010)) [Ref. 1 & 2].
+To do so, we can use a built in function `ricker_reproduction_model()` that implements the "classic" Ricker reproduction model (Ricker, W.E. (1954)) [Ref. 1].
 
 Note the use of the  `self` keyword in the function. In this context, `self` refers to the species that the process is attached to.
 This means that the function can access the species traits and modify them and also access the environment (each species holds a reference to the simulation it was created in).
@@ -249,5 +249,3 @@ save_species(
 
 # References
 (1) Ricker, W.E. (1954) Stock and recruitment. Journal of the Fisheries Research Board of Canada, 11, 559--623. doi:10.1139/f54-039
-
-(2) Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic models for the range dynamics of plant species. Global Ecology and Biogeography, 19, 85--97. doi:10.1111/j.1466-8238.2009.00492.x
