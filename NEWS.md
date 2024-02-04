@@ -1,3 +1,7 @@
+# metaRange 1.1.1
+
+* Safeguard the dispersal function for NA in the inputs.
+
 # metaRange 1.1.0
 
 * update Ricker reproduction model. Add handling of negative reproduction rates,
