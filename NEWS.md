@@ -1,3 +1,8 @@
+# metaRange 1.1.0
+
+* update Ricker reproduction model. Add handling of negative reproduction rates,
+    improve handling of boundary conditions. Add version with Allee effects.
+
 # metaRange 1.0.3
 
 * fix bug where traits could be added as references, which in turn could
