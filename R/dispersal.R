@@ -113,7 +113,9 @@ calculate_dispersal_kernel <- function(
 #' within the dispersal kernel according to the weights.
 #' I.e. individuals will more likely move towards areas with a higher
 #' weight, if they are within their dispersal distance.
-#' Note that the abundance is modified in place, to optimize performance.
+#' Note:
+#' * the abundance is modified in place, to optimize performance.
+#' * Any `NA` or `NaN` in abundance or weights will be (in-place) replaced by `0`.
 #' @examples
 #' n <- 10
 #' n2 <- n^2

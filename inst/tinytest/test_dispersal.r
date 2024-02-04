@@ -75,3 +75,27 @@ expect_true(
     info = "edge effects are only because of missing influce cells beyond the edge."
 )
 rm(n, n2, abu, suitab, kernel, res1, res2)
+
+n <- 10
+n2 <- n^2
+abu <- matrix(1:n2, nrow = n, ncol = n)
+abu[[1]] <- NaN
+abu[[2]] <- NA
+suitab <- matrix(seq(1, 0.01, length.out = n2), nrow = n, ncol = n)
+suitab[[length(suitab)]] <- NaN
+suitab[[length(suitab) - 1]] <- NA
+kernel <- calculate_dispersal_kernel(
+    max_dispersal_dist = 2,
+    kfun = negative_exponential_function,
+    mean_dispersal_dist = 1.2)
+res <- dispersal(
+    dispersal_kernel = kernel,
+    abundance = abu,
+    weights = suitab
+)
+expect_false(
+    {
+        any(is.na(res))
+    },
+    info = "dispersal doesn't spread NA's."
+)

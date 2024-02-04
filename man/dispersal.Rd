@@ -27,7 +27,11 @@ If a matrix of weights is supplied, the individuals will redistribute
 within the dispersal kernel according to the weights.
 I.e. individuals will more likely move towards areas with a higher
 weight, if they are within their dispersal distance.
-Note that the abundance is modified in place, to optimize performance.
+Note:
+\itemize{
+\item the abundance is modified in place, to optimize performance.
+\item Any \code{NA} or \code{NaN} in abundance or weights will be (in-place) replaced by \code{0}.
+}
 }
 \examples{
 n <- 10
