@@ -1,3 +1,9 @@
+# metaRange 1.1.2
+
+* Set the current environment as soon as the simulation is initialized.
+* Subsequently: make sure that the environment actually has values, as
+    otherwise `terra::as.matrix` fails. Also update examples because of that.
+
 # metaRange 1.1.1
 
 * Safeguard the dispersal function for NA in the inputs.
