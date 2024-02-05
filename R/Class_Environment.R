@@ -37,7 +37,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' @field current an R environment that holds all the
         #' environmental values influencing the present time step of the
         #' simulation as regular 2D R matrices.
-        current = new.env(),
+        current = NULL,
 
         # ---------- 2 initialization -----------
 
@@ -55,6 +55,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' @return An `<metaRangeEnvironment>` object
         initialize = function(sourceSDS = NULL) {
             private$set_source_environment(sourceSDS)
+            self$current <- new.env()
             lockBinding("sourceSDS", self) # make sourceSDS non-mutable
         },
 
@@ -99,6 +100,18 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' env$print()
         #' @return `<invisible self>`
         print = function() {
+            cat("Fields: \n")
+            cat("$current ==== the environment at the current time step\n")
+            cat("classes     : all -> matrix\n")
+            cat("number      : ", length(names(self$current)), "\n", sep = "")
+            cat("names       : ",
+                ifelse(
+                    length(names(self$current)) == 0,
+                    "[NULL]",
+                    paste0(names(self$current), collapse = ", ")),
+                "\n", sep = ""
+            )
+            cat("$sourceSDS == the source raster data of the environment\n")
             show(self$sourceSDS)
             return(invisible(self))
         }
