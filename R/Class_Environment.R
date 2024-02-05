@@ -50,7 +50,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' their names will used throughout the simulation to refer to them.
         #' @examples
         #' # Note: Only for illustration purposes.
-        #' env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(nrow = 2, ncol = 2)))
+        #' env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
         #' env
         #' @return An `<metaRangeEnvironment>` object
         initialize = function(sourceSDS = NULL) {

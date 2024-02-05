@@ -1,4 +1,4 @@
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species(c("s1", "s2"))
 sim$add_species(names = c("s3", "s4"))

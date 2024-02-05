@@ -17,7 +17,7 @@ that are necessary to run a simulation.
 ## Method `metaRangeSimulation$new`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim
 
@@ -25,7 +25,7 @@ sim
 ## Method `metaRangeSimulation$add_globals`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_globals(a = 1, b = 2)
 sim$globals$a
@@ -35,7 +35,7 @@ sim$globals$a
 ## Method `metaRangeSimulation$set_time_layer_mapping`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2, nlyr = 4))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$set_time_layer_mapping(1:2)
 stopifnot(identical(sim$time_step_layer, 1:2))
@@ -44,7 +44,7 @@ stopifnot(identical(sim$time_step_layer, 1:2))
 ## Method `metaRangeSimulation$get_current_time_step`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$get_current_time_step()
 #> [1] 1
@@ -53,7 +53,7 @@ sim$get_current_time_step()
 ## Method `metaRangeSimulation$add_species`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species(c("species_1", "species_2"))
 sim$species_1
@@ -62,7 +62,7 @@ sim$species_1
 ## Method `metaRangeSimulation$species_names`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_species("species_2")
@@ -73,7 +73,7 @@ sim$species_names()
 ## Method `metaRangeSimulation$add_process`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_process("species_1", "species_process_1", function() {message("process_1")}, 1)
@@ -85,7 +85,7 @@ sim$processes$global_process_2
 ## Method `metaRangeSimulation$add_traits`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_traits("species_1", population_level = TRUE, a = 1)
@@ -131,7 +131,7 @@ sim$begin()
 ## Method `metaRangeSimulation$print`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$print()
 
@@ -139,7 +139,7 @@ sim$print()
 ## Method `metaRangeSimulation$summary`
 ## ------------------------------------------------
 
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$summary()
 }
@@ -219,7 +219,7 @@ A \verb{<metaRangeSimulation>} object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim
 }
@@ -251,7 +251,7 @@ through the 'globals' field.}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_globals(a = 1, b = 2)
 sim$globals$a
@@ -284,7 +284,7 @@ that describe which environmental layer to use at each time step.}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2, nlyr = 4))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$set_time_layer_mapping(1:2)
 stopifnot(identical(sim$time_step_layer, 1:2))
@@ -308,7 +308,7 @@ Get current time step
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$get_current_time_step()
 #> [1] 1
@@ -339,7 +339,7 @@ Adds new species to the simulation
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species(c("species_1", "species_2"))
 sim$species_1
@@ -363,7 +363,7 @@ Returns the names of all species in the simulation.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_species("species_2")
@@ -415,7 +415,7 @@ via the \link{metaRangePriorityQueue}\verb{$enqueue()} method.}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_process("species_1", "species_process_1", function() {message("process_1")}, 1)
@@ -458,7 +458,7 @@ Named means: \code{Name = value} e.g. \code{a = 1}.}
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$add_species("species_1")
 sim$add_traits("species_1", population_level = TRUE, a = 1)
@@ -551,7 +551,7 @@ Prints information about the simulation to the console
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$print()
 }
@@ -575,7 +575,7 @@ it to the console
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$summary()
 }
