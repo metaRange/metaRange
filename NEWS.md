@@ -1,3 +1,10 @@
+# metaRange 1.1.3
+
+* Fix bug in the initialization of the "current" environment which would
+    always point to the same memory adress, instead of a new one for each
+    object / simulation.
+* Improve print method for the simulation environment.
+
 # metaRange 1.1.2
 
 * Set the current environment as soon as the simulation is initialized.
