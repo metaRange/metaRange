@@ -37,3 +37,61 @@ expect_true(
 expect_true(calculate_suitability(tmax, topt, tmin, 25) == 1,
     info = "testing that suitability is 1 at optimal value"
 )
+
+tmax <- seq(40, 50, length.out = 10)
+tmin <- seq(10, 20, length.out = 10)
+topt <- seq(25, 35, length.out = 10)
+tenv <- seq(10, 40, length.out = 10)
+expect_true(
+    all.equal(
+        calculate_suitability_R(tmax, topt, tmin, tenv),
+        calculate_suitability(tmax, topt, tmin, tenv)
+    ),
+    info = "testing that suitability is the same in c++ and R pt.2"
+)
+
+tmax <- seq(40, 50, length.out = 11)
+tmin <- seq(10, 20, length.out = 10)
+topt <- seq(25, 35, length.out = 10)
+tenv <- seq(10, 40, length.out = 10)
+expect_error(
+    calculate_suitability(tmax, topt, tmin, tenv),
+    info = "testing that error when inputs are of different lengths pt.1"
+)
+tmax <- seq(40, 50, length.out = 10)
+tmin <- seq(10, 20, length.out = 11)
+topt <- seq(25, 35, length.out = 10)
+tenv <- seq(10, 40, length.out = 10)
+expect_error(
+    calculate_suitability(tmax, topt, tmin, tenv),
+    info = "testing that error when inputs are of different lengths pt.2"
+)
+tmax <- seq(40, 50, length.out = 10)
+tmin <- seq(10, 20, length.out = 10)
+topt <- seq(25, 35, length.out = 11)
+tenv <- seq(10, 40, length.out = 10)
+expect_error(
+    calculate_suitability(tmax, topt, tmin, tenv),
+    info = "testing that error when inputs are of different lengths pt.3"
+)
+tmax <- seq(40, 50, length.out = 10)
+tmin <- seq(10, 20, length.out = 10)
+topt <- seq(25, 35, length.out = 10)
+tenv <- seq(10, 40, length.out = 11)
+expect_error(
+    calculate_suitability(tmax, topt, tmin, tenv),
+    info = "testing that error when inputs are of different lengths pt.4"
+)
+
+tmax <- seq(40, 50, length.out = 4)
+tmax[[1]] <- NA
+tmin <- seq(10, 20, length.out = 4)
+tmin[[2]] <- NA
+topt <- seq(25, 35, length.out = 4)
+topt[[3]] <- NA
+tenv <- seq(10, 40, length.out = 4)
+tenv[[4]] <- NA
+expect_true(
+    all(calculate_suitability(tmax, topt, tmin, tenv) == 0),
+    info = "testing that error when inputs contain NAs"
+)
