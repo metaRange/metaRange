@@ -274,7 +274,7 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' \doi{10.1111/j.1466-8238.2009.00492.x}
 #'
 #' @export
-ricker_allee_reproduction_model <- function(abundance, reproduction_rate, carrying_capacity, allee_threshold, overcomp_factor = 1.0) {
+ricker_allee_reproduction_model <- function(abundance, reproduction_rate, carrying_capacity, allee_threshold, overcomp_factor = as.numeric( c(1.0))) {
     .Call('_metaRange_ricker_allee_reproduction_model', PACKAGE = 'metaRange', abundance, reproduction_rate, carrying_capacity, allee_threshold, overcomp_factor)
 }
 

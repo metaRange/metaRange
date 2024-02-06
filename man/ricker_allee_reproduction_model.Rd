@@ -9,7 +9,7 @@ ricker_allee_reproduction_model(
   reproduction_rate,
   carrying_capacity,
   allee_threshold,
-  overcomp_factor = 1
+  overcomp_factor = as.numeric(c(1))
 )
 }
 \arguments{

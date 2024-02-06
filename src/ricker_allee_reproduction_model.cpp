@@ -120,10 +120,11 @@ NumericVector ricker_allee_reproduction_model(
         NumericVector reproduction_rate,
         NumericVector carrying_capacity,
         NumericVector allee_threshold,
-        double overcomp_factor = 1.0) {
+        NumericVector overcomp_factor = NumericVector::create(1.0)) {
     const int size = abundance.size();
+    // code path 1: all parameters besides abundance are scalars
     if (reproduction_rate.size() == 1 && carrying_capacity.size() == 1 &&
-        allee_threshold.size() == 1) {
+        allee_threshold.size() == 1 && overcomp_factor.size() == 1) {
         if (carrying_capacity[0] <= 0 ||
             allee_threshold[0] >= carrying_capacity[0]) {
             abundance = abundance * 0;
@@ -148,7 +149,7 @@ NumericVector ricker_allee_reproduction_model(
         for (int i = 0; i < size; i++) {
             if (abundance[i] > 0) {
                 abundance[i] = abundance[i] *
-                               exp(reproduction_rate[0] * overcomp_factor *
+                               exp(reproduction_rate[0] * overcomp_factor[0] *
                                    (((carrying_capacity[0] - abundance[i]) *
                                      (abundance[i] - allee_threshold[0])) /
                                     (C_minus_A_squared)));
@@ -158,14 +159,24 @@ NumericVector ricker_allee_reproduction_model(
             }
         }
         return abundance;
+    }
+    // code path 2: all parameters have the same size (besides overcomp_factor)
+    if ((size == reproduction_rate.size()) &&
+        (size == carrying_capacity.size()) &&
+        (size == allee_threshold.size())) {
 
-    } else {
-        if ((size != reproduction_rate.size()) ||
-            (size != carrying_capacity.size()) ||
-            (size != allee_threshold.size())) {
-            stop("The sizes of abundance, reproduction_rate, carrying_capacity "
-                 "and allee_threshold are not equal.");
+        // the following handels the case where overcomp_factor is on its default value
+        // without unnecessary resizing and memory allocation and without the need to
+        // have a third code path for this case
+        int oc_index = 0;
+        if (overcomp_factor.size() == 1) {
+            oc_index = 0;
+        } else if (overcomp_factor.size() == size) {
+            oc_index = 1;
+        } else {
+            stop("The size of overcomp_factor is not equal to 1 or the size of abundance.");
         }
+
         for (int i = 0; i < size; i++) {
             if (carrying_capacity[i] <= 0 ||
                 allee_threshold[i] >= carrying_capacity[i]) {
@@ -179,11 +190,11 @@ NumericVector ricker_allee_reproduction_model(
             if (abundance[i] > 0) {
                 abundance[i] =
                         abundance[i] *
-                        exp(reproduction_rate[i] * overcomp_factor *
+                        exp(reproduction_rate[i] * overcomp_factor[i * oc_index] *
                             (((carrying_capacity[i] - abundance[i]) *
-                              (abundance[i] - allee_threshold[i])) /
-                             (pow(carrying_capacity[i] - allee_threshold[i],
-                                  2))));
+                                (abundance[i] - allee_threshold[i])) /
+                                (pow(carrying_capacity[i] - allee_threshold[i],
+                                    2))));
             }
             if (NumericVector::is_na(abundance[i])) {
                 abundance[i] = 0.0;
@@ -191,4 +202,7 @@ NumericVector ricker_allee_reproduction_model(
         }
         return abundance;
     }
+    // if we made it here something went wrong
+    stop("The sizes of the inputs must either all be equal to the abundence"
+            " or all be of length 1.");
 }
