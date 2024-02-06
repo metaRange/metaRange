@@ -165,7 +165,7 @@ tabu <- 1:20
 correct_vec <- rep(0, 20)
 tr <- rep(2, 20)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- sqrt(tr)
 expect_equal(
     ricker_allee_reproduction_model_R(tabu, tr, tc, ta, toc),
@@ -177,7 +177,7 @@ tabu <- 1:20
 correct_vec <- rep(0, 20)
 tr <- rep(2, 20)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 expect_equal(
     ricker_allee_reproduction_model_R(tabu, tr, tc, ta, tr),
     ricker_allee_reproduction_model(tabu, tr, tc, ta, tr),
@@ -187,7 +187,7 @@ expect_equal(
 tabu <- 1:20
 tr <- rep(2, 100)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- rep(0.5, 20)
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
@@ -207,7 +207,7 @@ expect_error(
 tabu <- 1:20
 tr <- rep(2, 20)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- rep(0.5, 21)
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
@@ -216,7 +216,7 @@ expect_error(
 tabu <- 1:20
 tr <- rep(2, 20)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- rep(0.5, 19)
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
@@ -225,7 +225,7 @@ expect_error(
 tabu <- 1
 tr <- rep(2, 20)
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- 1
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
@@ -234,7 +234,7 @@ expect_error(
 tabu <- 1:20
 tr <- 2
 tc <- rep(100, 20)
-ta <- rep(120, 20)
+ta <- rep(0, 20)
 toc <- rep(1, 20)
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
@@ -243,9 +243,17 @@ expect_error(
 tabu <- 1
 tr <- 2
 tc <- 100
-ta <- 120
+ta <- 0
 toc <- c(1, 2)
 expect_error(
     ricker_allee_reproduction_model(tabu, tr, tc, ta, toc),
+    info = "Test error if wrong vector size pt.5"
+)
+tabu <- 1
+tr <- NA
+tc <- 100
+ta <- 0
+expect_true(
+    ricker_allee_reproduction_model(tabu, tr, tc, ta) == 0,
     info = "Test error if wrong vector size pt.5"
 )
