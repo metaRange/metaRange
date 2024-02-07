@@ -292,3 +292,21 @@ expect_true(
     is.null(dim(ricker_reproduction_model(tabu, tr, tc))),
     info = "testing that dimensionality is preserved pt.4"
 )
+
+tabu <- numeric(0)
+tr <- numeric(0)
+tc <- numeric(0)
+res <- ricker_reproduction_model(tabu, tr, tc)
+expect_equal(
+    res, numeric(0),
+    info = "testing that empty vectors return empty vectors"
+)
+tabu <- numeric(0)
+tr <- numeric(0)
+tc <- numeric(0)
+ta <- numeric(0)
+res <- ricker_allee_reproduction_model(tabu, tr, tc, ta)
+expect_equal(
+    res, numeric(0),
+    info = "testing that empty vectors return empty vectors pt.2"
+)

@@ -555,3 +555,16 @@ expect_true(
     is.null(dim(res)),
     info = "testing that dimensionality is preserved pt.2"
 )
+
+res <- metabolic_scaling(
+    normalization_constant = const,
+    scaling_exponent = expon,
+    mass = as.numeric(c()),
+    temperature = as.numeric(c()),
+    E = E,
+    k = k
+)
+expect_equal(
+    res, numeric(0),
+    info = "testing that empty vectors return empty vectors"
+)

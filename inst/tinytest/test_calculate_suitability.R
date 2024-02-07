@@ -113,3 +113,12 @@ expect_true(
     is.null(dim(calculate_suitability(tmax, topt, tmin, tenv))),
     info = "testing that dimensionality is preserved pt.2"
 )
+
+tmax <- as.numeric(c())
+tmin <- as.numeric(c())
+topt <- as.numeric(c())
+tenv <- as.numeric(c())
+expect_equal(
+    calculate_suitability(tmax, topt, tmin, tenv), numeric(0),
+    info = "testing that empty vectors return empty vectors"
+)
