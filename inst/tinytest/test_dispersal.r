@@ -110,6 +110,27 @@ expect_false(
     info = "dispersal doesn't spread NA's pt.2"
 )
 
+
+n <- 10
+n2 <- n^2
+abu <- matrix(1:n2, nrow = n, ncol = n)
+suitab <- matrix(seq(1, 0.01, length.out = n2), nrow = n, ncol = n)
+kernel <- matrix(c(
+    0, 0, 0,
+    0, 1, 0,
+    0, 0, 0),
+    nrow = 3, ncol = 3)
+res <- dispersal(
+    dispersal_kernel = kernel,
+    abundance = abu,
+    weights = suitab
+)
+expect_equal(
+    res,
+    abu,
+    info = "dispersal with identity kernel stays the same."
+)
+
 # test the stupid cases
 n <- 1
 n2 <- n^2
