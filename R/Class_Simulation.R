@@ -454,13 +454,11 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 if (!private$continue_execution) break
                 if (verbosity > 0L) {
                     message(
-                        # "end of time step: ", private$current_time_step, "\n",
                         format(
                             round(private$current_time_step / self$number_time_steps * 100, digits = 0),
                             width = 3
                         ), " % done | ",
-                        format(
-                            difftime(Sys.time(), time_step_start) *
+                        format((Sys.time() - time_step_start) *
                                 (self$number_time_steps - private$current_time_step),
                             digits = 2
                         ), " remaining (estimate)\n",
