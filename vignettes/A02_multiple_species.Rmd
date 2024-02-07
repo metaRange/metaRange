@@ -109,8 +109,9 @@ Until now, we have two species in the simulation that are virtually identical.
 In order to make them behave differently, we can add different processes to them.
 
 ## Reproduction
-We are going to use two different reproduction models and we will let the habitat quality influence the carrying capacity.
-In the case of species 1, we will use the same reproduction model from the previous vignette `ricker_reproduction_model`.
+As an example, we are going to use different reproduction models for the two species.
+In the case of species 1, we will use the same reproduction model from the previous vignette `ricker_reproduction_model`
+and we will let the habitat quality influence the carrying capacity.
 ```{r Reproduction}
 sim$add_process(
     species = "species_1",
@@ -130,7 +131,7 @@ sim$add_process(
 ```
 In the case of species 2, we will use a Ricker model with additional allee effects `ricker_allee_reproduction_model`
 as described in: Cabral, J.S. and Schurr, F.M. (2010) [Ref. 1].
-This means the populations that are smaller than the allee threshold will have a negative per-capacity reproduction rate.
+This means the populations that are smaller than the allee threshold will have a negative per-capacity reproduction rate and go extinct over time.
 The Allee effects is also known as "depensation" or "negative density dependence" and can describe
 multiple different mechanisms that lead to lower reproduction rates at small population sizes as for example
 difficulties finding a mate, or increased predation pressure (see: Liermann and Hilborn, 2001) [Ref. 2].
@@ -183,7 +184,8 @@ plot(
 )
 ```
 
-Note how the populations of species 2 that are smaller than the allee threshold going extinct.
+Note how in areas of lower habitat quality, the populations of species 2 are extinct since their abundance was lower than the Allee threshold.
+If we would combine this with a dispersal process, this could lead to areas that are colinized by species 2, but are permanent "sinks" for the species, since they would depend on immigration from other areas and are not self-sustaing.
 
 
 # References:
