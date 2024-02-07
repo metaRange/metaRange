@@ -82,6 +82,7 @@ NumericVector calculate_suitability(
 
     const int max_size = venv.size();
     NumericVector result(max_size);
+    result.attr("dim") = venv.attr("dim");
 
     if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
         const double v_max = vmax[0];
@@ -106,7 +107,6 @@ NumericVector calculate_suitability(
                 result[i] = 0.0;
             }
         }
-        result.attr("dim") = venv.attr("dim");
         return result;
     }
     if (vmax.size() == vopt.size() &&

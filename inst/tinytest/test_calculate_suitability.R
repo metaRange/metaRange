@@ -95,3 +95,21 @@ expect_true(
     all(calculate_suitability(tmax, topt, tmin, tenv) == 0),
     info = "testing that error when inputs contain NAs"
 )
+
+tmax <- matrix(seq(40, 50, length.out = 4), ncol = 4, nrow = 4)
+tmin <- matrix(seq(10, 20, length.out = 4), ncol = 4, nrow = 4)
+topt <- matrix(seq(25, 35, length.out = 4), ncol = 4, nrow = 4)
+tenv <- matrix(seq(10, 40, length.out = 4), ncol = 4, nrow = 4)
+expect_true(
+    all(dim(calculate_suitability(tmax, topt, tmin, tenv)) == c(4, 4)),
+    info = "testing that dimensionality is preserved"
+)
+
+tmax <- seq(40, 50, length.out = 4)
+tmin <- seq(10, 20, length.out = 4)
+topt <- seq(25, 35, length.out = 4)
+tenv <- seq(10, 40, length.out = 4)
+expect_true(
+    is.null(dim(calculate_suitability(tmax, topt, tmin, tenv))),
+    info = "testing that dimensionality is preserved pt.2"
+)

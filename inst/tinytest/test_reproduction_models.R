@@ -257,3 +257,38 @@ expect_true(
     ricker_allee_reproduction_model(tabu, tr, tc, ta) == 0,
     info = "Test error if wrong vector size pt.5"
 )
+
+
+tabu <- matrix(1:16, ncol = 4, nrow = 4)
+tr <- matrix(0.5, ncol = 4, nrow = 4)
+tc <- matrix(100, ncol = 4, nrow = 4)
+ta <- matrix(0, ncol = 4, nrow = 4)
+expect_true(
+    all(dim(ricker_allee_reproduction_model(tabu, tr, tc, ta)) == c(4, 4)),
+    info = "testing that dimensionality is preserved"
+)
+
+tabu <- 1:4
+tr <- 0.5
+tc <- 90
+ta <- 0
+expect_true(
+    is.null(dim(ricker_allee_reproduction_model(tabu, tr, tc, ta))),
+    info = "testing that dimensionality is preserved pt.2"
+)
+
+tabu <- matrix(1:16, ncol = 4, nrow = 4)
+tr <- matrix(0.5, ncol = 4, nrow = 4)
+tc <- matrix(100, ncol = 4, nrow = 4)
+expect_true(
+    all(dim(ricker_reproduction_model(tabu, tr, tc)) == c(4, 4)),
+    info = "testing that dimensionality is preserved pt.3"
+)
+
+tabu <- 1:4
+tr <- 0.5
+tc <- 90
+expect_true(
+    is.null(dim(ricker_reproduction_model(tabu, tr, tc))),
+    info = "testing that dimensionality is preserved pt.4"
+)
