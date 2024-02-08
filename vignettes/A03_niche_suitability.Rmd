@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 ```
 
 
-How environmental conditions influence the distribution of species is a central study question in ecology.
-In this tutorial we will show how to implement a simple niche suitability model in metaRange.
-For this, we will create a landscape with two environmental variables (temperature and precipitation) and then add two species to it, that have different environmental preferences.
-We are going to give the two species the same traits otherwise and then run the simulation for 10 time steps to see the impact of the different environmental preferences.
+The question of how the distribution of species is influenced by environmental conditions is an important topic of study in ecology.
+Because of that, we will show in this tutorial how to implement a simple niche suitability model in metaRange.
+For this, we will create a landscape with two environmental variables (temperature and precipitation) and then add two similar species to it that only differ in their environmental preferences.
+At the end we can run the simulation and compare how this difference affects the distribution of the species.
 
 # Setup
 First we load the packages and create the example landscape.
@@ -97,21 +97,20 @@ Contrary to the above, some traits may not require to be stored at the populatio
 In this example, this could be the case for the environmental preferences of a species.
 If we assume that they are a property of the species as a whole (i.e. the same for all populations), we can set the parameter `population_level` to `FALSE` and the traits will be added as they are, without further processing.
 
-In order to make the simulation more interesting, we can give both species different environmental preferences for the two environmental variables in the simulation environment (temperature & precipitation).
+As mentioned in the introduction paragraph, we will give both species different environmental preferences for the two environmental variables in the simulation environment (temperature & precipitation).
 
 Note that the names of the traits are arbitrary and can be chosen by the user and that there is no predetermined connection between e.g. "min_temperature" and the temperature variable in the environment.
-To establish these connections, the user needs to add species processes that access the correct traits and use them in a sensible way.
-This is why meaningful trait names are important.
+To establish these connections, the user needs to add processes to the species that access the correct traits and use them in a sensible way (This is why meaningful trait names are important).
 ```{r add_trait_3}
 sim$add_traits(
     species = "species_1",
     population_level = FALSE,
-    max_temperature = 300, # Kelvin
-    optimal_temperature = 288,
-    min_temperature = 280,
-    max_precipitation = 1000, # mm
-    optimal_precipitation = 700,
-    min_precipitation = 200
+    max_temperature = 300,     # Kelvin
+    optimal_temperature = 288, # Kelvin
+    min_temperature = 280,     # Kelvin
+    max_precipitation = 1000,    # mm
+    optimal_precipitation = 700, # mm
+    min_precipitation = 200      # mm
 )
 sim$add_traits(
     species = "species_2",
@@ -129,8 +128,8 @@ sim$add_traits(
 # Adding processes
 
 ## Calculate the suitability
-To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a formula published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt in 1999 (eq:4 in Ref. 2).
-The formula takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
+To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a equation published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt in 1999 (eq:4 in Ref. 2).
+The equation takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
 
 ```{r calculate_suitability, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}
 min_value <- 270

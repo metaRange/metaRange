@@ -14,11 +14,11 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 ```
-Dispersal is a key process in the lifecycle of many species and can have a large impact on the population dynamics and the ability of a species to survive and adapt to a changing environment.
+Dispersal is a key process in the life cycle of many species and can have a large impact on the population dynamics and the ability of a species to survive and adapt to a changing environment.
 `metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
 
 Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
-If one is not familiar with this topics, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" (Ref. 1).
+If one is not familiar with this topic, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" (Ref. 1).
 
 To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population to move to its surrounding habitat.
 Since this is a probability distribution, this dispersal kernel can be multiplied with each cell of the abundance matrix to get the new abundance of the species in each cell after dispersal.
@@ -59,7 +59,7 @@ For many species, dispersal is not solely random, but directed towards a specifi
 To allow simulations that include this, the `dispersal()` function gives the user the option to supply a third argument, `weights`, which is used to redistribute the individuals within the dispersal kernel.
 If supplied, the weights need to be a matrix of the same dimensions as the environment and the values should be in the range of `[0-1]`.
 
-In this example use `calculate_suitability()` to create a matrix that represent a general habitat suitability and use it as weights, which would correspond to an ecological meaning of "individuals moving towards a more suitable habitat during dispersal, if they have the ability to reach it".
+In this example we use `calculate_suitability()` to create a matrix that represent a general habitat suitability and use it as weights, which would correspond to an ecological meaning of "individuals moving towards a more suitable habitat during dispersal, if they have the ability to perceive and reach it".
 
 
 ## Basic setup
@@ -178,7 +178,7 @@ plot(sim, "species_2", "abundance", col = plot_cols)
 ```
 
 Note how the plot for species two is less "blurry" and the different scales of the two plots.
-While the first species looses individuals by dispersing into unsuitable habitat, the second species can keep a much larger population size, by moving towards more suitable habitat during dispersal.
+While the first species loses individuals by dispersing into unsuitable habitat, the second species can keep a much larger population size, by moving towards more suitable habitat during dispersal.
 
 ## References
 (1) Nathan, R., Klein, E., Robledo-Arnuncio, J.J. and Revilla, E. (2012)

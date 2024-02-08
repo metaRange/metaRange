@@ -56,7 +56,9 @@ sim$add_traits(
 )
 ```
 
-To highlight the competition, we will give both species the same preferred values for their optimal environmental niches, but species 2 will be able to tolerate lower and higher values for both niches compared to species 1.
+## Competition
+We are going to construct a simple model that simulates (asymmetric) competition between two species.
+First, we will give both species the same value for their optimal environmental niche values, but species 2 will be able to tolerate lower and higher values for both niches compared to species 1.
 
 ```{r suitability1, fig.cap="Figure 1: Suitability curve for the temperature niches of species 1 (blue) and species 2 (red)."}
 opt_temp <- 285
@@ -175,7 +177,6 @@ sim$add_process(
 )
 ```
 
-## Competition
 The process that simulates competition between the two species will reduce the carrying capacity of one species based on the abundance of the other species.
 For simplicity, we will assume asymmetric competition, with species 1 being the superior competitor.
 Therefore, we will only reduce the carrying capacity of species 2 based on the abundance of species 1.
@@ -334,7 +335,7 @@ plot(sim, "species_1", "abundance", main = "Sp: 1 abundance", col = plot_cols)
 plot(sim, "species_2", "abundance", main = "Sp: 2 abundance", col = plot_cols)
 ```
 
-Note how species 2 occupies the same areas as species 1 despite having a completely different climatic niche.
+We can see that species 2 occupies the same areas as species 1 despite having a vastly different climatic niche.
 Reminder:
 
 **species_1**
@@ -359,5 +360,5 @@ min_precipitation = 0
 
 
 ## Final notes
-This tutorial only shows the very basic options of species interactions that are possible with metaRange.
-One could also have a simulation that includes both competition and predation, or different (i.e. more complex) forms of these two processes or other processes such as e.g. mutualism.
+This tutorial only shows the *very basic* options of species interactions that are possible with metaRange.
+One could also have a simulation that includes both competition and predation, or different (i.e. much more complex) forms of these two processes or other processes such as e.g. mutualism.
