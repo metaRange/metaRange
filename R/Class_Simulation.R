@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #
@@ -82,7 +82,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' Will be set automatically if none is specified.
         #' @return A `<metaRangeSimulation>` object.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim
         initialize = function(source_environment, ID = NULL, seed = NULL) {
@@ -124,7 +124,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' Variables to add to the simulation. They will be saved and accessible
         #' through the 'globals' field.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$add_globals(a = 1, b = 2)
         #' sim$globals$a
@@ -134,7 +134,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             globals_to_add <- list(...)
             if (getOption("metaRange.verbose", default = FALSE) > 0L) {
                 message("adding global variables: ")
-                message(str(globals_to_add), appendLF = FALSE)
+                message(utils::str(globals_to_add), appendLF = FALSE)
             }
             list2env(globals_to_add, envir = self$globals)
             return(invisible(self))
@@ -144,7 +144,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' @param x `<integer>` vector of layer indices
         #' that describe which environmental layer to use at each time step.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2, nlyr = 4))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$set_time_layer_mapping(1:2)
         #' stopifnot(identical(sim$time_step_layer, 1:2))
@@ -163,7 +163,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             self$time_step_layer <- x
             self$number_time_steps <- length(x)
             private$set_current_time_step(1L)
-
+            self$environment$set_current(self$time_step_layer[[private$current_time_step]])
             if (getOption("metaRange.verbose", default = FALSE)) {
                 message("number of time steps: ", self$number_time_steps)
                 message("time step layer mapping: ", paste(x, collapse = ", "))
@@ -173,7 +173,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         #' @description Get current time step
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$get_current_time_step()
         #' #> [1] 1
@@ -182,38 +182,37 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             return(private$current_time_step)
         },
 
-        #' @description Adds a new species to the simulation
-        #' @param name `<string>` name or ID of the species.
+        #' @description Adds new species to the simulation
+        #' @param names `<character>` names of the species to add.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
-        #' sim$add_species("species_1")
+        #' sim$add_species(c("species_1", "species_2"))
         #' sim$species_1
         #' @return `<invisible boolean>` `TRUE` on success `FALSE` on failure.
-        add_species = function(name) {
+        add_species = function(names) {
+            checkmate::assert_character(x = names, min.chars = 1, max.chars = 64, any.missing = FALSE)
+            checkmate::assert_names(x = names, type = "strict", disjunct.from = ls(envir = self, sorted = FALSE))
+            if (any(grepl("^\\.", names))) {
+                stop("Species names can not start with a dot.")
+            }
             verbosity <- getOption("metaRange.verbose", default = FALSE)
             if (verbosity > 0L) message("adding species")
-            if (!checkmate::test_string(name)) {
-                message("failed to add species. Argument 'name' must be a string")
-                return(invisible(FALSE))
+            for (name in names) {
+                if (is.null(self$environment) | !checkmate::test_class(self$environment, "metaRangeEnvironment")) {
+                    message("cannot add species to a simulation without environment. Please add environment first.")
+                    return(invisible(FALSE))
+                }
+                self[[name]] <- metaRangeSpecies$new(name = name, sim = self)
+                if (verbosity > 0L) message("name: ", name)
             }
-            if (is.null(self$environment) | !checkmate::test_class(self$environment, "metaRangeEnvironment")) {
-                message("cannot add species to a simulation without environment. Please add environment first.")
-                return(invisible(FALSE))
-            }
-            if (name %in% names(self)) {
-                message("Species already present in simulation. Use a different name.")
-                return(invisible(FALSE))
-            }
-            self[[name]] <- metaRangeSpecies$new(name = name, sim = self)
-            if (verbosity > 0L) message("Name: ", name)
             return(invisible(TRUE))
         },
 
         #' @description Returns the names of all species in the simulation.
         #' @return `<character>` vector of species names
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$add_species("species_1")
         #' sim$add_species("species_2")
@@ -232,7 +231,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         #' @description Adds a process to the simulation.
-        #' @param species `<string>` Name of the species that the process should be added to.
+        #' @param species `<character>` Names of the species that the process should be added to.
         #' If `NULL` the process will be added to the simulation object itself.
         #' @param process_name `<string>` Name of the process to add.
         #' @param process_fun `<named function>` The function to call when the process gets executed.
@@ -243,7 +242,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' which means that in order to execute the process, it has to be added manually
         #' via the [metaRangePriorityQueue]`$enqueue()` method.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$add_species("species_1")
         #' sim$add_process("species_1", "species_process_1", function() {message("process_1")}, 1)
@@ -299,7 +298,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         #' @description Adds traits to a species.
-        #' @param species `<string>` Name of the species that the traits should be added to.
+        #' @param species `<character>` Names of the species that the traits should be added to.
         #' @param population_level `<boolean>` If `TRUE` the traits will be added at the population level
         #' (i.e. as a matrix with same dimensions (nrow/ncol) as the environment with one value for each population).
         #' This means that the traits either need to be single values that will be extended
@@ -309,7 +308,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' Named means: `Name = value` e.g. `a = 1`.
         #' @return `<invisible self>`.
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$add_species("species_1")
         #' sim$add_traits("species_1", population_level = TRUE, a = 1)
@@ -360,6 +359,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                     dim_r <- dim(self$environment$sourceSDS)[c(1, 2)]
                     if (!population_level || is.matrix(trait_list[[i]]) && all(dim_m == dim_r)) {
                         self[[sp]]$traits[[names(trait_list)[i]]] <- trait_list[[i]]
+                        # necessary hack to make sure that the objects are not stored as references
+                        val <- trait_list[[i]][[1]]
+                        self[[sp]]$traits[[names(trait_list)[i]]][[1]] <- val
                     } else {
                         self[[sp]]$traits[[names(trait_list)[i]]] <- matrix(
                             trait_list[[i]],
@@ -452,22 +454,26 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 if (!private$continue_execution) break
                 if (verbosity > 0L) {
                     message(
-                        "end of time step: ", private$current_time_step, "\n",
-                        format((Sys.time() - time_step_start) * (self$number_time_steps - private$current_time_step),
+                        format(
+                            round(private$current_time_step / self$number_time_steps * 100, digits = 0),
+                            width = 3
+                        ), " % done | ",
+                        format((Sys.time() - time_step_start) *
+                                (self$number_time_steps - private$current_time_step),
                             digits = 2
                         ), " remaining (estimate)\n",
-                        round(private$current_time_step / self$number_time_steps * 100, digits = 2), " % done\n"
+                        appendLF = FALSE
                     )
                 }
                 if (!private$next_time_step()) break
             }
             if (verbosity > 0L) {
-                message("Simulation: '", self$ID, "' finished\n")
+                message("\nSimulation: '", self$ID, "' finished")
             }
             on.exit(
                 if (verbosity > 0L) {
-                    message("Exiting the Simulation\n")
-                    message("Runtime: ", format(Sys.time() - start_time_sim, digits = 2), "\n")
+                    message("Exiting the Simulation")
+                    message("Runtime: ", format(Sys.time() - start_time_sim, digits = 2))
                 }
             )
             return(invisible(self))
@@ -475,7 +481,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         #' @description Prints information about the simulation to the console
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$print()
         #' @return `<invisible self>`
@@ -493,10 +499,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $processes\n")
             cat("  $seed\n")
             if (length(print_info) > 0) {
-                cat("Species: \n")
-                for (i in seq_along(print_info)) {
-                    cat("  $", print_info[i], "\n", sep = "")
-                }
+                cat("Species: [", length(print_info), "]\n", sep = "")
+                utils::str(print_info, give.head = FALSE)
             } else {
                 cat("Species: none\n")
             }
@@ -518,7 +522,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' @description Summarizes information about the simulation and outputs
         #' it to the console
         #' @examples
-        #' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$summary()
         #' @return `<invisible self>`
@@ -529,7 +533,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("Time step layer mapping: ", self$time_step_layer, "\n")
             cat("Current time step: ", private$current_time_step, "\n")
             cat("Seed: ", self$seed, "\n")
-            cat("Species:\n", paste(self$species_names(), collapse = ", "), "\n")
+            print_info <- self$species_names()
+            cat("Species: ", length(print_info), "\n", sep = "")
+            utils::str(print_info, give.head = FALSE)
             cat("Simulation level processes:\n")
             print(names(self$processes))
             cat("Gobal variables:\n")
@@ -597,6 +603,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # @return `<invisible self>`
         set_sim_environment = function(sds = NULL) {
             checkmate::assert_class(sds, "SpatRasterDataset")
+            for (i in seq_len(length(sds))) {
+                checkmate::assert_true(terra::hasValues(sds[[i]]))
+            }
             self$environment <- metaRangeEnvironment$new(sourceSDS = sds)
             self$set_time_layer_mapping(seq_len(min(terra::nlyr(self$environment$sourceSDS))))
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+// Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -19,17 +19,39 @@ using namespace Rcpp;
 
 //' Ricker reproduction model
 //'
-//' An implementation of the "classic" Ricker reproduction model (Ricker, 1954).
+//' An implementation of the Ricker reproduction model (Ricker, 1954) with
+//' an extension to handle negative reproduction rates.
 //'
 //' @param abundance `<numeric>` vector (or matrix) of abundances.
 //' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
 //' @param carrying_capacity `<numeric>` vector (or matrix) of carrying capacities.
-//' @details
-//' ## Equation:
-//' \deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
 //'
-//' Note that the input should have an equal size and that the input abundance
-//' should be positive for the results to make sense.
+//' @details
+//' ## Equations:
+//' If \eqn{reproduction\_rate >= 0} (Ricker, 1954):
+//' \deqn{N_{t+1} = N_t e^{r (1 - \frac{N_t}{K})}}{N_t1 = N_t * e^(r * (1 - N_t / K))}
+//'
+//' If \eqn{reproduction\_rate < 0}:
+//' \deqn{N_{t+1} = N_t \cdot e^{r}}{N_t1 = N_ * e^(r)}
+//'
+//' With:
+//' * \eqn{N_t} = abundance at time t
+//' * \eqn{N_{t+1}} = abundance at time t+1
+//' * \eqn{r} = reproduction rate
+//' * \eqn{K} = carrying capacity
+//'
+//' Note that:
+//'
+//' * `abundance` should generally be greater than 0.
+//' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of length 1.
+//' * `carrying_capacity` should generally be greater than 0. If it is 0 or less, the abundance will be set to 0.
+//'
+//' Important Note:
+//' To optimize performance, the functions modifies the abundance in-place.
+//' This mean the input abundance will be modified (See Examples).
+//' Since the result of this function is usually assigned to the same variable as the input abundance, this is unnoticable in most use cases.
+//' Should you wish to keep the input abundance unchanged, you can `rlang::duplicate()` it before passing it to this function.
+//'
 //' @return `<numeric>` vector (or matrix) of abundances.
 //' @examples
 //' ricker_reproduction_model(
@@ -38,22 +60,29 @@ using namespace Rcpp;
 //'     carrying_capacity = 100
 //' )
 //' ricker_reproduction_model(
-//'     abundance = matrix(10, 10, 5),
+//'     abundance = matrix(10, 5, 5),
 //'     reproduction_rate =  0.25,
 //'     carrying_capacity =  100
 //' )
 //' ricker_reproduction_model(
-//'     abundance = matrix(10, 10, 5),
-//'     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
-//'     carrying_capacity =  matrix(100, 10, 5)
+//'     abundance = matrix(10, 5, 5),
+//'     reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 5, 5),
+//'     carrying_capacity =  matrix(100, 5, 5)
 //' )
+//' ricker_reproduction_model(
+//'     abundance = matrix(10, 5, 5),
+//'     reproduction_rate =  matrix(seq(0, -2, length.out = 25), 5, 5),
+//'     carrying_capacity =  matrix(100, 5, 5)
+//' )
+//' # Note that the input abundance is modified in-place
+//' abu <- 10
+//' res <- ricker_reproduction_model(
+//'     abundance = abu,
+//'     reproduction_rate = 0.25,
+//'     carrying_capacity = 100
+//' )
+//' stopifnot(identical(abu, res))
 //' @references
-//' Cabral, J.S. and Schurr, F.M. (2010)
-//' Estimating demographic models for the range dynamics of plant species.
-//' *Global Ecology and Biogeography*, **19**, 85--97.
-//' \doi{10.1111/j.1466-8238.2009.00492.x}
-//'
-//' Original model:
 //' Ricker, W.E. (1954) Stock and recruitment.
 //' *Journal of the Fisheries Research Board of Canada*, **11**, 559--623.
 //' \doi{10.1139/f54-039}
@@ -65,6 +94,24 @@ NumericVector ricker_reproduction_model(
         NumericVector carrying_capacity) {
     const int size = abundance.size();
     if (reproduction_rate.size() == 1 && carrying_capacity.size() == 1) {
+        if (carrying_capacity[0] <= 0) {
+            abundance = abundance * 0;
+            for (int i = 0; i < size; i++) {
+                if (NumericVector::is_na(abundance[i])) {
+                    abundance[i] = 0.0;
+                }
+            }
+            return abundance;
+        }
+        if (reproduction_rate[0] < 0) {
+            abundance = abundance * exp(reproduction_rate[0]);
+            for (int i = 0; i < size; i++) {
+                if (NumericVector::is_na(abundance[i])) {
+                    abundance[i] = 0.0;
+                }
+            }
+            return abundance;
+        }
         for (int i = 0; i < size; i++) {
             if (abundance[i] > 0) {
                 abundance[i] = abundance[i] *
@@ -75,14 +122,22 @@ NumericVector ricker_reproduction_model(
                 abundance[i] = 0.0;
             }
         }
+        return abundance;
     } else {
         if ((size != reproduction_rate.size()) ||
             (size != carrying_capacity.size())) {
             stop("The sizes of abundance, reproduction_rate and "
                  "carrying_capacity are not equal.");
         }
-
         for (int i = 0; i < size; i++) {
+            if (carrying_capacity[i] <= 0) {
+                abundance[i] = 0.0;
+                continue;
+            }
+            if (reproduction_rate[i] < 0) {
+                abundance[i] = abundance[i] * exp(reproduction_rate[i]);
+                continue;
+            }
             if (abundance[i] > 0) {
                 abundance[i] = abundance[i] *
                                exp(reproduction_rate[i] *
@@ -92,6 +147,6 @@ NumericVector ricker_reproduction_model(
                 abundance[i] = 0.0;
             }
         }
+        return abundance;
     }
-    return abundance;
 }

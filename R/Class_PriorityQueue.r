@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #
@@ -63,6 +63,9 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
 
             pr$fun()
             private$current_index <- private$current_index + 1L
+            if (private$current_index > length(private$queue)) {
+                private$current_index <- 0L
+            }
             if (verbose) {
                 message("|---- ", format(Sys.time() - start_time_pr, digits = 2))
             }
@@ -150,7 +153,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' stopifnot(pr_queue$is_empty())
         #' @return `<boolean>` `TRUE` if queue is empty `FALSE` otherwise.
         is_empty = function() {
-            return(length(private$queue) == 0L | private$current_index > length(private$queue))
+            return(length(private$queue) == 0L | private$current_index <= 0L)
         },
         #' @description Get the current queue.
         #' @examples
@@ -191,19 +194,14 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' pr_queue$print()
         #' @return `<invisible self>`.
         print = function() {
-            cat("At process: ", private$current_index, "out of: ", length(private$queue), "\n")
-            cat("Remaining queue: \n")
-            if (self$is_empty()) {
-                cat("--- empty", "\n")
-            } else {
-                show(tail(private$queue, n = -(private$current_index - 1L)))
+            remaining_names <- c()
+            if (!self$is_empty()) {
+                remaining_names <- names(tail(private$queue, n = -(private$current_index - 1L)))
             }
-            cat("Future (next time step) queue: \n")
-            if (length(private$future_queue) == 0) {
-                cat("--- empty", "\n")
-            } else {
-                show(private$future_queue)
-            }
+            cat("Remaining queue (this time step): ", length(remaining_names), "\n")
+            utils::str(remaining_names, give.head = FALSE)
+            cat("Future queue (next time step): ", length(private$future_queue), "\n")
+            utils::str(names(private$future_queue), give.head = FALSE)
             return(invisible(self))
         }
     ),

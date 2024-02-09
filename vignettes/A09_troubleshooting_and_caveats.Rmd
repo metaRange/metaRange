@@ -59,9 +59,9 @@ sim$add_process(
 )
 sim$begin()
 ```
- And it is not immediately obvious what the problem is.
- The first step to narrow down the problem is to enable extensive verbosity.
- So, if we run the code again, but this time with `set_verbosity(2)`, we get the following output:
+And it is not immediately obvious what the problem is.
+The first step to narrow down the problem is to enable extensive verbosity.
+So, if we run the code again, but this time with `set_verbosity(2)`, we get the following output:
 ```{r typo2, error=TRUE}
 set_verbosity(2)
 
@@ -130,7 +130,7 @@ sim$begin()
 ```
 
 As we are in the browser, we are conceptually inside the `reproduction` process of "species_1".
-This mean we can make use of the `self` keyword to inspect the state of the species.
+This means we can make use of the `self` keyword to inspect the state of the species.
 
 As a first step, we might want to call `ls()` to see the objects we can inspect.
 ```{r typo4, eval=FALSE}
@@ -200,8 +200,8 @@ While metaRange can be used to simulate a wide range of scenarios, there are som
     This is especially important to keep in mind when simulating multiple species, since they may have different spatial requirements.
 2. **Evolution and gene flow**
 
-    While it is planned for future versions, metaRange does currently not support evolution or gene flow.
+    While it is planned for future versions, metaRange doesn't (currently) support evolution or gene flow.
 3. **Spatial distortion**
 
     Since metaRange uses raster data to represent the environment, it is important to keep in mind that the raster is a 2D representation of a 3D world.
-    The larger the geographic extent of the environment, the more distorted the raster will be (also depending one the map projection and the resolution).
+    The larger the geographic extent of the environment, the more distorted the raster will be (also depending on the map projection and the resolution).

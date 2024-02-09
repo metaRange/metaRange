@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 **`metaRange`** is a framework to build a variety of different process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions.
-The common denominator for all models build with metaRange is that they are raster and population based.
+The common denominator for all models built with metaRange is that they are raster and population based.
 
 Each metaRange `simulation` object contains one `environment` that holds and manages all the environmental factors that may influence the simulation (as raster data) and one or more `species` that are simulated in the environment.
 
@@ -27,7 +27,7 @@ Species `traits` can be (somewhat arbitrary) pieces of data that describe and st
 During each time step of the simulation, the processes of the species are executed in a user defined order and can access and modify the species traits.
 
 While the models built with metaRange can be quite variable in their structure, they are all based on population dynamics.
-This means that in most cases a `trait` will not be a single number but a matrix that has the same size as the raster data in the environment, where each value represents the trait value for one population in the corresponding grid cell of the of the environment.
+This means that in most cases a `trait` will not be a single number but a matrix that has the same size as the raster data in the environment, where each value represents the trait value for one population in the corresponding grid cell of the environment.
 Based on this, most `processes` will describe population (and meta population) dynamics and not individual based mechanisms.
 Figure 1 shows an example of some of the different environmental factors, species traits and processes that could be included in a simulation.
 
@@ -41,20 +41,19 @@ A more technical overview of the different components of a simulation and how th
 While the environment has a temporal dimension (i.e. the different time steps, see Fig.1), the traits (or the global variables of the simulation) have no temporal property.
 They represent the state of the species (or of the simulation respectively) in one (the current) time step.
 When a process is executed within a time step, it can access this current state of the simulation and modify it, which results in changing traits over the course of the simulation.
-Each process can be assigned a priority, that is used by the `process priority queue` to determine in which order the processes are executed within one time step.
+Each process can be assigned a priority that is used by the `process priority queue` to determine in which order the processes are executed within one time step.
 ```{r, echo = FALSE, out.width="100%", fig.cap = "Figure 2: Overview of the different components of a simulation and how they interact with each other. Note that the number of species as well as the number of traits and processes per species is not limited, but only a selection is shown for simplicity."}
 knitr::include_graphics("../man/figures/simulation_high_level_overview.svg")
 ```
 
 # Setting up a simulation
-Following is a very simple example of how to set up a simulation with `metaRange`.
-In this example we only use a single species and one environmental factor (habitat quality).
+Following is a simple example of how to set up a simulation with `metaRange`, in which we only use a single species and one environmental factor (habitat quality).
 At the end of this introduction we will see how the abundance of the species changes in relation to the quality of the habitat each population occupies.
 
-To start, we need to load the package and its dependencies.
+To start, we need to load the packages.
 ```{r setup}
-library(metaRange)
-library(terra)
+library(metaRange) # does the simulation
+library(terra) # handles the raster data processing
 ```
 
 # Loading the landscape
@@ -66,8 +65,8 @@ Each sub-dataset in this SDS represents one environmental variable and each laye
 In other words, metaRange does not simulate the environmental conditions itself, but expects the user to provide the environmental data for each time step.
 
 To create such a dataset one can use the function `terra::sds()`.
-One important note: Since the layer represent the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layers (i.e. the desired number of time steps the simulation should have).
-After the `SDS` is created, the individual subdatasets should be named, since this is how the simulation will refer to them.
+One important note: Since each layer represents the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layers (i.e. the desired number of time steps the simulation should have).
+After the `SDS` is created, the individual sub-datasets should be named, since this is how the simulation will refer to them.
 
 To simplify this introduction, we use an example landscape consisting only of habitat quality data, with 10 time steps (layers) that are all the same (i.e. no environmental change).
 Luckily the `terra` package has a built-in demo that we can use for this purpose.
@@ -124,11 +123,11 @@ summary(sim)
 
 # Adding species to the simulation
 After the simulation is created, species can be added to it using the `add_species()` function.
-At this point one has to switch to the syntax of the [R6](https://r6.r-lib.org/articles/Introduction.html) package, that metaRange uses.
+At this point one has to switch to the syntax of the [R6](https://r6.r-lib.org/articles/Introduction.html) package that metaRange uses.
 This means that `add_species()` is a method of the `simulation` object and can be called using the `$` operator (i.e. by indexing the simulation object and calling a function that is stored inside of it).
 The only required argument is `name` which is the name of the species that will be added.
 ```{r add_species}
-sim$add_species(name = "species_1")
+sim$add_species("species_1")
 ```
 
 This species can now be accessed by using the `$` operator again.
@@ -143,9 +142,9 @@ The second argument is `population_level`, a `TRUE/FALSE` value, that decides if
 All following arguments can be supplied in the form of `trait_name = trait_value`.
 
 For now we only add three traits: `abundance` (number of individuals in each population), `reproduction_rate` (how fast the populations can reproduce) and `carrying_capacity` (maximum number of individuals per grid cell).
-Traits always represent the "current" state of a species.
+Note: Traits always represent the "current" state of a species.
 This means that the abundance we use as input here represents the initial state of the simulation.
-Over the course of the simulation (i.e. in each time step) the traits can be updated and change.
+Over the course of the simulation (i.e. in each time step) the traits can be updated and changed.
 In this example, the abundance will change each time step while e.g. the reproduction rate stays the same, but in other cases each trait might change with time.
 ```{r add_trait}
 sim$add_traits(
@@ -172,8 +171,8 @@ plot(sim$species_1, "abundance")
 Note that the above plot is not very interesting, since the abundance is the same for each population at the beginning of the simulation.
 
 # Adding processes
-After the species and its traits are added, the processes that describe the how the species interacts with its environment can be added, using the `add_process()` method.
-The arguments are: `species` which is a character vector of the species that should get the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be called when the process is executed.
+After the species and its traits are added, the processes that describe how the species interacts with its environment can be added, using the `add_process()` method.
+The arguments are: `species` which is a character vector of the species (names) that should receive the process, `process_name` which is a human readable name for the process and `process_fun` which is the function that will be called when the process is executed.
 
 One argument that might be confusing is the `execution_priority`.
 This is a number that gives the process a priority "weight" and decides in which order the processes are executed within one time step.
@@ -182,7 +181,8 @@ In the case two (or more) processes have the same priority, it is assumed that t
 
 ## Reproduction
 In this example we will only add a single process (`reproduction`) to the species, that is going to calculate the abundance (for each population) in the next time step, depending on the habitat quality.
-To do so, we can use a built in function `ricker_reproduction_model()` that implements the "classic" Ricker reproduction model (Ricker, W.E. (1954) compare also: Cabral, J.S. and Schurr, F.M. (2010)) [Ref. 1 & 2].
+To do so, we can use a built-in function `ricker_reproduction_model()` that implements the "classic" Ricker reproduction model (Ricker, W.E. (1954)) [Ref. 1], which describes the population dynamics of a species with non-overlapping generations in discrete time steps.
+This model features density dependent growth and possibly overcompensatory dynamics (i.e. the populations can, depending on the reproduction rate, become larger than the carrying capacity, which inevitably leads to a decline in the next time step).
 
 Note the use of the  `self` keyword in the function. In this context, `self` refers to the species that the process is attached to.
 This means that the function can access the species traits and modify them and also access the environment (each species holds a reference to the simulation it was created in).
@@ -226,16 +226,16 @@ To investigate the results, you can use the `plot()` function.
 plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
 plot(
     sim,
-    obj = "species_1",
-    name = "abundance",
-    main = "Species 1: abundance",
-    col = plot_cols
+    obj = "species_1", # name of the species
+    name = "abundance", # name of the trait to plot
+    main = "Species 1: abundance", # optional title
+    col = plot_cols # color palette
 )
 ```
 
 
 # Saving the simulation
-To save results you can use the  `save_species()` function.
+To save results you can use the `save_species()` function.
 This will save the (possibly specified) traits of a species, either as a raster (.tif) or as a text (.csv) file, whatever is more appropriate for the data.
 Note that this function does *not* save the species processes.
 One should keep a copy of the script that is used to run the simulation to make it repeatable.
@@ -249,5 +249,3 @@ save_species(
 
 # References
 (1) Ricker, W.E. (1954) Stock and recruitment. Journal of the Fisheries Research Board of Canada, 11, 559--623. doi:10.1139/f54-039
-
-(2) Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic models for the range dynamics of plant species. Global Ecology and Biogeography, 19, 85--97. doi:10.1111/j.1466-8238.2009.00492.x

@@ -52,12 +52,9 @@ sim <- create_simulation(
 ```
 
 # Adding more species to the simulation
-Instead of only adding one species to the simulation, we can just repeat the  ``add_species()` call to add more.
+Instead of only adding one species to the simulation, we can just supply more names in the `add_species()` call to create more species.
 ```{r add_species}
-species_to_add <- c("species_1", "species_2")
-for (species in species_to_add) {
-    sim$add_species(name = species)
-}
+sim$add_species(c("species_1", "species_2"))
 ```
 
 If you are at any point wondering which, or how many species are in the simulation, you can use the `species_names()` method.
@@ -68,11 +65,30 @@ sim$species_names()
 # Adding traits to (multiple) species
 The `add_traits()` method is able to add (multiple) traits to multiple species at once, which is useful when setting up a large number of species with the same traits.
 So instead of only specifying one `species` argument, we can specify a vector of species names, all of which will get the same traits.
+Here, we set the initial abundance of the species to be proportional to the habitat quality.
 ```{r add_trait}
 sim$add_traits(
     species = c("species_1", "species_2"),
     population_level = TRUE,
-    abundance = 100
+    abundance = 200 * sim$environment$current[["habitat_quality"]]
+)
+```
+As the name suggests, `sim$environment$current[["....."]]` always refers to the "current" state of the landscape.
+So what is the difference to the source `SDS` we used as input to create the simulation?
+* The `sim$environment$sourceSDS[["....."]]` is stored as raster data, has multiple sub-datasets and multiple layer and is potentially stored on the disk, which makes it suitable to store large amounts of data (the whole time series), but makes accessing it more complicated and slow.
+* The `current` environment contains a 2 dimensional matrix (i.e. only one layer) with the same name for each of the sub-datasets in the source SDS and is stored in memory.
+This makes it faster to access and easier to use in calculations (As seen in the code example above).
+This current environment is automatically updated at the beginning of each time step, and right now (before the simulation has started) stores the condition of the first time step (i.e. the first layer of each sub-dataset of the sourceSDS).
+
+```{r initAbundance, fig.cap = "Figure 2: The initial abundance of the species."}
+# define a nice color palette
+plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
+plot(
+    sim,
+    obj = "species_1",
+    name = "abundance",
+    main = "Initial abundance",
+    col = plot_cols
 )
 ```
 
@@ -81,8 +97,9 @@ If we would want to add a trait to all species in the simulation, without having
 sim$add_traits(
     species = sim$species_names(),
     population_level = TRUE,
-    reproduction_rate = 0.5,
-    carrying_capacity = 1000
+    reproduction_rate = 1.5,
+    carrying_capacity = 1000,
+    allee_threshold = 150
 )
 ```
 
@@ -94,8 +111,8 @@ Until now, we have two species in the simulation that are virtually identical.
 In order to make them behave differently, we can add different processes to them.
 
 ## Reproduction
-We are going to use the same reproduction process as in the previous vignette, but we will vary the influence of the habitat quality.
-In the case of species 1, the habitat quality will only affect the carrying capacity of the habitat.
+In the case of species 1, we will use the same reproduction model from the previous vignette `ricker_reproduction_model`
+and we will let the habitat quality influence the carrying capacity.
 ```{r Reproduction}
 sim$add_process(
     species = "species_1",
@@ -113,17 +130,24 @@ sim$add_process(
     execution_priority = 1
 )
 ```
-In the case of species 2, the habitat quality will only affect the reproduction rate.
+In the case of species 2, we will use a Ricker model with additional Allee effects (via the function: `ricker_allee_reproduction_model`),
+which is an adapted version from the model described in: Cabral, J.S. and Schurr, F.M. (2010) [Ref. 1].
+This means the populations that are smaller than the Allee threshold will have a negative per-capacity reproduction rate and go extinct over time.
+The Allee effects is also known as "depensation" or "negative density dependence" and can describe
+multiple different mechanisms that lead to lower reproduction rates at small population sizes as for example
+difficulties finding a mate, or increased predation pressure (see: Liermann and Hilborn, 2001) [Ref. 2].
+
 ```{r Reproduction2}
 sim$add_process(
     species = "species_2",
     process_name = "reproduction",
     process_fun = function() {
         self$traits$abundance <-
-            ricker_reproduction_model(
+            ricker_allee_reproduction_model(
                 self$traits$abundance,
-                self$traits$reproduction_rate * self$sim$environment$current$habitat_quality,
-                self$traits$carrying_capacity
+                self$traits$reproduction_rate,
+                self$traits$carrying_capacity * self$sim$environment$current$habitat_quality,
+                self$traits$allee_threshold
             )
         print(
             paste0(self$name, " mean abundance: ", mean(self$traits$abundance))
@@ -140,9 +164,7 @@ set_verbosity(0)
 sim$begin()
 ```
 
-```{r resA, fig.cap = "Figure 2: The resulting abundance distribution of species 1 after 10 simulation time steps."}
-# define a nice color palette
-plot_cols <- hcl.colors(100, "BluYl", rev = TRUE)
+```{r resA, fig.cap = "Figure 3: The resulting abundance distribution of species 1 after 10 simulation time steps."}
 plot(
     sim,
     obj = "species_1",
@@ -153,7 +175,7 @@ plot(
 ```
 
 
-```{r resB, fig.cap = "Figure 3: The resulting abundance distribution of species 2 after 10 simulation time steps."}
+```{r resB, fig.cap = "Figure 4: The resulting abundance distribution of species 2 after 10 simulation time steps."}
 plot(
     sim,
     obj = "species_2",
@@ -162,3 +184,12 @@ plot(
     col = plot_cols
 )
 ```
+
+Note how in areas of lower habitat quality, the populations of species 2 are extinct since their abundance was lower than the Allee threshold.
+If we would combine this with a dispersal process, this could lead to areas that are colonized by species 2, but are permanent population "sinks" for the species, since they would depend on immigration from other areas and are not self-sustaining.
+
+
+# References:
+(1) Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic models for the range dynamics of plant species. Global Ecology and Biogeography, 19, 85--97. doi:10.1111/j.1466-8238.2009.00492.x
+
+(2) Liermann, and Hilborn, (2001), Depensation: evidence, models and implications. Fish and Fisheries, 2: 33--58. doi:10.1046/j.1467-2979.2001.00029.x

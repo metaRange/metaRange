@@ -18,7 +18,7 @@ values that influence the species in the simulation.
 ## ------------------------------------------------
 
 # Note: Only for illustration purposes.
-env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(nrow = 2, ncol = 2)))
+env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
 env
 
 ## ------------------------------------------------
@@ -89,7 +89,7 @@ An \verb{<metaRangeEnvironment>} object
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# Note: Only for illustration purposes.
-env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(nrow = 2, ncol = 2)))
+env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
 env
 }
 \if{html}{\out{</div>}}

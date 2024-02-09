@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+// Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -62,7 +62,18 @@ arma::mat dispersal_fixed_unweighted(
 
     // create a matrix to store the intermediate results
     arma::mat offspring(abundance.n_rows, abundance.n_cols, arma::fill::zeros);
+
     abundance.replace(datum::nan, 0);
+
+    if (dispersal_kernel.has_nan()) {
+        stop("Dispersal kernel contains NA.");
+    }
+    if (dispersal_kernel.has_inf()) {
+        stop("Dispersal kernel contains Inf.");
+    }
+    if (accu(dispersal_kernel) == 0) {
+        stop("Sum of dispersal kernel is zero.");
+    }
 
     sword nrows = abundance.n_rows;
     sword ncols = abundance.n_cols;
@@ -150,7 +161,19 @@ arma::mat dispersal_fixed_weighted(
     }
     // create a matrix to store the intermediate results
     arma::mat offspring(abundance.n_rows, abundance.n_cols, arma::fill::zeros);
+
     abundance.replace(datum::nan, 0);
+    weights.replace(datum::nan, 0);
+
+    if (dispersal_kernel.has_nan()) {
+        stop("Dispersal kernel contains NA.");
+    }
+    if (dispersal_kernel.has_inf()) {
+        stop("Dispersal kernel contains Inf.");
+    }
+    if (accu(dispersal_kernel) == 0) {
+        stop("Sum of dispersal kernel is zero.");
+    }
 
     sword nrows = abundance.n_rows;
     sword ncols = abundance.n_cols;

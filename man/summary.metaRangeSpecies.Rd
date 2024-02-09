@@ -18,7 +18,7 @@
 Summary for metaRange species
 }
 \examples{
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 names(sim_env) <- "env_01"
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 test_sim$add_species("species_01")

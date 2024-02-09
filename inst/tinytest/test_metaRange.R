@@ -205,12 +205,12 @@ expect_equal(
 
 testfun_deueue <- function(n, simlength, sim_env) {
     test_simulation <- create_simulation(sim_env)
-    test_simulation$add_species(name = "01")
-    test_simulation$add_species(name = "02")
+    test_simulation$add_species(name = "s01")
+    test_simulation$add_species(name = "s02")
 
     # Add traits that define the environmental limits
     test_simulation$add_traits(
-        species = c("01", "02"),
+        species = c("s01", "s02"),
         population_level = FALSE,
         "suitability" = NA_real_,
         "temperature_maximum" = n * 1.3 + 273,
@@ -220,7 +220,7 @@ testfun_deueue <- function(n, simlength, sim_env) {
 
     # Add a process to calculate the suitability
     test_simulation$add_process(
-        species = c("01", "02"),
+        species = c("s01", "s02"),
         process_name = "calculate_general_suitability",
         process_fun = function() {
             self$traits[["suitability"]] <- (
@@ -233,7 +233,7 @@ testfun_deueue <- function(n, simlength, sim_env) {
         execution_priority = 1
     )
     test_simulation$add_process(
-        species = "02",
+        species = "s02",
         process_name = "deactivate",
         process_fun = function() {
             if (self$sim$get_current_time_step() == 2) {

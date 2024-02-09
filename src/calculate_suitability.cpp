@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+// Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 //
 // This file is part of metaRange.
 //
@@ -79,9 +79,12 @@ NumericVector calculate_suitability(
         NumericVector vopt,
         NumericVector vmin,
         NumericVector venv) {
-    NumericVector result(venv.size());
-    if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
 
+    const int max_size = venv.size();
+    NumericVector result(max_size);
+    result.attr("dim") = venv.attr("dim");
+
+    if (vmax.size() == 1 && vopt.size() == 1 && vmin.size() == 1) {
         const double v_max = vmax[0];
         const double v_opt = vopt[0];
         const double v_min = vmin[0];
@@ -89,33 +92,32 @@ NumericVector calculate_suitability(
             stop("Arguments don't meet the following criteria: v_max > vopt > "
                  "vmin");
         }
-        for (int i = 0; i < result.size(); i++) {
+        const double opt_minus_min = v_opt - v_min;
+        const double max_minus_opt = v_max - v_opt;
+        const double exponent = opt_minus_min / max_minus_opt;
+
+        for (int i = 0; i < max_size; i++) {
             if (venv[i] < v_min || venv[i] > v_max) {
                 result[i] = 0.0;
                 continue;
             }
-            result[i] = ((v_max - venv[i]) / (v_max - v_opt)) *
-                        pow(((venv[i] - v_min) / (v_opt - v_min)),
-                            ((v_opt - v_min) / (v_max - v_opt)));
+            result[i] = ((v_max - venv[i]) / (max_minus_opt)) *
+                        pow(((venv[i] - v_min) / (opt_minus_min)), exponent);
             if (NumericVector::is_na(result[i])) {
                 result[i] = 0.0;
             }
         }
-        result.attr("dim") = venv.attr("dim");
         return result;
-    } else {
-        if (vmax.size() != vopt.size() || vmax.size() != vmin.size() || vmax.size() != venv.size()) {
-            stop("The sizes of venv, vmax, vopt and vmin are not equal.");
-        }
-        LogicalVector test = vmax < vopt;
-        const bool test_res_1 = any(test).is_true();
-        test = vopt < vmin;
-        const bool test_res_2 = any(test).is_true();
-        if (test_res_1 || test_res_2) {
-            stop("Arguments don't meet the following criteria: v_max > vopt > "
-                 "vmin");
-        }
-        for (int i = 0; i < result.size(); i++) {
+    }
+    if (vmax.size() == vopt.size() &&
+        vmax.size() == vmin.size() &&
+        vmax.size() == venv.size()) {
+
+        for (int i = 0; i < max_size; i++) {
+            if (vmax[i] < vopt[i] || vopt[i] < vmin[i]) {
+                stop("Arguments don't meet the following criteria: "
+                     "vmax > vopt > vmin");
+            }
             if (venv[i] < vmin[i] || venv[i] > vmax[i]) {
                 result[i] = 0.0;
                 continue;
@@ -128,5 +130,6 @@ NumericVector calculate_suitability(
             }
         }
         return result;
-    };
+    }
+    stop("The sizes of venv, vmax, vopt and vmin are not equal.");
 }

@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #
@@ -37,7 +37,7 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' @field current an R environment that holds all the
         #' environmental values influencing the present time step of the
         #' simulation as regular 2D R matrices.
-        current = new.env(),
+        current = NULL,
 
         # ---------- 2 initialization -----------
 
@@ -50,11 +50,12 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' their names will used throughout the simulation to refer to them.
         #' @examples
         #' # Note: Only for illustration purposes.
-        #' env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(nrow = 2, ncol = 2)))
+        #' env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
         #' env
         #' @return An `<metaRangeEnvironment>` object
         initialize = function(sourceSDS = NULL) {
             private$set_source_environment(sourceSDS)
+            self$current <- new.env()
             lockBinding("sourceSDS", self) # make sourceSDS non-mutable
         },
 
@@ -99,6 +100,18 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' env$print()
         #' @return `<invisible self>`
         print = function() {
+            cat("Fields: \n")
+            cat("$current ==== the environment at the current time step\n")
+            cat("classes     : all -> matrix\n")
+            cat("number      : ", length(names(self$current)), "\n", sep = "")
+            cat("names       : ",
+                ifelse(
+                    length(names(self$current)) == 0,
+                    "[NULL]",
+                    paste0(names(self$current), collapse = ", ")),
+                "\n", sep = ""
+            )
+            cat("$sourceSDS == the source raster data of the environment\n")
             show(self$sourceSDS)
             return(invisible(self))
         }
@@ -117,9 +130,14 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         set_source_environment = function(sourceSDS) {
             checkmate::assert_class(x = sourceSDS, classes = "SpatRasterDataset")
             nlayer <- terra::nlyr(sourceSDS)
+            checkmate::assert_true(length(sourceSDS) >= 1)
             if (any(nlayer == 0)) stop("sourceSDS must have at least one layer")
             nlayer <- checkmate::assert_integerish(x = nlayer, lower = max(nlayer), upper = min(nlayer), coerce = TRUE)
             self$sourceSDS <- sourceSDS
+            if (all(nchar(names(self$sourceSDS)) == 0)) {
+                names(self$sourceSDS) <- paste0("env_", seq_len(length(self$sourceSDS)))
+            }
+            checkmate::assert_names(x = names(self$sourceSDS), type = "strict")
             return(invisible(self))
         }
     )

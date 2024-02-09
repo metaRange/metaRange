@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #

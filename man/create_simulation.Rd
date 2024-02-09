@@ -30,7 +30,7 @@ Creates a \link{metaRangeSimulation} object.
 A convenience wrapper for \code{metaRangeSimulation$new()}.
 }
 \examples{
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 names(sim_env) <- "env_01"
 test_sim <- create_simulation(sim_env)
 }

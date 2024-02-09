@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The temperature of the environment where a species lives (and their bodymass) can have a large impact on their metabolism and in consequence also on different processes such as growth, reproduction and mortality.
+The temperature of the environment where a species lives (and their body mass) can have a large impact on their metabolism and in consequence also on different processes such as growth, reproduction and mortality.
 To include this effect, `metaRange` offers the option to use metabolic scaling based on the "metabolic theory of ecology" described by Brown et al. (2004) [Ref: 1] in the following form:
 $${parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}$$
 This is implemented in the function `metabolic_scaling()`, which can be used to calculate the parameter value for any metabolically influenced process, based on the mean individual body mass of a population, a process specific constant and the temperature of the environment.
@@ -136,7 +136,7 @@ sim$add_process(
 )
 ```
 
-After this point, processes could be added that use the scaled parameters (See previous articles / vignettes).
+After this point, more processes could be added that use the scaled parameters (See previous articles / vignettes).
 Here we just plot the scaled parameter instead.
 ```{r add_processes2, fig.show="hold"}
 sim$set_time_layer_mapping(c(1, 2))

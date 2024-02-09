@@ -21,9 +21,9 @@ temperature <- terra::disagg(temperature, 2)
 precipitation <- terra::disagg(precipitation, 2)
 habitat <- terra::disagg(habitat, 2)
 for (i in 2:simlength) {
-    add(temperature) <- terra::disagg(terra::rast(datasets::volcano * 0.2 - 10 + sin(i) * 2 + 273.15), 2)
-    add(precipitation) <- terra::disagg(terra::rast(1000 - datasets::volcano * 4 + sin(i) * 100), 2)
-    add(habitat) <- terra::disagg(terra::rast(datasets::volcano / max(datasets::volcano)), 2)
+    terra::add(temperature) <- terra::disagg(terra::rast(datasets::volcano * 0.2 - 10 + sin(i) * 2 + 273.15), 2)
+    terra::add(precipitation) <- terra::disagg(terra::rast(1000 - datasets::volcano * 4 + sin(i) * 100), 2)
+    terra::add(habitat) <- terra::disagg(terra::rast(datasets::volcano / max(datasets::volcano)), 2)
 }
 env <- terra::sds(temperature, precipitation, habitat, crs = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 names(env) <- c("temperature", "precipitation", "habitat")

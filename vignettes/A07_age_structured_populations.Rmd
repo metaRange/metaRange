@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 Many species have population dynamics that require more complex equations than the simple Ricker model, which describes overcompensatory scramble competition dynamics.
 A common abstraction to deal with this complexity is to partition a species into functional subgroups that undergo different processes, as for example *juveniles* who are dispersing and looking for a habitat, who then become *adults* who are stationary but have the ability to reproduce and generate the next generation of *juveniles*.
-The following illustrates how to model such a system.
+The following illustrates a simple example on how one could model such a system with metaRange.
 
 
 ## Basic setup
@@ -62,6 +62,7 @@ sim$add_traits(
 
 ## Processes
 Now we add some processes that manage the transition between the age classes.
+These processes could of course be of any desired complexity, but to make the example easier to follow, we will use simple functions:
 ```{r repro1}
 sim$add_process(
     species = "species_1",
@@ -88,7 +89,7 @@ sim$add_process(
 
 ## More processes
 And some more for the dispersal and mortality.
-note that we do not need to add an `mortality_of_juveniles` process, since their mortality is already included in the `maturation` process.
+Note that we do not need to add an `mortality_of_juveniles` process, since their mortality is already included in the `maturation` process.
 ```{r dispersal1}
 sim$add_process(
     species = "species_1",

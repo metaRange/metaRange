@@ -1,0 +1,7 @@
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
+sim <- metaRangeSimulation$new(source_environment = sim_env)
+sim$add_species(c("s1", "s2"))
+sim$add_species(names = c("s3", "s4"))
+sim$add_species(name = c("s5", "s6"))
+expect_error(sim$add_species())
+expect_true(all(sim$species_names() %in% c("s1", "s2", "s3", "s4", "s5", "s6")))

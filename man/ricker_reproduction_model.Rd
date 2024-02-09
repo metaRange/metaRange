@@ -17,15 +17,38 @@ ricker_reproduction_model(abundance, reproduction_rate, carrying_capacity)
 \verb{<numeric>} vector (or matrix) of abundances.
 }
 \description{
-An implementation of the "classic" Ricker reproduction model (Ricker, 1954).
+An implementation of the Ricker reproduction model (Ricker, 1954) with
+an extension to handle negative reproduction rates.
 }
 \details{
-\subsection{Equation:}{
+\subsection{Equations:}{
 
-\deqn{abundance_{t+1} = abundance_t \cdot e^{reproduction\_rate \cdot (1 - \frac{abundance_t}{carrying\_capacity})}}{abundance_t1 = abundance_t0 * e^(reproduction_rate * (1 - abundance_t0 / carrying_capacity))}
+If \eqn{reproduction\_rate >= 0} (Ricker, 1954):
+\deqn{N_{t+1} = N_t e^{r (1 - \frac{N_t}{K})}}{N_t1 = N_t * e^(r * (1 - N_t / K))}
 
-Note that the input should have an equal size and that the input abundance
-should be positive for the results to make sense.
+If \eqn{reproduction\_rate < 0}:
+\deqn{N_{t+1} = N_t \cdot e^{r}}{N_t1 = N_ * e^(r)}
+
+With:
+\itemize{
+\item \eqn{N_t} = abundance at time t
+\item \eqn{N_{t+1}} = abundance at time t+1
+\item \eqn{r} = reproduction rate
+\item \eqn{K} = carrying capacity
+}
+
+Note that:
+\itemize{
+\item \code{abundance} should generally be greater than 0.
+\item \code{reproduction_rate} and  \code{carrying_capacity} should either both have the same size as the input abundance or both be of length 1.
+\item \code{carrying_capacity} should generally be greater than 0. If it is 0 or less, the abundance will be set to 0.
+}
+
+Important Note:
+To optimize performance, the functions modifies the abundance in-place.
+This mean the input abundance will be modified (See Examples).
+Since the result of this function is usually assigned to the same variable as the input abundance, this is unnoticable in most use cases.
+Should you wish to keep the input abundance unchanged, you can \code{rlang::duplicate()} it before passing it to this function.
 }
 }
 \examples{
@@ -35,23 +58,30 @@ ricker_reproduction_model(
     carrying_capacity = 100
 )
 ricker_reproduction_model(
-    abundance = matrix(10, 10, 5),
+    abundance = matrix(10, 5, 5),
     reproduction_rate =  0.25,
     carrying_capacity =  100
 )
 ricker_reproduction_model(
-    abundance = matrix(10, 10, 5),
-    reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 10, 5),
-    carrying_capacity =  matrix(100, 10, 5)
+    abundance = matrix(10, 5, 5),
+    reproduction_rate =  matrix(seq(-0.5, 0.5, length.out = 25), 5, 5),
+    carrying_capacity =  matrix(100, 5, 5)
 )
+ricker_reproduction_model(
+    abundance = matrix(10, 5, 5),
+    reproduction_rate =  matrix(seq(0, -2, length.out = 25), 5, 5),
+    carrying_capacity =  matrix(100, 5, 5)
+)
+# Note that the input abundance is modified in-place
+abu <- 10
+res <- ricker_reproduction_model(
+    abundance = abu,
+    reproduction_rate = 0.25,
+    carrying_capacity = 100
+)
+stopifnot(identical(abu, res))
 }
 \references{
-Cabral, J.S. and Schurr, F.M. (2010)
-Estimating demographic models for the range dynamics of plant species.
-\emph{Global Ecology and Biogeography}, \strong{19}, 85--97.
-\doi{10.1111/j.1466-8238.2009.00492.x}
-
-Original model:
 Ricker, W.E. (1954) Stock and recruitment.
 \emph{Journal of the Fisheries Research Board of Canada}, \strong{11}, 559--623.
 \doi{10.1139/f54-039}

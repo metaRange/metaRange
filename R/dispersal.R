@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #
@@ -105,13 +105,17 @@ calculate_dispersal_kernel <- function(
 #' @param dispersal_kernel `<numeric matrix>` dispersal kernel.
 #' @param abundance `<numeric matrix>` abundance matrix.
 #' @param weights `<numeric matrix>`  optional weights in form of a matrix
-#' that has the same dimensions as the abundance and a `range: 0, 1`.
+#' that has the same dimensions as the abundance and a range: between `0, 1`.
+#' Should not contain any `NA`.
 #' @details
 #' The abundance matrix is dispersed using the dispersal kernel.
 #' If a matrix of weights is supplied, the individuals will redistribute
 #' within the dispersal kernel according to the weights.
 #' I.e. individuals will more likely move towards areas with a higher
 #' weight, if they are within their dispersal distance.
+#' Note:
+#' * the abundance is modified in place, to optimize performance.
+#' * Any `NA` or `NaN` in abundance or weights will be (in-place) replaced by `0`.
 #' @examples
 #' n <- 10
 #' n2 <- n^2
@@ -132,6 +136,8 @@ calculate_dispersal_kernel <- function(
 #'     weights = suitab
 #' )
 #' stopifnot(sum(res1) - sum(res2) < 0.01)
+#' # Note that the abundance is modified in place, i.e:
+#' stopifnot(sum(abu - res2) < 0.01)
 #' @return `<numeric matrix>` Dispersed abundance matrix.
 #' @export
 dispersal <- function(

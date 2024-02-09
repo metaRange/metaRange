@@ -58,9 +58,6 @@ metabolic_scaling_R <- function(normalization_constant,
             "(Feel free to ignore this message if you know what you are doing)."
         )
     }
-    if (is.matrix(mass) && is.matrix(temperature)) {
-        return(metabolic_scaling(normalization_constant, scaling_exponent, mass, temperature, E, k))
-    }
     normalization_constant * mass^scaling_exponent * exp(E / (k * temperature))
 }
 
@@ -77,7 +74,7 @@ test_mte_carrying_capactiy_temerature <- function() {
     E <- 0.65
     k <- 8.617333e-05
     val <- 1000
-    const <- metaRange::calculate_normalization_constant(
+    const <- calculate_normalization_constant(
         parameter_value = val,
         scaling_exponent = expon,
         mass = bmass,
@@ -516,9 +513,58 @@ expect_message(
     )
 )
 
-rm(
-    test_mte_carrying_capactiy_temerature,
-    test_mte_carrying_capactiy_mass,
-    test_mte_reproduction_rate_temerature,
-    test_mte_reproduction_rate_mass
+expon <- -3 / 4
+rtemp <- 273 + 20
+bmass <- 100
+E <- 0.65
+k <- 8.617333e-05
+val <- 1000
+const <- calculate_normalization_constant(
+    parameter_value = val,
+    scaling_exponent = expon,
+    mass = bmass,
+    reference_temperature = rtemp,
+    E = E,
+    k = k
+)
+test_mass <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+test_temp <- matrix(rtemp:(rtemp + 3), nrow = 2, ncol = 2)
+res <- metabolic_scaling(
+    normalization_constant = const,
+    scaling_exponent = expon,
+    mass = test_mass,
+    temperature = test_temp,
+    E = E,
+    k = k
+)
+
+expect_true(
+    all(dim(res) == c(2, 2)),
+    info = "testing that dimensionality is preserved"
+)
+
+res <- metabolic_scaling(
+    normalization_constant = const,
+    scaling_exponent = expon,
+    mass = bmass,
+    temperature = rtemp + 10,
+    E = E,
+    k = k
+)
+expect_true(
+    is.null(dim(res)),
+    info = "testing that dimensionality is preserved pt.2"
+)
+
+res <- metabolic_scaling(
+    normalization_constant = const,
+    scaling_exponent = expon,
+    mass = as.numeric(c()),
+    temperature = as.numeric(c()),
+    E = E,
+    k = k
+)
+expect_equal(
+    res, numeric(0),
+    info = "testing that empty vectors return empty vectors"
 )

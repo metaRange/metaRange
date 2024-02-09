@@ -12,7 +12,8 @@ dispersal(dispersal_kernel, abundance, weights)
 \item{abundance}{\verb{<numeric matrix>} abundance matrix.}
 
 \item{weights}{\verb{<numeric matrix>}  optional weights in form of a matrix
-that has the same dimensions as the abundance and a \verb{range: 0, 1}.}
+that has the same dimensions as the abundance and a range: between \verb{0, 1}.
+Should not contain any \code{NA}.}
 }
 \value{
 \verb{<numeric matrix>} Dispersed abundance matrix.
@@ -26,6 +27,11 @@ If a matrix of weights is supplied, the individuals will redistribute
 within the dispersal kernel according to the weights.
 I.e. individuals will more likely move towards areas with a higher
 weight, if they are within their dispersal distance.
+Note:
+\itemize{
+\item the abundance is modified in place, to optimize performance.
+\item Any \code{NA} or \code{NaN} in abundance or weights will be (in-place) replaced by \code{0}.
+}
 }
 \examples{
 n <- 10
@@ -47,4 +53,6 @@ res2 <- dispersal(
     weights = suitab
 )
 stopifnot(sum(res1) - sum(res2) < 0.01)
+# Note that the abundance is modified in place, i.e:
+stopifnot(sum(abu - res2) < 0.01)
 }

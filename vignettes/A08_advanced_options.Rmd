@@ -75,10 +75,10 @@ sim$time_step_layer
 ```
 
 # Global variables and processes
-`metaRange` uses an object orient programming paradigm, this means each species is described by its own biologically relevant processes and traits.
+`metaRange` uses an object oriented programming paradigm, this means each species is described by its own biologically relevant processes and traits.
 However, there may be cases where the user wants to define a global variable or process that is shared between all species, be it to store intermediate results that don't belong to one species or processes to visualize or store output.
-This can by done by using the `add_globals()` function for adding global variables and the `add_process()` function with no `species` argument specified, for adding global processes.
-The global variables and processes are accessible through in the `globals`and `processes` field of the simulation object itself, respectively.
+This can be done by using the `add_globals()` function for adding global variables and the `add_process()` function with no `species` argument specified, for adding global processes.
+The global variables and processes are accessible through the `globals`and `processes` fields of the simulation object itself, respectively.
 The benefit of using a global process is that the `self` keyword refers to the simulation object itself, which allows for easier indexing across multiple species.
 ```{r globals}
 sim$add_species("species_one")

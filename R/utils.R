@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
+# Copyright (C) 2023, 2024 Stefan Fallert, Lea Li, Juliano Sarmento Cabral
 #
 # This file is part of metaRange.
 #
@@ -39,7 +39,7 @@ set_verbosity <- function(verbose) {
 #' @param object `<metaRangeSimulation>` The [metaRangeSimulation] object to summarize.
 #' @param ... `<any>` ignored.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$add_species("species_01")
@@ -55,7 +55,7 @@ summary.metaRangeSimulation <- function(object, ...) {
 #' @param object `<metaRangeSpecies>` The [metaRangeSpecies] object to summarize.
 #' @param ... `<any>` ignored.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$add_species("species_01")
@@ -77,7 +77,7 @@ summary.metaRangeSpecies <- function(object, ...) {
 #' @param x `<metaRangeVariableStorage>` The object to print.
 #' @param ... `<any>` ignored.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$add_species("species_01")
@@ -113,7 +113,7 @@ print.metaRangeVariableStorage <- function(x, ...) {
 #' @param seed `<integer>` optional seed for the random number generator.
 #' Will be set automatically if none is specified.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+#' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 #' names(sim_env) <- "env_01"
 #' test_sim <- create_simulation(sim_env)
 #' @return A [metaRangeSimulation] object

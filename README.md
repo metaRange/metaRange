@@ -8,7 +8,7 @@
 ![](man/figures/logo.png)
 
 The R package **`metaRange`** is a framework that allows you to build process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions.
-The common denominator for all models build with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.
+The common denominator for all models built with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.
 
 
 ## Installation:
@@ -44,14 +44,14 @@ In case one is unfamiliar with any of these topics here are some reading recomme
 ## Environment
 The package supports an unlimited number and type of environmental variables as for example climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation.
 Environment variables can be supplied as raster data (specifically as a [`SpatRasterDataset`](https://rspatial.github.io/terra/reference/sds.html) (SDS) created by the [terra](https://rspatial.github.io/terra/index.html) package) (Hijmans 2023).
-The layer in the SDS correspond to / represent the different time steps of the simulation which enables simulations with varying environmental conditions.
+The layers in the SDS correspond to / represent the different time steps of the simulation which enables simulations with varying environmental conditions.
 
 ## Species
 A simulation can contain multiple species, as well as interactions between them.
-Every simulated species (i.e. each species object) consists of a set of `processes` that describe it's relationship with time, itself, the abiotic environment and other species and `traits`, which can be any type of data that can be accessed or changed by the processes.
+Every simulated species (i.e. each species object) consists of a set of `processes` that describe its relationship with time, itself, the abiotic environment and other species and `traits`, which can be any type of data that can be accessed or changed by the processes.
 
 Species have implied populations, each of which inhabit one grid cell of the landscape.
-On a computational level this means that the `traits` of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
+On a computational level this means that the `traits` of a species will in most cases be stored in a matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.
 
 ## Flexibility / dynamic process execution
 The processes of all the species are executed in each time step, based on a user defined priority (i.e. the user can choose which process of which species should be executed at what time within a time step).
@@ -59,7 +59,7 @@ This gives enormous flexibility in the type of simulations the user wants to per
 One can simulate and study single species [range dynamics](https://metarange.github.io/metaRange/articles/metaRange.html), [species interactions](https://metarange.github.io/metaRange/articles/species_interactions.html), [age-structured populations](https://metarange.github.io/metaRange/articles/age-structured-populations.html), [invasion dynamics](https://metarange.github.io/metaRange/articles/advanced_setup.html#interaction-with-the-priority-queue), climate and land-use change or a combination of any of those factors on a population / meta-population level.
 
 ## Ecological functions
-To provide the user a quick start into building models with metaRange, it includes common ecological functions that can be used to model a variety of species such as [kernel-based dispersal](https://metarange.github.io/metaRange/reference/dispersal.html), a [negative exponential function](https://metarange.github.io/metaRange/reference/negative_exponential_function.html) to calculate such a kernel, [environmental suitability estimation](https://metarange.github.io/metaRange/reference/calculate_suitability.html) based on cardinal values, a [reproduction model](https://metarange.github.io/metaRange/reference/ricker_reproduction_model.html) in form of an Ricker model, as well as [metabolic scaling](https://metarange.github.io/metaRange/reference/metabolic_scaling.html) of multiple parameter based on the bodymass and temperature.
+To provide the user a quick start into building models with metaRange, it includes common ecological functions that can be used to model a variety of species such as [kernel-based dispersal](https://metarange.github.io/metaRange/reference/dispersal.html), a [negative exponential function](https://metarange.github.io/metaRange/reference/negative_exponential_function.html) to calculate such a kernel, [environmental suitability estimation](https://metarange.github.io/metaRange/reference/calculate_suitability.html) based on cardinal values, [reproduction models](https://metarange.github.io/metaRange/reference/ricker_reproduction_model.html) in form of an Ricker model and a Ricker model with Allee effects, as well as [metabolic scaling](https://metarange.github.io/metaRange/reference/metabolic_scaling.html) of multiple parameter based on the body mass and temperature.
 
 ## Performance
 The performance critical parts of the package have been implemented in `C++` with the help of the [`Rcpp`](https://www.rcpp.org/) (Eddelbuettel & Balamuta 2018) and [`RcppArmadillo`](https://github.com/RcppCore/RcppArmadillo) (Eddelbuettel & Sanderson 2014) packages.

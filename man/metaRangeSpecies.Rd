@@ -20,7 +20,7 @@ that define a species.
 # The following is bad practice, since species should be added to a simulation
 # via the add_species method of the simulation object. But for illustration
 # purposes:
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)
 sp
@@ -77,7 +77,7 @@ A \verb{<metaRangeSpecies>} object.
 \preformatted{# The following is bad practice, since species should be added to a simulation
 # via the add_species method of the simulation object. But for illustration
 # purposes:
-sim_env <- terra::sds(terra::rast(nrow = 2, ncol = 2))
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)
 sp

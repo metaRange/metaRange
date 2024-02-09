@@ -66,6 +66,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ricker_allee_reproduction_model
+NumericVector ricker_allee_reproduction_model(NumericVector abundance, NumericVector reproduction_rate, NumericVector carrying_capacity, NumericVector allee_threshold, NumericVector overcomp_factor);
+RcppExport SEXP _metaRange_ricker_allee_reproduction_model(SEXP abundanceSEXP, SEXP reproduction_rateSEXP, SEXP carrying_capacitySEXP, SEXP allee_thresholdSEXP, SEXP overcomp_factorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type abundance(abundanceSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type reproduction_rate(reproduction_rateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type carrying_capacity(carrying_capacitySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type allee_threshold(allee_thresholdSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type overcomp_factor(overcomp_factorSEXP);
+    rcpp_result_gen = Rcpp::wrap(ricker_allee_reproduction_model(abundance, reproduction_rate, carrying_capacity, allee_threshold, overcomp_factor));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ricker_reproduction_model
 NumericVector ricker_reproduction_model(NumericVector abundance, NumericVector reproduction_rate, NumericVector carrying_capacity);
 RcppExport SEXP _metaRange_ricker_reproduction_model(SEXP abundanceSEXP, SEXP reproduction_rateSEXP, SEXP carrying_capacitySEXP) {
@@ -85,6 +100,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_metaRange_dispersal_fixed_unweighted", (DL_FUNC) &_metaRange_dispersal_fixed_unweighted, 2},
     {"_metaRange_dispersal_fixed_weighted", (DL_FUNC) &_metaRange_dispersal_fixed_weighted, 3},
     {"_metaRange_metabolic_scaling", (DL_FUNC) &_metaRange_metabolic_scaling, 6},
+    {"_metaRange_ricker_allee_reproduction_model", (DL_FUNC) &_metaRange_ricker_allee_reproduction_model, 5},
     {"_metaRange_ricker_reproduction_model", (DL_FUNC) &_metaRange_ricker_reproduction_model, 3},
     {NULL, NULL, 0}
 };
