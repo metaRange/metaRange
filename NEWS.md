@@ -1,3 +1,10 @@
+# metaRange 1.1.4
+
+* Refactoring & more tests.
+* Make sure dimensionality is preserved in the c++ functions.
+* Improve the display of the remaining time estimate during the simulation.
+* Update vignettes and docs.
+
 # metaRange 1.1.3
 
 * Fix bug in the initialization of the "current" environment which would
