@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,19 +69,34 @@
 <p>Please provide a minimal reproducible example if applicable and depending on the severity of the bug (typo vs crash) also your <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>.</p>
 </div>
 <div class="section level2">
-<h2 id="notes-for-developers-interested-in-contributing">Notes for developers interested in contributing:<a class="anchor" aria-label="anchor" href="#notes-for-developers-interested-in-contributing"></a></h2>
+<h2 id="feature-requests">Feature requests<a class="anchor" aria-label="anchor" href="#feature-requests"></a></h2>
+<p>Open an issue with the desired functionality to discuss.</p>
+</div>
+<div class="section level2">
+<h2 id="pull-requests">Pull requests<a class="anchor" aria-label="anchor" href="#pull-requests"></a></h2>
+<p>Please create an issue first. After that, make sure that CRAN check passes, adhere to the general code style and create tests if you add new functionality.</p>
+</div>
+<div class="section level2">
+<h2 id="scientific-collaboration">Scientific collaboration<a class="anchor" aria-label="anchor" href="#scientific-collaboration"></a></h2>
+<p>Always welcome (but the ability to do so may depend on the number of current ongoing projects), be sure to reach out via mail or in an issue.</p>
+</div>
+<div class="section level2">
+<h2 id="notes-for-developers">Notes for developers<a class="anchor" aria-label="anchor" href="#notes-for-developers"></a></h2>
 <p>Note that this package includes <code>C++</code> code. To build it, you need a functioning compiler toolchain (<a href="https://cran.r-project.org/bin/windows/Rtools/index.html" class="external-link">RTools</a> on windows).</p>
 <div class="section level3">
 <h3 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h3>
 <p>Functions, parameter and variables are in <code>snake_case</code>, classes are in <code>CamelCase</code>. Note the <code>.lintr</code> file for <code>R</code> code and <code>.clang-format</code> file for the <code>c++</code> code. Also, the very helpful command:</p>
-<pre><code><span><span class="fu">styler</span><span class="fu">::</span><span class="fu"><a href="https://styler.r-lib.org/reference/style_pkg.html" class="external-link">style_pkg</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">styler</span><span class="fu">::</span><span class="fu"><a href="https://styler.r-lib.org/reference/style_pkg.html" class="external-link">style_pkg</a></span><span class="op">(</span></span>
 <span>    scope <span class="op">=</span> <span class="st">"line_breaks"</span>,</span>
 <span>    strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    indent_by <span class="op">=</span> <span class="fl">4L</span></span>
-<span><span class="op">)</span></span></code></pre>
-<p>A quick workflow to make sure nothing breaks when making changes:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span><span class="fu">Rcpp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">compileAttributes</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="make-sure-nothing-breaks-when-making-changes">Make sure nothing breaks when making changes<a class="anchor" aria-label="anchor" href="#make-sure-nothing-breaks-when-making-changes"></a></h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Rcpp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">compileAttributes</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markvanderloo/tinytest" class="external-link">tinytest</a></span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -95,21 +110,61 @@
 <span><span class="co"># A longer a bit more extensive test; suitable for local testing</span></span>
 <span><span class="fu">tinytest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytest/man/run_test_dir.html" class="external-link">test_all</a></span><span class="op">(</span>testdir <span class="op">=</span> <span class="st">"inst/local"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># test that examples work without problems</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>warn <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/run_examples.html" class="external-link">run_examples</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># and lastly the R CMD check</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="compiled-code-troubleshooting">Compiled code troubleshooting<a class="anchor" aria-label="anchor" href="#compiled-code-troubleshooting"></a></h3>
+<p><code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> and <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code> don’t perform a standard install (they set special compile flags) and may cause the intermediate dlls to crash on error in some environments (specifically vscode). If there are any problems, try <code><a href="https://pkgbuild.r-lib.org/reference/clean_dll.html" class="external-link">pkgbuild::clean_dll()</a></code> and build again or test with an installed version via <code><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">devtools::install()</a></code>.</p>
 </div>
-<div class="section level2">
-<h2 id="feature-requests">Feature requests<a class="anchor" aria-label="anchor" href="#feature-requests"></a></h2>
-<p>Open an issue with the desired functionality to discuss.</p>
+<div class="section level3">
+<h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a></h3>
+<p>Build a vignette for testing purposes (don’t forget to delete the html afterwards).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/build_rmd.html" class="external-link">build_rmd</a></span><span class="op">(</span><span class="st">"vignettes/[vignette_name].Rmd"</span><span class="op">)</span></span>
+<span><span class="co"># or if this ^ doesn't work:</span></span>
+<span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span><span class="st">"vignettes/[vignette_name].Rmd"</span><span class="op">)</span></span></code></pre></div>
+<p>Calculate test coverage:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">package_coverage</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="pull-requests">Pull requests<a class="anchor" aria-label="anchor" href="#pull-requests"></a></h2>
-<p>Please create an issue first. After that, make sure that CRAN check passes, adhere to the general code style and create tests if you add new functionality.</p>
+<div class="section level3">
+<h3 id="docs--pkgdown">Docs / pkgdown<a class="anchor" aria-label="anchor" href="#docs--pkgdown"></a></h3>
+<p>Build the site.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Check the html files manually or start a local server to preview the site with working js (search ect.).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">servr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/servr/man/httd.html" class="external-link">httw</a></span><span class="op">(</span><span class="st">"docs"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="scientific-collaboration">Scientific collaboration<a class="anchor" aria-label="anchor" href="#scientific-collaboration"></a></h2>
-<p>Always welcome (but the ability to do so may depend on the number of current ongoing projects), be sure to reach out via mail or in an issue.</p>
+<div class="section level3">
+<h3 id="release-process">Release process<a class="anchor" aria-label="anchor" href="#release-process"></a></h3>
+<ol style="list-style-type: decimal"><li>Run extensive checks:</li>
+</ol><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span></span>
+<span>    incoming <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    remote <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal"><li><p>Update News and Description.</p></li>
+<li><p>If it has been a year since the last (CRAN) release, update the copyright header (add current year).</p></li>
+<li><p>Make sure the links are ok.</p></li>
+</ol><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">urlchecker</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">url_check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<ol start="5" style="list-style-type: decimal"><li>Check the spelling.</li>
+</ol><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">spelling</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/spelling/reference/spell_check_package.html" class="external-link">spell_check_package</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<ol start="6" style="list-style-type: decimal"><li><p>Make sure to keep in mind: <a href="https://github.com/DavisVaughan/extrachecks" class="external-link uri">https://github.com/DavisVaughan/extrachecks</a></p></li>
+<li><p>Test the package on r-hub with valgrind / sanitizers for potential memory issues. <a href="https://devtools.r-lib.org/reference/check_rhub.html" class="external-link uri">https://devtools.r-lib.org/reference/check_rhub.html</a></p></li>
+<li><p>Update cran-comments</p></li>
+<li><p>Follow: <a href="https://r-pkgs.org/release.html#sec-release-process" class="external-link uri">https://r-pkgs.org/release.html#sec-release-process</a> I.e:</p></li>
+</ol><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/submit_cran.html" class="external-link">submit_cran</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_github_release.html" class="external-link">use_github_release</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 </div>
 

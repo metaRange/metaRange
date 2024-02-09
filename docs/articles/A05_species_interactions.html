@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@ around the interaction between the two species.</p>
 <p>First we will generate the same setup.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; metaRange version: 1.0.1</span></span>
+<span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span>
 <span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
@@ -137,8 +137,12 @@ around the interaction between the two species.</p>
 <span>        mean_dispersal_dist <span class="op">=</span> <span class="fl">1</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>To highlight the competition, we will give both species the same
-preferred values for their optimal environmental niches, but species 2
+<div class="section level2">
+<h2 id="competition">Competition<a class="anchor" aria-label="anchor" href="#competition"></a>
+</h2>
+<p>We are going to construct a simple model that simulates (asymmetric)
+competition between two species. First, we will give both species the
+same value for their optimal environmental niche values, but species 2
 will be able to tolerate lower and higher values for both niches
 compared to species 1.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -263,9 +267,6 @@ other processes.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="competition">Competition<a class="anchor" aria-label="anchor" href="#competition"></a>
-</h2>
 <p>The process that simulates competition between the two species will
 reduce the carrying capacity of one species based on the abundance of
 the other species. For simplicity, we will assume asymmetric
@@ -425,8 +426,8 @@ predator.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 1 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 2 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A05_species_interactions_files/figure-html/resB-1.png" width="700"><img src="A05_species_interactions_files/figure-html/resB-2.png" width="700"></p>
-<p>Note how species 2 occupies the same areas as species 1 despite
-having a completely different climatic niche. Reminder:</p>
+<p>We can see that species 2 occupies the same areas as species 1
+despite having a vastly different climatic niche. Reminder:</p>
 <p><strong>species_1</strong></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_temperature</span> <span class="op">=</span> <span class="fl">300</span></span>
@@ -447,11 +448,11 @@ having a completely different climatic niche. Reminder:</p>
 <div class="section level2">
 <h2 id="final-notes">Final notes<a class="anchor" aria-label="anchor" href="#final-notes"></a>
 </h2>
-<p>This tutorial only shows the very basic options of species
+<p>This tutorial only shows the <em>very basic</em> options of species
 interactions that are possible with metaRange. One could also have a
 simulation that includes both competition and predation, or different
-(i.e. more complex) forms of these two processes or other processes such
-as e.g. mutualism.</p>
+(i.e. much more complex) forms of these two processes or other processes
+such as e.g. mutualism.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

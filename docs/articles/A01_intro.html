@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@ Cabral, J.S.</h4>
 variety of different process based species distribution models that can
 include a (basically) arbitrary number of environmental factors,
 processes, species and species interactions. The common denominator for
-all models build with metaRange is that they are raster and population
+all models built with metaRange is that they are raster and population
 based.</p>
 <p>Each metaRange <code>simulation</code> object contains one
 <code>environment</code> that holds and manages all the environmental
@@ -120,11 +120,11 @@ structure, they are all based on population dynamics. This means that in
 most cases a <code>trait</code> will not be a single number but a matrix
 that has the same size as the raster data in the environment, where each
 value represents the trait value for one population in the corresponding
-grid cell of the of the environment. Based on this, most
-<code>processes</code> will describe population (and meta population)
-dynamics and not individual based mechanisms. Figure 1 shows an example
-of some of the different environmental factors, species traits and
-processes that could be included in a simulation.</p>
+grid cell of the environment. Based on this, most <code>processes</code>
+will describe population (and meta population) dynamics and not
+individual based mechanisms. Figure 1 shows an example of some of the
+different environmental factors, species traits and processes that could
+be included in a simulation.</p>
 <div class="figure">
 <img src="../reference/figures/example_simulation.svg" alt="Figure 1: Example of some of the different environmental factors, species traits and processes that could be included in a simulation." width="100%"><p class="caption">
 Figure 1: Example of some of the different environmental factors,
@@ -139,7 +139,7 @@ temporal property. They represent the state of the species (or of the
 simulation respectively) in one (the current) time step. When a process
 is executed within a time step, it can access this current state of the
 simulation and modify it, which results in changing traits over the
-course of the simulation. Each process can be assigned a priority, that
+course of the simulation. Each process can be assigned a priority that
 is used by the <code>process priority queue</code> to determine in which
 order the processes are executed within one time step.
 <div class="figure">
@@ -153,16 +153,16 @@ only a selection is shown for simplicity.
 <div class="section level2">
 <h2 id="setting-up-a-simulation">Setting up a simulation<a class="anchor" aria-label="anchor" href="#setting-up-a-simulation"></a>
 </h2>
-<p>Following is a very simple example of how to set up a simulation with
-<code>metaRange</code>. In this example we only use a single species and
-one environmental factor (habitat quality). At the end of this
-introduction we will see how the abundance of the species changes in
-relation to the quality of the habitat each population occupies.</p>
-<p>To start, we need to load the package and its dependencies.</p>
+<p>Following is a simple example of how to set up a simulation with
+<code>metaRange</code>, in which we only use a single species and one
+environmental factor (habitat quality). At the end of this introduction
+we will see how the abundance of the species changes in relation to the
+quality of the habitat each population occupies.</p>
+<p>To start, we need to load the packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; metaRange version: 1.0.1</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span> <span class="co"># does the simulation</span></span>
+<span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span> <span class="co"># handles the raster data processing</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -180,12 +180,13 @@ step of the simulation. In other words, metaRange does not simulate the
 environmental conditions itself, but expects the user to provide the
 environmental data for each time step.</p>
 <p>To create such a dataset one can use the function
-<code><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">terra::sds()</a></code>. One important note: Since the layer represent
-the condition in one time step, all the raster files that go into the
-<code>SDS</code> need to have the same number of layers (i.e. the
-desired number of time steps the simulation should have). After the
-<code>SDS</code> is created, the individual subdatasets should be named,
-since this is how the simulation will refer to them.</p>
+<code><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">terra::sds()</a></code>. One important note: Since each layer
+represents the condition in one time step, all the raster files that go
+into the <code>SDS</code> need to have the same number of layers
+(i.e. the desired number of time steps the simulation should have).
+After the <code>SDS</code> is created, the individual sub-datasets
+should be named, since this is how the simulation will refer to
+them.</p>
 <p>To simplify this introduction, we use an example landscape consisting
 only of habitat quality data, with 10 time steps (layers) that are all
 the same (i.e. no environmental change). Luckily the <code>terra</code>
@@ -299,6 +300,12 @@ function to get an overview of the simulation state.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ID: example_simulation </span></span>
 <span><span class="co">#&gt; Environment: </span></span>
+<span><span class="co">#&gt; Fields: </span></span>
+<span><span class="co">#&gt; $current ==== the environment at the current time step</span></span>
+<span><span class="co">#&gt; classes     : all -&gt; matrix</span></span>
+<span><span class="co">#&gt; number      : 1</span></span>
+<span><span class="co">#&gt; names       : habitat_quality</span></span>
+<span><span class="co">#&gt; $sourceSDS == the source raster data of the environment</span></span>
 <span><span class="co">#&gt; class       : SpatRasterDataset </span></span>
 <span><span class="co">#&gt; subdatasets : 1 </span></span>
 <span><span class="co">#&gt; dimensions  : 90, 95 (nrow, ncol)</span></span>
@@ -311,25 +318,24 @@ function to get an overview of the simulation state.</p>
 <span><span class="co">#&gt; Time step layer mapping:  1 2 3 4 5 6 7 8 9 10 </span></span>
 <span><span class="co">#&gt; Current time step:  1 </span></span>
 <span><span class="co">#&gt; Seed:  1 </span></span>
-<span><span class="co">#&gt; Species:</span></span>
-<span><span class="co">#&gt;   </span></span>
+<span><span class="co">#&gt; Species: 0</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Simulation level processes:</span></span>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; Gobal variables:</span></span>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; Queue:</span></span>
-<span><span class="co">#&gt; At process:  0 out of:  0 </span></span>
-<span><span class="co">#&gt; Remaining queue: </span></span>
-<span><span class="co">#&gt; --- empty </span></span>
-<span><span class="co">#&gt; Future (next time step) queue: </span></span>
-<span><span class="co">#&gt; --- empty</span></span></code></pre></div>
+<span><span class="co">#&gt; Remaining queue (this time step):  0 </span></span>
+<span><span class="co">#&gt;  NULL</span></span>
+<span><span class="co">#&gt; Future queue (next time step):  0 </span></span>
+<span><span class="co">#&gt;  NULL</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="adding-species-to-the-simulation">Adding species to the simulation<a class="anchor" aria-label="anchor" href="#adding-species-to-the-simulation"></a>
 </h2>
 <p>After the simulation is created, species can be added to it using the
 <code>add_species()</code> function. At this point one has to switch to
-the syntax of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6</a> package,
+the syntax of the <a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">R6</a> package
 that metaRange uses. This means that <code>add_species()</code> is a
 method of the <code>simulation</code> object and can be called using the
 <code>$</code> operator (i.e. by indexing the simulation object and
@@ -337,9 +343,9 @@ calling a function that is stored inside of it). The only required
 argument is <code>name</code> which is the name of the species that will
 be added.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span><span class="st">"species_1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; adding species</span></span>
-<span><span class="co">#&gt; Name: species_1</span></span></code></pre></div>
+<span><span class="co">#&gt; name: species_1</span></span></code></pre></div>
 <p>This species can now be accessed by using the <code>$</code> operator
 again.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -365,13 +371,13 @@ form of <code>trait_name = trait_value</code>.</p>
 <p>For now we only add three traits: <code>abundance</code> (number of
 individuals in each population), <code>reproduction_rate</code> (how
 fast the populations can reproduce) and <code>carrying_capacity</code>
-(maximum number of individuals per grid cell). Traits always represent
-the “current” state of a species. This means that the abundance we use
-as input here represents the initial state of the simulation. Over the
-course of the simulation (i.e. in each time step) the traits can be
-updated and change. In this example, the abundance will change each time
-step while e.g. the reproduction rate stays the same, but in other cases
-each trait might change with time.</p>
+(maximum number of individuals per grid cell). Note: Traits always
+represent the “current” state of a species. This means that the
+abundance we use as input here represents the initial state of the
+simulation. Over the course of the simulation (i.e. in each time step)
+the traits can be updated and changed. In this example, the abundance
+will change each time step while e.g. the reproduction rate stays the
+same, but in other cases each trait might change with time.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -409,12 +415,12 @@ is the same for each population at the beginning of the simulation.</p>
 <h2 id="adding-processes">Adding processes<a class="anchor" aria-label="anchor" href="#adding-processes"></a>
 </h2>
 <p>After the species and its traits are added, the processes that
-describe the how the species interacts with its environment can be
-added, using the <code>add_process()</code> method. The arguments are:
-<code>species</code> which is a character vector of the species that
-should get the process, <code>process_name</code> which is a human
-readable name for the process and <code>process_fun</code> which is the
-function that will be called when the process is executed.</p>
+describe how the species interacts with its environment can be added,
+using the <code>add_process()</code> method. The arguments are:
+<code>species</code> which is a character vector of the species (names)
+that should receive the process, <code>process_name</code> which is a
+human readable name for the process and <code>process_fun</code> which
+is the function that will be called when the process is executed.</p>
 <p>One argument that might be confusing is the
 <code>execution_priority</code>. This is a number that gives the process
 a priority “weight” and decides in which order the processes are
@@ -429,10 +435,15 @@ matter.</p>
 <p>In this example we will only add a single process
 (<code>reproduction</code>) to the species, that is going to calculate
 the abundance (for each population) in the next time step, depending on
-the habitat quality. To do so, we can use a built in function
+the habitat quality. To do so, we can use a built-in function
 <code><a href="../reference/ricker_reproduction_model.html">ricker_reproduction_model()</a></code> that implements the “classic”
-Ricker reproduction model (Ricker, W.E. (1954) compare also: Cabral,
-J.S. and Schurr, F.M. (2010)) [Ref. 1 &amp; 2].</p>
+Ricker reproduction model (Ricker, W.E. (1954)) [Ref. 1], which
+describes the population dynamics of a species with non-overlapping
+generations in discrete time steps. This model features density
+dependent growth and possibly overcompensatory dynamics (i.e. the
+populations can, depending on the reproduction rate, become larger than
+the carrying capacity, which inevitably leads to a decline in the next
+time step).</p>
 <p>Note the use of the <code>self</code> keyword in the function. In
 this context, <code>self</code> refers to the species that the process
 is attached to. This means that the function can access the species
@@ -478,76 +489,57 @@ it can be executed via the <code>begin()</code> method.</p>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 84.1732579542268"</span></span>
-<span><span class="co">#&gt; |---- 0.00055 secs</span></span>
-<span><span class="co">#&gt; end of time step: 1</span></span>
-<span><span class="co">#&gt; 0.059 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 10 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00057 secs</span></span>
+<span><span class="co">#&gt;  10 % done | 0.056 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 127.598064388471"</span></span>
-<span><span class="co">#&gt; |---- 0.00053 secs</span></span>
-<span><span class="co">#&gt; end of time step: 2</span></span>
-<span><span class="co">#&gt; 0.083 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 20 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00046 secs</span></span>
+<span><span class="co">#&gt;  20 % done | 0.092 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 185.433176212344"</span></span>
-<span><span class="co">#&gt; |---- 0.00046 secs</span></span>
-<span><span class="co">#&gt; end of time step: 3</span></span>
-<span><span class="co">#&gt; 0.038 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 30 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00045 secs</span></span>
+<span><span class="co">#&gt;  30 % done | 0.037 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 254.974925085775"</span></span>
-<span><span class="co">#&gt; |---- 0.00077 secs</span></span>
-<span><span class="co">#&gt; end of time step: 4</span></span>
-<span><span class="co">#&gt; 0.037 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 40 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00045 secs</span></span>
+<span><span class="co">#&gt;  40 % done | 0.031 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 328.335965177599"</span></span>
-<span><span class="co">#&gt; |---- 0.00069 secs</span></span>
-<span><span class="co">#&gt; end of time step: 5</span></span>
-<span><span class="co">#&gt; 0.04 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 50 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00045 secs</span></span>
+<span><span class="co">#&gt;  50 % done | 0.026 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 394.79908318955"</span></span>
-<span><span class="co">#&gt; |---- 0.00059 secs</span></span>
-<span><span class="co">#&gt; end of time step: 6</span></span>
-<span><span class="co">#&gt; 0.033 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 60 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00044 secs</span></span>
+<span><span class="co">#&gt;  60 % done | 0.02 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 446.224976588256"</span></span>
-<span><span class="co">#&gt; |---- 0.00062 secs</span></span>
-<span><span class="co">#&gt; end of time step: 7</span></span>
-<span><span class="co">#&gt; 0.027 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 70 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00047 secs</span></span>
+<span><span class="co">#&gt;  70 % done | 0.016 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 480.705159122178"</span></span>
-<span><span class="co">#&gt; |---- 0.00042 secs</span></span>
-<span><span class="co">#&gt; end of time step: 8</span></span>
-<span><span class="co">#&gt; 0.011 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 80 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00044 secs</span></span>
+<span><span class="co">#&gt;  80 % done | 0.01 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 501.356439544315"</span></span>
-<span><span class="co">#&gt; |---- 0.00042 secs</span></span>
-<span><span class="co">#&gt; end of time step: 9</span></span>
-<span><span class="co">#&gt; 0.0053 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 90 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00044 secs</span></span>
+<span><span class="co">#&gt;  90 % done | 0.005 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
 <span><span class="co">#&gt; [1] "mean abundance: 512.803082103058"</span></span>
-<span><span class="co">#&gt; |---- 0.00045 secs</span></span>
-<span><span class="co">#&gt; end of time step: 10</span></span>
-<span><span class="co">#&gt; 0 secs remaining (estimate)</span></span>
-<span><span class="co">#&gt; 100 % done</span></span>
+<span><span class="co">#&gt; |---- 0.00044 secs</span></span>
+<span><span class="co">#&gt; 100 % done | 0 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.076 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Runtime: 0.063 secs</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="plotting-the-results">Plotting the results<a class="anchor" aria-label="anchor" href="#plotting-the-results"></a>
@@ -559,10 +551,10 @@ function.</p>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"BluYl"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>    <span class="va">sim</span>,</span>
-<span>    obj <span class="op">=</span> <span class="st">"species_1"</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"abundance"</span>,</span>
-<span>    main <span class="op">=</span> <span class="st">"Species 1: abundance"</span>,</span>
-<span>    col <span class="op">=</span> <span class="va">plot_cols</span></span>
+<span>    obj <span class="op">=</span> <span class="st">"species_1"</span>, <span class="co"># name of the species</span></span>
+<span>    name <span class="op">=</span> <span class="st">"abundance"</span>, <span class="co"># name of the trait to plot</span></span>
+<span>    main <span class="op">=</span> <span class="st">"Species 1: abundance"</span>, <span class="co"># optional title</span></span>
+<span>    col <span class="op">=</span> <span class="va">plot_cols</span> <span class="co"># color palette</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="A01_intro_files/figure-html/resA-1.png" alt="Figure 5: The resulting abundance distribution of species 1 after 10 simulation time steps." width="700"><p class="caption">
@@ -591,11 +583,9 @@ simulation to make it repeatable.</p>
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p>Ricker, W.E. (1954) Stock and recruitment. Journal of the
-Fisheries Research Board of Canada, 11, 559–623. <a href="doi:10.1139/f54-039" class="uri">doi:10.1139/f54-039</a></p></li>
-<li><p>Cabral, J.S. and Schurr, F.M. (2010) Estimating demographic
-models for the range dynamics of plant species. Global Ecology and
-Biogeography, 19, 85–97. <a href="doi:10.1111/j.1466-8238.2009.00492.x" class="uri">doi:10.1111/j.1466-8238.2009.00492.x</a></p></li>
+<li>Ricker, W.E. (1954) Stock and recruitment. Journal of the Fisheries
+Research Board of Canada, 11, 559–623. <a href="doi:10.1139/f54-039" class="uri">doi:10.1139/f54-039</a>
+</li>
 </ol>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

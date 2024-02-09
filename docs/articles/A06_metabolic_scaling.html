@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,12 +98,13 @@ Cabral, J.S.</h4>
     
     
 <p>The temperature of the environment where a species lives (and their
-bodymass) can have a large impact on their metabolism and in consequence
-also on different processes such as growth, reproduction and mortality.
-To include this effect, <code>metaRange</code> offers the option to use
-metabolic scaling based on the “metabolic theory of ecology” described
-by Brown et al. (2004) [Ref: 1] in the following form: <span class="math display">\[{parameter = normalization\_constant \cdot
-mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot
+body mass) can have a large impact on their metabolism and in
+consequence also on different processes such as growth, reproduction and
+mortality. To include this effect, <code>metaRange</code> offers the
+option to use metabolic scaling based on the “metabolic theory of
+ecology” described by Brown et al. (2004) [Ref: 1] in the following
+form: <span class="math display">\[{parameter = normalization\_constant
+\cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot
 temperature}}}\]</span> This is implemented in the function
 <code><a href="../reference/metabolic_scaling.html">metabolic_scaling()</a></code>, which can be used to calculate the
 parameter value for any metabolically influenced process, based on the
@@ -152,7 +153,7 @@ under a reference temperature.</p>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; metaRange version: 1.0.1</span></span>
+<span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span>
 <span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
@@ -248,7 +249,7 @@ done in a loop over multiple species.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>After this point, processes could be added that use the scaled
+<p>After this point, more processes could be added that use the scaled
 parameters (See previous articles / vignettes). Here we just plot the
 scaled parameter instead.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">

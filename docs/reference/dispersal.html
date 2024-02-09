@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,8 @@
 
 <dt>weights</dt>
 <dd><p><code>&lt;numeric matrix&gt;</code>  optional weights in form of a matrix
-that has the same dimensions as the abundance and a <code>range: 0, 1</code>.</p></dd>
+that has the same dimensions as the abundance and a range: between <code>0, 1</code>.
+Should not contain any <code>NA</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -95,8 +96,10 @@ that has the same dimensions as the abundance and a <code>range: 0, 1</code>.</p
 If a matrix of weights is supplied, the individuals will redistribute
 within the dispersal kernel according to the weights.
 I.e. individuals will more likely move towards areas with a higher
-weight, if they are within their dispersal distance.</p>
-    </div>
+weight, if they are within their dispersal distance.
+Note:</p><ul><li><p>the abundance is modified in place, to optimize performance.</p></li>
+<li><p>Any <code>NA</code> or <code>NaN</code> in abundance or weights will be (in-place) replaced by <code>0</code>.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -119,6 +122,8 @@ weight, if they are within their dispersal distance.</p>
 <span class="r-in"><span>    weights <span class="op">=</span> <span class="va">suitab</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">res1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">res2</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Note that the abundance is modified in place, i.e:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">abu</span> <span class="op">-</span> <span class="va">res2</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

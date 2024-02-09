@@ -69,7 +69,7 @@
     
     <a class="navbar-brand me-2" href="index.html">metaRange</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,7 +124,7 @@
 </h1>
 </div>
 <p><img src="reference/figures/logo.png"></p>
-<p>The R package <strong><code>metaRange</code></strong> is a framework that allows you to build process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models build with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.</p>
+<p>The R package <strong><code>metaRange</code></strong> is a framework that allows you to build process based species distribution models that can include a (basically) arbitrary number of environmental factors, processes, species and species interactions. The common denominator for all models built with metaRange is that they are grid (i.e. raster) and population (i.e. not individual) based.</p>
 <div class="section level2">
 <h2 id="installation">Installation:<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -179,13 +179,13 @@
 <div class="section level2">
 <h2 id="environment">Environment<a class="anchor" aria-label="anchor" href="#environment"></a>
 </h2>
-<p>The package supports an unlimited number and type of environmental variables as for example climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation. Environment variables can be supplied as raster data (specifically as a <a href="https://rspatial.github.io/terra/reference/sds.html" class="external-link"><code>SpatRasterDataset</code></a> (SDS) created by the <a href="https://rspatial.github.io/terra/index.html" class="external-link">terra</a> package) (Hijmans 2023). The layer in the SDS correspond to / represent the different time steps of the simulation which enables simulations with varying environmental conditions.</p>
+<p>The package supports an unlimited number and type of environmental variables as for example climate data, land-use data, habitat suitability maps or any other kind of data that may influence the species in the simulation. Environment variables can be supplied as raster data (specifically as a <a href="https://rspatial.github.io/terra/reference/sds.html" class="external-link"><code>SpatRasterDataset</code></a> (SDS) created by the <a href="https://rspatial.github.io/terra/index.html" class="external-link">terra</a> package) (Hijmans 2023). The layers in the SDS correspond to / represent the different time steps of the simulation which enables simulations with varying environmental conditions.</p>
 </div>
 <div class="section level2">
 <h2 id="species">Species<a class="anchor" aria-label="anchor" href="#species"></a>
 </h2>
-<p>A simulation can contain multiple species, as well as interactions between them. Every simulated species (i.e. each species object) consists of a set of <code>processes</code> that describe it’s relationship with time, itself, the abiotic environment and other species and <code>traits</code>, which can be any type of data that can be accessed or changed by the processes.</p>
-<p>Species have implied populations, each of which inhabit one grid cell of the landscape. On a computational level this means that the <code>traits</code> of a species will in most cases be stored in an matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.</p>
+<p>A simulation can contain multiple species, as well as interactions between them. Every simulated species (i.e. each species object) consists of a set of <code>processes</code> that describe its relationship with time, itself, the abiotic environment and other species and <code>traits</code>, which can be any type of data that can be accessed or changed by the processes.</p>
+<p>Species have implied populations, each of which inhabit one grid cell of the landscape. On a computational level this means that the <code>traits</code> of a species will in most cases be stored in a matrix with the same size as the landscape it is simulated in, where each value in the matrix represents the trait value of a population.</p>
 </div>
 <div class="section level2">
 <h2 id="flexibility--dynamic-process-execution">Flexibility / dynamic process execution<a class="anchor" aria-label="anchor" href="#flexibility--dynamic-process-execution"></a>
@@ -195,7 +195,7 @@
 <div class="section level2">
 <h2 id="ecological-functions">Ecological functions<a class="anchor" aria-label="anchor" href="#ecological-functions"></a>
 </h2>
-<p>To provide the user a quick start into building models with metaRange, it includes common ecological functions that can be used to model a variety of species such as <a href="https://metarange.github.io/metaRange/reference/dispersal.html" class="external-link">kernel-based dispersal</a>, a <a href="https://metarange.github.io/metaRange/reference/negative_exponential_function.html" class="external-link">negative exponential function</a> to calculate such a kernel, <a href="https://metarange.github.io/metaRange/reference/calculate_suitability.html" class="external-link">environmental suitability estimation</a> based on cardinal values, a <a href="https://metarange.github.io/metaRange/reference/ricker_reproduction_model.html" class="external-link">reproduction model</a> in form of an Ricker model, as well as <a href="https://metarange.github.io/metaRange/reference/metabolic_scaling.html" class="external-link">metabolic scaling</a> of multiple parameter based on the bodymass and temperature.</p>
+<p>To provide the user a quick start into building models with metaRange, it includes common ecological functions that can be used to model a variety of species such as <a href="https://metarange.github.io/metaRange/reference/dispersal.html" class="external-link">kernel-based dispersal</a>, a <a href="https://metarange.github.io/metaRange/reference/negative_exponential_function.html" class="external-link">negative exponential function</a> to calculate such a kernel, <a href="https://metarange.github.io/metaRange/reference/calculate_suitability.html" class="external-link">environmental suitability estimation</a> based on cardinal values, <a href="https://metarange.github.io/metaRange/reference/ricker_reproduction_model.html" class="external-link">reproduction models</a> in form of an Ricker model and a Ricker model with Allee effects, as well as <a href="https://metarange.github.io/metaRange/reference/metabolic_scaling.html" class="external-link">metabolic scaling</a> of multiple parameter based on the body mass and temperature.</p>
 </div>
 <div class="section level2">
 <h2 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
