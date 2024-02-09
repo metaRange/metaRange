@@ -177,7 +177,7 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
     .Call('_metaRange_metabolic_scaling', PACKAGE = 'metaRange', normalization_constant, scaling_exponent, mass, temperature, E, k)
 }
 
-#' Ricker Allee reproduction model
+#' Ricker reproduction model with Allee effects
 #'
 #' An implementation of the Ricker reproduction model with Allee effects based on
 #' (Cabral and Schurr, 2010) with variable overcompensation and an extension to
@@ -187,8 +187,8 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
 #' @param carrying_capacity `<numeric>` vector (or matrix) of carrying capacities.
 #' @param allee_threshold `<numeric>` vector (or matrix) of Allee thresholds.
-#' @param overcomp_factor `<numeric>` scalar, overcompensation factor (default: 1.0).
-#' higher values lead to stronger overcompensation.
+#' @param overcomp_factor `<numeric>` overcompensation factor (default: 1.0).
+#' Higher values lead to stronger overcompensation. Can also be a vector or matrix.
 #'
 #' @details
 #' ## Equations:

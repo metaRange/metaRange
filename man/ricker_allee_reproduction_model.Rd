@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{ricker_allee_reproduction_model}
 \alias{ricker_allee_reproduction_model}
-\title{Ricker Allee reproduction model}
+\title{Ricker reproduction model with Allee effects}
 \usage{
 ricker_allee_reproduction_model(
   abundance,
@@ -21,8 +21,8 @@ ricker_allee_reproduction_model(
 
 \item{allee_threshold}{\verb{<numeric>} vector (or matrix) of Allee thresholds.}
 
-\item{overcomp_factor}{\verb{<numeric>} scalar, overcompensation factor (default: 1.0).
-higher values lead to stronger overcompensation.}
+\item{overcomp_factor}{\verb{<numeric>} overcompensation factor (default: 1.0).
+Higher values lead to stronger overcompensation. Can also be a vector or matrix.}
 }
 \value{
 \verb{<numeric>} vector (or matrix) of abundances.

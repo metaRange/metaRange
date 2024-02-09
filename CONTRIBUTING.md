@@ -79,7 +79,7 @@ Build the site.
 ```R
 pkgdown::build_site(seed = 3)
 ```
-Chek the html files manually or start a local server to preview the site with working js (search ect.).
+Check the html files manually or start a local server to preview the site with working js (search ect.).
 ```R
 servr::httw("docs")
 ```
