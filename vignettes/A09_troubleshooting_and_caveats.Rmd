@@ -200,7 +200,7 @@ While metaRange can be used to simulate a wide range of scenarios, there are som
     This is especially important to keep in mind when simulating multiple species, since they may have different spatial requirements.
 2. **Evolution and gene flow**
 
-    While it is planned for future versions, metaRange does't (currently) support evolution or gene flow.
+    While it is planned for future versions, metaRange doesn't (currently) support evolution or gene flow.
 3. **Spatial distortion**
 
     Since metaRange uses raster data to represent the environment, it is important to keep in mind that the raster is a 2D representation of a 3D world.

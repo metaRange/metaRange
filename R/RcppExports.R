@@ -179,14 +179,14 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 
 #' Ricker Allee reproduction model
 #'
-#' An implementation of the Ricker reproduction model with allee effects based on
+#' An implementation of the Ricker reproduction model with Allee effects based on
 #' (Cabral and Schurr, 2010) with variable overcompensation and an extension to
 #' handle negative reproduction rates.
 #'
 #' @param abundance `<numeric>` vector (or matrix) of abundances.
 #' @param reproduction_rate `<numeric>` vector (or matrix) of reproduction rates.
 #' @param carrying_capacity `<numeric>` vector (or matrix) of carrying capacities.
-#' @param allee_threshold `<numeric>` vector (or matrix) of allee thresholds.
+#' @param allee_threshold `<numeric>` vector (or matrix) of Allee thresholds.
 #' @param overcomp_factor `<numeric>` scalar, overcompensation factor (default: 1.0).
 #' higher values lead to stronger overcompensation.
 #'
@@ -203,13 +203,13 @@ metabolic_scaling <- function(normalization_constant, scaling_exponent, mass, te
 #' * \eqn{N_{t+1}} = abundance at time t+1
 #' * \eqn{r} = reproduction rate
 #' * \eqn{K} = carrying capacity
-#' * \eqn{C} = (critical) allee threshold
+#' * \eqn{C} = (critical) Allee threshold
 #' * \eqn{b} = overcompensation factor
 #'
 #' Note that:
 #'
 #' * `abundance` should generally be greater than 0.
-#' * `reproduction_rate`, `carrying_capacity` and `allee_threshold` should either all have the same size as the input abundance or all be of lenght 1.
+#' * `reproduction_rate`, `carrying_capacity` and `allee_threshold` should either all have the same size as the input abundance or all be of length 1.
 #' * `carrying_capacity` should be greater than 0. If it is 0 or less, the abundance will be set to 0.
 #' * `allee_threshold` should be less than `carrying_capacity`. If it is greater than or equal, the abundance will be set to 0.
 #'
@@ -304,7 +304,7 @@ ricker_allee_reproduction_model <- function(abundance, reproduction_rate, carryi
 #' Note that:
 #'
 #' * `abundance` should generally be greater than 0.
-#' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of lenght 1.
+#' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of length 1.
 #' * `carrying_capacity` should generally be greater than 0. If it is 0 or less, the abundance will be set to 0.
 #'
 #' Important Note:

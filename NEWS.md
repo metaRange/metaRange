@@ -1,7 +1,7 @@
 # metaRange 1.1.3
 
 * Fix bug in the initialization of the "current" environment which would
-    always point to the same memory adress, instead of a new one for each
+    always point to the same memory address, instead of a new one for each
     object / simulation.
 * Improve print method for the simulation environment.
 
@@ -23,13 +23,13 @@
 # metaRange 1.0.3
 
 * fix bug where traits could be added as references, which in turn could
-    lead to unpredicted results in combination with the cpp functions.
+    lead to unpredictable results in combination with the cpp functions.
 
 # metaRange 1.0.2
 
 * allow multiple species to be added in add_species()
 * improve information printing
-* automatically generate names for the environment subdatasets if none are set.
+* automatically generate names for the environment sub-datasets if none are set.
     Error if the supplied names are not suitable.
 
 # metaRange 1.0.1

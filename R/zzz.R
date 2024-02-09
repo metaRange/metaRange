@@ -8,7 +8,9 @@
     packageStartupMessage(msg)
 }
 
-#' @references tba.
+#' @references Fallert, S., Li, L., & Sarmento Cabral, J. (2023).
+#' metaRange: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models.
+#' Zenodo. \doi{10.5281/zenodo.10364778}
 #' @keywords internal
 "_PACKAGE"
 

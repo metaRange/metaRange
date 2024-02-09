@@ -40,7 +40,7 @@ With:
 Note that:
 \itemize{
 \item \code{abundance} should generally be greater than 0.
-\item \code{reproduction_rate} and  \code{carrying_capacity} should either both have the same size as the input abundance or both be of lenght 1.
+\item \code{reproduction_rate} and  \code{carrying_capacity} should either both have the same size as the input abundance or both be of length 1.
 \item \code{carrying_capacity} should generally be greater than 0. If it is 0 or less, the abundance will be set to 0.
 }
 

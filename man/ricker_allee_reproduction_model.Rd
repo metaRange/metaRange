@@ -19,7 +19,7 @@ ricker_allee_reproduction_model(
 
 \item{carrying_capacity}{\verb{<numeric>} vector (or matrix) of carrying capacities.}
 
-\item{allee_threshold}{\verb{<numeric>} vector (or matrix) of allee thresholds.}
+\item{allee_threshold}{\verb{<numeric>} vector (or matrix) of Allee thresholds.}
 
 \item{overcomp_factor}{\verb{<numeric>} scalar, overcompensation factor (default: 1.0).
 higher values lead to stronger overcompensation.}
@@ -28,7 +28,7 @@ higher values lead to stronger overcompensation.}
 \verb{<numeric>} vector (or matrix) of abundances.
 }
 \description{
-An implementation of the Ricker reproduction model with allee effects based on
+An implementation of the Ricker reproduction model with Allee effects based on
 (Cabral and Schurr, 2010) with variable overcompensation and an extension to
 handle negative reproduction rates.
 }
@@ -47,14 +47,14 @@ With:
 \item \eqn{N_{t+1}} = abundance at time t+1
 \item \eqn{r} = reproduction rate
 \item \eqn{K} = carrying capacity
-\item \eqn{C} = (critical) allee threshold
+\item \eqn{C} = (critical) Allee threshold
 \item \eqn{b} = overcompensation factor
 }
 
 Note that:
 \itemize{
 \item \code{abundance} should generally be greater than 0.
-\item \code{reproduction_rate}, \code{carrying_capacity} and \code{allee_threshold} should either all have the same size as the input abundance or all be of lenght 1.
+\item \code{reproduction_rate}, \code{carrying_capacity} and \code{allee_threshold} should either all have the same size as the input abundance or all be of length 1.
 \item \code{carrying_capacity} should be greater than 0. If it is 0 or less, the abundance will be set to 0.
 \item \code{allee_threshold} should be less than \code{carrying_capacity}. If it is greater than or equal, the abundance will be set to 0.
 }

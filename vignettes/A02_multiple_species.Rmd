@@ -65,7 +65,7 @@ sim$species_names()
 # Adding traits to (multiple) species
 The `add_traits()` method is able to add (multiple) traits to multiple species at once, which is useful when setting up a large number of species with the same traits.
 So instead of only specifying one `species` argument, we can specify a vector of species names, all of which will get the same traits.
-Here, we set the initial abundence of the species to be proportional to the habitat quality.
+Here, we set the initial abundance of the species to be proportional to the habitat quality.
 ```{r add_trait}
 sim$add_traits(
     species = c("species_1", "species_2"),
@@ -132,7 +132,7 @@ sim$add_process(
 ```
 In the case of species 2, we will use a Ricker model with additional Allee effects (via the function: `ricker_allee_reproduction_model`),
 which is an adapted version from the model described in: Cabral, J.S. and Schurr, F.M. (2010) [Ref. 1].
-This means the populations that are smaller than the allee threshold will have a negative per-capacity reproduction rate and go extinct over time.
+This means the populations that are smaller than the Allee threshold will have a negative per-capacity reproduction rate and go extinct over time.
 The Allee effects is also known as "depensation" or "negative density dependence" and can describe
 multiple different mechanisms that lead to lower reproduction rates at small population sizes as for example
 difficulties finding a mate, or increased predation pressure (see: Liermann and Hilborn, 2001) [Ref. 2].

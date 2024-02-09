@@ -1,0 +1,17 @@
+bibentry(
+    bibtype  = "Misc",
+    title    = "metaRange: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models",
+    author   = c(
+        person(
+            given   = "Stefan",
+            family  = "Fallert"),
+        person(
+            given   = "Lea",
+            family  = "Li"),
+        person(
+            given   = "Juliano",
+            family  = "Sarmento Cabral")),
+    publisher  = "Zenodo",
+    year       = "2023",
+    doi        = "10.5281/zenodo.10364778"
+)

@@ -66,7 +66,7 @@ In other words, metaRange does not simulate the environmental conditions itself,
 
 To create such a dataset one can use the function `terra::sds()`.
 One important note: Since each layer represents the condition in one time step, all the raster files that go into the `SDS` need to have the same number of layers (i.e. the desired number of time steps the simulation should have).
-After the `SDS` is created, the individual subdatasets should be named, since this is how the simulation will refer to them.
+After the `SDS` is created, the individual sub-datasets should be named, since this is how the simulation will refer to them.
 
 To simplify this introduction, we use an example landscape consisting only of habitat quality data, with 10 time steps (layers) that are all the same (i.e. no environmental change).
 Luckily the `terra` package has a built-in demo that we can use for this purpose.

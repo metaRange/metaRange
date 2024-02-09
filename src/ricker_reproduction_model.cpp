@@ -43,7 +43,7 @@ using namespace Rcpp;
 //' Note that:
 //'
 //' * `abundance` should generally be greater than 0.
-//' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of lenght 1.
+//' * `reproduction_rate` and  `carrying_capacity` should either both have the same size as the input abundance or both be of length 1.
 //' * `carrying_capacity` should generally be greater than 0. If it is 0 or less, the abundance will be set to 0.
 //'
 //' Important Note:
