@@ -411,7 +411,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' @return `<invisible self>` The finished simulation
         begin = function() {
             verbosity <- getOption("metaRange.verbose", default = FALSE)
-            if (verbosity > 0L) message("Starting simualtion.\n")
+            if (verbosity > 0L) message("Starting simulation.\n")
             start_time_sim <- Sys.time()
             private$continue_execution <- TRUE
             if (is.null(private$current_time_step)) {
