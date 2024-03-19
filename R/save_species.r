@@ -19,9 +19,9 @@
 #' Saves the specified traits of a [metaRangeSpecies] object.
 #'
 #' @param x `<metaRangeSpecies>` [metaRangeSpecies] object.
-#' @param traits `<character>` NULL or a character vector specifying the trait to save.
-#' If NULL, all traits are saved.
-#' @param prefix `<string>` prefix for the file names or NULL.
+#' @param traits `<character>` `NULL` or a character vector specifying the trait to save.
+#' If `NULL`, all traits are saved.
+#' @param prefix `<string>` prefix for the file names or `NULL`.
 #' @param path `<string>`path to the directory where the files are saved.
 #' @param overwrite `<boolean>` overwrite existing files.
 #' @param ... additional arguments passed to [terra::writeRaster].
