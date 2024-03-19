@@ -43,7 +43,7 @@ The function uses the equation in the form of:
 \subsection{Parameter:}{
 
 Note the different scaling values for different parameter.
-The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+The following is a summary from table 2 in Brown, Sibly and Kodric-Brown (2012)
 (see references).\tabular{lcr}{
    Parameter \tab Scaling exponent \tab Activation energy \cr
    resource usage \tab 3/4 \tab -0.65 \cr

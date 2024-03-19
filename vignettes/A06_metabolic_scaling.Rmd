@@ -27,7 +27,7 @@ It has to be noted that different processes have different activation energy val
 | reproduction, mortality | -1/4 | -0.65 |
 | carrying capacity | -3/4 | 0.65 |
 
-Table 1: Common parameter and their associated scaling exponents and activation energies. Source: table 4 in Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012) [Ref: 2]
+Table 1: Common parameter and their associated scaling exponents and activation energies. Source: table 2 in Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012) [Ref: 2]
 
 ## Calculating the normalization constant
 In the absence of experimentally measured values for the normalization constant, `metaRange` offers the function `calculate_normalization_constant()` to calculate the normalization constant based on an estimated value for the parameter under a reference temperature.
