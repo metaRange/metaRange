@@ -11,8 +11,8 @@ dispersal(dispersal_kernel, abundance, weights)
 
 \item{abundance}{\verb{<numeric matrix>} abundance matrix.}
 
-\item{weights}{\verb{<numeric matrix>}  optional weights in form of a matrix
-that has the same dimensions as the abundance and a range: between \verb{0, 1}.
+\item{weights}{\verb{<numeric matrix>} optional weights in form of a matrix
+that has the same dimensions as the abundance and a range between \code{0} and \code{1}.
 Should not contain any \code{NA}.}
 }
 \value{
