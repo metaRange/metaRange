@@ -16,8 +16,8 @@
 
 #' Negative Exponential kernel
 #'
-#' @param x `<numeric>` distance at which the probability is calculated.
-#' @param mean_dispersal_dist `<numeric>` mean dispersal distance (>0)
+#' @param x `<numeric>` distance at which the probability should be calculated.
+#' @param mean_dispersal_dist `<numeric>` mean dispersal distance. Needs to be (>0).
 #' @details
 #' The negative exponential kernel is defined as:
 #' \deqn{f(x) = \frac{1}{2 \pi a^2} e^{-\frac{x}{a}}}{fx = 1 / (2 * pi * a^2) * exp(-x / a)}
@@ -40,7 +40,7 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 
 #' Calculate 2D dispersal kernel.
 #'
-#' Use a user defined function to create a 2D dispersal kernel.
+#' Use a probability function to create a 2D dispersal kernel matrix.
 #'
 #' @param max_dispersal_dist `<numeric>` maximum dispersal distance in grid cells.
 #' The size (rows and columns) of the created dispersal kernel matrix will be
@@ -50,7 +50,7 @@ negative_exponential_function <- function(x, mean_dispersal_dist) {
 #' in which case it needs to vectorized and accept (at least) the parameter
 #' "x" representing the distance from the source as its input and return a
 #' vector of the same size as `max_dispersal_dist`.
-#' @param normalize `<boolean>` whether to normalize the kernel.
+#' @param normalize `<boolean>` whether to normalize the kernel (`sum(kernel) == 1)`).
 #' @param ... additional parameters to be passed to the kernel function.
 #' @details This function first creates an matrix of size `2 * max_dispersal_dist + 1`,
 #' where each cell contains the distance from the center of the cell to the center
@@ -122,13 +122,15 @@ calculate_dispersal_kernel <- function(
 #' Dispersal process
 #'
 #' Disperse a (abundance) matrix using a dispersal kernel and optional weights.
-#' @param dispersal_kernel `<numeric matrix>` dispersal kernel.
+#' @param dispersal_kernel `<numeric matrix>` dispersal kernel. A 2D matrix of
+#' uneven size, containing the weights that deciedes how the individuals from the
+#' cell in the center are going to be distributed to the sourrounding cells.
 #' @param abundance `<numeric matrix>` abundance matrix.
 #' @param weights `<numeric matrix>` optional weights in form of a matrix
 #' that has the same dimensions as the abundance and a range between `0` and `1`.
 #' Should not contain any `NA`.
 #' @details
-#' The abundance matrix is dispersed using the dispersal kernel.
+#' Each cell in the abundance matrix is dispersed using the dispersal kernel.
 #' If a matrix of weights is supplied, the individuals will redistribute
 #' within the dispersal kernel according to the weights.
 #' I.e. individuals will more likely move towards areas with a higher

@@ -18,10 +18,10 @@
 #' @title metaRangeSimulation object
 #'
 #' @description Creates an simulation object in form of an
-#' [R6][R6::R6Class] class that stores and handles all the individual parts
+#' [R6][R6::R6Class] class that stores and handles all the parts
 #' that are necessary to run a simulation.
 #'
-#' @return A `<metaRangeSimulation>` object
+#' @return A `<metaRangeSimulation>` object.
 #' @export
 metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
     cloneable = FALSE,
@@ -35,6 +35,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         # ---------- // globals -------------------
         #' @field globals `<environment>` a place to store global variables.
+        #' I.e. variables and data that are no specific to one species.
         globals = NULL,
 
         # ---------- // environment --------------
@@ -71,9 +72,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' @param source_environment `<SpatRasterDataset>` created by [terra::sds()] that represents the environment.
         #' The individual data sets represent different environmental variables
         #' (e.g. temperature or habitat availability) and the different layer of the data sets
-        #' represent the different timesteps of the simulation.
+        #' represent the different time steps of the simulation.
         #' The function [metaRangeSimulation]`$set_time_layer_mapping()` can be used
-        #' to extend/ shorten the simulation timesteps and set the mapping between each time step and a corresponding
+        #' to extend/ shorten the simulation time steps and set the mapping between each time step and a corresponding
         #' environmental layer. This can be used e.g. to repeat the first (few) layer as a burn-in period.
         #' The number of layers must be the same for all data sets.
         #' @param ID `<string>` optional simulation identification string.
@@ -140,9 +141,10 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             return(invisible(self))
         },
 
-        #' @description Set the time layer of the simulation.
+        #' @description Set the time layer mapping of the simulation.
         #' @param x `<integer>` vector of layer indices
-        #' that describe which environmental layer to use at each time step.
+        #' that describe which environmental layer to use for each time step.
+        #' The length of this vector is equal to the number of time steps.
         #' @examples
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
@@ -171,13 +173,13 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             return(invisible(self))
         },
 
-        #' @description Get current time step
+        #' @description Get the index of the current time step
         #' @examples
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$get_current_time_step()
         #' #> [1] 1
-        #' @return `<integer>` the current time step
+        #' @return `<integer>` the current time step index
         get_current_time_step = function() {
             return(private$current_time_step)
         },
@@ -232,11 +234,15 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         #' @description Adds a process to the simulation.
         #' @param species `<character>` Names of the species that the process should be added to.
-        #' If `NULL` the process will be added to the simulation object itself.
+        #' If `NULL` the process will be "global", i.e added to the simulation object itself.
         #' @param process_name `<string>` Name of the process to add.
         #' @param process_fun `<named function>` The function to call when the process gets executed.
-        #' @param execution_priority `<positive integer>` When this process should run within each time step.
-        #' 1 == highest priority i.e. this function will be the executed first.
+        #' @param execution_priority `<positive integer>` This number decides when the process should be
+        #' executed within each time step. The samller the number the earlier it will executed
+        #' (1 == highest priority i.e. this function will be the executed first).
+        #' In case multiple processes in the simulation have the same priority, it is assumed that
+        #' they are independent from each other and there execution order does not matter
+        #' (i.e. they could be executed in parallel).
         #' @param queue `<boolean>` If `TRUE` the process will be added to the process execution queue directly.
         #' If `FALSE` the process will be added to the simulation but not to the queue,
         #' which means that in order to execute the process, it has to be added manually
@@ -586,7 +592,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         },
 
         # @description Advance to the next time step
-        # @return `TRUE` if advanced, `FALSE` if not
+        # @return `TRUE` if succesful, `FALSE` if not
         # In that case the simulation is finished
         next_time_step = function() {
             if (private$current_time_step >= self$number_time_steps) {
@@ -598,8 +604,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
 
         # @description Set the environment of a simulation
         # @param sds `<SpatRasterDataset>` created by [terra::sds()] that represents the environment.
-        # The individual data set represent different environmental variables and the number of layers
-        # represent the different timesteps of the simulation.
+        # The individual data sets represent different environmental variables and the number of layers
+        # represent the different time steps of the simulation.
         # @return `<invisible self>`
         set_sim_environment = function(sds = NULL) {
             checkmate::assert_class(sds, "SpatRasterDataset")
