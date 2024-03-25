@@ -15,10 +15,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-The temperature of the environment where a species lives (and their body mass) can have a large impact on their metabolism and in consequence also on different processes such as growth, reproduction and mortality.
-To include this effect, `metaRange` offers the option to use metabolic scaling based on the "metabolic theory of ecology" described by Brown et al. (2004) [Ref: 1] in the following form:
-$${parameter = normalization\_constant \cdot mass^{scaling\_exponent} \cdot e^{\frac{E}{k \cdot temperature}}}$$
-This is implemented in the function `metabolic_scaling()`, which can be used to calculate the parameter value for any metabolically influenced process, based on the mean individual body mass of a population, a process specific constant and the temperature of the environment.
+The metabolic rate of an organism is strongly dependent its size (i.e. its mass) and on its body temperature (i.e. the temperature of the environment for poikilotherm animals).
+In consequence this also influences different processes such as growth, reproduction and mortality.
+This concept is described in the "metabolic theory of ecology" (MTE) by Brown et al. (2004) [Ref: 1] which can be expressen in the following equation:
+$${Y = Y_0 m^{a} e^{\frac{E}{k_B T}}}$$
+Where:
+
+- $Y$ = scaled parameter
+- $Y_0$ = normalization constant.
+- $a$ = allometric scaling exponent of the mass.
+- $M$ = mean (individual) mass.
+- $T$ = temperature in kelvin (K).
+- $E$ = activation energy in electronvolts (eV).
+- $k_B$ = Boltzmann's constant (eV / K).
+
+To include this effect in simulations, `metaRange` offers the option to use metabolic scaling based on the MTE through the function `metabolic_scaling()`, which can be used to calculate the parameter value for any metabolically influenced process.
 It has to be noted that different processes have different activation energy values and scaling exponents.
 
 | Parameter  | Scaling exponent | Activation energy         |
@@ -30,11 +41,105 @@ It has to be noted that different processes have different activation energy val
 Table 1: Common parameter and their associated scaling exponents and activation energies. Source: table 2 in Brown, J.H., Sibly, R.M. and Kodric-Brown, A. (2012) [Ref: 2]
 
 ## Calculating the normalization constant
-In the absence of experimentally measured values for the normalization constant, `metaRange` offers the function `calculate_normalization_constant()` to calculate the normalization constant based on an estimated value for the parameter under a reference temperature.
+Since the data for experimentally measured values of the normalization constant for different species is generally scarce, `metaRange` offers the function `calculate_normalization_constant()` to calculate the normalization constant based on an estimated value for the parameter under a reference temperature.
+
+Lets say for example we estimate that a species (avg. bodyweigth = 1 gramm) has a reproduction rate of 1 and a carrying capacity of 100 at a temperature of 20 degree Celcius (293.15 degree Kelvin).
+We can calculate the normalization constant as follows:
+```{r constant}
+library(metaRange)
+R0 <- calculate_normalization_constant(
+    parameter_value = 1,
+    scaling_exponent = -1/4,
+    mass = 1,
+    reference_temperature = 293.15,
+    E = -0.65
+    # paramter "k" is given as default of the function
+)
+C0 <- calculate_normalization_constant(
+    parameter_value = 100,
+    scaling_exponent = -3/4,
+    mass = 1,
+    reference_temperature = 293.15,
+    E = 0.65
+    # paramter "k" is given as default of the function
+)
+```
+
+Now we can use this constant to perform the metabolic scaling.
+Instead of the reference temperature, we can now give a vector of differnt temperatures (or possibly body weights), for which we want to calculate the scaling.
+The MTE makes the following predictions about how the different parameters scale in relation to mass and temperature:
+
+- reproduction rate increases with temperature, but decreases with mass
+- carrying capacity decreases with temperature and with mass
+
+We can test these predictions by plotting the result of our example.
+```{r scaling}
+test_temperature <- seq(280, 300, length.out = 100)
+control_temperature <- rep(293.15, 100)
+test_mass <- seq(0.5, 1.5, length.out = 100)
+control_mass <- rep(1, 100)
+
+scaled_reproduction_rate <- metabolic_scaling(
+    normalization_constant = R0,
+    scaling_exponent = -1/4,
+    mass = control_mass,
+    temperature = test_temperature,
+    E = -0.65
+)
+plot(
+    test_temperature,
+    scaled_reproduction_rate,
+    type = "l",
+    xlab = "temperature (K)",
+    ylab = "scaled reproduction rate"
+)
+scaled_reproduction_rate <- metabolic_scaling(
+    normalization_constant = R0,
+    scaling_exponent = -1/4,
+    mass = test_mass,
+    temperature = control_temperature,
+    E = -0.65
+)
+plot(
+    test_mass,
+    scaled_reproduction_rate,
+    type = "l",
+    xlab = "mass (g)",
+    ylab = "scaled reproduction rate"
+)
+scaled_carrying_capacity_rate <- metabolic_scaling(
+    normalization_constant = C0,
+    scaling_exponent = -3/4,
+    mass = control_mass,
+    temperature = test_temperature,
+    E = 0.65
+)
+plot(
+    test_temperature,
+    scaled_carrying_capacity_rate,
+    type = "l",
+    xlab = "temperature (K)",
+    ylab = "scaled carrying capacity"
+)
+scaled_carrying_capacity_rate <- metabolic_scaling(
+    normalization_constant = C0,
+    scaling_exponent = -3/4,
+    mass = test_mass,
+    temperature = control_temperature,
+    E = 0.65
+)
+plot(
+    test_mass,
+    scaled_carrying_capacity_rate,
+    type = "l",
+    xlab = "mass (g)",
+    ylab = "scaled carrying capacity"
+)
+```
 
 # Example
+Now, to do include this in our simulation, we can set it up similarly as in the previous vignettes.
 ```{r setup}
-library(metaRange)
 library(terra)
 set_verbosity(0)
 
@@ -50,7 +155,7 @@ names(landscape) <- c("temperature", "precipitation")
 sim <- create_simulation(landscape)
 sim$add_species(name = "species_1")
 ```
-Define some basic traits.
+First, we define some basic traits.
 ```{r define_traits}
 sim$add_traits(
     species = "species_1",
@@ -60,7 +165,7 @@ sim$add_traits(
     temperature_minimum = 280
 )
 ```
-Add the parameter used in the metabolic scaling as global variables, since they are not species specific.
+Then add the parameter used in the metabolic scaling as global variables, since they are not specific to one species.
 ```{r global}
 sim$add_globals(
     "E_reproduction_rate" = -0.65,
@@ -71,7 +176,7 @@ sim$add_globals(
 )
 ```
 
-Add traits that are used in the reproduction model including an estimate of the reproduction rate and the carrying capacity.
+We add the traits that are used in the reproduction model including an estimate of the reproduction rate and the carrying capacity.
 ```{r add_rep_traits}
 sim$add_traits(
     species = "species_1",
@@ -83,7 +188,7 @@ sim$add_traits(
 )
 ```
 
-Calculate the normalization constant, based on the parameter estimate and the optimal temperature of the species.
+Now we can calculate the normalization constant, based on the parameter estimate and the optimal temperature of the species and add them as traits as well.
 Note that this could also be done in a loop over multiple species.
 ```{r add_more_traits}
 sim$add_traits(
@@ -108,7 +213,7 @@ sim$add_traits(
 )
 ```
 
-Add a process that does the metabolic scaling in each time step.
+Add finally, we can add a process that does the metabolic scaling in each time step.
 ```{r add_processes}
 sim$add_process(
     species = "species_1",
