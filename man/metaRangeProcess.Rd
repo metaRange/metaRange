@@ -8,7 +8,7 @@
 }
 \description{
 Creates an metaRangeProcess object in form of an
-\link[R6:R6Class]{R6} class that stores and handles all the individual parts
+\link[R6:R6Class]{R6} class that stores and handles all the parts
 that define a process.
 }
 \examples{
@@ -71,7 +71,8 @@ pr$print()
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{fun}}{\verb{<function>} The processes function.}
+\item{\code{fun}}{\verb{<function>} The processes function.
+This will be called when the process is executed.}
 }
 \if{html}{\out{</div>}}
 }
@@ -110,13 +111,13 @@ Creates a new \link{metaRangeProcess} object
 \item{\code{id}}{\verb{<string>} optional ID of the process.}
 
 \item{\code{process_fun}}{\verb{<function>} The function to be
-called when the process is executed. This function will be executed
+called when the process is executed. It will be executed
 in the specified environment (see argument: env) and has access to all the
 variables in that environment. This function may not have any arguments,
 i.e. \code{is.null(formals(process_fun))} must be \code{TRUE}.}
 
 \item{\code{execution_priority}}{\verb{<integer>} the priority of the process.
-The lower the number the earlier the process is executed.
+The lower the number the earlier the process is executed (1 == highest priority).
 Note that the priority is only used to sort the processes
 in the priority queue. The actual execution order is determined
 by the order of the processes in the queue.}

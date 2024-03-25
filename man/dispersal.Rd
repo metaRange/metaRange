@@ -7,7 +7,9 @@
 dispersal(dispersal_kernel, abundance, weights)
 }
 \arguments{
-\item{dispersal_kernel}{\verb{<numeric matrix>} dispersal kernel.}
+\item{dispersal_kernel}{\verb{<numeric matrix>} dispersal kernel. A 2D matrix of
+uneven size, containing the weights that deciedes how the individuals from the
+cell in the center are going to be distributed to the sourrounding cells.}
 
 \item{abundance}{\verb{<numeric matrix>} abundance matrix.}
 
@@ -22,7 +24,7 @@ Should not contain any \code{NA}.}
 Disperse a (abundance) matrix using a dispersal kernel and optional weights.
 }
 \details{
-The abundance matrix is dispersed using the dispersal kernel.
+Each cell in the abundance matrix is dispersed using the dispersal kernel.
 If a matrix of weights is supplied, the individuals will redistribute
 within the dispersal kernel according to the weights.
 I.e. individuals will more likely move towards areas with a higher

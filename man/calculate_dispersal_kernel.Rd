@@ -17,7 +17,7 @@ in which case it needs to vectorized and accept (at least) the parameter
 "x" representing the distance from the source as its input and return a
 vector of the same size as \code{max_dispersal_dist}.}
 
-\item{normalize}{\verb{<boolean>} whether to normalize the kernel.}
+\item{normalize}{\verb{<boolean>} whether to normalize the kernel (\verb{sum(kernel) == 1)}).}
 
 \item{...}{additional parameters to be passed to the kernel function.}
 }
@@ -25,7 +25,7 @@ vector of the same size as \code{max_dispersal_dist}.}
 Dispersal kernel with probabilities.
 }
 \description{
-Use a user defined function to create a 2D dispersal kernel.
+Use a probability function to create a 2D dispersal kernel matrix.
 }
 \details{
 This function first creates an matrix of size \code{2 * max_dispersal_dist + 1},
@@ -58,12 +58,12 @@ calculate_dispersal_kernel(
     normalize = FALSE
 )
 
-# now a negative exponential kernel
+# now a negative exponential kernel.
 # note that `mean_dispersal_dist` is a parameter of
 # the `negative_exponential_function`
 # and is passed to `kfun` via the `...`.
 calculate_dispersal_kernel(
-    max_dispersal_dist = 3,
+    max_dispersal_dist = 2,
     kfun = negative_exponential_function,
     mean_dispersal_dist = 1
 )

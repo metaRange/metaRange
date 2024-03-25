@@ -7,9 +7,9 @@
 negative_exponential_function(x, mean_dispersal_dist)
 }
 \arguments{
-\item{x}{\verb{<numeric>} distance at which the probability is calculated.}
+\item{x}{\verb{<numeric>} distance at which the probability should be calculated.}
 
-\item{mean_dispersal_dist}{\verb{<numeric>} mean dispersal distance (>0)}
+\item{mean_dispersal_dist}{\verb{<numeric>} mean dispersal distance. Needs to be (>0).}
 }
 \value{
 \verb{<numeric>} The probability at distance x.

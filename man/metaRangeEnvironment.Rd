@@ -18,14 +18,19 @@ values that influence the species in the simulation.
 ## ------------------------------------------------
 
 # Note: Only for illustration purposes.
-env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
-env
+# The environment is automatically created when creating a simulation.
+metaRangeEnvironment$new(
+     sourceSDS = terra::sds(
+         terra::rast(vals = 1, nrow = 2, ncol = 2)
+     )
+)
 
 ## ------------------------------------------------
 ## Method `metaRangeEnvironment$set_current`
 ## ------------------------------------------------
 
-# Only for illustration purposes.
+# Note: Only for illustration purposes.
+# The time step is automatically set by the simulation.
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 2))
 names(sim_env) <- "env_01"
 env <- metaRangeEnvironment$new(sourceSDS = sim_env)
@@ -49,8 +54,12 @@ Note that the individual data sets should be sensibly named as
 their names will used throughout the simulation to refer to them.}
 
 \item{\code{current}}{an R environment that holds all the
-environmental values influencing the present time step of the
-simulation as regular 2D R matrices.}
+environmental values influencing the present / current time step of the
+simulation. These values are copies of the current layers
+of the respective individual data sets in the sourceSDS and they are
+stored as regular 2D R matrices under the same name given to the
+corresponding sub data set in the sourceSDS. These matrices are updated
+automatically at the beginning of each time step.}
 }
 \if{html}{\out{</div>}}
 }
@@ -67,7 +76,7 @@ simulation as regular 2D R matrices.}
 \if{latex}{\out{\hypertarget{method-metaRangeEnvironment-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new \link{metaRangeEnvironment} object.
-This is done automatically when a simulation is created. No need to
+This is done automatically when a simulation is created. There is no need to
 call this as user.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeEnvironment$new(sourceSDS = NULL)}\if{html}{\out{</div>}}
@@ -84,13 +93,17 @@ their names will used throughout the simulation to refer to them.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An \verb{<metaRangeEnvironment>} object
+A \verb{<metaRangeEnvironment>} object
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# Note: Only for illustration purposes.
-env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
-env
+# The environment is automatically created when creating a simulation.
+metaRangeEnvironment$new(
+     sourceSDS = terra::sds(
+         terra::rast(vals = 1, nrow = 2, ncol = 2)
+     )
+)
 }
 \if{html}{\out{</div>}}
 
@@ -101,8 +114,9 @@ env
 \if{html}{\out{<a id="method-metaRangeEnvironment-set_current"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangeEnvironment-set_current}{}}}
 \subsection{Method \code{set_current()}}{
-Set current (active) time step / environment.
-No reason to call this as user. The current time step is set automatically.
+Set current (active) time step / environment layer.
+No reason to call this as user. The current time step is set
+automatically by the simulation.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeEnvironment$set_current(layer)}\if{html}{\out{</div>}}
 }
@@ -110,7 +124,7 @@ No reason to call this as user. The current time step is set automatically.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{layer}}{\verb{<integer>} layer}
+\item{\code{layer}}{\verb{<integer>} layer number.}
 }
 \if{html}{\out{</div>}}
 }
@@ -119,7 +133,8 @@ No reason to call this as user. The current time step is set automatically.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{# Only for illustration purposes.
+\preformatted{# Note: Only for illustration purposes.
+# The time step is automatically set by the simulation.
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 2))
 names(sim_env) <- "env_01"
 env <- metaRangeEnvironment$new(sourceSDS = sim_env)

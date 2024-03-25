@@ -159,7 +159,8 @@ pr_queue
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-execute_next_process}{}}}
 \subsection{Method \code{execute_next_process()}}{
 Executes the next process in the queue.
-No reason to call this as user. The next process is executed automatically.
+No reason to call this as user. The next process is executed
+automatically, when the previous process is finished.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$execute_next_process(verbose)}\if{html}{\out{</div>}}
 }
@@ -167,13 +168,14 @@ No reason to call this as user. The next process is executed automatically.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{verbose}}{\verb{<logical>} Print timing and information or not.}
+\item{\code{verbose}}{\verb{<logical>} Should timing and process information be
+printed when the process is executed?}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \verb{<logical>} \code{TRUE} if the next process has been executed,
-\code{FALSE} if not and the queue is empty.
+\code{FALSE} if not, in which case the queue is empty.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -264,6 +266,7 @@ pr_queue$get_future_queue()
 \subsection{Method \code{sort_future_queue()}}{
 Sort the (future) queue based on the execution priority.
 This method is called automatically when a process is added to the queue.
+Note: No reason to call this as user.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$sort_future_queue()}\if{html}{\out{</div>}}
 }
@@ -290,6 +293,7 @@ pr_queue$sort_future_queue()
 \subsection{Method \code{update()}}{
 Update and reset the queue.
 This method is called automatically at the end of each time step.
+Note: No reason to call this as user.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$update()}\if{html}{\out{</div>}}
 }
@@ -336,7 +340,7 @@ stopifnot(pr_queue$is_empty())
 \if{html}{\out{<a id="method-metaRangePriorityQueue-get_queue"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-get_queue}{}}}
 \subsection{Method \code{get_queue()}}{
-Get the current queue.
+Return the current queue.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$get_queue()}\if{html}{\out{</div>}}
 }
@@ -361,7 +365,7 @@ pr_queue$get_queue()
 \if{html}{\out{<a id="method-metaRangePriorityQueue-get_future_queue"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-get_future_queue}{}}}
 \subsection{Method \code{get_future_queue()}}{
-Get the future queue.
+Return the future queue.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$get_future_queue()}\if{html}{\out{</div>}}
 }
@@ -385,7 +389,7 @@ pr_queue$get_future_queue()
 \if{html}{\out{<a id="method-metaRangePriorityQueue-get_current_index"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangePriorityQueue-get_current_index}{}}}
 \subsection{Method \code{get_current_index()}}{
-Get the number / index of the next to be executed process.
+Get the index of the process that will be executed next.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangePriorityQueue$get_current_index()}\if{html}{\out{</div>}}
 }
