@@ -82,7 +82,10 @@
 save_species <- function(x, traits = NULL, prefix = NULL, path, overwrite = FALSE, ...) {
     checkmate::assert_class(x, "metaRangeSpecies")
     checkmate::assert_character(traits, null.ok = TRUE, unique = TRUE)
-    checkmate::assert_string(prefix, null.ok = TRUE)
+    if (!checkmate::test_string(prefix, null.ok = TRUE)) {
+        prefix <- as.character(prefix)
+        checkmate::assert_string(prefix, null.ok = TRUE)
+    }
     checkmate::assert_flag(overwrite)
     if (is.null(traits)) {
         traits <- names(x[["traits"]])
