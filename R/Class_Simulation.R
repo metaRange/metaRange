@@ -485,15 +485,28 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 }
                 if (!private$continue_execution) break
                 if (verbosity > 0L) {
+                    timediff <- (Sys.time() - time_step_start) *
+                        (private$gt_number_time_steps - private$current_time_step)
+
+                    test_val <- as.numeric(timediff, units = "secs")
+                    if (test_val <= 60) {
+                        units(timediff) <- "secs"
+                    } else if (test_val <= 3600) {
+                        units(timediff) <- "mins"
+                    } else if (test_val <= 86400) {
+                        units(timediff) <- "hours"
+                    } else {
+                        units(timediff) <- "days"
+                    }
                     message(
                         format(
-                            round(private$current_time_step / private$gt_number_time_steps * 100, digits = 0),
+                            round(
+                                private$current_time_step / private$gt_number_time_steps * 100,
+                                digits = 0
+                            ),
                             width = 3
                         ), " % done | ",
-                        format((Sys.time() - time_step_start) *
-                                (private$gt_number_time_steps - private$current_time_step),
-                            digits = 2
-                        ), " remaining (estimate)\n",
+                        format(timediff, digits = 2), " remaining (estimate)\n",
                         appendLF = FALSE
                     )
                 }

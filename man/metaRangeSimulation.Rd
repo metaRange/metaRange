@@ -353,7 +353,7 @@ Get the index of the current time step
 }
 
 \subsection{Returns}{
-\verb{<integer>} the current time step index
+\verb{<integer>} the current time step index.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -377,7 +377,7 @@ Get the number of time steps
 }
 
 \subsection{Returns}{
-\verb{<integer>} the current time step index
+\verb{<integer>} the number of time steps.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
