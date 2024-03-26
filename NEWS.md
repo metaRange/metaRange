@@ -1,3 +1,13 @@
+# metaRange 1.2.0
+
+* Expand and rewrite vignettes (how to save a time series of traits).
+* Prettier time series plot.
+* Make some internals read-only (time_layer_mapping & number_time_steps)
+    and introduce getters to retrieve these values.
+* Finally fix the formatting of the temaining time estimate.
+* When saving a species: check if its possible to convert the prefix to a string instead of directly throwing an error.
+
+
 # metaRange 1.1.4
 
 * Refactoring & more tests.
