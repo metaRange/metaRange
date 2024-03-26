@@ -44,11 +44,16 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         environment = NULL,
 
         # ---------- // time ----
-        #' @field  number_time_steps `<integer>` number of time steps in the simulation.
+        #' @field  number_time_steps `<integer>` read-only.
+        #' Will likely be removed in the future in favor of
+        #' `get_number_of_time_steps()`.
+        #' Number of time steps in the simulation.
         number_time_steps = NULL,
 
-        #' @field time_step_layer `<integer>` vector of layer IDs
-        #' that describe which environmental layer to use at each time step.
+        #' @field time_step_layer `<integer>` read-only. Will likely be removed in the future
+        #' in favor of `get_time_layer_mapping()`.
+        #' Vector of layer IDs that describe which environmental layer to use at each time step.
+        #' Use `set_stime_layer_mapping` to set these values.
         time_step_layer = NULL,
 
         # ---------- // queue ----------
@@ -146,7 +151,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$set_time_layer_mapping(1:2)
-        #' stopifnot(identical(sim$time_step_layer, 1:2))
+        #' stopifnot(identical(sim$get_time_layer_mapping(), 1:2))
         #' @return `<invisible self>`
         set_time_layer_mapping = function(x) {
             x <- checkmate::assert_integerish(
@@ -159,15 +164,28 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 coerce = TRUE,
                 min.len = 1L
             )
-            self$time_step_layer <- x
-            self$number_time_steps <- length(x)
+            private$gt_time_step_layer <- x
+            self$time_step_layer <- private$gt_time_step_layer
+            private$gt_number_time_steps <- length(x)
+            self$number_time_steps <- private$gt_number_time_steps
             private$set_current_time_step(1L)
-            self$environment$set_current(self$time_step_layer[[private$current_time_step]])
+            self$environment$set_current(private$gt_time_step_layer[[private$current_time_step]])
             if (getOption("metaRange.verbose", default = FALSE)) {
-                message("number of time steps: ", self$number_time_steps)
+                message("number of time steps: ", private$gt_number_time_steps)
                 message("time step layer mapping: ", paste(x, collapse = ", "))
             }
             return(invisible(self))
+        },
+
+        #' @description Return the time layer mapping of the simulation.
+        #' @examples
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
+        #' sim <- metaRangeSimulation$new(source_environment = sim_env)
+        #' sim$set_time_layer_mapping(1:2)
+        #' sim$get_time_layer_mapping()
+        #' @return `<integer>` vector of time layer for each time step of the simulation.
+        get_time_layer_mapping = function() {
+            return(private$gt_time_step_layer)
         },
 
         #' @description Get the index of the current time step
@@ -176,9 +194,20 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sim$get_current_time_step()
         #' #> [1] 1
-        #' @return `<integer>` the current time step index
+        #' @return `<integer>` the current time step index.
         get_current_time_step = function() {
             return(private$current_time_step)
+        },
+
+        #' @description Get the number of time steps
+        #' @examples
+        #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
+        #' sim <- metaRangeSimulation$new(source_environment = sim_env)
+        #' sim$get_number_of_time_steps()
+        #' #> [1] 1
+        #' @return `<integer>` the number of time steps.
+        get_number_of_time_steps = function() {
+            return(private$gt_number_time_steps)
         },
 
         #' @description Adds new species to the simulation
@@ -422,7 +451,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             } else {
                 private$set_current_time_step(private$current_time_step) # seems redundant, but assures correctness
             }
-            if (private$current_time_step >= self$number_time_steps) {
+            if (private$current_time_step >= private$gt_number_time_steps) {
                 message(
                     "current_time_step >= number_time_steps.\n",
                     "Looks like the simulation has already been simulated. \n",
@@ -438,7 +467,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             private$validate()
             if (verbosity > 1L) message("passed initial sanity checks.\n")
 
-            for (i in private$current_time_step:self$number_time_steps) {
+            for (i in private$current_time_step:private$gt_number_time_steps) {
                 self$queue$update()
                 if (self$queue$is_empty()) {
                     message("Process queue is empty.")
@@ -446,7 +475,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 }
                 if (verbosity > 0L) message("start of time step: ", private$current_time_step)
                 time_step_start <- Sys.time()
-                self$environment$set_current(self$time_step_layer[[private$current_time_step]])
+                self$environment$set_current(private$gt_time_step_layer[[private$current_time_step]])
 
                 while (!self$queue$is_empty() && private$continue_execution) {
                     sucess <- self$queue$execute_next_process(verbosity > 1L)
@@ -458,11 +487,11 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 if (verbosity > 0L) {
                     message(
                         format(
-                            round(private$current_time_step / self$number_time_steps * 100, digits = 0),
+                            round(private$current_time_step / private$gt_number_time_steps * 100, digits = 0),
                             width = 3
                         ), " % done | ",
                         format((Sys.time() - time_step_start) *
-                                (self$number_time_steps - private$current_time_step),
+                                (private$gt_number_time_steps - private$current_time_step),
                             digits = 2
                         ), " remaining (estimate)\n",
                         appendLF = FALSE
@@ -495,8 +524,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $ID\n")
             cat("  $globals\n")
             cat("  $environment\n")
-            cat("  $number_time_steps\n")
-            cat("  $time_step_layer\n")
             cat("  $queue\n")
             cat("  $processes\n")
             cat("  $seed\n")
@@ -516,7 +543,9 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $begin()\n")
             cat("  $exit()\n")
             cat("  $set_time_layer_mapping()\n")
+            cat("  $get_time_layer_mapping()\n")
             cat("  $get_current_time_step()\n")
+            cat("  $get_number_of_time_steps()\n")
             cat("  $print()\n")
             cat("  $summary()\n")
             return(invisible(self))
@@ -532,7 +561,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("ID:", self$ID, "\n")
             cat("Environment: \n")
             self$environment$print()
-            cat("Time step layer mapping: ", self$time_step_layer, "\n")
+            cat("Time step layer mapping: ", private$gt_time_step_layer, "\n")
             cat("Current time step: ", private$current_time_step, "\n")
             cat("Seed: ", self$seed, "\n")
             print_info <- self$species_names()
@@ -558,29 +587,37 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # generator produces the same number.
         process_num = 0L,
 
+
+        # @field gt_number_time_steps `<integer>` number of time steps in the simulation.
+        gt_number_time_steps = NULL,
+
+        # @field gt_time_step_layer `<integer>` vector of layer IDs
+        # that describe which environmental layer to use at each time step.
+        gt_time_step_layer = NULL,
+
         # @description Set current time step
         # @param time_step `<integer>` The current time step of the simulation
         # @return `<invisible self>`
         set_current_time_step = function(time_step) {
-            self$number_time_steps <- checkmate::assert_int(
-                x = self$number_time_steps,
+            private$gt_number_time_steps <- checkmate::assert_int(
+                x = private$gt_number_time_steps,
                 lower = 1L,
                 null.ok = FALSE,
                 coerce = TRUE
             )
-            if (self$number_time_steps != length(self$time_step_layer)) {
+            if (private$gt_number_time_steps != length(private$gt_time_step_layer)) {
                 stop(
                     "number_time_steps [",
-                    self$number_time_steps,
+                    private$gt_number_time_steps,
                     "]  != length(time_step_layer)[",
-                    length(self$time_step_layer),
+                    length(private$gt_time_step_layer),
                     "]."
                 )
             }
             private$current_time_step <- checkmate::assert_int(
                 x = time_step,
                 lower = 1L,
-                upper = self$number_time_steps,
+                upper = private$gt_number_time_steps,
                 null.ok = FALSE,
                 coerce = TRUE
             )
@@ -591,7 +628,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         # @return `TRUE` if succesful, `FALSE` if not
         # In that case the simulation is finished
         next_time_step = function() {
-            if (private$current_time_step >= self$number_time_steps) {
+            if (private$current_time_step >= private$gt_number_time_steps) {
                 return(FALSE)
             }
             private$set_current_time_step(private$current_time_step + 1L)
@@ -637,13 +674,13 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             checkmate::assert_class(self$queue, "metaRangePriorityQueue")
             checkmate::assert_environment(self$globals)
             checkmate::assert_class(self$globals, "metaRangeVariableStorage")
-            checkmate::assert_integerish(self$number_time_steps, lower = 1L)
+            checkmate::assert_integerish(private$gt_number_time_steps, lower = 1L)
             checkmate::assert_integerish(
-                self$time_step_layer,
+                private$gt_time_step_layer,
                 lower = 1L,
                 upper = min(terra::nlyr(self$environment$sourceSDS))
             )
-            checkmate::assert_integerish(private$current_time_step, lower = 1L, upper = self$number_time_steps)
+            checkmate::assert_integerish(private$current_time_step, lower = 1L, upper = private$gt_number_time_steps)
         }
     )
 )

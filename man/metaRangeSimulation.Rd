@@ -38,7 +38,16 @@ sim$globals$a
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$set_time_layer_mapping(1:2)
-stopifnot(identical(sim$time_step_layer, 1:2))
+stopifnot(identical(sim$get_time_layer_mapping(), 1:2))
+
+## ------------------------------------------------
+## Method `metaRangeSimulation$get_time_layer_mapping`
+## ------------------------------------------------
+
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
+sim <- metaRangeSimulation$new(source_environment = sim_env)
+sim$set_time_layer_mapping(1:2)
+sim$get_time_layer_mapping()
 
 ## ------------------------------------------------
 ## Method `metaRangeSimulation$get_current_time_step`
@@ -47,6 +56,15 @@ stopifnot(identical(sim$time_step_layer, 1:2))
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$get_current_time_step()
+#> [1] 1
+
+## ------------------------------------------------
+## Method `metaRangeSimulation$get_number_of_time_steps`
+## ------------------------------------------------
+
+sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
+sim <- metaRangeSimulation$new(source_environment = sim_env)
+sim$get_number_of_time_steps()
 #> [1] 1
 
 ## ------------------------------------------------
@@ -154,12 +172,15 @@ I.e. variables and data that are no specific to one species.}
 \item{\code{environment}}{\verb{<metaRangeEnvironment>} A \link{metaRangeEnvironment}
 that holds all the environmental values influencing the simulation.}
 
-\item{\code{number_time_steps}}{\verb{<integer>} number of time steps in the simulation.}
+\item{\code{number_time_steps}}{\verb{<integer>} read-only.
+Will likely be removed in the future in favor of
+\code{get_number_of_time_steps()}.
+Number of time steps in the simulation.}
 
-\item{\code{time_step_layer}}{\verb{<integer>} vector of layer IDs
-that describe which environmental layer to use at each time step.}
-
-\item{\code{current_time_step}}{\verb{<integer>} current time step.}
+\item{\code{time_step_layer}}{\verb{<integer>} read-only. Will likely be removed in the future
+in favor of \code{get_time_layer_mapping()}.
+Vector of layer IDs that describe which environmental layer to use at each time step.
+Use \code{set_stime_layer_mapping} to set these values.}
 
 \item{\code{queue}}{\verb{<metaRangePriorityQueue>} manages the order in which the processes should be executed.}
 
@@ -175,7 +196,9 @@ that describe which environmental layer to use at each time step.}
 \item \href{#method-metaRangeSimulation-new}{\code{metaRangeSimulation$new()}}
 \item \href{#method-metaRangeSimulation-add_globals}{\code{metaRangeSimulation$add_globals()}}
 \item \href{#method-metaRangeSimulation-set_time_layer_mapping}{\code{metaRangeSimulation$set_time_layer_mapping()}}
+\item \href{#method-metaRangeSimulation-get_time_layer_mapping}{\code{metaRangeSimulation$get_time_layer_mapping()}}
 \item \href{#method-metaRangeSimulation-get_current_time_step}{\code{metaRangeSimulation$get_current_time_step()}}
+\item \href{#method-metaRangeSimulation-get_number_of_time_steps}{\code{metaRangeSimulation$get_number_of_time_steps()}}
 \item \href{#method-metaRangeSimulation-add_species}{\code{metaRangeSimulation$add_species()}}
 \item \href{#method-metaRangeSimulation-species_names}{\code{metaRangeSimulation$species_names()}}
 \item \href{#method-metaRangeSimulation-add_process}{\code{metaRangeSimulation$add_process()}}
@@ -289,7 +312,31 @@ The length of this vector is equal to the number of time steps.}
 \preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$set_time_layer_mapping(1:2)
-stopifnot(identical(sim$time_step_layer, 1:2))
+stopifnot(identical(sim$get_time_layer_mapping(), 1:2))
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-metaRangeSimulation-get_time_layer_mapping"></a>}}
+\if{latex}{\out{\hypertarget{method-metaRangeSimulation-get_time_layer_mapping}{}}}
+\subsection{Method \code{get_time_layer_mapping()}}{
+Return the time layer mapping of the simulation.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$get_time_layer_mapping()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\verb{<integer>} vector of time layer for each time step of the simulation.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 4))
+sim <- metaRangeSimulation$new(source_environment = sim_env)
+sim$set_time_layer_mapping(1:2)
+sim$get_time_layer_mapping()
 }
 \if{html}{\out{</div>}}
 
@@ -313,6 +360,30 @@ Get the index of the current time step
 \preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 sim <- metaRangeSimulation$new(source_environment = sim_env)
 sim$get_current_time_step()
+#> [1] 1
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-metaRangeSimulation-get_number_of_time_steps"></a>}}
+\if{latex}{\out{\hypertarget{method-metaRangeSimulation-get_number_of_time_steps}{}}}
+\subsection{Method \code{get_number_of_time_steps()}}{
+Get the number of time steps
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$get_number_of_time_steps()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\verb{<integer>} the current time step index
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
+sim <- metaRangeSimulation$new(source_environment = sim_env)
+sim$get_number_of_time_steps()
 #> [1] 1
 }
 \if{html}{\out{</div>}}
