@@ -51,9 +51,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
         #' that describe which environmental layer to use at each time step.
         time_step_layer = NULL,
 
-        #' @field current_time_step `<integer>` current time step.
-        current_time_step = NULL,
-
         # ---------- // queue ----------
         #' @field queue `<metaRangePriorityQueue>` manages the order in which the processes should be executed.
         queue = NULL,
@@ -500,7 +497,6 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $environment\n")
             cat("  $number_time_steps\n")
             cat("  $time_step_layer\n")
-            cat("  $current_time_step\n")
             cat("  $queue\n")
             cat("  $processes\n")
             cat("  $seed\n")
@@ -519,8 +515,8 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
             cat("  $add_process()\n")
             cat("  $begin()\n")
             cat("  $exit()\n")
-            cat("  $set_current_time_step()\n")
             cat("  $set_time_layer_mapping()\n")
+            cat("  $get_current_time_step()\n")
             cat("  $print()\n")
             cat("  $summary()\n")
             return(invisible(self))
