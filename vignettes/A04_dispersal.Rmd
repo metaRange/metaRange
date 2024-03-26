@@ -18,13 +18,13 @@ Dispersal is a key process in the life cycle of many species and can have a larg
 `metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
 
 Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
-If one is not familiar with this topic, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" (Ref. 1).
+If one is not familiar with this topic, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" [Ref. 1].
 
 To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population (the cell in the center of the matrix) to move to its surrounding habitat (the cells towards the sides of the matrix).
-To calculate the dispersal of in the whole landscape, this kernel is iteratively centered on each cell of the abundence matrix (i.e. the central cell in the kernel is overlapping with the cell for which we want to calculate the dispersal), and then this abundance of this cell is multiplied with the values in the kernel.
-Since the kernel is a probability distribution, the result of this is the number of individuals that move from to central cell outwards (and also the number of individuals that stay in the source cell).
+To calculate the dispersal of in the whole landscape, this kernel is iteratively centered on each cell of the abundence matrix (i.e. the central cell in the kernel is overlapping with the cell for which we want to calculate the dispersal), and then the abundance of this cell is multiplied with the values in the kernel.
+Since the kernel is a probability distribution, the result is the number of individuals that move from to central cell outwards (and also the number of individuals that stay in the source cell).
 This process is repeated for each cell and then all the individual dispersal events are summed up to generate the new abundance matrix after the dispersal.
-This process is conceptionally similar to applying a blur filter to an image in image processing (i.e. "blurring")  or to the mathematical operation of "convolution".
+Conceptionally, this process is similar to applying a blur filter to an image in image processing (i.e. "blurring")  or to the mathematical operation of "convolution".
 
 We can use the function `calculate_dispersal_kernel()` to create such a dispersal kernel.
 This function creates a matrix that has `max_dispersal_dist` rows and columns on both sides of the source cell and expects another function as input that it calls for each of those cells with the distance from the source cell as an argument.

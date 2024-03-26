@@ -58,20 +58,20 @@ sim$add_traits(
 
 ## Competition
 We are going to construct a simple model that simulates (asymmetric) competition between two species.
-Both species will have the same value for their optimal (i.e their preferred) environmental niche values, but species 2 will be able to tolerate a larger range compared to species 1.
+Both species will have the same value for their optimal (i.e. their preferred) environmental niche values, but species 2 will be able to tolerate a larger range compared to species 1.
 
 ```{r suitability1, fig.cap="Figure 1: Suitability curve for the temperature niches of species 1 and species 2."}
-opt_temp <- 285
-min_temp_sp1 <- 270
-max_temp_sp1 <- 290
+opt_temp <- 283
+min_temp_sp1 <- 279
+max_temp_sp1 <- 287
 min_temp_sp2 <- 260
-max_temp_sp2 <- 295
+max_temp_sp2 <- 300
 
 opt_prec <- 700
-min_prec_sp1 <- 200
-max_prec_sp1 <- 1000
+min_prec_sp1 <- 350
+max_prec_sp1 <- 850
 min_prec_sp2 <- 0
-max_prec_sp2 <- 1200
+max_prec_sp2 <- 1300
 
 x <- seq(min_temp_sp2, max_temp_sp2, length.out = 100)
 y_sp1 <- calculate_suitability(max_temp_sp1, opt_temp, min_temp_sp1, x)

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 At the end of a simulation you will most likely want to save the results to perform further analysis in the future without having to repeat the whole simulation.
 This can be done through the function `save_species()`.
-It takes as input a (metaRange) species object and will by default saves all its traits, or only a subset, if the user list specific trait names.
+It takes as input a (metaRange) species object and will by default save all its traits or, if the user list specific trait names, only a subset.
 
 If we take the example simulation from the first vignette:
 

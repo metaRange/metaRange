@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 
 The metabolic rate of an organism is strongly dependent its size (i.e. its mass) and on its body temperature (i.e. the temperature of the environment for poikilotherm animals).
 In consequence this also influences different processes such as growth, reproduction and mortality.
-This concept is described in the "metabolic theory of ecology" (MTE) by Brown et al. (2004) [Ref: 1] which can be expressen in the following equation:
-$${Y = Y_0 m^{a} e^{\frac{E}{k_B T}}}$$
+This concept is described in the "metabolic theory of ecology" (MTE) by Brown et al. (2004) [Ref: 1] which can be expressed in the following equation:
+$${Y = Y_0 M^{a} e^{\frac{E}{k_B T}}}$$
 Where:
 
-- $Y$ = scaled parameter
+- $Y$ = scaled parameter.
 - $Y_0$ = normalization constant.
 - $a$ = allometric scaling exponent of the mass.
 - $M$ = mean (individual) mass.
@@ -43,7 +43,7 @@ Table 1: Common parameter and their associated scaling exponents and activation 
 ## Calculating the normalization constant
 Since the data for experimentally measured values of the normalization constant for different species is generally scarce, `metaRange` offers the function `calculate_normalization_constant()` to calculate the normalization constant based on an estimated value for the parameter under a reference temperature.
 
-Lets say for example we estimate that a species (avg. bodyweigth = 1 gramm) has a reproduction rate of 1 and a carrying capacity of 100 at a temperature of 20 degree Celcius (293.15 degree Kelvin).
+Lets say for example we estimate that a species (avg. bodyweigth = 1 gram) has a reproduction rate of 1 and a carrying capacity of 100 at a temperature of 20 degree Celcius (293.15 degree Kelvin).
 We can calculate the normalization constant as follows:
 ```{r constant}
 library(metaRange)
@@ -66,11 +66,11 @@ C0 <- calculate_normalization_constant(
 ```
 
 Now we can use this constant to perform the metabolic scaling.
-Instead of the reference temperature, we can now give a vector of differnt temperatures (or possibly body weights), for which we want to calculate the scaling.
+Instead of the reference temperature, we can now give a vector of different temperatures (or possibly body weights), for which we want to calculate the scaling.
 The MTE makes the following predictions about how the different parameters scale in relation to mass and temperature:
 
-- reproduction rate increases with temperature, but decreases with mass
-- carrying capacity decreases with temperature and with mass
+- Reproduction rate increases with temperature, but decreases with mass.
+- Carrying capacity decreases with temperature and with mass.
 
 We can test these predictions by plotting the result of our example.
 ```{r scaling}

@@ -20,9 +20,11 @@ knitr::opts_chunk$set(
 
 One of the main study question in ecology is the relationship between environmental conditions and species occurence.
 This tutorial will show how we can use information about the target species (e.g. preferred temperature and thermal limits) to implement a habitat suitability model in metaRange.
+
 In a second step, we will use the calculated habitat suitability to inform the reproduction rate and carrying capacity in the population model.
 This allows us to see which populations are viable over time without the need for an arbitrary "suitability cutoff" value.
 For this, we will create a landscape with two environmental variables (temperature and precipitation) and then add two similar species to it that only differ in their environmental preferences.
+
 At the end we can run the simulation and compare how this difference affects the distribution of the species.
 
 # Setup
@@ -81,8 +83,6 @@ sim <- create_simulation(
     ID = "example_simulation",
     seed = 1
 )
-# how many time steps are there currently:
-sim$number_time_steps
 ```
 
 And then adjust the number of time steps and the layer that are used each time step, by calling:
@@ -90,10 +90,6 @@ And then adjust the number of time steps and the layer that are used each time s
 ```{r time_steps}
 # use layer 1 for 10 time steps
 sim$set_time_layer_mapping(rep_len(1, 10))
-# how many time steps are there now:
-sim$number_time_steps
-# which layer is used each time step:
-sim$time_step_layer
 ```
 
 Now we can continue by adding the species.
@@ -152,7 +148,7 @@ sim$add_traits(
 # Adding processes
 
 ## Calculate the suitability
-To calculate the suitability, we use the metaRange function `calculate_suitability()` that is based on an equation published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt in 1999 (eq:4 in Ref. 2).
+To calculate the suitability, we use the metaRange function `calculate_suitability()` that is based on an equation published by Yin et al. in 1995 [Ref. 1] and simplified by Yan and Hunt in 1999 [eq:4 in Ref. 2].
 The function takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
 
 ```{r calculate_suitability, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}

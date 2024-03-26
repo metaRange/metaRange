@@ -17,8 +17,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-`metaRange` is not only able to simulate single species, it can also simulate multiple species at a time.
-In this vignette, we will expand the example from the previous vignette to show how to set up a multi-species simulation.
+`metaRange` is not only able to simulate single species, but it can also simulate multiple species at the same time.
+In this vignette, we will expand our previous example to show how to set up a multi-species simulation.
 These species will not interact (that is explained in a different vignette), but rather be simulated in parallel, so that we can directly compare how their population development differs under the same environmental conditions.
 
 # Setting up the simulation
@@ -79,10 +79,13 @@ sim$add_traits(
 ```
 As the name suggests, `sim$environment$current[["....."]]` always refers to the "current" state of the landscape (i.e. the environmental conditions in the present time step).
 So what is the difference to the source `SDS` we used as input to create the simulation?
+
 * The `sim$environment$sourceSDS[["....."]]` is stored as raster data, which has multiple sub-datasets (e.g. habitat quality,  temperature, ...), multiple layer (one for each time step) and is potentially stored on the disk, which makes it suitable to store large amounts of data (the whole time series), but makes accessing it more complicated and slow.
-* The `current` environment contains a 2 dimensional matrix (i.e. only one / the current layer) for each of the sub-datasets in the source SDS. These matricies are stored and accessible under the same name as the respective data sets in the source SDS and they are stored in memory.
+* The `current` environment contains a 2 dimensional matrix (i.e. only one / the current layer) for each of the sub-datasets in the source SDS.
+These matricies are stored and accessible under the same name as the respective data sets in the source SDS and they are stored in memory.
 This makes it faster and easier to access and them use in calculations (As seen in the code example above).
-This current environment is automatically updated at the beginning of each time step, and right now (before the simulation has started) stores the condition of the first time step (i.e. the first layer of each sub-dataset of the sourceSDS).
+
+The current environment is automatically updated at the beginning of each time step, and right now (before the simulation has started) stores the condition of the first time step (i.e. the first layer of each sub-dataset of the sourceSDS).
 
 ```{r initAbundance, fig.cap = "Figure 2: The initial abundance of the species."}
 # define a nice color palette
@@ -136,6 +139,7 @@ sim$add_process(
 ```
 In the case of species 2, we will use a Ricker model with additional Allee effects (via the function: `ricker_allee_reproduction_model`),
 which is an adapted version from the model described in: Cabral, J.S. and Schurr, F.M. (2010) [Ref. 1].
+
 The Allee effect is also known as "depensation" or "negative density dependence" and describes
 multiple different mechanisms that all lead to lower reproduction rates in small populations (making them non-viable in the long term and leading to their extinction over time).
 Some example mechanisms of the Allee effect are: difficulties finding a mate due to low population density, or increased predation pressure due to missing protection from the crowd (see: Liermann and Hilborn, 2001) [Ref. 2].
