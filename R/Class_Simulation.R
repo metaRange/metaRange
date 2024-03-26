@@ -104,7 +104,7 @@ metaRangeSimulation <- R6::R6Class("metaRangeSimulation",
                 seed <- checkmate::assert_int(seed, lower = 1L, null.ok = FALSE, coerce = TRUE)
                 self$seed <- seed
             } else {
-                self$seed <- sample.int(1000, 1)
+                self$seed <- sample.int(1000000, 1)
             }
             set.seed(self$seed)
             lockBinding("seed", self)
