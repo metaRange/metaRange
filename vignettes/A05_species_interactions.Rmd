@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 ```
-To expand the example we have so far, we can introduce more processes around the interaction between the two species.
+To further expand the example we have so far, we can introduce more processes around the interaction between the two species.
 
 First we will generate the same setup.
 ```{r setup, class.source = 'fold-hide'}
@@ -58,20 +58,20 @@ sim$add_traits(
 
 ## Competition
 We are going to construct a simple model that simulates (asymmetric) competition between two species.
-First, we will give both species the same value for their optimal environmental niche values, but species 2 will be able to tolerate lower and higher values for both niches compared to species 1.
+Both species will have the same value for their optimal (i.e. their preferred) environmental niche values, but species 2 will be able to tolerate a larger range compared to species 1.
 
-```{r suitability1, fig.cap="Figure 1: Suitability curve for the temperature niches of species 1 (blue) and species 2 (red)."}
-opt_temp <- 285
-min_temp_sp1 <- 270
-max_temp_sp1 <- 290
+```{r suitability1, fig.cap="Figure 1: Suitability curve for the temperature niches of species 1 and species 2."}
+opt_temp <- 283
+min_temp_sp1 <- 279
+max_temp_sp1 <- 287
 min_temp_sp2 <- 260
-max_temp_sp2 <- 295
+max_temp_sp2 <- 300
 
 opt_prec <- 700
-min_prec_sp1 <- 200
-max_prec_sp1 <- 1000
+min_prec_sp1 <- 350
+max_prec_sp1 <- 850
 min_prec_sp2 <- 0
-max_prec_sp2 <- 1200
+max_prec_sp2 <- 1300
 
 x <- seq(min_temp_sp2, max_temp_sp2, length.out = 100)
 y_sp1 <- calculate_suitability(max_temp_sp1, opt_temp, min_temp_sp1, x)
@@ -105,7 +105,7 @@ legend(
 )
 ```
 
-Now we can add these values as traits to the species and also add the other processes.
+Now we can add these values as traits to the species and also add the processes introduced in the previous tutorials.
 
 ```{r suitability3, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}
 sim$add_traits(
@@ -178,16 +178,23 @@ sim$add_process(
 ```
 
 The process that simulates competition between the two species will reduce the carrying capacity of one species based on the abundance of the other species.
-For simplicity, we will assume asymmetric competition, with species 1 being the superior competitor.
-Therefore, we will only reduce the carrying capacity of species 2 based on the abundance of species 1.
+For simplicity, we will assume asymmetric competition, in which species 1 is the superior competitor.
+This means that if both species occur in one grid cell of the landscape:
+
+- The population size of species 1 is only dependent on the environmental conditions
+- The population size of species 2 is also dependent on the environmental conditions and aditionally reduced by the population size of species 1
+
 ```{r Competition}
 sim$add_process(
     species = "species_2",
     process_name = "competition",
     process_fun = function() {
-        max_capacity <- max(self$traits$carrying_capacity)
         self$traits$carrying_capacity <-
-            pmax(max_capacity - self$sim$species_1$traits$abundance, 0)
+            pmax(
+                self$traits$carrying_capacity -
+                    self$sim$species_1$traits$abundance,
+                0
+            )
     },
     execution_priority = 4
 )
@@ -203,7 +210,7 @@ plot(sim, "species_1", "abundance", main = "Sp: 1 abundance", col = plot_cols)
 plot(sim, "species_2", "abundance", main = "Sp: 2 abundance", col = plot_cols)
 ```
 
-As you can see, species 2 is being pushed out of its preferred habitat, towards areas that are more unsuitable for species 1.
+In this result plot it is clear that species 2 is being pushed out of its preferred habitat, towards areas that are more unsuitable for species 1.
 
 ## Trophic interactions
 

@@ -14,24 +14,26 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 ```
-Dispersal is a key process in the life cycle of many species and can have a large impact on the population dynamics and the ability of a species to survive and adapt to a changing environment.
+Dispersal is a key process in the life cycle of many species and can have a large impact on the (meta) population dynamics and the ability of a species to survive in and adapt to a changing environment.
 `metaRange` allows the user to simulate dispersal in two different ways using the `dispersal()` function, which are described in the following sections.
 
 Since metaRange is not an individual based model it uses the concept of a dispersal kernel to simulate dispersal for each population.
-If one is not familiar with this topic, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" (Ref. 1).
+If one is not familiar with this topic, a good introduction is "Nathan, Klein, Robledo-Arnuncio, & Revilla (2012) Dispersal kernels: review" [Ref. 1].
 
-To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population to move to its surrounding habitat.
-Since this is a probability distribution, this dispersal kernel can be multiplied with each cell of the abundance matrix to get the new abundance of the species in each cell after dispersal.
-In other scientific fields this process is known as convolution and is for example often used in a similar form in image processing and especially when "blurring" an image.
+To also give a short explanation here: A dispersal kernel is basically a matrix that describes how likely it is for an individual of a source population (the cell in the center of the matrix) to move to its surrounding habitat (the cells towards the sides of the matrix).
+To calculate the dispersal of in the whole landscape, this kernel is iteratively centered on each cell of the abundence matrix (i.e. the central cell in the kernel is overlapping with the cell for which we want to calculate the dispersal), and then the abundance of this cell is multiplied with the values in the kernel.
+Since the kernel is a probability distribution, the result is the number of individuals that move from to central cell outwards (and also the number of individuals that stay in the source cell).
+This process is repeated for each cell and then all the individual dispersal events are summed up to generate the new abundance matrix after the dispersal.
+Conceptionally, this process is similar to applying a blur filter to an image in image processing (i.e. "blurring")  or to the mathematical operation of "convolution".
 
 We can use the function `calculate_dispersal_kernel()` to create such a dispersal kernel.
 This function creates a matrix that has `max_dispersal_dist` rows and columns on both sides of the source cell and expects another function as input that it calls for each of those cells with the distance from the source cell as an argument.
 This may sound complicated but the code is very short if we use the built-in `negative_exponential_function`:
 
 ```{r, kernel}
-max_dispersal_distance = 10
-mean_dispersal_distance = 7
-dispersal_kernel = metaRange::calculate_dispersal_kernel(
+max_dispersal_distance <- 10
+mean_dispersal_distance <- 7
+dispersal_kernel <- metaRange::calculate_dispersal_kernel(
     max_dispersal_dist = max_dispersal_distance, # units: grid cells
     kfun = metaRange::negative_exponential_function, # this function calculates the kernel values
     mean_dispersal_dist = mean_dispersal_distance # this is passed to the kfun
@@ -130,7 +132,7 @@ sim$add_process(
 )
 ```
 
-Now we add the two methods of dispersal to the two species to highlight the difference.
+Now we add the two different methods of dispersal to the two species.
 
 ## Unweighted dispersal
 
@@ -165,7 +167,7 @@ sim$add_process(
 ```
 
 ## Comparison of the results
-To see the effect, we run the simulation for 10 time steps and plot the results.
+We run the simulation and plot the results.
 ```{r run_sim, fig.cap="Figure 2: Resulting abundance of species 1 (with unweighted dispersal) after 10 time steps."}
 set_verbosity(0)
 sim$begin()

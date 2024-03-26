@@ -15,7 +15,7 @@ calculate_normalization_constant(
 )
 }
 \arguments{
-\item{parameter_value}{\verb{<numeric>} parameter value at the reference temperature.}
+\item{parameter_value}{\verb{<numeric>} estimated parameter value at the reference temperature.}
 
 \item{scaling_exponent}{\verb{<numeric>} allometric scaling exponent of the mass.}
 
@@ -39,7 +39,7 @@ based on a known or estimated parameter value under at a reference temperature.
 }
 \details{
 Note the different scaling values for different parameter.
-The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+The following is a summary from table 2 in Brown, Sibly and Kodric-Brown (2012)
 (see references).\tabular{lcr}{
    Parameter \tab Scaling exponent \tab Activation energy \cr
    resource usage \tab 3/4 \tab -0.65 \cr

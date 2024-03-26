@@ -15,12 +15,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-While creating your own simulation, you may encounter issues and errors to which the solution may not be immediately obvious and the resulting error messages can be cryptic and hard to understand.
-Here we will cover a basic strategy on how to solve them with the example of a simple typo in one of the species traits.
+When creating your own simulation, you may encounter issues / errors to which the solution may not be immediately obvious.
+Here we will cover a basic strategy on how to debug with the example of a simple typo in one of the species traits.
 
 # Debugging
 The following code will result in an error:
-```{r typo, error=TRUE}
+```{r typo, eval = FALSE}
 library(metaRange)
 library(terra)
 set_verbosity(0)
@@ -59,10 +59,51 @@ sim$add_process(
 )
 sim$begin()
 ```
-And it is not immediately obvious what the problem is.
+
+```{r typo0_1, echo = FALSE}
+library(metaRange)
+library(terra)
+set_verbosity(0)
+raster_file <- system.file("ex/elev.tif", package = "terra")
+r <- rast(raster_file)
+r <- scale(r, center = FALSE, scale = TRUE)
+r <- rep(r, 10)
+landscape <- sds(r)
+names(landscape) <- c("habitat_quality")
+
+sim <- create_simulation(
+    source_environment = landscape,
+    ID = "example_simulation",
+    seed = 1
+)
+
+sim$add_species(name = "species_1")
+sim$add_traits(
+    species = "species_1",
+    population_level = TRUE,
+    abundance = 100,
+    reproduction_rtae = 0.5,
+    carrying_capacity = 1000
+)
+sim$add_process(
+    species = "species_1",
+    process_name = "reproduction",
+    process_fun = function() {
+        ricker_reproduction_model(
+            self$traits$abundance,
+            self$traits$reproduction_rate,
+            self$traits$carrying_capacity * self$sim$environment$current$habitat_quality
+        )
+    },
+    execution_priority = 1
+)
+cat("Error: Not compatible with requested type: [type=NULL; target=double].")
+```
+
+And it may not immediately be obvious what the problem is.
 The first step to narrow down the problem is to enable extensive verbosity.
 So, if we run the code again, but this time with `set_verbosity(2)`, we get the following output:
-```{r typo2, error=TRUE}
+```{r typo2_1}
 set_verbosity(2)
 
 sim <- create_simulation(
@@ -91,11 +132,28 @@ sim$add_process(
     },
     execution_priority = 1
 )
+```
+The setup look ok so far.
+Now we start the simulation.
+
+```{r typo2_2, eval = FALSE}
 sim$begin()
 ```
+
+```{r typo2_3, echo = FALSE}
+cat("
+Starting simualtion.
+
+passed initial sanity checks.
+
+start of time step: 1
+|- species_1 : reproduction
+Error: Not compatible with requested type: [type=NULL; target=double].
+")
+```
 We can see that the error occurs in the first time step, in the `reproduction` process of "species_1".
-With this information, we can now insert a `browser()` function to step into the code to inspect the process and find the source of the error.
-```{r typo3, eval=FALSE}
+With this information, we can now insert a `browser()` function, which stops the code execution once it is called and lets us inspect the process and the variables of the function / environment it has been called from.
+```{r typo3, eval = FALSE}
 set_verbosity(2)
 
 sim <- create_simulation(
@@ -129,17 +187,17 @@ sim$add_process(
 sim$begin()
 ```
 
-As we are in the browser, we are conceptually inside the `reproduction` process of "species_1".
+In the browser, we are conceptually inside the `reproduction` process of "species_1".
 This means we can make use of the `self` keyword to inspect the state of the species.
 
-As a first step, we might want to call `ls()` to see the objects we can inspect.
-```{r typo4, eval=FALSE}
+As a first step, we might want to call `ls()` to see which objects we can inspect.
+```{r typo4, eval = FALSE}
 # type this in the console,
 # once the browser has halted the code execution
 ls()
 ```
 
-```{r typo5, echo=FALSE}
+```{r typo5, echo = FALSE}
 set_verbosity(0)
 
 sim <- create_simulation(
@@ -159,16 +217,16 @@ sim$add_traits(
 ls(sim$species_1)
 ```
 
-Since the error was about an wrong type being passed to the reproduction function, we can inspect the `traits` of the species to see if they are of the types that we would expect them to be.
+Since the error was about an wrong type being passed to the reproduction function, we can inspect the `traits` of the species to see if they are as we would expect them to be.
 This means we can just type `self$traits` in the console to see them and we may notice that the `reproduction_rate` is misspelled as `reproduction_rtae`.
 
-```{r typo6, eval=FALSE}
+```{r typo6, eval = FALSE}
 # type this in the console,
 # once the browser has halted the code execution
 self$traits
 ```
 
-```{r typo7, echo=FALSE}
+```{r typo7, echo = FALSE}
 set_verbosity(0)
 
 sim <- create_simulation(
@@ -188,8 +246,8 @@ sim$add_traits(
 sim$species_1$traits
 ```
 
-We can now quit the browser by typing `Q` and then `Enter` in the console and then proceed to fix the typo.
-Also, we can remove the `browser()` call from the code, as it is not needed anymore.
+We can quit the browser by typing `Q` and then `Enter` in the console.
+Now we can remove the `browser()` call from the code again and proceed to fix the typo.
 
 # General caveats
 While metaRange can be used to simulate a wide range of scenarios, there are some caveats to keep in mind.
@@ -198,9 +256,9 @@ While metaRange can be used to simulate a wide range of scenarios, there are som
 
     Since the size and resolution of the environment also describes the spatial size of each population (i.e. one grid cell = one population), it is important to choose scales that are appropriate for the species.
     This is especially important to keep in mind when simulating multiple species, since they may have different spatial requirements.
-2. **Evolution and gene flow**
+2. **Gene flow**
 
-    While it is planned for future versions, metaRange doesn't (currently) support evolution or gene flow.
+    While it is planned for future versions, metaRange does (currently) not support gene flow during dispersal.
 3. **Spatial distortion**
 
     Since metaRange uses raster data to represent the environment, it is important to keep in mind that the raster is a 2D representation of a 3D world.

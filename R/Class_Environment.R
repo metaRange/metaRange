@@ -35,14 +35,18 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         sourceSDS = NULL,
 
         #' @field current an R environment that holds all the
-        #' environmental values influencing the present time step of the
-        #' simulation as regular 2D R matrices.
+        #' environmental values influencing the present / current time step of the
+        #' simulation. These values are copies of the current layers
+        #' of the respective individual data sets in the sourceSDS and they are
+        #' stored as regular 2D R matrices under the same name given to the
+        #' corresponding sub data set in the sourceSDS. These matrices are updated
+        #' automatically at the beginning of each time step.
         current = NULL,
 
         # ---------- 2 initialization -----------
 
         #' @description Creates a new [metaRangeEnvironment] object.
-        #' This is done automatically when a simulation is created. No need to
+        #' This is done automatically when a simulation is created. There is no need to
         #' call this as user.
         #' @param sourceSDS `<SpatRasterDataset>` created by [terra::sds()]
         #' that holds all the environmental values influencing the simulation.
@@ -50,9 +54,13 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         #' their names will used throughout the simulation to refer to them.
         #' @examples
         #' # Note: Only for illustration purposes.
-        #' env <- metaRangeEnvironment$new(sourceSDS = terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2)))
-        #' env
-        #' @return An `<metaRangeEnvironment>` object
+        #' # The environment is automatically created when creating a simulation.
+        #' metaRangeEnvironment$new(
+        #'      sourceSDS = terra::sds(
+        #'          terra::rast(vals = 1, nrow = 2, ncol = 2)
+        #'      )
+        #' )
+        #' @return A `<metaRangeEnvironment>` object
         initialize = function(sourceSDS = NULL) {
             private$set_source_environment(sourceSDS)
             self$current <- new.env()
@@ -62,11 +70,13 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
 
         # ---------- 3 public methods -----------
 
-        #' @description Set current (active) time step / environment.
-        #' No reason to call this as user. The current time step is set automatically.
-        #' @param layer `<integer>` layer
+        #' @description Set current (active) time step / environment layer.
+        #' No reason to call this as user. The current time step is set
+        #' automatically by the simulation.
+        #' @param layer `<integer>` layer number.
         #' @examples
-        #' # Only for illustration purposes.
+        #' # Note: Only for illustration purposes.
+        #' # The time step is automatically set by the simulation.
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2, nlyr = 2))
         #' names(sim_env) <- "env_01"
         #' env <- metaRangeEnvironment$new(sourceSDS = sim_env)
@@ -124,8 +134,6 @@ metaRangeEnvironment <- R6::R6Class("metaRangeEnvironment",
         # @description Set the sds / sourceSDS environment
         # @param sourceSDS `<SpatRasterDataset>` created by [terra::sds()]
         # that holds all the environmental values influencing the simulation.
-        # Note that the individual data sets/ raster should be sensibly named as
-        # their names will used throughout the simulation to refer to them.
         # @return `<invisible self>`
         set_source_environment = function(sourceSDS) {
             checkmate::assert_class(x = sourceSDS, classes = "SpatRasterDataset")

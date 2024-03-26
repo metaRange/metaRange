@@ -9,10 +9,10 @@ save_species(x, traits = NULL, prefix = NULL, path, overwrite = FALSE, ...)
 \arguments{
 \item{x}{\verb{<metaRangeSpecies>} \link{metaRangeSpecies} object.}
 
-\item{traits}{\verb{<character>} NULL or a character vector specifying the trait to save.
-If NULL, all traits are saved.}
+\item{traits}{\verb{<character>} \code{NULL} or a character vector specifying the trait to save.
+If \code{NULL}, all traits are saved.}
 
-\item{prefix}{\verb{<string>} prefix for the file names or NULL.}
+\item{prefix}{\verb{<string>} prefix for the file names or \code{NULL}.}
 
 \item{path}{\verb{<string>}path to the directory where the files are saved.}
 

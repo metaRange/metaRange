@@ -8,7 +8,7 @@ A \verb{<metaRangeSpecies>} object.
 }
 \description{
 Creates an species object in form of an
-\link[R6:R6Class]{R6} class that stores and handles all the individual parts
+\link[R6:R6Class]{R6} class that stores and handles all the parts
 that define a species.
 }
 \examples{
@@ -17,9 +17,9 @@ that define a species.
 ## Method `metaRangeSpecies$new`
 ## ------------------------------------------------
 
-# The following is bad practice, since species should be added to a simulation
-# via the add_species method of the simulation object. But for illustration
-# purposes:
+# The following is only for illustration purposes!
+# species should be added to a simulation via the `add_species` method
+# of the simulation object.
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)
@@ -74,9 +74,9 @@ A \verb{<metaRangeSpecies>} object.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{# The following is bad practice, since species should be added to a simulation
-# via the add_species method of the simulation object. But for illustration
-# purposes:
+\preformatted{# The following is only for illustration purposes!
+# species should be added to a simulation via the `add_species` method
+# of the simulation object.
 sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
 test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)

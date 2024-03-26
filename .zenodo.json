@@ -24,10 +24,5 @@
 
     "license": "GPL-3",
 
-    "title": "metaRange: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models",
-
-    "grants": [
-        {"funder":"Deutsche Bundesstiftung Umwelt"},
-        {"funder":"Bavarian Ministry of Science and Arts"}
-    ]
+    "title": "metaRange: Framework to Build Mechanistic and Metabolic Constrained Species Distribution Models"
 }

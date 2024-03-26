@@ -4,11 +4,11 @@
 \alias{metaRangeSimulation}
 \title{metaRangeSimulation object}
 \value{
-A \verb{<metaRangeSimulation>} object
+A \verb{<metaRangeSimulation>} object.
 }
 \description{
 Creates an simulation object in form of an
-\link[R6:R6Class]{R6} class that stores and handles all the individual parts
+\link[R6:R6Class]{R6} class that stores and handles all the parts
 that are necessary to run a simulation.
 }
 \examples{
@@ -148,7 +148,8 @@ sim$summary()
 \describe{
 \item{\code{ID}}{\verb{<string>} simulation identification.}
 
-\item{\code{globals}}{\verb{<environment>} a place to store global variables.}
+\item{\code{globals}}{\verb{<environment>} a place to store global variables.
+I.e. variables and data that are no specific to one species.}
 
 \item{\code{environment}}{\verb{<metaRangeEnvironment>} A \link{metaRangeEnvironment}
 that holds all the environmental values influencing the simulation.}
@@ -200,9 +201,9 @@ Creates a new \link{metaRangeSimulation} object.
 \item{\code{source_environment}}{\verb{<SpatRasterDataset>} created by \code{\link[terra:sds]{terra::sds()}} that represents the environment.
 The individual data sets represent different environmental variables
 (e.g. temperature or habitat availability) and the different layer of the data sets
-represent the different timesteps of the simulation.
+represent the different time steps of the simulation.
 The function \link{metaRangeSimulation}\verb{$set_time_layer_mapping()} can be used
-to extend/ shorten the simulation timesteps and set the mapping between each time step and a corresponding
+to extend/ shorten the simulation time steps and set the mapping between each time step and a corresponding
 environmental layer. This can be used e.g. to repeat the first (few) layer as a burn-in period.
 The number of layers must be the same for all data sets.}
 
@@ -266,7 +267,7 @@ sim$globals$a
 \if{html}{\out{<a id="method-metaRangeSimulation-set_time_layer_mapping"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangeSimulation-set_time_layer_mapping}{}}}
 \subsection{Method \code{set_time_layer_mapping()}}{
-Set the time layer of the simulation.
+Set the time layer mapping of the simulation.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$set_time_layer_mapping(x)}\if{html}{\out{</div>}}
 }
@@ -275,7 +276,8 @@ Set the time layer of the simulation.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{x}}{\verb{<integer>} vector of layer indices
-that describe which environmental layer to use at each time step.}
+that describe which environmental layer to use for each time step.
+The length of this vector is equal to the number of time steps.}
 }
 \if{html}{\out{</div>}}
 }
@@ -298,13 +300,13 @@ stopifnot(identical(sim$time_step_layer, 1:2))
 \if{html}{\out{<a id="method-metaRangeSimulation-get_current_time_step"></a>}}
 \if{latex}{\out{\hypertarget{method-metaRangeSimulation-get_current_time_step}{}}}
 \subsection{Method \code{get_current_time_step()}}{
-Get current time step
+Get the index of the current time step
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{metaRangeSimulation$get_current_time_step()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-\verb{<integer>} the current time step
+\verb{<integer>} the current time step index
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -394,14 +396,18 @@ Adds a process to the simulation.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{species}}{\verb{<character>} Names of the species that the process should be added to.
-If \code{NULL} the process will be added to the simulation object itself.}
+If \code{NULL} the process will be "global", i.e added to the simulation object itself.}
 
 \item{\code{process_name}}{\verb{<string>} Name of the process to add.}
 
 \item{\code{process_fun}}{\verb{<named function>} The function to call when the process gets executed.}
 
-\item{\code{execution_priority}}{\verb{<positive integer>} When this process should run within each time step.
-1 == highest priority i.e. this function will be the executed first.}
+\item{\code{execution_priority}}{\verb{<positive integer>} This number decides when the process should be
+executed within each time step. The samller the number the earlier it will executed
+(1 == highest priority i.e. this function will be the executed first).
+In case multiple processes in the simulation have the same priority, it is assumed that
+they are independent from each other and there execution order does not matter
+(i.e. they could be executed in parallel).}
 
 \item{\code{queue}}{\verb{<boolean>} If \code{TRUE} the process will be added to the process execution queue directly.
 If \code{FALSE} the process will be added to the simulation but not to the queue,

@@ -72,7 +72,15 @@ plot.metaRangeSimulation <- function(x, obj, name, col, ...) {
 #' @param ... additional arguments passed to [terra::plot] or [base::plot].
 #' @return `<invisible NULL>`.
 #' @examples
-#' sim_env <- terra::sds(terra::rast(vals = rep(1:4, 4), nrow = 2, ncol = 2, nlyr = 4))
+#' layer <- 100
+#' sim_env <- terra::sds(
+#'     terra::rast(
+#'         vals = rnorm(4 * layer),
+#'         nrow = 2,
+#'         ncol = 2,
+#'         nlyr = layer
+#'     )
+#' )
 #' names(sim_env) <- "env_01"
 #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
 #' test_sim$environment$set_current(1)
@@ -91,18 +99,19 @@ plot.metaRangeEnvironment <- function(x, env_name, col, as_timeseries = FALSE, m
     }
     if (as_timeseries) {
         if (missing(col)) {
-            plot_colors <- c("darkred", "grey90", "grey70")
+            plot_colors <- c("dodgerblue4", "grey60")
         } else {
-            if (checkmate::test_character(col, min.len = 3)) {
+            if (checkmate::test_character(col, min.len = 2)) {
                 plot_colors <- col
             } else {
                 warning("Argument 'col' is not a character vector of length > 3. Using default colors.")
             }
         }
         vals <- terra::minmax(x$sourceSDS[[env_name]])
-        val_mean <- colMeans(vals)
+        val_means <- colMeans(vals)
+        timepoints <- seq_along(val_means)
         plot(
-            val_mean,
+            val_means,
             type = "n",
             ylim = c(min(vals), max(vals)),
             main = main,
@@ -110,20 +119,17 @@ plot.metaRangeEnvironment <- function(x, env_name, col, as_timeseries = FALSE, m
             ylab = "value (min, mean, max)",
             ...
         )
-        cords <- list(
-            x = c(seq_along(val_mean), rev(seq_along(val_mean))),
-            y = c(vals["min", ], rev(vals["max", ]))
-        )
-        stopifnot(length(cords$x) == length(cords$y))
-        graphics::polygon(
-            x = cords,
-            col = plot_colors[2],
-            border = plot_colors[3]
+        graphics::segments(
+            x0 = timepoints,
+            y0 = vals["min", ],
+            x1 = timepoints,
+            y1 = vals["max", ],
+            col = plot_colors[2]
         )
         graphics::lines(
-            val_mean,
-            type = "l",
-            col = plot_colors[1]
+            val_means,
+            col = plot_colors[1],
+            lwd = 2
         )
     } else {
         r <- terra::rast(

@@ -17,7 +17,7 @@
 #' @title metaRangeProcess object
 #'
 #' @description Creates an metaRangeProcess object in form of an
-#' [R6][R6::R6Class] class that stores and handles all the individual parts
+#' [R6][R6::R6Class] class that stores and handles all the parts
 #' that define a process.
 #'
 #' @return `<metaRangeProcess>` A [metaRangeProcess] object.
@@ -28,6 +28,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
     public = list(
         # ---------- public fields -------------
         #' @field fun `<function>` The processes function.
+        #' This will be called when the process is executed.
         fun = NULL,
         # ---------- initialization -----------
 
@@ -35,12 +36,12 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
         #' @param process_name `<string>` name of the process.
         #' @param id `<string>` optional ID of the process.
         #' @param process_fun `<function>` The function to be
-        #' called when the process is executed. This function will be executed
+        #' called when the process is executed. It will be executed
         #' in the specified environment (see argument: env) and has access to all the
         #' variables in that environment. This function may not have any arguments,
         #' i.e. `is.null(formals(process_fun))` must be `TRUE`.
         #' @param execution_priority `<integer>` the priority of the process.
-        #' The lower the number the earlier the process is executed.
+        #' The lower the number the earlier the process is executed (1 == highest priority).
         #' Note that the priority is only used to sort the processes
         #' in the priority queue. The actual execution order is determined
         #' by the order of the processes in the queue.
@@ -75,7 +76,7 @@ metaRangeProcess <- R6::R6Class("metaRangeProcess",
 
             environment(self$fun) <- env
 
-            # Note: we start with "PID" since the process name may contain numeric value
+            # Note: we start with "PID" since the process name may start with a numeric value
             # and R variable names can't start with those
             private$PID <- paste0(
                 "PID-",

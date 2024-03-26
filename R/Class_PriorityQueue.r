@@ -40,8 +40,10 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         },
         # ---------- public methods -----------
         #' @description Executes the next process in the queue.
-        #' No reason to call this as user. The next process is executed automatically.
-        #' @param verbose `<logical>` Print timing and information or not.
+        #' No reason to call this as user. The next process is executed
+        #' automatically, when the previous process is finished.
+        #' @param verbose `<logical>` Should timing and process information be
+        #' printed when the process is executed?
         #' @examples
         #' # Only for illustration purposes.
         #' pr_queue <- metaRangePriorityQueue$new()
@@ -50,7 +52,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         #' pr_queue$update()
         #' pr_queue$execute_next_process(verbose = TRUE)
         #' @return `<logical>` `TRUE` if the next process has been executed,
-        #' `FALSE` if not and the queue is empty.
+        #' `FALSE` if not, in which case the queue is empty.
         execute_next_process = function(verbose) {
             if (self$is_empty()) {
                 return(FALSE)
@@ -121,6 +123,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         },
         #' @description Sort the (future) queue based on the execution priority.
         #' This method is called automatically when a process is added to the queue.
+        #' Note: No reason to call this as user.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -134,6 +137,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         },
         #' @description Update and reset the queue.
         #' This method is called automatically at the end of each time step.
+        #' Note: No reason to call this as user.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -155,7 +159,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         is_empty = function() {
             return(length(private$queue) == 0L | private$current_index <= 0L)
         },
-        #' @description Get the current queue.
+        #' @description Return the current queue.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -166,7 +170,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         get_queue = function() {
             return(private$queue)
         },
-        #' @description Get the future queue.
+        #' @description Return the future queue.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -176,7 +180,7 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
         get_future_queue = function() {
             return(private$future_queue)
         },
-        #' @description Get the number / index of the next to be executed process.
+        #' @description Get the index of the process that will be executed next.
         #' @examples
         #' pr_queue <- metaRangePriorityQueue$new()
         #' pr <- metaRangeProcess$new("A", "1", \() {message("test")}, 1, new.env())
@@ -208,9 +212,11 @@ metaRangePriorityQueue <- R6::R6Class("metaRangePriorityQueue",
     private = list(
         # ---------- private fields -------------
         # @field queue the order in which the processes should be executed.
-        # Once this queue is created it is "immutable" in the sense that it doesn't get updated until
-        # `self$update()` is called. This is done to ensure that the order of the processes
-        # doesn't change during one time step.
+        # Once this queue is created it is "immutable" in the sense that it
+        # doesn't get updated until `self$update()` is called. This is done
+        # to ensure that the order of the processes does not change during
+        # one time step (sepcifically to mitigate the risk of accidental
+        # infinite loops)
         queue = NULL,
 
         # @field future_queue the order in which the processes

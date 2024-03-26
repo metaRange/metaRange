@@ -19,7 +19,7 @@
 #' Calculates the normalization constant for the metabolic scaling
 #' based on a known or estimated parameter value under at a reference temperature.
 #'
-#' @param parameter_value `<numeric>` parameter value at the reference temperature.
+#' @param parameter_value `<numeric>` estimated parameter value at the reference temperature.
 #' @param reference_temperature `<numeric>` reference temperature in kelvin (K).
 #' @param E `<numeric>` Activation energy in electronvolts (eV).
 #' @param k `<numeric>` Boltzmann's constant (eV / K).
@@ -29,7 +29,7 @@
 #' is different from the known literature value combinations.
 #' @details
 #' Note the different scaling values for different parameter.
-#' The following is a summary from table 4 in Brown, Sibly and Kodric-Brown (2012)
+#' The following is a summary from table 2 in Brown, Sibly and Kodric-Brown (2012)
 #' (see references).
 #'
 #' | Parameter  | Scaling exponent | Activation energy |

@@ -18,13 +18,17 @@ knitr::opts_chunk$set(
 ```
 
 
-The question of how the distribution of species is influenced by environmental conditions is an important topic of study in ecology.
-Because of that, we will show in this tutorial how to implement a simple niche suitability model in metaRange.
+One of the main study question in ecology is the relationship between environmental conditions and species occurence.
+This tutorial will show how we can use information about the target species (e.g. preferred temperature and thermal limits) to implement a habitat suitability model in metaRange.
+
+In a second step, we will use the calculated habitat suitability to inform the reproduction rate and carrying capacity in the population model.
+This allows us to see which populations are viable over time without the need for an arbitrary "suitability cutoff" value.
 For this, we will create a landscape with two environmental variables (temperature and precipitation) and then add two similar species to it that only differ in their environmental preferences.
+
 At the end we can run the simulation and compare how this difference affects the distribution of the species.
 
 # Setup
-First we load the packages and create the example landscape.
+We create the example landscape by arbitrarily scaling the example raster to ranges that are natural for both temperature and precipitation.
 
 ```{r create_landscape}
 library(metaRange)
@@ -43,45 +47,60 @@ precipitation <- r * 2
 ```
 
 
-Now we can (again) turn the raster into an `SDS` with one layer per time step.
-
-```{r}
-temperature <- rep(temperature, 10)
-precipitation <- rep(precipitation, 10)
-landscape <- sds(temperature, precipitation)
-names(landscape) <- c("temperature", "precipitation")
-```
-
-
-
 ```{r landscape_01, fig.cap = "Figure 1: The temperature of the example landscape. Only the first layer of 10 identical ones is shown."}
 terra::plot(
-    landscape$temperature[[1]],
+    temperature,
     col = hcl.colors(100, "RdYlBu", rev = TRUE),
     main = "Temperature [K]"
 )
 ```
 ```{r landscape_02, fig.cap = "Figure 2: The precipitation of the example landscape. Only the first layer of 10 identical ones is shown."}
 terra::plot(
-    landscape$precipitation[[1]],
+    precipitation,
     col = hcl.colors(100, "Earth"),
     main = "Precipitation [mm]"
 )
 ```
 
 # Creating the simulation and species
-```{r add_species}
+
+In the previous tutorial we always created an SDS as input that has the same number of layers as the simulation time steps.
+This was mainly done to highlight the concept that one layer in the SDS represents the conditions in one time step.
+In the case where the evironment is static and does not change over time, this process is a bit tedious and also might occupy more memory than necessary.
+Because of that, metaRange provides the method `set_time_layer_mapping()`, which allows us to just tell the simulation "use this one layer for every time step".
+This means we can just create an SDS that has only one layer:
+```{r}
+landscape <- sds(temperature, precipitation)
+names(landscape) <- c("temperature", "precipitation")
+# how many layer are in the sds:
+terra::nlyr(landscape)
+```
+
+Create the simulation:
+```{r create_sim}
 sim <- create_simulation(
     source_environment = landscape,
     ID = "example_simulation",
     seed = 1
 )
+```
+
+And then adjust the number of time steps and the layer that are used each time step, by calling:
+
+```{r time_steps}
+# use layer 1 for 10 time steps
+sim$set_time_layer_mapping(rep_len(1, 10))
+```
+
+Now we can continue by adding the species.
+
+```{r add_species}
 sim$add_species(name = "species_1")
 sim$add_species(name = "species_2")
 ```
 
 # Adding traits to species
-To start, we add the same traits as in the previous tutorials and also add a trait called `climate_suitability`, where we will store the information about how suitable the environment in each cell is for the population that lives there.
+Additionally to the traits introduced in the previous tutorials we now also add a trait called `climate_suitability`, where we will store the information about how suitable the climate conditions are in each cell for the population that lives there.
 ```{r add_trait}
 sim$add_traits(
     species = c("species_1", "species_2"),
@@ -93,9 +112,10 @@ sim$add_traits(
 )
 ```
 
-Contrary to the above, some traits may not require to be stored at the population level.
-In this example, this could be the case for the environmental preferences of a species.
-If we assume that they are a property of the species as a whole (i.e. the same for all populations), we can set the parameter `population_level` to `FALSE` and the traits will be added as they are, without further processing.
+The traits in the above example are clearly traits that need to be stored for each population (i.e. they need to be spatially explicit).
+Contrary to that, some traits may not require to be stored at the population level.
+In this example, we assume that the environmental preferences of a species are the same for all populations.
+This means that when we add these traits, we can set the parameter `population_level` to `FALSE` so that the traits are added as they are, without expanding them to the extent of the landscape.
 
 As mentioned in the introduction paragraph, we will give both species different environmental preferences for the two environmental variables in the simulation environment (temperature & precipitation).
 
@@ -128,8 +148,8 @@ sim$add_traits(
 # Adding processes
 
 ## Calculate the suitability
-To calculate the suitability, we use the metaRange function `calculate_suitability()` that was adapted from a equation published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt in 1999 (eq:4 in Ref. 2).
-The equation takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
+To calculate the suitability, we use the metaRange function `calculate_suitability()` that is based on an equation published by Yin et al. in 1995 [Ref. 1] and simplified by Yan and Hunt in 1999 [eq:4 in Ref. 2].
+The function takes the three cardinal values of an environmental niche (minimum tolerable value, optimal vale and maximum tolerable value) and constructs a suitability curve based on a beta distribution.
 
 ```{r calculate_suitability, fig.cap="Figure 3: Example suitability curve for the temperature niche of species 2."}
 min_value <- 270
@@ -141,7 +161,7 @@ plot(x, y, type = "l", xlab = "Temperature [K]", ylab = "Suitability")
 ```
 
 
-In the following code we add a process to both species that calculates the environmental suitability for precipitation and temperature and then multiplies the values to create a joint suitability over the two niches.
+In the following code we add a process to both species that calculates the suitability for precipitation and temperature and then multiplies the values to create a joint suitability over the two environmental niches.
 Note that one could also define a custom function to calculate the suitability, if this built-in function does not adequately describe the ecology of the target species.
 
 ## Suitability
@@ -169,7 +189,7 @@ sim$add_process(
 ```
 
 ## Reproduction
-As in the previous tutorials, we use a Ricker reproduction model to calculate the new abundance of the species, but this time we let both the carrying capacity and the reproduction rate depend on the niche suitability of the environment.
+As in the previous tutorials, we use a Ricker reproduction model to calculate the new abundance of the species, but this time we let both the carrying capacity and the reproduction rate (for each species and population) depend on the suitability of the local environment / habitat.
 ```{r Reproduction}
 sim$add_process(
     species = c("species_1", "species_2"),

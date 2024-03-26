@@ -17,7 +17,7 @@
 #' @title metaRangeSpecies object
 #'
 #' @description Creates an species object in form of an
-#' [R6][R6::R6Class] class that stores and handles all the individual parts
+#' [R6][R6::R6Class] class that stores and handles all the parts
 #' that define a species.
 #'
 #' @return A `<metaRangeSpecies>` object.
@@ -50,9 +50,9 @@ metaRangeSpecies <- R6::R6Class("metaRangeSpecies",
         #' simulation object that the species is part of.
         #' Useful to access environmental data or data of other species.
         #' @examples
-        #' # The following is bad practice, since species should be added to a simulation
-        #' # via the add_species method of the simulation object. But for illustration
-        #' # purposes:
+        #' # The following is only for illustration purposes!
+        #' # species should be added to a simulation via the `add_species` method
+        #' # of the simulation object.
         #' sim_env <- terra::sds(terra::rast(vals = 1, nrow = 2, ncol = 2))
         #' test_sim <- metaRangeSimulation$new(source_environment = sim_env)
         #' sp <- metaRangeSpecies$new(name = "species_01", sim = test_sim)

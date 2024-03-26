@@ -15,17 +15,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-More realistic and complicated simulations may require a more advanced setup. This vignette will cover some of the more advanced features of the `metaRange` package.
+More realistic and complicated simulations may require a more advanced setup.
+This vignette will cover some of the more advanced / hidden features of the `metaRange` package.
 
 # Time layer mapping
 The setup and processing of the environmental `SDS` can take quite some time, especially when the environmental data is large.
 In order to save the user time, the method `set_time_layer_mapping()` allows the user to define a custom mapping between the time steps and the layers of the environmental raster.
 Use cases may be:
 
-1. If the environment is static and does not undergo any change, the user may want to use the same environmental raster layer for all time steps.
+1. In case of static environment -> use the same environmental raster layer for all time steps.
 2. Shortening or lengthening the number of time steps of the simulation.
-3. Using a "burn-in" period in the simulation, before the main simulation begins.
-This is usually done to let the simulation state reach a (semi) equilibrium state, from which the simulation objectives can be studied.
+3. Using a "burn-in" period to let the simulation state reach a semi-equilibrium, before the main simulation begins.
 
 ## Default mapping
 The default configuration is that each layer in the environment represents one time step of the simulation.
@@ -75,8 +75,8 @@ sim$time_step_layer
 ```
 
 # Global variables and processes
-`metaRange` uses an object oriented programming paradigm, this means each species is described by its own biologically relevant processes and traits.
-However, there may be cases where the user wants to define a global variable or process that is shared between all species, be it to store intermediate results that don't belong to one species or processes to visualize or store output.
+In `metaRange` each species is described by its own biologically relevant processes and traits.
+However, there may be cases where the user wants to define a global variable or process that is shared between all species, either to store intermediate results that don't belong to one species or processes to visualize or store output.
 This can be done by using the `add_globals()` function for adding global variables and the `add_process()` function with no `species` argument specified, for adding global processes.
 The global variables and processes are accessible through the `globals`and `processes` fields of the simulation object itself, respectively.
 The benefit of using a global process is that the `self` keyword refers to the simulation object itself, which allows for easier indexing across multiple species.
@@ -114,13 +114,13 @@ sim$processes$global_process
 
 
 # Interaction with the priority queue
-With some specific study questions, it may not be desired to simulate all species from the first time step.
-As an example, during the simulation of invasion dynamics, one may want to have a burn-in period without the invasive species present and then introduce it after this point.
-On the other hand, there may be a need to simulate a species for a specific time period and then remove it from the simulation (e.g. there is no point in calculating the reproduction of a species that has gone extinct).
+With some study questions, it may not be desired to simulate all species from the first time step.
+For example, when simulating invasion dynamics, one may want to have a burn-in period without the invasive species present and then introduce it after this point.
+Aditionally, there may be the need to simulate a species for a period of time and then remove it from the simulation (e.g. there is no point in calculating the reproduction of a species that has gone extinct).
 To accommodate this, `metaRange` allows the user to manually add and remove processes from the priority queue during the simulation.
 
 ## Queuing a process
-The default behavior of `add_process()` is to immediately add the process to the priority queue.
+The default behavior of `add_process()` is to directly add the process to the priority queue (so that is is executed in the first time step).
 Setting the argument `queue = FALSE` will add the process to the simulation, but not to the priority queue.
 In that case, the user has at any point during the simulation the option to add the process to the priority queue using the `enqueue()` method of the priority queue.
 ```{r quequing}

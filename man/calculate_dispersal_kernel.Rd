@@ -7,14 +7,17 @@
 calculate_dispersal_kernel(max_dispersal_dist, kfun, normalize = TRUE, ...)
 }
 \arguments{
-\item{max_dispersal_dist}{\verb{<numeric>} maximum dispersal distance.}
+\item{max_dispersal_dist}{\verb{<numeric>} maximum dispersal distance in grid cells.
+The size (rows and columns) of the created dispersal kernel matrix will be
+\code{2 * max_dispersal_dist + 1}.}
 
-\item{kfun}{\verb{<function>} the kernel function to use. Can be user-defined,
+\item{kfun}{\verb{<function>} the probability function that is used to calculate
+the values for each cell of the dispersal kernel. Can be user-defined,
 in which case it needs to vectorized and accept (at least) the parameter
 "x" representing the distance from the source as its input and return a
 vector of the same size as \code{max_dispersal_dist}.}
 
-\item{normalize}{\verb{<boolean>} whether to normalize the kernel.}
+\item{normalize}{\verb{<boolean>} whether to normalize the kernel (\verb{sum(kernel) == 1)}).}
 
 \item{...}{additional parameters to be passed to the kernel function.}
 }
@@ -22,26 +25,45 @@ vector of the same size as \code{max_dispersal_dist}.}
 Dispersal kernel with probabilities.
 }
 \description{
-Use a user defined function to create a 2D dispersal kernel.
+Use a probability function to create a 2D dispersal kernel matrix.
+}
+\details{
+This function first creates an matrix of size \code{2 * max_dispersal_dist + 1},
+where each cell contains the distance from the center of the cell to the center
+of the matrix. After that, the kernel function (\code{kfun}) is called with this
+matrix as input and expected to return a vector with the calculated
+probabilities for each cell. Lastly, the kernel is optionally normalized.
 }
 \examples{
 # a very simple uniform kernel
 uniform_kernel <- calculate_dispersal_kernel(
-    max_dispersal_dist = 3,
+    max_dispersal_dist = 2,
     kfun = function(x) {
-        x * 0 + 1
-    }
+        rep(1, length(x))
+    },
+    normalize = FALSE
 )
 # same as
 stopifnot(
-    uniform_kernel == matrix(1 / 49, nrow = 7, ncol = 7)
+    uniform_kernel == matrix(1, nrow = 5, ncol = 5)
 )
 
-# now a negative exponential kernel
-# not that `mean_dispersal_dist`
-# is passed to the kernel function.
+# How does the input matrix look like,
+# that is used as input for `kfun`?
 calculate_dispersal_kernel(
-    max_dispersal_dist = 3,
+    max_dispersal_dist = 2,
+    kfun = function(x) {
+        return(x)
+    },
+    normalize = FALSE
+)
+
+# now a negative exponential kernel.
+# note that `mean_dispersal_dist` is a parameter of
+# the `negative_exponential_function`
+# and is passed to `kfun` via the `...`.
+calculate_dispersal_kernel(
+    max_dispersal_dist = 2,
     kfun = negative_exponential_function,
     mean_dispersal_dist = 1
 )
