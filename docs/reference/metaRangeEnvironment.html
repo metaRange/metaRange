@@ -37,6 +37,7 @@ values that influence the species in the simulation."><meta property="og:image" 
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -87,8 +88,12 @@ their names will used throughout the simulation to refer to them.</p></dd>
 
 <dt><code>current</code></dt>
 <dd><p>an R environment that holds all the
-environmental values influencing the present time step of the
-simulation as regular 2D R matrices.</p></dd>
+environmental values influencing the present / current time step of the
+simulation. These values are copies of the current layers
+of the respective individual data sets in the sourceSDS and they are
+stored as regular 2D R matrices under the same name given to the
+corresponding sub data set in the sourceSDS. These matrices are updated
+automatically at the beginning of each time step.</p></dd>
 
 
 </dl><p></p></div>
@@ -105,7 +110,7 @@ simulation as regular 2D R matrices.</p></dd>
 </ul></div><p></p><hr><a id="method-metaRangeEnvironment-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new metaRangeEnvironment object.
-This is done automatically when a simulation is created. No need to
+This is done automatically when a simulation is created. There is no need to
 call this as user.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/metaRangeEnvironment.html">metaRangeEnvironment</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>sourceSDS <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -124,20 +129,25 @@ their names will used throughout the simulation to refer to them.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>An <code>&lt;metaRangeEnvironment&gt;</code> object</p>
+<p>A <code>&lt;metaRangeEnvironment&gt;</code> object</p>
 </div>
 <div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># Note: Only for illustration purposes.</span></span>
-<span><span class="va">env</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/metaRangeEnvironment.html">metaRangeEnvironment</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>sourceSDS <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">env</span></span></code></pre></div><p></p></div>
+<span><span class="co"># The environment is automatically created when creating a simulation.</span></span>
+<span><span class="va"><a href="../reference/metaRangeEnvironment.html">metaRangeEnvironment</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>     sourceSDS <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span></span>
+<span>         <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>     <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
 </div><p></p><hr><a id="method-metaRangeEnvironment-set_current"></a><div class="section">
 <h3 id="method-set-current-">Method <code>set_current()</code><a class="anchor" aria-label="anchor" href="#method-set-current-"></a></h3>
-<p>Set current (active) time step / environment.
-No reason to call this as user. The current time step is set automatically.</p><div class="section">
+<p>Set current (active) time step / environment layer.
+No reason to call this as user. The current time step is set
+automatically by the simulation.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">metaRangeEnvironment</span><span class="op">$</span><span class="fu">set_current</span><span class="op">(</span><span class="va">layer</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -145,7 +155,7 @@ No reason to call this as user. The current time step is set automatically.</p><
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>layer</code></dt>
-<dd><p><code>&lt;integer&gt;</code> layer</p></dd>
+<dd><p><code>&lt;integer&gt;</code> layer number.</p></dd>
 
 
 </dl><p></p></div>
@@ -156,7 +166,8 @@ No reason to call this as user. The current time step is set automatically.</p><
 </div>
 <div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
-<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># Only for illustration purposes.</span></span>
+<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># Note: Only for illustration purposes.</span></span>
+<span><span class="co"># The time step is automatically set by the simulation.</span></span>
 <span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nlyr <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sim_env</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"env_01"</span></span>
 <span><span class="va">env</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/metaRangeEnvironment.html">metaRangeEnvironment</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>sourceSDS <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span>
@@ -196,8 +207,12 @@ No reason to call this as user. The current time step is set automatically.</p><
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Note: Only for illustration purposes.</span></span></span>
-<span class="r-in"><span><span class="va">env</span> <span class="op">&lt;-</span> <span class="va">metaRangeEnvironment</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>sourceSDS <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">env</span></span></span>
+<span class="r-in"><span><span class="co"># The environment is automatically created when creating a simulation.</span></span></span>
+<span class="r-in"><span><span class="va">metaRangeEnvironment</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span></span>
+<span class="r-in"><span>     sourceSDS <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>         <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>     <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fields: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $current ==== the environment at the current time step</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> classes     : all -&gt; matrix</span>
@@ -218,7 +233,8 @@ No reason to call this as user. The current time step is set automatically.</p><
 <span class="r-in"><span><span class="co">## Method `metaRangeEnvironment$set_current`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Only for illustration purposes.</span></span></span>
+<span class="r-in"><span><span class="co"># Note: Only for illustration purposes.</span></span></span>
+<span class="r-in"><span><span class="co"># The time step is automatically set by the simulation.</span></span></span>
 <span class="r-in"><span><span class="va">sim_env</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nlyr <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sim_env</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"env_01"</span></span></span>
 <span class="r-in"><span><span class="va">env</span> <span class="op">&lt;-</span> <span class="va">metaRangeEnvironment</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>sourceSDS <span class="op">=</span> <span class="va">sim_env</span><span class="op">)</span></span></span>

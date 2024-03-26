@@ -57,6 +57,7 @@
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -97,20 +98,17 @@ Cabral, J.S.</h4>
 
     
     
-<p>While creating your own simulation, you may encounter issues and
-errors to which the solution may not be immediately obvious and the
-resulting error messages can be cryptic and hard to understand. Here we
-will cover a basic strategy on how to solve them with the example of a
-simple typo in one of the species traits.</p>
+<p>When creating your own simulation, you may encounter issues / errors
+to which the solution may not be immediately obvious. Here we will cover
+a basic strategy on how to debug with the example of a simple typo in
+one of the species traits.</p>
 <div class="section level2">
 <h2 id="debugging">Debugging<a class="anchor" aria-label="anchor" href="#debugging"></a>
 </h2>
 <p>The following code will result in an error:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; terra 1.7.55</span></span>
 <span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">raster_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span>
 <span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">raster_file</span><span class="op">)</span></span>
@@ -145,13 +143,16 @@ simple typo in one of the species traits.</p>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in eval(expr, envir, enclos): Not compatible with requested type: [type=NULL; target=double].</span></span></code></pre></div>
-<p>And it is not immediately obvious what the problem is. The first step
-to narrow down the problem is to enable extensive verbosity. So, if we
-run the code again, but this time with <code>set_verbosity(2)</code>, we
-get the following output:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Warning: package 'metaRange' was built under R version 4.3.3</span></span>
+<span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
+<span><span class="co">#&gt; terra 1.7.55</span></span>
+<span><span class="co">#&gt; Error: Not compatible with requested type: [type=NULL; target=double].</span></span></code></pre>
+<p>And it may not immediately be obvious what the problem is. The first
+step to narrow down the problem is to enable extensive verbosity. So, if
+we run the code again, but this time with <code>set_verbosity(2)</code>,
+we get the following output:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span></span>
@@ -205,18 +206,24 @@ get the following output:</p>
 <span><span class="co">#&gt; adding process: reproduction</span></span>
 <span><span class="co">#&gt; to species:</span></span>
 <span><span class="co">#&gt; [1] "species_1"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span></code></pre></div>
+<p>The setup look ok so far. Now we start the simulation.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Starting simualtion.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; passed initial sanity checks.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; start of time step: 1</span></span>
 <span><span class="co">#&gt; |- species_1 : reproduction</span></span>
-<span><span class="co">#&gt; Error in eval(expr, envir, enclos): Not compatible with requested type: [type=NULL; target=double].</span></span></code></pre></div>
+<span><span class="co">#&gt; Error: Not compatible with requested type: [type=NULL; target=double].</span></span></code></pre>
 <p>We can see that the error occurs in the first time step, in the
 <code>reproduction</code> process of “species_1”. With this information,
-we can now insert a <code><a href="https://rdrr.io/r/base/browser.html" class="external-link">browser()</a></code> function to step into the
-code to inspect the process and find the source of the error.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+we can now insert a <code><a href="https://rdrr.io/r/base/browser.html" class="external-link">browser()</a></code> function, which stops the
+code execution once it is called and lets us inspect the process and the
+variables of the function / environment it has been called from.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span></span>
@@ -248,13 +255,13 @@ code to inspect the process and find the source of the error.</p>
 <span>    execution_priority <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>As we are in the browser, we are conceptually inside the
+<p>In the browser, we are conceptually inside the
 <code>reproduction</code> process of “species_1”. This means we can make
 use of the <code>self</code> keyword to inspect the state of the
 species.</p>
-<p>As a first step, we might want to call <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code> to see the
+<p>As a first step, we might want to call <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code> to see which
 objects we can inspect.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># type this in the console,</span></span>
 <span><span class="co"># once the browser has halted the code execution</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -262,21 +269,21 @@ objects we can inspect.</p>
 <span><span class="co">#&gt; [6] "traits"</span></span></code></pre>
 <p>Since the error was about an wrong type being passed to the
 reproduction function, we can inspect the <code>traits</code> of the
-species to see if they are of the types that we would expect them to be.
-This means we can just type <code>self$traits</code> in the console to
-see them and we may notice that the <code>reproduction_rate</code> is
-misspelled as <code>reproduction_rtae</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+species to see if they are as we would expect them to be. This means we
+can just type <code>self$traits</code> in the console to see them and we
+may notice that the <code>reproduction_rate</code> is misspelled as
+<code>reproduction_rtae</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># type this in the console,</span></span>
 <span><span class="co"># once the browser has halted the code execution</span></span>
 <span><span class="va">self</span><span class="op">$</span><span class="va">traits</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; abundance :  num [1:90, 1:95] 100 100 100 100 100 100 100 100 100 100 ...</span></span>
 <span><span class="co">#&gt; carrying_capacity :  num [1:90, 1:95] 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 ...</span></span>
 <span><span class="co">#&gt; reproduction_rtae :  num [1:90, 1:95] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...</span></span></code></pre>
-<p>We can now quit the browser by typing <code>Q</code> and then
-<code>Enter</code> in the console and then proceed to fix the typo.
-Also, we can remove the <code><a href="https://rdrr.io/r/base/browser.html" class="external-link">browser()</a></code> call from the code, as it
-is not needed anymore.</p>
+<p>We can quit the browser by typing <code>Q</code> and then
+<code>Enter</code> in the console. Now we can remove the
+<code><a href="https://rdrr.io/r/base/browser.html" class="external-link">browser()</a></code> call from the code again and proceed to fix the
+typo.</p>
 </div>
 <div class="section level2">
 <h2 id="general-caveats">General caveats<a class="anchor" aria-label="anchor" href="#general-caveats"></a>
@@ -294,9 +301,9 @@ This is especially important to keep in mind when simulating multiple
 species, since they may have different spatial requirements.</p>
 </li>
 <li>
-<p><strong>Evolution and gene flow</strong></p>
-<p>While it is planned for future versions, metaRange doesn’t
-(currently) support evolution or gene flow.</p>
+<p><strong>Gene flow</strong></p>
+<p>While it is planned for future versions, metaRange does (currently)
+not support gene flow during dispersal.</p>
 </li>
 <li>
 <p><strong>Spatial distortion</strong></p>

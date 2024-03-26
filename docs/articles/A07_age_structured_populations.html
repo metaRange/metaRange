@@ -57,6 +57,7 @@
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -98,19 +99,21 @@ Cabral, J.S.</h4>
     
     
 <p>Many species have population dynamics that require more complex
-equations than the simple Ricker model, which describes overcompensatory
-scramble competition dynamics. A common abstraction to deal with this
-complexity is to partition a species into functional subgroups that
-undergo different processes, as for example <em>juveniles</em> who are
-dispersing and looking for a habitat, who then become <em>adults</em>
-who are stationary but have the ability to reproduce and generate the
-next generation of <em>juveniles</em>. The following illustrates a
-simple example on how one could model such a system with metaRange.</p>
+equations than the simple Ricker model (which describes overcompensatory
+scramble competition with non-overlapping generations). A common
+abstraction to deal with this complexity is to partition a species into
+functional subgroups that undergo different processes. This could for
+example be <em>juveniles</em> who are dispersing and looking for a
+habitat, who then become <em>adults</em> who are stationary but have the
+ability to reproduce and generate the next generation of
+<em>juveniles</em>. The following illustrates a simple example on how
+one could model such a system with metaRange.</p>
 <div class="section level2">
 <h2 id="basic-setup">Basic setup<a class="anchor" aria-label="anchor" href="#basic-setup"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'metaRange' was built under R version 4.3.3</span></span>
 <span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span></code></pre></div>
@@ -121,14 +124,14 @@ simple example on how one could model such a system with metaRange.</p>
 <span><span class="va">habitat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">r</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">habitat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">habitat</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="va">habitat</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"habitat"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"habitat"</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span><span class="st">"species_1"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="traits">Traits<a class="anchor" aria-label="anchor" href="#traits"></a>
 </h2>
-<p>Now we add the traits for both the <em>juveniles</em> and
+<p>Now we add the traits for both the <em>juveniles</em> and the
 <em>adults</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
@@ -152,10 +155,10 @@ simple example on how one could model such a system with metaRange.</p>
 <div class="section level2">
 <h2 id="processes">Processes<a class="anchor" aria-label="anchor" href="#processes"></a>
 </h2>
-<p>Now we add some processes that manage the transition between the age
-classes. These processes could of course be of any desired complexity,
-but to make the example easier to follow, we will use simple
-functions:</p>
+<p>The important part of this age structured population model is the
+transition between the age classes. These processes could of course be
+of any desired complexity, but to make the example easier to follow,
+here we will just use simple functions:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -182,10 +185,11 @@ functions:</p>
 <div class="section level2">
 <h2 id="more-processes">More processes<a class="anchor" aria-label="anchor" href="#more-processes"></a>
 </h2>
-<p>And some more for the dispersal and mortality. Note that we do not
-need to add an <code>mortality_of_juveniles</code> process, since their
-mortality is already included in the <code>maturation</code>
-process.</p>
+<p>As mentioned in the introduction paragraph, we will add a dispersal
+process for the juveniles and an aditional process controlling the
+mortality of the adults. Note that we do not need to add an
+<code>mortality_of_juveniles</code> process, since their mortality is
+already included in the <code>maturation</code> process.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>

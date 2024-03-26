@@ -33,6 +33,7 @@
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -75,12 +76,12 @@
 
 
 <dt>traits</dt>
-<dd><p><code>&lt;character&gt;</code> NULL or a character vector specifying the trait to save.
-If NULL, all traits are saved.</p></dd>
+<dd><p><code>&lt;character&gt;</code> <code>NULL</code> or a character vector specifying the trait to save.
+If <code>NULL</code>, all traits are saved.</p></dd>
 
 
 <dt>prefix</dt>
-<dd><p><code>&lt;string&gt;</code> prefix for the file names or NULL.</p></dd>
+<dd><p><code>&lt;string&gt;</code> prefix for the file names or <code>NULL</code>.</p></dd>
 
 
 <dt>path</dt>
@@ -156,8 +157,8 @@ is saved multiple times during a simulation.</p>
 <span class="r-in"><span>    path <span class="op">=</span> <span class="va">directory_name</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res_path3</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:\\Users\\srfall\\AppData\\Local\\Temp\\Rtmpa6QsOy/file2264174929a6species_01_trait_01.tif"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "C:\\Users\\srfall\\AppData\\Local\\Temp\\Rtmpa6QsOy/file2264174929a6species_01_trait_02.tif"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:\\Users\\srfall\\AppData\\Local\\Temp\\RtmpOoRmPW/file51a8770a79b2species_01_trait_01.tif"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "C:\\Users\\srfall\\AppData\\Local\\Temp\\RtmpOoRmPW/file51a8770a79b2species_01_trait_02.tif"</span>
 <span class="r-in"><span><span class="co"># cleanup</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">res_path</span>, <span class="va">res_path3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">res_path</span>, <span class="va">res_path3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>

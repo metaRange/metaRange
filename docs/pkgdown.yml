@@ -11,7 +11,8 @@ articles:
   A07_age_structured_populations: A07_age_structured_populations.html
   A08_advanced_options: A08_advanced_options.html
   A09_troubleshooting_and_caveats: A09_troubleshooting_and_caveats.html
-last_built: 2024-02-09T17:54Z
+  A10_saving_results: A10_saving_results.html
+last_built: 2024-03-26T10:09Z
 urls:
   reference: https://metaRange.github.io/metaRange/reference
   article: https://metaRange.github.io/metaRange/articles

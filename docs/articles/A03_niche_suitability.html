@@ -57,6 +57,7 @@
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -97,21 +98,29 @@ Cabral, J.S.</h4>
 
     
     
-<p>The question of how the distribution of species is influenced by
-environmental conditions is an important topic of study in ecology.
-Because of that, we will show in this tutorial how to implement a simple
-niche suitability model in metaRange. For this, we will create a
-landscape with two environmental variables (temperature and
-precipitation) and then add two similar species to it that only differ
-in their environmental preferences. At the end we can run the simulation
-and compare how this difference affects the distribution of the
-species.</p>
+<p>One of the main study question in ecology is the relationship between
+environmental conditions and species occurence. This tutorial will show
+how we can use information about the target species (e.g. preferred
+temperature and thermal limits) to implement a habitat suitability model
+in metaRange.</p>
+<p>In a second step, we will use the calculated habitat suitability to
+inform the reproduction rate and carrying capacity in the population
+model. This allows us to see which populations are viable over time
+without the need for an arbitrary “suitability cutoff” value. For this,
+we will create a landscape with two environmental variables (temperature
+and precipitation) and then add two similar species to it that only
+differ in their environmental preferences.</p>
+<p>At the end we can run the simulation and compare how this difference
+affects the distribution of the species.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>First we load the packages and create the example landscape.</p>
+<p>We create the example landscape by arbitrarily scaling the example
+raster to ranges that are natural for both temperature and
+precipitation.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'metaRange' was built under R version 4.3.3</span></span>
 <span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span>
@@ -126,16 +135,9 @@ species.</p>
 <span><span class="co"># adjust the values</span></span>
 <span><span class="va">temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">r</span>, center <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fl">10</span> <span class="op">+</span> <span class="fl">273.15</span></span>
 <span><span class="va">precipitation</span> <span class="op">&lt;-</span> <span class="va">r</span> <span class="op">*</span> <span class="fl">2</span></span></code></pre></div>
-<p>Now we can (again) turn the raster into an <code>SDS</code> with one
-layer per time step.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">temperature</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">precipitation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">precipitation</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="va">temperature</span>, <span class="va">precipitation</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"temperature"</span>, <span class="st">"precipitation"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>    <span class="va">landscape</span><span class="op">$</span><span class="va">temperature</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    <span class="va">temperature</span>,</span>
 <span>    col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"RdYlBu"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    main <span class="op">=</span> <span class="st">"Temperature [K]"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -145,9 +147,9 @@ Figure 1: The temperature of the example landscape. Only the first layer
 of 10 identical ones is shown.
 </p>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>    <span class="va">landscape</span><span class="op">$</span><span class="va">precipitation</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    <span class="va">precipitation</span>,</span>
 <span>    col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Earth"</span><span class="op">)</span>,</span>
 <span>    main <span class="op">=</span> <span class="st">"Precipitation [mm]"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -161,27 +163,52 @@ layer of 10 identical ones is shown.
 <div class="section level2">
 <h2 id="creating-the-simulation-and-species">Creating the simulation and species<a class="anchor" aria-label="anchor" href="#creating-the-simulation-and-species"></a>
 </h2>
+<p>In the previous tutorial we always created an SDS as input that has
+the same number of layers as the simulation time steps. This was mainly
+done to highlight the concept that one layer in the SDS represents the
+conditions in one time step. In the case where the evironment is static
+and does not change over time, this process is a bit tedious and also
+might occupy more memory than necessary. Because of that, metaRange
+provides the method <code>set_time_layer_mapping()</code>, which allows
+us to just tell the simulation “use this one layer for every time step”.
+This means we can just create an SDS that has only one layer:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/sds.html" class="external-link">sds</a></span><span class="op">(</span><span class="va">temperature</span>, <span class="va">precipitation</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"temperature"</span>, <span class="st">"precipitation"</span><span class="op">)</span></span>
+<span><span class="co"># how many layer are in the sds:</span></span>
+<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">nlyr</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1 1</span></span></code></pre></div>
+<p>Create the simulation:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_simulation.html">create_simulation</a></span><span class="op">(</span></span>
 <span>    source_environment <span class="op">=</span> <span class="va">landscape</span>,</span>
 <span>    ID <span class="op">=</span> <span class="st">"example_simulation"</span>,</span>
 <span>    seed <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; number of time steps: 10</span></span>
-<span><span class="co">#&gt; time step layer mapping: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</span></span>
+<span><span class="co">#&gt; number of time steps: 1</span></span>
+<span><span class="co">#&gt; time step layer mapping: 1</span></span>
 <span><span class="co">#&gt; added environment</span></span>
 <span><span class="co">#&gt; class       : SpatRasterDataset </span></span>
 <span><span class="co">#&gt; subdatasets : 2 </span></span>
 <span><span class="co">#&gt; dimensions  : 90, 95 (nrow, ncol)</span></span>
-<span><span class="co">#&gt; nlyr        : 10, 10 </span></span>
+<span><span class="co">#&gt; nlyr        : 1, 1 </span></span>
 <span><span class="co">#&gt; resolution  : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">#&gt; extent      : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
 <span><span class="co">#&gt; source(s)   : memory </span></span>
 <span><span class="co">#&gt; names       : temperature, precipitation</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; created simulation: example_simulation</span></span>
-<span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_1"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; created simulation: example_simulation</span></span></code></pre></div>
+<p>And then adjust the number of time steps and the layer that are used
+each time step, by calling:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># use layer 1 for 10 time steps</span></span>
+<span><span class="va">sim</span><span class="op">$</span><span class="fu">set_time_layer_mapping</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; number of time steps: 10</span></span>
+<span><span class="co">#&gt; time step layer mapping: 1, 1, 1, 1, 1, 1, 1, 1, 1, 1</span></span></code></pre></div>
+<p>Now we can continue by adding the species.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; adding species</span></span>
 <span><span class="co">#&gt; name: species_1</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">add_species</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"species_2"</span><span class="op">)</span></span>
@@ -191,11 +218,11 @@ layer of 10 identical ones is shown.
 <div class="section level2">
 <h2 id="adding-traits-to-species">Adding traits to species<a class="anchor" aria-label="anchor" href="#adding-traits-to-species"></a>
 </h2>
-<p>To start, we add the same traits as in the previous tutorials and
-also add a trait called <code>climate_suitability</code>, where we will
-store the information about how suitable the environment in each cell is
-for the population that lives there.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>Additionally to the traits introduced in the previous tutorials we
+now also add a trait called <code>climate_suitability</code>, where we
+will store the information about how suitable the climate conditions are
+in each cell for the population that lives there.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
 <span>    population_level <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -211,13 +238,15 @@ for the population that lives there.</p>
 <span><span class="co">#&gt; to species:</span></span>
 <span><span class="co">#&gt; [1] "species_1" "species_2"</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
-<p>Contrary to the above, some traits may not require to be stored at
-the population level. In this example, this could be the case for the
-environmental preferences of a species. If we assume that they are a
-property of the species as a whole (i.e. the same for all populations),
-we can set the parameter <code>population_level</code> to
-<code>FALSE</code> and the traits will be added as they are, without
-further processing.</p>
+<p>The traits in the above example are clearly traits that need to be
+stored for each population (i.e. they need to be spatially explicit).
+Contrary to that, some traits may not require to be stored at the
+population level. In this example, we assume that the environmental
+preferences of a species are the same for all populations. This means
+that when we add these traits, we can set the parameter
+<code>population_level</code> to <code>FALSE</code> so that the traits
+are added as they are, without expanding them to the extent of the
+landscape.</p>
 <p>As mentioned in the introduction paragraph, we will give both species
 different environmental preferences for the two environmental variables
 in the simulation environment (temperature &amp; precipitation).</p>
@@ -227,7 +256,7 @@ e.g. “min_temperature” and the temperature variable in the environment.
 To establish these connections, the user needs to add processes to the
 species that access the correct traits and use them in a sensible way
 (This is why meaningful trait names are important).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
 <span>    population_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -269,13 +298,13 @@ species that access the correct traits and use them in a sensible way
 <h3 id="calculate-the-suitability">Calculate the suitability<a class="anchor" aria-label="anchor" href="#calculate-the-suitability"></a>
 </h3>
 <p>To calculate the suitability, we use the metaRange function
-<code><a href="../reference/calculate_suitability.html">calculate_suitability()</a></code> that was adapted from a equation
-published by Yin et al. in 1995 (Ref. 1) and simplified by Yan and Hunt
-in 1999 (eq:4 in Ref. 2). The equation takes the three cardinal values
+<code><a href="../reference/calculate_suitability.html">calculate_suitability()</a></code> that is based on an equation
+published by Yin et al. in 1995 [Ref. 1] and simplified by Yan and Hunt
+in 1999 [eq:4 in Ref. 2]. The function takes the three cardinal values
 of an environmental niche (minimum tolerable value, optimal vale and
 maximum tolerable value) and constructs a suitability curve based on a
 beta distribution.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">min_value</span> <span class="op">&lt;-</span> <span class="fl">270</span></span>
 <span><span class="va">opt_value</span> <span class="op">&lt;-</span> <span class="fl">285</span></span>
 <span><span class="va">max_value</span> <span class="op">&lt;-</span> <span class="fl">290</span></span>
@@ -289,16 +318,16 @@ Figure 3: Example suitability curve for the temperature niche of species
 </p>
 </div>
 <p>In the following code we add a process to both species that
-calculates the environmental suitability for precipitation and
-temperature and then multiplies the values to create a joint suitability
-over the two niches. Note that one could also define a custom function
+calculates the suitability for precipitation and temperature and then
+multiplies the values to create a joint suitability over the two
+environmental niches. Note that one could also define a custom function
 to calculate the suitability, if this built-in function does not
 adequately describe the ecology of the target species.</p>
 </div>
 <div class="section level3">
 <h3 id="suitability">Suitability<a class="anchor" aria-label="anchor" href="#suitability"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"calculate_suitability"</span>,</span>
@@ -329,9 +358,10 @@ adequately describe the ecology of the target species.</p>
 </h3>
 <p>As in the previous tutorials, we use a Ricker reproduction model to
 calculate the new abundance of the species, but this time we let both
-the carrying capacity and the reproduction rate depend on the niche
-suitability of the environment.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+the carrying capacity and the reproduction rate (for each species and
+population) depend on the suitability of the local environment /
+habitat.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species_1"</span>, <span class="st">"species_2"</span><span class="op">)</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"reproduction"</span>,</span>
@@ -355,35 +385,35 @@ suitability of the environment.</p>
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
 <p>Now, we can execute the simulation and compare the results.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_verbosity.html">set_verbosity</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">sim</span><span class="op">$</span><span class="fu">begin</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Starting simualtion.</span></span>
 <span><span class="co">#&gt; start of time step: 1</span></span>
-<span><span class="co">#&gt;  10 % done | 0.11 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  10 % done | 0.082 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 2</span></span>
-<span><span class="co">#&gt;  20 % done | 0.12 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  20 % done | 0.046 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 3</span></span>
-<span><span class="co">#&gt;  30 % done | 0.078 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  30 % done | 0.013 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 4</span></span>
-<span><span class="co">#&gt;  40 % done | 0.066 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  40 % done | 0.011 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 5</span></span>
-<span><span class="co">#&gt;  50 % done | 0.054 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  50 % done | 0.0087 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 6</span></span>
-<span><span class="co">#&gt;  60 % done | 0.044 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  60 % done | 0.0076 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 7</span></span>
-<span><span class="co">#&gt;  70 % done | 0.049 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  70 % done | 0.0057 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 8</span></span>
-<span><span class="co">#&gt;  80 % done | 0.023 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  80 % done | 0.0039 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 9</span></span>
-<span><span class="co">#&gt;  90 % done | 0.011 secs remaining (estimate)</span></span>
+<span><span class="co">#&gt;  90 % done | 0.0019 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; start of time step: 10</span></span>
 <span><span class="co">#&gt; 100 % done | 0 secs remaining (estimate)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Simulation: 'example_simulation' finished</span></span>
 <span><span class="co">#&gt; Exiting the Simulation</span></span>
-<span><span class="co">#&gt; Runtime: 0.13 secs</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Runtime: 0.035 secs</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># define a nice color palette</span></span>
 <span><span class="va">plot_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Purple-Yellow"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
@@ -399,7 +429,7 @@ Figure 6: The resulting abundance distribution of species 1 after 10
 simulation time steps.
 </p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>    <span class="va">sim</span><span class="op">$</span><span class="va">species_2</span>,</span>
 <span>    trait <span class="op">=</span> <span class="st">"abundance"</span>,</span>

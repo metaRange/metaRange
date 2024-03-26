@@ -57,6 +57,7 @@
     <a class="dropdown-item" href="../articles/A07_age_structured_populations.html">07: Age structured populations</a>
     <a class="dropdown-item" href="../articles/A08_advanced_options.html">08: Advanced options</a>
     <a class="dropdown-item" href="../articles/A09_troubleshooting_and_caveats.html">09: Troubleshooting / caveats</a>
+    <a class="dropdown-item" href="../articles/A10_saving_results.html">10: Saving results</a>
   </div>
 </li>
 <li class="nav-item">
@@ -97,11 +98,12 @@ Cabral, J.S.</h4>
 
     
     
-<p>To expand the example we have so far, we can introduce more processes
-around the interaction between the two species.</p>
+<p>To further expand the example we have so far, we can introduce more
+processes around the interaction between the two species.</p>
 <p>First we will generate the same setup.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://metaRange.github.io/metaRange/">metaRange</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'metaRange' was built under R version 4.3.3</span></span>
 <span><span class="co">#&gt; metaRange version: 1.1.4</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; terra 1.7.55</span></span>
@@ -141,22 +143,22 @@ around the interaction between the two species.</p>
 <h2 id="competition">Competition<a class="anchor" aria-label="anchor" href="#competition"></a>
 </h2>
 <p>We are going to construct a simple model that simulates (asymmetric)
-competition between two species. First, we will give both species the
-same value for their optimal environmental niche values, but species 2
-will be able to tolerate lower and higher values for both niches
-compared to species 1.</p>
+competition between two species. Both species will have the same value
+for their optimal (i.e. their preferred) environmental niche values, but
+species 2 will be able to tolerate a larger range compared to species
+1.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">opt_temp</span> <span class="op">&lt;-</span> <span class="fl">285</span></span>
-<span><span class="va">min_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">270</span></span>
-<span><span class="va">max_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">290</span></span>
+<code class="sourceCode R"><span><span class="va">opt_temp</span> <span class="op">&lt;-</span> <span class="fl">283</span></span>
+<span><span class="va">min_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">279</span></span>
+<span><span class="va">max_temp_sp1</span> <span class="op">&lt;-</span> <span class="fl">287</span></span>
 <span><span class="va">min_temp_sp2</span> <span class="op">&lt;-</span> <span class="fl">260</span></span>
-<span><span class="va">max_temp_sp2</span> <span class="op">&lt;-</span> <span class="fl">295</span></span>
+<span><span class="va">max_temp_sp2</span> <span class="op">&lt;-</span> <span class="fl">300</span></span>
 <span></span>
 <span><span class="va">opt_prec</span> <span class="op">&lt;-</span> <span class="fl">700</span></span>
-<span><span class="va">min_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
-<span><span class="va">max_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">min_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">350</span></span>
+<span><span class="va">max_prec_sp1</span> <span class="op">&lt;-</span> <span class="fl">850</span></span>
 <span><span class="va">min_prec_sp2</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span><span class="va">max_prec_sp2</span> <span class="op">&lt;-</span> <span class="fl">1200</span></span>
+<span><span class="va">max_prec_sp2</span> <span class="op">&lt;-</span> <span class="fl">1300</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">min_temp_sp2</span>, <span class="va">max_temp_sp2</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">y_sp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_suitability.html">calculate_suitability</a></span><span class="op">(</span><span class="va">max_temp_sp1</span>, <span class="va">opt_temp</span>, <span class="va">min_temp_sp1</span>, <span class="va">x</span><span class="op">)</span></span>
@@ -172,9 +174,9 @@ compared to species 1.</p>
 <span>    cex <span class="op">=</span> <span class="fl">0.7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="A05_species_interactions_files/figure-html/suitability1-1.png" alt="Figure 1: Suitability curve for the temperature niches of species 1 (blue) and species 2 (red)." width="700"><p class="caption">
-Figure 1: Suitability curve for the temperature niches of species 1
-(blue) and species 2 (red).
+<img src="A05_species_interactions_files/figure-html/suitability1-1.png" alt="Figure 1: Suitability curve for the temperature niches of species 1 and species 2." width="700"><p class="caption">
+Figure 1: Suitability curve for the temperature niches of species 1 and
+species 2.
 </p>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -198,7 +200,7 @@ Figure 2: Suitability curve for the precipitation niches of species 1
 </p>
 </div>
 <p>Now we can add these values as traits to the species and also add the
-other processes.</p>
+processes introduced in the previous tutorials.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_traits</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_1"</span>,</span>
@@ -270,17 +272,26 @@ other processes.</p>
 <p>The process that simulates competition between the two species will
 reduce the carrying capacity of one species based on the abundance of
 the other species. For simplicity, we will assume asymmetric
-competition, with species 1 being the superior competitor. Therefore, we
-will only reduce the carrying capacity of species 2 based on the
-abundance of species 1.</p>
+competition, in which species 1 is the superior competitor. This means
+that if both species occur in one grid cell of the landscape:</p>
+<ul>
+<li>The population size of species 1 is only dependent on the
+environmental conditions</li>
+<li>The population size of species 2 is also dependent on the
+environmental conditions and aditionally reduced by the population size
+of species 1</li>
+</ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span><span class="op">$</span><span class="fu">add_process</span><span class="op">(</span></span>
 <span>    species <span class="op">=</span> <span class="st">"species_2"</span>,</span>
 <span>    process_name <span class="op">=</span> <span class="st">"competition"</span>,</span>
 <span>    process_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="va">max_capacity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span><span class="op">)</span></span>
 <span>        <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span> <span class="op">&lt;-</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="va">max_capacity</span> <span class="op">-</span> <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span></span>
+<span>                <span class="va">self</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">carrying_capacity</span> <span class="op">-</span></span>
+<span>                    <span class="va">self</span><span class="op">$</span><span class="va">sim</span><span class="op">$</span><span class="va">species_1</span><span class="op">$</span><span class="va">traits</span><span class="op">$</span><span class="va">abundance</span>,</span>
+<span>                <span class="fl">0</span></span>
+<span>            <span class="op">)</span></span>
 <span>    <span class="op">}</span>,</span>
 <span>    execution_priority <span class="op">=</span> <span class="fl">4</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -294,8 +305,9 @@ the competition process.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_1"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 1 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim</span>, <span class="st">"species_2"</span>, <span class="st">"abundance"</span>, main <span class="op">=</span> <span class="st">"Sp: 2 abundance"</span>, col <span class="op">=</span> <span class="va">plot_cols</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A05_species_interactions_files/figure-html/resA-1.png" width="700"><img src="A05_species_interactions_files/figure-html/resA-2.png" width="700"></p>
-<p>As you can see, species 2 is being pushed out of its preferred
-habitat, towards areas that are more unsuitable for species 1.</p>
+<p>In this result plot it is clear that species 2 is being pushed out of
+its preferred habitat, towards areas that are more unsuitable for
+species 1.</p>
 </div>
 <div class="section level2">
 <h2 id="trophic-interactions">Trophic interactions<a class="anchor" aria-label="anchor" href="#trophic-interactions"></a>
