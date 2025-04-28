@@ -76,7 +76,6 @@ res_path3 <- save_species(
     prefix = basename(tempfile()),
     path = directory_name
 )
-res_path3
 # cleanup
 unlink(c(res_path, res_path3))
 stopifnot(all(!file.exists(res_path, res_path3)))

@@ -1,0 +1,14 @@
+url: https://metaRange.github.io/metaRange
+template:
+  bootstrap: 5
+authors:
+  footer:
+    roles: [aut]
+    text: "Developed by: "
+footer:
+  structure:
+    left: [developed_by, built_with]
+    right: [imprint, privacy]
+  components:
+    imprint: "[Imprint](imprint.html) | "
+    privacy: "[Privacy policy](privacy.html)"
